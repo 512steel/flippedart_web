@@ -1,0 +1,14 @@
+<template name="commentEdit">
+    {{#if equals currentUser.username author}}
+        <form class="main form">
+            <div class="form-group {{errorClass 'body'}}">
+                <div class="controls">
+                    <textarea name="body" type="text" placeholder="Edit your comment" value="{{body}}" class="form-control" maxlength="5000"></textarea>
+                    <span class="help-block">{{errorMessage 'body'}}</span>
+                </div>
+            </div>
+            <input type="submit" value="Edit" class="btn btn-primary submit"/>
+            <a class="btn btn-danger delete pull-right" href="#">Delete comment</a>
+        </form>
+    {{/if}}
+</template>

@@ -1,0 +1,12 @@
+<template name="layout">
+    {{> header}}
+    {{> temporaryNotifications}}
+
+    <div class="container-fluid">
+        <div id="main">
+            {{> yield}}
+        </div>
+        {{> footer}}
+    </div>
+</template>
+

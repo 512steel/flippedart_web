@@ -1,0 +1,12 @@
+<template name="commentItem">
+    <li>
+        {{#if ownPost}}<button class="btn comment-edit">Edit</button>{{/if}}
+        {{#if showCommentEdit}}
+            {{> commentEdit }}
+        {{else}}
+            <span class="date pull-right">{{timeToMinutes createdAt}}</span>
+            <p class="author shift-down"><a href="{{pathFor 'chronologicalUserPosts' username=author}}">{{author}}</a> said:</p>
+            <p class="push-down-sm">{{body}}</p>
+        {{/if}}
+    </li>
+</template>

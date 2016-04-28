@@ -1,0 +1,27 @@
+<template name="itemEdit">
+    {{#if equals currentUser.username ownerName}}
+        <form class="main item-edit-form">
+            <div class="form-group {{errorClass 'description'}}">
+                <div class="controls">
+                    <label class="control-label">{{#unless equals pastOwnersCount 0}}Make an addendum to this item's description{{else}}Description{{/unless}} </label>
+                    <input name="description" type="text" value="{{lastAddendum}}" placeholder="Updated description" class="form-control" maxlength="5000"/>
+                    <input name="location" type="text" value="{{location}}" placeholder="New location" class="form-control" maxlength="500"/>
+                    <span class="help-block">{{errorMessage 'description'}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="controls">
+                    <label class="control-label">Available for checkout?</label>
+                    {{#if isAvailable}}
+                        <input name="availableCheckbox" type="checkbox" checked/>
+                    {{else}}
+                        <input name="availableCheckbox" type="checkbox"/>
+                    {{/if}}
+                </div>
+            </div>
+            <input type="submit" value="Edit" class="btn btn-primary submit"/>
+            <hr/>
+            <a class="btn btn-danger delete-item" href="#">Delete</a>
+        </form>
+    {{/if}}
+</template>

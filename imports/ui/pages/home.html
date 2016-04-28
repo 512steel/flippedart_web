@@ -1,0 +1,58 @@
+<template name="homepage">
+
+    <!--{{> homepageAccordion}}-->
+
+    <div class="container-fluid">
+        <div class="info-page-hero">
+            <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447327167/make-day-3._MG_9608jpg_zf2kws.jpg"/>
+
+            <!--
+            <div id="banner1" class="banner">
+                <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447327167/make-day-3._MG_9608jpg_zf2kws.jpg"/>
+            </div>
+            <div id="banner2" class="banner">
+                <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447390218/banner-2_xxmrnp.jpg"/>
+            </div>
+            <div id="banner3" class="banner">
+                <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447390182/banner-3_prsqjc.jpg"/>
+            </div>
+            -->
+        </div>
+        <h1 class="push-down-sm align-center">Make someone's day</h1>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="row push-down">
+                <h4>Flipped Art is a distributed library for sharing public art projects
+                    and materials in real life.</h4>
+                <div class="push-down homepage-buttons">
+                    <a href="{{pathFor 'aboutpage'}}" class="sidebar-button-half btn btn-default">How it works</a>
+                    <a href="{{pathFor 'myAccount'}}" class="sidebar-button-half btn btn-primary">Jump in</a>
+                </div>
+                {{#unless currentUser}}
+                    <div class="push-down shift-down clearfix">
+                        {{>loginButtons }}
+                    </div>
+                {{/unless}}
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+
+    </div>
+
+
+    <!-- rotating banner (currently buggy when navigating back to homepage)
+    <script>
+        function changeOpac(e,t){e=e.style,e.opacity=t/100,e.MozOpacity=t/100,e.KhtmlOpacity=t/100,e.filter="alpha(opacity="+t+")"}function changeImage(){var e=imageCount>=topImgID+1?topImgID+1:1,t=document.getElementById("banner"+e),n=document.getElementById("banner"+topImgID),a=0;changeOpac(t,a),n.style.zIndex=2,t.style.zIndex=3;var I=setInterval(function(){100>a?(a+=Math.ceil(100/(fadeSpeed*fps)),changeOpac(t,a)):(n.style.zIndex=1,clearInterval(I))},1e3/fps);topImgID=e}function startBanner(e){topImgID=void 0==e?1+Math.floor(Math.random()*imageCount):e,document.getElementById("banner"+topImgID).style.zIndex=2,changeInterval=setInterval(changeImage,1e3*changeSpeed)}var imageCount=3,changeSpeed=6,fadeSpeed=1,fps=30,topImgID,changeInterval;
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.info-page-hero').css("height", $('#banner1 img').height());
+            $('.banner').css("width", $('.info-page-hero').width());
+            startBanner(1);
+        });
+        $(window).resize(function() {
+            $('.info-page-hero').css("height", $('#banner1 img').height());
+            $('.banner').css("width", $('.info-page-hero').width());
+        });
+    </script>-->
+</template>

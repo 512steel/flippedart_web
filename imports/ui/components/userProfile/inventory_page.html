@@ -1,0 +1,123 @@
+<template name="userInventoryPage">
+
+    {{#unless isNotProfileOwner}}
+        {{#if isProfileOwner}}
+            {{> itemSubmit }}
+            <div class="col-sm-12">
+                <h1 class="row"><a href="{{pathFor 'chronologicalUserPosts' username=user.username}}">Your</a> items</h1>
+            </div>
+            <div class="inventory-items-listing">
+                {{#each items}}
+                    {{> userSingleItemListing }}
+                {{/each}}
+            </div>
+        {{else}}
+            <div class="col-sm-12">
+                <h1 class="row"><a href="{{pathFor 'chronologicalUserPosts' username=user.username}}">{{user.username}}'s</a> items</h1>
+            </div>
+            <div class="form-group">
+                {{#each items}}
+                    <div class="inventory-single-item">
+                        {{> userSingleItemListing }}
+                        {{#if truthy available}}
+                            <p>This item is available!  Sign in to request it</p>
+                        {{/if}}
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="col-sm-12">
+            <h1 class="row"><a href="{{pathFor 'chronologicalUserPosts' username=user.username}}">{{user.username}}'s</a> items</h1>
+        </div>
+        <div class="col-xxsish-8 right-border right-border-xxsish">
+            <div class="row">
+                <form class="item-request-form">
+                    <input class="item-request-form-button btn btn-primary hidden-xxsish" type="submit" value="Request items" disabled/>
+                    <div class="form-group">
+                        {{#each items}}
+                            <div class="inventory-single-item">
+                                <span class="hidden inventory-single-item-id">{{_id}}</span>
+                                {{> userSingleItemListing }}
+                                {{#if truthy available}}
+                                    <label class="control-label">Request for checkout:</label>
+                                    <input class="request-checkout-checkbox form-control form-control-checkbox-left" type="checkbox"/>
+                                {{/if}}
+                            </div>
+                            <hr>
+                        {{/each}}
+                    </div>
+                    <input class="item-request-form-button btn btn-primary hidden-below-xxsish" type="submit" value="Request items" disabled/>
+                </form>
+            </div>
+        </div>
+        <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
+            <button class="item-request-form-button btn btn-primary" disabled>Request items</button>
+            {{#if requestedItems}}
+                <div class="requested-items-list">
+                    {{#each requestedItems}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
+            {{/if}}
+        </div>
+    {{/unless}}
+</template>
+
+<template name="userSingleItemListing">
+    <div class="shift-down post">
+        {{#unless isItemOwner}}
+            <h3>{{title}}</h3>
+            <p class="push-down-sm">owned by <a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">{{ownerName}}</a> {{#if location}}({{location}}){{/if}}</p>
+            <p class="push-down-sm"><strong>description:</strong> {{description}}</p>
+            {{#if hasImageLinks}}
+                <div class="item-listing-images push-down-sm">
+                    {{#each imageLinks}}
+                        <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
+                            <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                        </a>
+                    {{/each}}
+                </div>
+            {{/if}}
+            {{#if addendums}}
+                <p class="push-down-sm"><strong>additional details:</strong></p>
+                {{#each addendums}}
+                    <p class="push-down-sm">{{this}}</p>
+                {{/each}}
+            {{/if}}
+            {{#if tag}}
+                <p class="push-down-sm"><strong>tag:</strong> {{tag}}</p>
+            {{/if}}
+            <p class="push-down-sm"><a href="{{pathFor 'singleItemPage' exchangeItemId=_id}}">permalink</a></p>
+        {{else}}
+            {{#if showItemEdit}}
+                <button class="btn-sm pull-right item-edit bg-primary">cancel editing</button>
+                {{> itemEdit }}
+            {{else}}
+                <button class="btn-sm pull-right {{editClass}} bg-primary">edit</button>
+                <h3>{{title}}</h3>
+                <p class="push-down-sm"><strong>description:</strong> {{description}}</p>
+                <p class="push-down-sm"><a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">you</a> own this item {{#if location}}({{location}}){{/if}}</p>
+                {{#if hasImageLinks}}
+                    <div class="item-listing-images push-down-sm">
+                        {{#each imageLinks}}
+                            <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
+                                <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                            </a>
+                        {{/each}}
+                    </div>
+                {{/if}}
+                {{#if addendums}}
+                    <p class="push-down-sm"><strong>additional details:</strong></p>
+                    {{#each addendums}}
+                        <p class="push-down-sm">{{this}}</p>
+                    {{/each}}
+                {{/if}}
+                {{#if tag}}
+                    <p class="push-down-sm"><strong>tag:</strong> {{tag}}</p>
+                {{/if}}
+                <p class="push-down-sm"><a href="{{pathFor 'singleItemPage' exchangeItemId=_id}}">permalink</a></p>
+            {{/if}}
+        {{/unless}}
+    </div>
+</template>

@@ -1,0 +1,96 @@
+<template name="myAccount">
+    {{#if currentUser}}
+        <h1>My account</h1>
+        {{#unless signedInUserAttributes}}
+            <div class="push-down">
+                <h4>
+                    <span data-toggle="tooltip"
+                          data-placement="right"
+                          title="It's quick, painless, and lets you interact with the community here.">
+                        Start your profile
+                    </span>
+                </h4>
+            </div>
+
+            {{> startMyAccountForm }}
+        {{else}}
+            <div class="push-down">
+                <a class="sidebar-button-third btn btn-default"
+                        href="{{pathFor 'chronologicalUserPosts' username=user.username}}">My profile
+                </a>
+                <a class="sidebar-button-third btn btn-primary"
+                        href="{{pathFor 'userInventoryPage' username=user.username}}">My items
+                </a>
+                <a class="sidebar-button-third btn btn-success"
+                        href="{{pathFor 'userExchanges'}}">My exchanges
+                </a>
+            </div>
+
+            {{> editMyAccountForm }}
+
+        {{/unless}}
+        <script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>
+    {{else}}
+        {{> signUpCTA }}
+    {{/if}}
+</template>
+
+<template name="startMyAccountForm">
+    <form class="start-profile push-down-sm">
+        <label class="control-label push-down-sm">Bio</label><br>
+        <textarea class="form-control" required name="bio" placeholder="Say a bit about yourself" maxlength="5000"></textarea><br>
+        <label class="control-label push-down-sm">Location</label><br>
+        <input class="form-control" required name="location" placeholder="Enter your general location" type="text" maxlength="500"
+               data-toggle="tooltip"
+               data-placement="top"
+               title="We aren't trying to track you, promise.  This information is publicly viewable to help connect with other people near you"/><br>
+        <label class="control-label push-down-sm">Set a profile photo</label><br>
+        <input name="photo-link" type="file" accept="image/*"><br>
+        <input type="submit" value="Create Profile" class="btn btn-primary"/>
+    </form>
+</template>
+
+<template name="editMyAccountForm">
+    <br>
+    <div class="col-xxsish-6">
+        <form class="edit-profile post row shift-down">
+            <div class="full-width push-right">
+                <h4>Edit your profile</h4>
+                <label class="control-label push-down-sm">Bio</label><br>
+                <textarea class="form-control" required name="bio" placeholder="Say a bit about yourself" maxlength="5000" value="{{#if userAttributes.bio}}{{userAttributes.bio}}{{/if}}"></textarea><br>
+                <label class="control-label push-down-sm">Location</label><br>
+                <input class="form-control" required name="location" placeholder="Enter your general location" type="text" maxlength="500" value="{{#if userAttributes.location}}{{userAttributes.location}}{{/if}}"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="This information is publicly viewable to help connect with other people near you"/><br>
+                <label class="control-label push-down-sm">
+                    {{#if userAttributes.profilePhotoLink}}
+                        Update your profile photo
+                    {{else}}
+                        Set a profile photo
+                    {{/if}}
+                </label>
+                <input name="photo-link" type="file" accept="image/*"><br>
+                <input type="submit" value="Edit Profile" class="btn btn-primary pull-right"/>
+            </div>
+        </form>
+    </div>
+    <div class="col-xxsish-1"><div class="row"></div></div>
+    <div class="account-profile-picture col-xxsish-5">
+        <div class="row shift-down">
+            {{#if userAttributes.profilePhotoLink}}
+                <div class="pull-left">
+                    <img src="{{photoFullLink userAttributes.profilePhotoLink}}" width="100%"/>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</template>
+
+<template name="signUpCTA">
+    <div>
+        <h1>Sign up</h1>
+        <p>You need to sign in to see this page.  It's painless, promise.
+            Use the dropdown menu at the top of this page to sign in or make an account.</p>
+    </div>
+</template>

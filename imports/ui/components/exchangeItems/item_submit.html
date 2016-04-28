@@ -1,0 +1,84 @@
+<template name="itemSubmit">
+    {{#if currentUser}}
+        <p class="push-down">You can add some of your own art materials here</p>
+        <hr>
+        <form class="item-submit-form">
+            <span class="help-block">{{errorMessage 'title'}}</span>
+            <span class="help-block">{{errorMessage 'description'}}</span>
+            <span class="help-block">{{errorMessage 'imageLinks'}}</span>
+            <span class="help-block">{{errorMessage 'count'}}</span>
+            <span class="help-block">{{errorMessage 'server_message'}}</span>
+
+            <div class="item-submit-add-buttons">
+                <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
+                {{> addItemsButton}}
+            </div>
+
+            <div style="clear: both">
+                {{#each singleItems}}
+                    {{> singleItemSubmit }}
+                {{/each}}
+            </div>
+        </form>
+        <hr>
+    {{else}}
+        {{> signUpCTA }}
+    {{/if}}
+</template>
+
+<template name="addItemsButton">
+    <span class="pull-left">
+        {{#unless greaterThan singleItemsCount 0}}
+            <input type="submit" value="Add items" class="btn btn-primary" disabled/>
+        {{else}}
+            {{#if isUploading}}
+                <input type="submit" value="{{uploadingCopy}}" class="btn btn-primary" disabled/>
+            {{else}}
+                <input type="submit" value="Add items" class="btn btn-primary"/>
+            {{/if}}
+        {{/unless}}
+    </span>
+</template>
+
+<template name="singleItemSubmit">
+    <div class="single-item-form">
+        <div><span class="pull-right btn-xs bg-danger close-single-item-submit">X</span></div>
+        <div class="form-group">
+            <div class="controls">
+                <input class="single-item-title form-control" placeholder="Name your item" maxlength="500" required/>
+            </div>
+            <div class="controls">
+                <textarea class="single-item-description form-control" placeholder="Add a description" maxlength="5000" required></textarea>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Check this box if your item is available for checkout"
+                      style="padding: 0 1rem;">
+                    <input class="single-item-available form-control form-control-checkbox-left"
+                           style="width: 3rem;"
+                           checked
+                           type="checkbox"/>
+                </span>
+
+                <select class="single-item-tag form-control">
+                    <option value=" " disabled selected style="color: gray">Tag your item</option>
+                    <option value="Chalkboard">Chalkboard</option>
+                    <option value="Chalkboard Stand">Chalkboard Stand</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <label class="push-down-sm control-label">Upload a photo</label>
+            <input class="single-item-photos" type="file" accept="image/*" multiple required/>
+        </div>
+    </div>
+
+    <script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>
+</template>
+
+<template name="addSingleItem">
+    <h1>Add an item</h1>
+    {{> itemSubmit}}
+</template>

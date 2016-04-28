@@ -1,0 +1,23 @@
+<template name="topThings">
+    <h3>top things template</h3>
+    <div>
+        {{#if equals thingType 'posts'}}
+            {{#each things}}
+                {{> userPostItem}}
+            {{/each}}
+        {{/if}}
+
+        {{#if equals thingType 'items'}}
+            <p>note, these should each link to the owner's inventory to allow requesting</p>
+            {{#each things}}
+                {{> userSingleItemListing}}
+            {{/each}}
+        {{/if}}
+
+        {{#if equals thingType 'users'}}
+            {{#each things}}
+                <p>userId: {{userId}} | username: {{username}} | rank: {{rank}}</p>
+            {{/each}}
+        {{/if}}
+    </div>
+</template>

@@ -21,7 +21,7 @@ import {
   insert,
 } from '../../api/todos/methods.js';
 
-import { displayError } from '../lib/errors.js';
+import { displayError } from '../lib/alerts.js';
 
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';

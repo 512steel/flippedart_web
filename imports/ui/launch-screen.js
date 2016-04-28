@@ -1,3 +1,4 @@
 import { LaunchScreen } from 'meteor/launch-screen';
 
-export const listRenderHold = LaunchScreen.hold();
+//TODO: template-level launch screen holds go here
+//export const listRenderHold = LaunchScreen.hold();

@@ -1,6 +1,7 @@
 /* globals App */
 /* eslint-disable quote-props */
 
+/*
 App.info({
   name: 'Todos',
   description: 'A simple todo list app built in Meteor.',
@@ -42,3 +43,4 @@ App.launchScreens({
 
 App.setPreference('StatusBarOverlaysWebView', 'false');
 App.setPreference('StatusBarBackgroundColor', '#000000');
+*/

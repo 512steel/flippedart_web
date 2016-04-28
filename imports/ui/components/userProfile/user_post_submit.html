@@ -1,0 +1,18 @@
+<template name="userPostSubmit">
+    <form enctype="multipart/form-data" class="main form user-post-submit">
+        <div class="form-group {{errorClass 'text'}}">
+            <!--<label class="control-label" for="userPostText">Post an update</label>-->
+            <div class="controls">
+                <textarea name="userPostText" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
+                <span class="help-block">{{errorMessage 'text'}}</span>
+            </div>
+        </div>
+        <label class="control-label">Upload a photo</label>
+        <input type="file" accept="image/*" multiple/>
+        {{#if isUploading}}
+            <input type="submit" value="{{uploadingCopy}}" class="btn btn-primary pull-right" disabled/>
+        {{else}}
+            <input type="submit" value="Post" class="btn btn-primary pull-right"/>
+        {{/if}}
+    </form>
+</template>

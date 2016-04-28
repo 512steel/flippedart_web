@@ -12,7 +12,7 @@ import {
   remove,
 } from '../../api/todos/methods.js';
 
-import { displayError } from '../lib/errors.js';
+import { displayError } from '../lib/alerts.js';
 
 Template.Todos_item.onCreated(function todosItemOnCreated() {
   this.autorun(() => {

@@ -1,0 +1,63 @@
+<template name="explore">
+    <h1>Explore</h1>
+    <div class="explore col-sm-12">
+        <div class="push-down-sm row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h4>Top posts</h4>
+                </div>
+            </div>
+            {{#each posts}}
+                <div class="col-md-4 col-sm-6 col-xxs-12">
+                    <div class="row explore-item">
+                        <a href="{{pathFor 'userPostPage' username=this.author userPostId=this._id}}">
+                            {{> userPostItem}}
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="push-down shift-down row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h4>Top items</h4>
+                </div>
+            </div>
+            {{#each items}}
+                <div class="col-md-4 col-sm-6 col-xxs-12">
+                    <div class="row explore-item">
+                        <a href="{{pathFor 'singleItemPage' exchangeItemId=this._id}}">
+                            {{> userSingleItemListing}}
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="push-down shift-down row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h4>Top users</h4>
+                </div>
+            </div>
+            {{#each userAttributes}}
+                <div class="col-md-4 col-xs-6 col-xxs-12">
+                    <a href="{{pathFor 'chronologicalUserPosts' username=username}}">
+                    <div class="row explore-item">
+                        <div class="post">
+                            {{#if profilePhotoLink}}
+                                <div class="pull-right align-right user-card-photo">
+                                    <img src="{{photoFullLink profilePhotoLink}}" width="100%"/>
+                                </div>
+                            {{/if}}
+                            <div>
+                                <h4>{{username}}</h4>
+                                <p>{{location}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

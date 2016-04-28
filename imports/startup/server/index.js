@@ -10,3 +10,9 @@ import './security.js';
 // This defines all the collections, publications and methods that the application provides
 // as an API to the client.
 import './register-api.js';
+
+// Helper functions for the server's eyes only
+import './general-helpers.js';
+
+// Place secret config variables in here
+import './package-configurations.js';

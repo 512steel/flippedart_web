@@ -1,0 +1,33 @@
+<template name="feedback">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <h1 class="row">Site feedback</h1>
+        <div class="row push-down">
+            <p>Drop a line here if you have any questions, concerns, or a story to tell.
+                Flipped Art is very much in beta right now, so we'd love any
+                feedback about the site that we can get.</p>
+            <form name="feedback-form" class="feedback-form form push-down-sm">
+                <div class="form-group">
+                    <div class="controls">
+                        <input name="your-name" class="form-control" placeholder="Your name (optional)"/>
+                        <input name="your-email" class="form-control" placeholder="Your email (optional)"/>
+                        <textarea name="body" id="body" class="form-control" rows="3" placeholder="Comment on this post" required maxlength="25000"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">Send feedback</button>
+            </form>
+            <p class="push-down shift-down clearfix">You can also send an email directly to <a href="mailto:flippedartexchange@gmail.com">flippedartexchange@gmail.com</a></p>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+    <!--<script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>-->
+</template>
+
+<template name="feedbackThanks">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <h1 class="row">Thank you!</h1>
+        <p class="row push-down">We appreciate you taking the time to send in feedback.  Enjoy the site!</p>
+    </div>
+    <div class="col-sm-3"></div>
+</template>

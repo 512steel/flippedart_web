@@ -21,7 +21,7 @@ Template.Lists_show_page.onCreated(function listsShowPageOnCreated() {
 Template.Lists_show_page.onRendered(function listsShowPageOnRendered() {
   this.autorun(() => {
     if (this.subscriptionsReady()) {
-      listRenderHold.release();
+      //listRenderHold.release();
     }
   });
 });
