@@ -1,9 +1,29 @@
 <template name="Lists_show_page">
+    <p>Test new ValidatedMethod()s:</p>
+
+    <p class="userPost-insert">X userPost INSERT</p>
+    <p class="userPost-edit">X userPost EDIT</p>
+    <p class="userPost-upvote">X userPost UPVOTE</p>
+    <p class="userPost-flag">X userPost FLAG</p>
+    <p class="userPost-unflag">X userPost UNFLAG</p>
+    <p class="userPost-decrementComments">userPost DECREMENT_COMMENTS</p>
+
+    <p class="userAttributes-insert">X userAttributes INSERT</p>
+    <p class="userAttributes-edit">X userAttributes EDIT</p>
+    <p class="userAttributes-updateRank">X userAttributes UPDATE_RANK</p>
+
+    <p>Blaze test helpers:</p>
+    <!--{{allUserPosts}}-->
+    {{allUserAttributes}}
+
+
+
   {{#if listIdArray}}
-    {{#each listId in listIdArray}}
+    <!--{{#each listId in listIdArray}}
       {{> Lists_show (listArgs listId)}}
-    {{/each}}
+    {{/each}}-->
   {{else}}
     {{> App_notFound}}
   {{/if}}
+
 </template>
