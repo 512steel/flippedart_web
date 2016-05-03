@@ -212,6 +212,7 @@ const USERATTRIBUTES_METHODS = _.pluck([
     insert,
     edit,
     //updateRank,
+    //updateRankByName,
 ], 'name');
 
 if (Meteor.isServer) {

@@ -87,6 +87,7 @@ UserPosts.publicFields = {
     //userId: 1,
     author: 1,
     location: 1,
+    commentsCount: 1,
     upvotes: 1,
     flags: 1,
     text: 1,

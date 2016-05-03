@@ -53,7 +53,7 @@ Comments.attachSchema(Comments.schema);
 // to the client. If we add secret properties to Comment objects, don't list
 // them here to keep them private to the server.
 Comments.publicFields = {
-    //userId: 1,  //TODO: can I remove this and still interact with it via e.g. the editableBy() method below?
+    //userId: 1,
     author: 1,
     text: 1,
     userPostId: 1,

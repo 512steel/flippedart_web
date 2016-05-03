@@ -99,6 +99,11 @@ Notifications.schema = new SimpleSchema({
         type: String,
         optional: true,
     },
+    itemIds: {
+        type: [String],
+        regEx: SimpleSchema.RegEx.Id,
+        optional: true
+    },
     createdAt: {
         type: Date,
         denyUpdate: true,
@@ -127,6 +132,7 @@ Notifications.publicFields = {
     transactionRequesteeName: 1,
     //transactionRequesterId: 1,
     transactionRequesterName: 1,
+    itemIds: 1,
     createdAt: 1,
 };
 
@@ -135,5 +141,19 @@ Factory.define('notification', Notifications, {});
 
 
 Notifications.helpers({
-    //...
+    editableBy : function(userId) {
+        console.log('in notifications editableBy');
+        if (userId && Meteor.isClient) {
+            console.log('on client...');
+            return true;
+        }
+        else if (userId && Meteor.isServer) {
+            console.log('on server...');
+            return this.recipientId === userId;
+        }
+        else {
+            console.log('nope...');
+            return false;
+        }
+    }
 });

@@ -11,6 +11,8 @@ import { UserPosts } from '../user-posts/user-posts.js';
 import { decrementComments as userPostDecrementComments }
     from '../user-posts/methods.js';
 
+import { createCommentNotification } from '../notifications/methods.js';
+
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
 
 
@@ -36,6 +38,11 @@ export const insert = new ValidatedMethod({
                 throw new Meteor.Error('comments.insert.invalid',
                     'You must comment on a valid post.');
             }
+            if (!user) {
+                throw new Meteor.Error('comments.insert.accessDenied',
+                    'You must be signed in to do this.');
+            }
+
 
             const comment = {
                 userPostId: userPostId,
@@ -45,7 +52,7 @@ export const insert = new ValidatedMethod({
                 createdAt: new Date(),
             };
 
-            Comments.insert(comment);
+            const newCommentId = Comments.insert(comment);
 
             UserPosts.update(userPostId,
                 {
@@ -64,6 +71,7 @@ export const insert = new ValidatedMethod({
             }
 
             //TODO: create a Notification document for the post author, that someone commented on their post
+            createCommentNotification(newCommentId, userPostId, user.username);
         }
         else {
             throw new Meteor.Error('comments.insert.accessDenied',

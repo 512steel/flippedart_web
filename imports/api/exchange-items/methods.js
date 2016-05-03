@@ -32,31 +32,36 @@ export const insert = new ValidatedMethod({
          }
         */
 
-        var userAttributes = UserAttributes.findOne({userId: this.userId});
+        if (this.userId) {
+            var userAttributes = UserAttributes.findOne({userId: this.userId});
 
+            if (userAttributes) {
+                const exchangeItem = {
+                    ownerId: this.userId,
+                    ownerName: userAttributes.username,
+                    title: title,
+                    description: description,
+                    location: userAttributes.location ? userAttributes.location : ' ',
+                    tag: tag ? tag : ' ',
+                    imageLinks: imageLinks,
+                    mainImageLink: imageLinks.length ? imageLinks[0] : ' ',  //TODO: allow user to select mainImageLink
+                    available: available,
+                    locked: false,
+                    addendums: [],
+                    rank: 0,
+                    pastOwnerNames: [],
+                    createdAt: new Date(),
+                };
 
-        if (userAttributes) {
-            const exchangeItem = {
-                ownerId: this.userId,
-                ownerName: userAttributes.username,
-                title: title,
-                description: description,
-                location: userAttributes.location ? userAttributes.location : ' ',
-                tag: tag ? tag : ' ',
-                imageLinks: imageLinks,
-                mainImageLink: imageLinks.length ? imageLinks[0] : ' ',  //TODO: allow user to select mainImageLink
-                available: available,
-                locked: false,
-                addendums: [],
-                rank: 0,
-                pastOwnerNames: [],
-                createdAt: new Date(),
-            };
+                ExchangeItems.insert(exchangeItem);
 
-            ExchangeItems.insert(exchangeItem);
-
-            //points system:
-            userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd);
+                //points system:
+                userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd);
+            }
+        }
+        else {
+            throw new Meteor.Error('exchangeItems.insert.accessDenied',
+                'You must be signed in to add an item.');
         }
     }
 });
@@ -232,27 +237,29 @@ export const lock = (itemIds) => {
     });
     check({itemIds: itemIds}, lockFunctionSchema);
 
-    /*
-    FIXME: the "multi: true" option doesn't seem to be working, so I opted for
-           the uglier hack below.
-    */
-    /*ExchangeItems.update(
-        {
-            _id: {
-                $in: itemIds,
-            }
-        },
-        {
-            $set: {
-                locked: true,
-            }
-        },
-        {
-            multi: true,
-        });*/
+    if (Meteor.isServer) {
+        /*
+         FIXME: the "multi: true" option doesn't seem to be working, so I opted for
+         the uglier hack below.
+        */
+        /*ExchangeItems.update(
+            {
+                _id: {
+                    $in: itemIds,
+                }
+            },
+            {
+                $set: {
+                    locked: true,
+                }
+            },
+            {
+                multi: true,
+            });*/
 
-    for (var i = 0; i < itemIds.length; i++) {
-        ExchangeItems.update(itemIds[i], {$set: {locked: true}});
+        for (var i = 0; i < itemIds.length; i++) {
+            ExchangeItems.update(itemIds[i], {$set: {locked: true}});
+        }
     }
 };
 
@@ -268,27 +275,29 @@ export const unlock = (itemIds) => {
     });
     check({itemIds: itemIds}, unlockFunctionSchema);
 
-    /*
-     FIXME: the "multi: true" option doesn't seem to be working, so for the
-     moment I opted for the uglier for-loop hack below.
-    */
-    /*ExchangeItems.update(
-        {
-            _id: {
-                $in: itemIds,
-            }
-        },
-        {
-            $set: {
-                locked: false,
-            }
-        },
-        {
-            multi: true,
-        });*/
+    if (Meteor.isServer) {
+        /*
+         FIXME: the "multi: true" option doesn't seem to be working, so for the
+         moment I opted for the uglier for-loop hack below.
+        */
+        /*ExchangeItems.update(
+            {
+                _id: {
+                    $in: itemIds,
+                }
+            },
+            {
+                $set: {
+                    locked: false,
+                }
+            },
+            {
+                multi: true,
+            });*/
 
-    for (var i = 0; i < itemIds.length; i++) {
-        ExchangeItems.update(itemIds[i], {$set: {locked: false}});
+        for (var i = 0; i < itemIds.length; i++) {
+            ExchangeItems.update(itemIds[i], {$set: {locked: false}});
+        }
     }
 };
 

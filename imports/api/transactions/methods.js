@@ -3,9 +3,8 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
-//import { check } from 'meteor/check';
 
-import { Transactions } from './transactions';
+import { Transactions } from './transactions.js';
 //import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRankByName as userAttributesUpdateRank } from '../user-attributes/methods.js';
 import { ExchangeItems } from '../exchange-items/exchange-items.js';
@@ -13,6 +12,10 @@ import { updateRank as exchangeItemUpdateRank,
          lock as exchangeItemsLock,
          unlock as exchangeItemsUnlock,
          transfer as exchangeItemsTransfer } from '../exchange-items/methods.js';
+
+import { insert as chatSessionInsert } from '../chat-sessions/methods.js';
+
+import { createTransactionStateNotification } from '../notifications/methods.js';
 
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
 
@@ -60,11 +63,6 @@ export const requestTransaction = new ValidatedMethod({
                     });
 
                 if (validItems.count() != itemIds.length) {
-                    console.log(this.userId);
-                    console.log(validItems.count());
-                    console.log(itemIds.length);
-                    console.log(requester);
-                    console.log(requestee);
                     //TODO: throw a client-side error too
                     throw new Meteor.Error('transaction.request.invalid-items',
                         'At least one item you\'ve requested is not able to be requested from this user.');
@@ -80,7 +78,7 @@ export const requestTransaction = new ValidatedMethod({
                     createdAt: new Date(),
                 };
 
-                Transactions.insert(transaction);
+                const newTransactionId = Transactions.insert(transaction);
 
                 for (var i = 0; i < itemIds.length; i++) {
                     exchangeItemUpdateRank(itemIds[i], POINTS_SYSTEM.ExchangeItems.requested);
@@ -92,8 +90,11 @@ export const requestTransaction = new ValidatedMethod({
 
 
                 //TODO: create a new ChatSession from here
+                console.log('inserting chatSession');
+                chatSessionInsert(requester._id, requestee._id);
+                console.log('inserted chatSession?');
 
-                //TODO: create a new Notification from here
+                createTransactionStateNotification(newTransactionId);
             }
             else {
                 //TODO: throw proper error to the client only if this fails on the server
@@ -131,6 +132,7 @@ export const approveTransaction = new ValidatedMethod({
                     });
 
                 //TODO: create a notification for the requester that their request has been approved
+                createTransactionStateNotification(transactionId);
             }
             else {
                 console.log('Invalid transaction state change.');
@@ -177,6 +179,7 @@ export const completeTransaction = new ValidatedMethod({
 
 
                 //TODO: create a Notification for the requester that their request has been completed and they're the new item owners
+                createTransactionStateNotification(transactionId);
             }
         }
         else {
@@ -208,6 +211,7 @@ export const declineTransaction = new ValidatedMethod({
                 exchangeItemsUnlock(transaction.itemIds);
 
                 //TODO: create a notification for the requester that their request has been declined
+                createTransactionStateNotification(transactionId);
             }
             else {
                 console.log('Invalid transaction state change.');
@@ -242,6 +246,7 @@ export const cancelTransaction = new ValidatedMethod({
                 exchangeItemsUnlock(transaction.itemIds);
 
                 //TODO: create a notification for the requester that their request has been cancelled
+                createTransactionStateNotification(transactionId);
             }
             else {
                 console.log('Invalid transaction state change.');
@@ -253,8 +258,6 @@ export const cancelTransaction = new ValidatedMethod({
     }
 });
 
-
-//TODO: call "exchange Items updateRank" on "completed" & remove comment from "transfer" method over there.
 
 // Get list of all method names on Lists
 const TRANSACTIONS_METHODS = _.pluck([

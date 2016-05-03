@@ -48,6 +48,15 @@ import { requestTransaction,
          cancelTransaction }
         from '../../api/transactions/methods.js';
 
+import { Notifications } from '../../api/notifications/notifications.js';
+import { clearAllNotifications,
+         clearSingleNotification } from '../../api/notifications/methods.js';
+
+import { ChatSessions } from '../../api/chat-sessions/chat-sessions.js';
+
+import { ChatMessages } from '../../api/chat-messages/chat-messages.js';
+import { insert as chatMessageInsert } from '../../api/chat-messages/methods.js';
+
 
 
 import { listRenderHold } from '../launch-screen.js';
@@ -69,6 +78,9 @@ Template.Lists_show_page.onCreated(function listsShowPageOnCreated() {
         this.subscribe('comments.all');
         this.subscribe('exchangeItems.all');
         this.subscribe('transactions.all');
+        this.subscribe('notifications.user');
+        this.subscribe('chatSessions.all');
+        this.subscribe('chatMessages.all');
     });
 });
 
@@ -161,7 +173,28 @@ Template.Lists_show_page.helpers({
         transactions.forEach( function(transaction) {
             console.log(transaction);
         });
-    }
+    },
+    userNotifications() {
+        console.log('in userNotifications helper');
+        const notifications = Notifications.find({});
+        notifications.forEach( function(notifications) {
+            console.log(notifications);
+        });
+    },
+    allChatSessions() {
+        console.log('in allChatSessions helper');
+        const chatSessions = ChatSessions.find({});
+        chatSessions.forEach( function(chatSession) {
+            console.log(chatSession);
+        });
+    },
+    allChatMessages() {
+        console.log('in allChatMessages helper');
+        const chatMessages = ChatMessages.find({});
+        chatMessages.forEach( function(chatMessage) {
+            console.log(chatMessage);
+        });
+    },
 });
 
 Template.Lists_show_page.events({
@@ -226,9 +259,9 @@ Template.Lists_show_page.events({
     'click .userAttributes-edit' : function() {
         console.log(' in userAttributes-edit test');
         userAttributesEdit.call({
-            bio: 'test bio edited 14',
-            location: 'test location edited 14',
-            profilePhotoLink: 'test link here edited 14',
+            bio: 'test bio edited 15',
+            location: 'test location edited 15',
+            profilePhotoLink: 'test link here edited 15',
         });
     },
     'click .userAttributes-updateRank' : function() {
@@ -239,8 +272,8 @@ Template.Lists_show_page.events({
     'click .comments-insert' : function() {
         console.log(' in comments-insert test');
         commentInsert.call({
-            userPostId: 'hnjZAeuJSHRmjGLMe',  //TODO: fill in a userPostId here
-            text: 'Test comment 3',
+            userPostId: '6Wztnr69NHjj3nhCY',  //TODO: fill in a userPostId here
+            text: 'Test comment on asdf from asdf2',
         })
     },
     'click .comments-edit' : function() {
@@ -253,18 +286,18 @@ Template.Lists_show_page.events({
     'click .comments-delete' : function() {
         console.log(' in comments-delete test');
         commentDeleteComment.call({
-            commentId: '29EApHPKRkBtwukvK', //TODO: fill in a commentId here
+            commentId: 'TdnxEeqbcA8bmRHc4', //TODO: fill in a commentId here
         })
     },
 
     'click .exchangeItems-insert' : function() {
         console.log(' in exchangeItems-insert test');
         exchangeItemInsert.call({
-            title: 'exItem title 5',
-            description: 'exItem description 5',
+            title: 'exItem title 16',
+            description: 'exItem description 16',
             imageLinks: [],
             available: true,
-            tag: ' ',
+            tag: 'exItem tag 16',
         })
     },
     'click .exchangeItems-edit' : function() {
@@ -314,32 +347,54 @@ Template.Lists_show_page.events({
     'click .transaction-request' : function () {
         console.log(' in transaction-request test');
         requestTransaction.call({
-            requesteeName: 'asdf',
-            itemIds: ['piz4TPuQj489qm9DT','zo9Y8KNsqoNTW3x38'/*,'tMYLDCr6frDGpEuFX'*/],  //TODO: fill this array with exchangeItem ids
+            requesteeName: 'asdf2',
+            itemIds: ['xwALAC9udEXMQRNY6'],  //TODO: fill this array with exchangeItem ids
         });
     },
     'click .transaction-approve' : function () {
         console.log(' in transaction-approve test');
         approveTransaction.call({
-            transactionId: 'LtTdAGvTZREpvKqPw' //TODO: fill in a transactionId here
+            transactionId: 'TdQ698nwivj3zQsCk' //TODO: fill in a transactionId here
         });
     },
     'click .transaction-complete' : function () {
         console.log(' in transaction-complete test');
         completeTransaction.call({
-            transactionId: 'LtTdAGvTZREpvKqPw' //TODO: fill in a transactionId here
+            transactionId: 'ZseZbBT3KQ67nXw4N' //TODO: fill in a transactionId here
         });
     },
     'click .transaction-decline' : function () {
         console.log(' in transaction-decline test');
         declineTransaction.call({
-            transactionId: '9rgi7MkNvvCJ4sYTC' //TODO: fill in a transactionId here
+            transactionId: 'TdQ698nwivj3zQsCk' //TODO: fill in a transactionId here
         });
     },
     'click .transaction-cancel' : function () {
         console.log(' in transaction-cancel test');
         cancelTransaction.call({
-            transactionId: '8EMKDL3k242SWftJh' //TODO: fill in a transactionId here
+            transactionId: 'bWCDXTeXvaawcLZNR' //TODO: fill in a transactionId here
+        });
+    },
+
+    'click .notificatins-clear-all': function () {
+        console.log(' in notifications-clear test');
+        clearAllNotifications.call({
+            //...
+        })
+    },
+    'click .notificatins-clear-single': function () {
+        console.log(' in notifications-clear test');
+        clearSingleNotification.call({
+            notificationId: 'J9z6rYgW63XzDGEWJ'  //TODO: fill in a notificationId here
+        })
+    },
+
+    'click .chatMessage-insert': function() {
+        console.log(' in chatMessage-insert test');
+        chatMessageInsert.call({
+            chatSessionId: 'J75cDBa3kaScArJGW',  //TODO: fill in a chatSessionId here
+            text: 'Testy text 1',
+            imageLink: ' ',
         });
     },
 

@@ -54,13 +54,13 @@ Transactions.schema = new SimpleSchema({
 
 Transactions.attachSchema(Transactions.schema);
 
-// This represents the keys from UserPosts objects that should be published
+// This represents the keys from Transactions objects that should be published
 // to the client. If we add secret properties to UserPost objects, don't list
 // them here to keep them private to the server.
 Transactions.publicFields = {
-    //requesteeId: String,
+    //requesteeId: 1,
     requesteeName: 1,
-    //requesterId: requester._id,
+    //requesterId: 1,
     requesterName: 1,
     itemIds: 1,
     state: 1,
