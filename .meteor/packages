@@ -73,3 +73,5 @@ lepozepo:cloudinary
 momentjs:moment
 sacha:spin
 iron:router
+force-ssl
+alexpete:awesome-signature

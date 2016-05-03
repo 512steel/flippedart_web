@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Factory } from 'meteor/factory';
+import { Comments } from '../comments/comments.js';
 
 class UserPostsCollection extends Mongo.Collection {
     insert(post, callback) {
@@ -12,8 +13,7 @@ class UserPostsCollection extends Mongo.Collection {
         return result = super.update(selector, modifier);
     }
     remove(selector, callback) {
-        //TODO: test this line:
-        //Comments.remove({ userPostId: selector });
+        Comments.remove({ userPostId: selector });
 
         return result = super.remove(selector, callback);
     }
@@ -84,7 +84,7 @@ UserPosts.attachSchema(UserPosts.schema);
 // to the client. If we add secret properties to UserPost objects, don't list
 // them here to keep them private to the server.
 UserPosts.publicFields = {
-    //userId: 1,  //TODO: can I remove this and still interact with it via e.g. the editableBy() method below?
+    //userId: 1,
     author: 1,
     location: 1,
     upvotes: 1,
@@ -93,6 +93,7 @@ UserPosts.publicFields = {
     imageLinks: 1,
     tag: 1,
     createdAt: 1,
+    rank: 1
 };
 
 //TODO: build testing factory here
@@ -103,24 +104,16 @@ Factory.define('userPost', UserPosts, {});
  NOTE: we need the editableBy helper to run differently in the client and server, due to
  Meteor's Method simulations on the client (which don't touch the server if the client fails).
 */
-if (Meteor.isClient) {
-    UserPosts.helpers({
-        editableBy(userId) {
-            if (Meteor.user()) {
-                return true;
-            }
-        },
-    });
-}
-if (Meteor.isServer) {
-    UserPosts.helpers({
-        editableBy(userId) {
-            if (!this.userId) {
-                return false;
-            }
-
+UserPosts.helpers({
+    editableBy(userId) {
+        if (Meteor.isClient && Meteor.user()) {
+            return true;
+        }
+        else if (Meteor.isServer && this.userId) {
             return this.userId === userId;
-        },
-    });
-}
-
+        }
+        else {
+            return false;
+        }
+    }
+});

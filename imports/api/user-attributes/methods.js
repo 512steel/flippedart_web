@@ -18,40 +18,43 @@ export const insert = new ValidatedMethod({
         console.log('in method userAttributes.insert');
         if (this.userId) {
 
-            //TODO: sanitize here
+            //TODO: sanitize arguments here
 
             const user = Meteor.users.findOne(this.userId);
-            const defaults = defaultTexts(user.username);
 
-            const userAttributes = {
-                userId: user._id,
-                username: user.username,
-                bio: bio.trim() ? bio : defaults.bio,
-                location: location.trim() ? location : defaults.location,
-                profilePhotoLink: profilePhotoLink.trim() ? profilePhotoLink : defaults.profilePhotoLink,
-                itemsPreviouslyOwned: [],
-                rank: 0,
-                createdAt: new Date(),
-            };
+            if (user) {  // this check is likely superfluous, but stranger things have happened.
+                const defaults = defaultTexts(user.username);
 
-            /*
-             NOTE: the "upsert" option wasn't actually inserting anything into the
-             database, hence the need for the if-else block to do a regular ol' insert
-             in case there are no UserAttributes associated with the current user.
-             Ideally we'd rely on just the update-upsert method, but as it stands it's
-             not much more than a fallback in case the user does something wonky.
-            */
-            if (!UserAttributes.findOne({userId: user._id})) {
-                UserAttributes.insert(userAttributes);
-            }
-            else {
-                UserAttributes.update(
-                    { userId: user._id },  //TODO: switch to "username" after removing publicField?
-                    {
-                        $set: userAttributes
-                    },
-                    { upsert: true }
-                );
+                const userAttributes = {
+                    userId: user._id,
+                    username: user.username,
+                    bio: bio.trim() ? bio : defaults.bio,
+                    location: location.trim() ? location : defaults.location,
+                    profilePhotoLink: profilePhotoLink.trim() ? profilePhotoLink : defaults.profilePhotoLink,
+                    itemsPreviouslyOwned: [],
+                    rank: 0,
+                    createdAt: new Date(),
+                };
+
+                /*
+                 NOTE: the "upsert" option wasn't actually inserting anything into the
+                 database, hence the need for the if-else block to do a regular ol' insert
+                 in case there are no UserAttributes associated with the current user.
+                 Ideally we'd rely on just the update-upsert method, but as it stands it's
+                 not much more than a fallback in case the user does something wonky.
+                 */
+                if (!UserAttributes.findOne({userId: user._id})) {
+                    UserAttributes.insert(userAttributes);
+                }
+                else {
+                    UserAttributes.update(
+                        { userId: user._id },  //TODO: switch to "username" after removing publicField?
+                        {
+                            $set: userAttributes
+                        },
+                        { upsert: true }
+                    );
+                }
             }
         }
     },
@@ -143,10 +146,24 @@ const defaultTexts = (username) => {
     }
 };
 
-//NOTE: This function will only work on the server, limiting the chance of fraudulent points.
+//NOTE: This function will only work when called from the server, limiting the chance of fraudulent points.
 export const updateRank = (userAttributesId, amount) => {
-    check(userAttributesId, String);
-    check(amount, Number);
+    console.log('in method userAttributes.updateRank');
+
+    const updateRankFunctionSchema = new SimpleSchema({
+        userAttributesId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
+        amount: {
+            type: Number
+        }
+    });
+    check({
+        userAttributesId: userAttributesId,
+        amount: amount,
+    }, updateRankFunctionSchema);
+
 
     if (Meteor.isServer) {
         UserAttributes.update(
@@ -159,9 +176,38 @@ export const updateRank = (userAttributesId, amount) => {
         );
     }
 };
+//TODO: clean up this convenience method and the one above it
+export const updateRankByName = (userAttributesName, amount) => {
+    console.log('in method userAttributes.updateRankByName');
+
+    const updateRankByNameFunctionSchema = new SimpleSchema({
+        userAttributesName: {
+            type: String
+        },
+        amount: {
+            type: Number
+        }
+    });
+    check({
+        userAttributesName: userAttributesName,
+        amount: amount,
+    }, updateRankByNameFunctionSchema);
 
 
-// Get list of all method names on Lists
+    if (Meteor.isServer) {
+        UserAttributes.update(
+            {
+                username: userAttributesName,
+            },
+            {
+                $inc: {rank: amount}
+            }
+        );
+    }
+};
+
+
+// Get list of all method names on UserAttributes
 const USERATTRIBUTES_METHODS = _.pluck([
     insert,
     edit,

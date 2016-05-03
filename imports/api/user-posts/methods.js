@@ -8,12 +8,17 @@ import { UserPosts } from './user-posts.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank } from '../user-attributes/methods.js';
 
+import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
+
 export const insert = new ValidatedMethod({
     name: 'userPosts.insert',
     validate: new SimpleSchema({
         text: { type: String },
         tag: { type: String },
-        imageLinks: { type: [String] },
+        imageLinks: {
+            type: [String],
+            //regEx: SimpleSchema.RegEx.Url,  //TODO: add this once Cloudinary is integrated
+        },
     }).validator(),
     run({ text, tag, imageLinks }) {
         console.log('in method userPosts.insert');
@@ -39,7 +44,6 @@ export const insert = new ValidatedMethod({
                 userId: this.userId,
                 author: user.username,
                 location: userAttributes ? userAttributes.location : ' ', //TODO - only add/show this if user's preference is to share location
-                //location: ' ',
                 commentsCount: 0,
                 voters: [],
                 upvotes: 0,
@@ -54,14 +58,12 @@ export const insert = new ValidatedMethod({
 
             UserPosts.insert(userPost);
 
-            console.log('points system?');
-            console.log(userAttributes);
             //points system:
             if (userAttributes) {
                 console.log('calling updateRank from userposts insert');
 
                 //Call the server-only method updateRank on UserAttributes
-                updateRankServer(userAttributes._id, 2);
+                updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.post);
             }
         }
         else {
@@ -73,7 +75,10 @@ export const insert = new ValidatedMethod({
 export const edit = new ValidatedMethod({
     name: 'userPosts.edit',
     validate: new SimpleSchema({
-        userPostId: { type: String },
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
         text: { type: String },
         tag: { type: String },
         imageLinks: { type: [String] },
@@ -98,23 +103,27 @@ export const edit = new ValidatedMethod({
 
         UserPosts.update(userPostId,
             {
+                //TODO: refer to exchangeItems.edit for allowing these fields to be optional.
                 $set: {
                     text: text,
                     tag: tag,
                     imageLinks: imageLinks,
                 }
-            }
-        );
+            });
     },
 });
 
 export const upvote = new ValidatedMethod({
     name: 'userPosts.upvote',
     validate: new SimpleSchema({
-        userPostId: { type: String },
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
     }).validator(),
     run({ userPostId }) {
         console.log('in method userPosts.upvote');
+
         if (this.userId) {
             var affected = UserPosts.update({
                     _id: userPostId,
@@ -123,7 +132,7 @@ export const upvote = new ValidatedMethod({
                 },
                 {
                     $addToSet: {voters: this.userId},
-                    $inc: {upvotes: 1, rank: 2}
+                    $inc: {upvotes: 1, rank: POINTS_SYSTEM.UserPosts.upvote}
                 });
 
             const userPost = UserPosts.findOne(userPostId);
@@ -142,10 +151,14 @@ export const upvote = new ValidatedMethod({
 export const flag = new ValidatedMethod({
     name: 'userPosts.flag',
     validate: new SimpleSchema({
-        userPostId: { type: String },
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
     }).validator(),
     run({ userPostId }) {
         console.log('in method userPosts.flag');
+
         if (this.userId) {
             var affected = UserPosts.update({
                     _id: userPostId,
@@ -179,10 +192,14 @@ export const flag = new ValidatedMethod({
 export const unflag = new ValidatedMethod({
     name: 'userPosts.unflag',
     validate: new SimpleSchema({
-        userPostId: { type: String },
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
     }).validator(),
     run({ userPostId }) {
         console.log('in method userPosts.unflag');
+
         if (this.userId) {
             var affected = UserPosts.update({
                     _id: userPostId,
@@ -212,33 +229,78 @@ export const unflag = new ValidatedMethod({
     }
 });
 
-//FIXME: make this a server-only function a la UserAttributes' updateRank()
-export const decrementComment = new ValidatedMethod({
-    name: 'userPosts.decrementComment',
+export const deletePost = new ValidatedMethod({
+    name: 'userPosts.deletePost',
     validate: new SimpleSchema({
-        userPostId: {type: String},
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.decrementComment');
-        if (this.userId) {
-            var affected = UserPosts.update(
-                {
-                    _id: userPostId,
-                    //TODO: how do we prevent fraudulent deletions? (i.e. this should only be called when a comment is deleted.  Pass in Comment._id?)
-                },
-                {
-                    $inc: {commentsCount: -1}
-                }
-            );
+        console.log('in method userPosts.deletePost');
 
-            if (!affected) {
-                throw new Meteor.Error('invalid', "Comment count couldn't be decremented");
-            }
+        const userPost = UserPosts.findOne(userPostId);
+
+        if (!userPost || !userPost.editableBy(this.userId)) {
+            /*
+             NOTE: throwing a Meteor.Error will fail the client-side
+             simulation, preventing the server-side Method from ever being run.
+             So my hacky solution is to have a client-only editableBy(), which always
+             returns true, and a server-only editableBy, which checks what it's
+             supposed to.
+             */
+
+            throw new Meteor.Error('userPosts.delete.accessDenied',
+                'You don\'t have permission to delete this post.');
         }
-    }
+
+        UserPosts.remove(userPostId);
+
+        //points system:
+        const userAttributes = UserAttributes.findOne({userId: this.userId});
+        if (userAttributes) {
+            //Call the server-only method updateRank on UserAttributes, and remove points
+            updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.post * -1);
+        }
+    },
 });
 
-//TODO: deletePost() ValidatedMethod
+/*
+ NOTE: this function, like UserAttributes' updateRank(), will only run properly when it
+ is called by the server.  This ought to prevent fraudulent deletions from the client.
+ */
+export const decrementComments = (userPostId) => {
+
+    const decrementCommentsFunctionSchema = new SimpleSchema({
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        }
+    });
+    check({userPostId: userPostId}, decrementCommentsFunctionSchema);
+
+
+    if (Meteor.isServer) {
+        console.log('in server-only method userPosts.decrementComments');
+
+        var affected = UserPosts.update(
+            {
+                _id: userPostId,
+            },
+            {
+                $inc: {
+                    commentsCount: -1,
+                    rank: POINTS_SYSTEM.UserPosts.comment * -1,
+                }
+            }
+        );
+
+        if (!affected) {
+            throw new Meteor.Error('invalid', "Comment count couldn't be decremented");
+        }
+    }
+};
 
 
 // Get list of all method names on UserPosts
@@ -248,8 +310,8 @@ const USERPOSTS_METHODS = _.pluck([
     upvote,
     flag,
     unflag,
-    decrementComment,
-    //TODO: deletePost
+    deletePost,
+    //decrementComments,
 ], 'name');
 
 if (Meteor.isServer) {

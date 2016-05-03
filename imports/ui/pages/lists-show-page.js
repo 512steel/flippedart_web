@@ -12,15 +12,41 @@ import { insert as userPostInsert,
          upvote as userPostUpvote,
          flag as userPostFlag,
          unflag as userPostUnflag,
-         decrementComment as userPostDecrementComment }
+         decrementComments as userPostDecrementComments,
+         deletePost as userPostDeletePost }
         from '../../api/user-posts/methods.js'
 
 import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
 import { insert as userAttributesInsert,
          edit as userAttributesEdit,
-         updateRank as userAttributesUpdateRank,
-         updateRankServer as userAttributesUpdateRankServer }
+         updateRank as userAttributesUpdateRank }
         from '../../api/user-attributes/methods.js';
+
+import { Comments } from '../../api/comments/comments.js';
+import { insert as commentInsert,
+         edit as commentEdit,
+         deleteComment as commentDeleteComment }
+        from '../../api/comments/methods.js';
+
+import { ExchangeItems } from '../../api/exchange-items/exchange-items.js';
+import { insert as exchangeItemInsert,
+         edit as exchangeItemEdit,
+         lock as exchangeItemLock,
+         unlock as exchangeItemUnlock,
+         transfer as exchangeItemsTransfer,
+         lockMethod as exchangeItemLockMethod,
+         unlockMethod as exchangeItemUnlockMethod,
+         transferMethod as exchangeItemTransferMethod,
+         deleteItem as exchangeItemDeleteItem }
+        from '../../api/exchange-items/methods.js';
+
+import { Transactions } from '../../api/transactions/transactions.js';
+import { requestTransaction,
+         approveTransaction,
+         completeTransaction,
+         declineTransaction,
+         cancelTransaction }
+        from '../../api/transactions/methods.js';
 
 
 
@@ -40,6 +66,9 @@ Template.Lists_show_page.onCreated(function listsShowPageOnCreated() {
         /* *** test subscriptions *** */
         this.subscribe('userPosts.all');
         this.subscribe('userAttributes.all');
+        this.subscribe('comments.all');
+        this.subscribe('exchangeItems.all');
+        this.subscribe('transactions.all');
     });
 });
 
@@ -107,6 +136,31 @@ Template.Lists_show_page.helpers({
         else {
             console.log('user not signed in');
         }
+    },
+    allComments() {
+        console.log('in allComments helper');
+        const comments = Comments.find({});
+        comments.forEach( function(comment) {
+            console.log(comment);
+        });
+    },
+    thisPostComments(userPostId) {
+        console.log('in thisPostComments helper');
+        //...
+    },
+    allExchangeItems() {
+        console.log('in allExchangeItems helper');
+        const exchangeItems = ExchangeItems.find({});
+        exchangeItems.forEach( function(item) {
+            console.log(item);
+        });
+    },
+    allTransactions() {
+        console.log('in allTransactions helper');
+        const transactions = Transactions.find({});
+        transactions.forEach( function(transaction) {
+            console.log(transaction);
+        });
     }
 });
 
@@ -124,8 +178,8 @@ Template.Lists_show_page.events({
     'click .userPost-edit' : function() {
         console.log('in userPost-edit test');
         userPostEdit.call({
-            userPostId: 'z9XoBLns2YyqHqFeN',  //TODO: fill in a userPostId here
-            text: 'test text edited from only server 8',
+            userPostId: 'dXGWNq7xGHmRQwb68',  //TODO: fill in a userPostId here
+            text: 'test text edited from only server 12',
             tag: 'new tag?',
             imageLinks: [],
         });
@@ -154,7 +208,12 @@ Template.Lists_show_page.events({
             userPostId: ' ',  //TODO: fill in a userPostId here
         });
     },
-    //TODO: userPostDelete() ValidatedMethod
+    'click .userPost-deletePost' : function() {
+        console.log('in userPost-deletePost');
+        userPostDeletePost.call({
+            userPostId: 'hnjZAeuJSHRmjGLMe',  //TODO: fill in a userPostId here
+        });
+    },
 
     'click .userAttributes-insert' : function() {
         console.log(' in userAttributes-insert test');
@@ -174,12 +233,114 @@ Template.Lists_show_page.events({
     },
     'click .userAttributes-updateRank' : function() {
         console.log(' in userAttributes-insert test');
-        userAttributesUpdateRankServer('4KFncu8zivCjen7hi', 2);
-        /*userAttributesUpdateRank.call({
-            userAttributesId: '4KFncu8zivCjen7hi',
-            amount: 5,
-        });*/
+        userAttributesUpdateRank('rWu36b354qwJPqsyM', 2);
     },
 
+    'click .comments-insert' : function() {
+        console.log(' in comments-insert test');
+        commentInsert.call({
+            userPostId: 'hnjZAeuJSHRmjGLMe',  //TODO: fill in a userPostId here
+            text: 'Test comment 3',
+        })
+    },
+    'click .comments-edit' : function() {
+        console.log(' in comments-edit test');
+        commentEdit.call({
+            commentId: '29EApHPKRkBtwukvK',  //TODO: fill in a commentId here
+            text: 'Comment edited 3',
+        });
+    },
+    'click .comments-delete' : function() {
+        console.log(' in comments-delete test');
+        commentDeleteComment.call({
+            commentId: '29EApHPKRkBtwukvK', //TODO: fill in a commentId here
+        })
+    },
+
+    'click .exchangeItems-insert' : function() {
+        console.log(' in exchangeItems-insert test');
+        exchangeItemInsert.call({
+            title: 'exItem title 5',
+            description: 'exItem description 5',
+            imageLinks: [],
+            available: true,
+            tag: ' ',
+        })
+    },
+    'click .exchangeItems-edit' : function() {
+        console.log(' in exchangeItems-edit test');
+        exchangeItemEdit.call({
+            exchangeItemId: 'zo9Y8KNsqoNTW3x38',  //TODO: fill in an exchangeItemId here
+            title: 'exItem title edited 4',
+            description: 'exItem description edited 4',
+            imageLinks: [],
+            available: true,
+            tag: 'exItem tag edited 4',
+        });
+        console.log('exItem edit called?');
+    },
+    'click .exchangeItems-lock' : function() {
+        console.log(' in exchangeItems-lock test');
+        exchangeItemLockMethod.call({
+            itemIds: ['zo9Y8KNsqoNTW3x38']
+        });
+    },
+    'click .exchangeItems-unlock' : function() {
+        console.log(' in exchangeItems-unlock test');
+        exchangeItemUnlockMethod.call({
+            itemIds: ['zo9Y8KNsqoNTW3x38']
+        });
+    },
+    'click .exchangeItems-transfer' : function() {
+        console.log(' in exchangeItems-transfer test');
+        exchangeItemTransferMethod.call({
+            itemIds: ['zo9Y8KNsqoNTW3x38'],
+            oldOwnerId: 'j9nhN65WcpqpoXWgy',
+            newOwnerId: 'BSLLPh3TCSiXrGc52'
+        });
+        //exchangeItemsTransfer(['K92NKf92Fe7hmvhd6'], 'j9nhN65WcpqpoXWgy', 'BSLLPh3TCSiXrGc52')
+    },
+    'click .exchangeItems-updateRank' : function() {
+        console.log(' in exchangeItems-updateRank test');
+
+    },
+    'click .exchangeItems-deleteItem' : function() {
+        console.log(' in exchangeItems-deleteItem test');
+        exchangeItemDeleteItem.call({
+            exchangeItemId: 'YNXFoFh6YAL3skubu'  //TODO: fill in an exchangeItemId here
+        })
+    },
+
+    'click .transaction-request' : function () {
+        console.log(' in transaction-request test');
+        requestTransaction.call({
+            requesteeName: 'asdf',
+            itemIds: ['piz4TPuQj489qm9DT','zo9Y8KNsqoNTW3x38'/*,'tMYLDCr6frDGpEuFX'*/],  //TODO: fill this array with exchangeItem ids
+        });
+    },
+    'click .transaction-approve' : function () {
+        console.log(' in transaction-approve test');
+        approveTransaction.call({
+            transactionId: 'LtTdAGvTZREpvKqPw' //TODO: fill in a transactionId here
+        });
+    },
+    'click .transaction-complete' : function () {
+        console.log(' in transaction-complete test');
+        completeTransaction.call({
+            transactionId: 'LtTdAGvTZREpvKqPw' //TODO: fill in a transactionId here
+        });
+    },
+    'click .transaction-decline' : function () {
+        console.log(' in transaction-decline test');
+        declineTransaction.call({
+            transactionId: '9rgi7MkNvvCJ4sYTC' //TODO: fill in a transactionId here
+        });
+    },
+    'click .transaction-cancel' : function () {
+        console.log(' in transaction-cancel test');
+        cancelTransaction.call({
+            transactionId: '8EMKDL3k242SWftJh' //TODO: fill in a transactionId here
+        });
+    },
 
 });
