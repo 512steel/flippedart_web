@@ -55,7 +55,8 @@ import { clearAllNotifications,
 import { ChatSessions } from '../../api/chat-sessions/chat-sessions.js';
 
 import { ChatMessages } from '../../api/chat-messages/chat-messages.js';
-import { insert as chatMessageInsert } from '../../api/chat-messages/methods.js';
+import { insert as chatMessageInsert,
+         remove as chatMessageRemove } from '../../api/chat-messages/methods.js';
 
 
 
@@ -395,6 +396,12 @@ Template.Lists_show_page.events({
             chatSessionId: 'J75cDBa3kaScArJGW',  //TODO: fill in a chatSessionId here
             text: 'Testy text 1',
             imageLink: ' ',
+        });
+    },
+    'click .chatMessage-delete': function() {
+        console.log(' in chatMessage-delete test');
+        chatMessageRemove.call({
+            chatMessageId: 'dnR234BJ9jCLcAHoJ',  //TODO: fill in a chatMessageId here
         });
     },
 

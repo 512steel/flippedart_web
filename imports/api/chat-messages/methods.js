@@ -82,3 +82,50 @@ export const insert = new ValidatedMethod({
     }
 });
 
+export const remove = new ValidatedMethod({
+    name: 'chatMessage.remove',
+    validate: new SimpleSchema({
+        chatMessageId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
+    }).validator(),
+    run({ chatMessageId }) {
+        console.log('in method chatMessage.remove');
+
+        const chatMessage = ChatMessages.findOne(chatMessageId);
+
+        if (chatMessage && Meteor.isServer) {  //NOTE: since chatMessage.senderId isn't exposed as a publicField, this will fail on client.
+
+            if (chatMessage.senderId == this.userId) {
+                ChatMessages.remove(chatMessageId);
+            }
+            else {
+                //TODO: what would be the appropriate error format for this?
+                console.log('[accessDenied]User is not allowed to delete this chat message.');
+            }
+        }
+    }
+});
+
+
+//TODO: chatMessageGlobalInsert method, only admin-callable, to handle announcements
+
+
+// Get list of all method names on Comments
+const CHAT_MESSAGES_METHODS = _.pluck([
+    insert,
+    remove,
+], 'name');
+
+if (Meteor.isServer) {
+    // Only allow 5 comment operations per connection per second
+    DDPRateLimiter.addRule({
+        name(name) {
+            return _.contains(CHAT_MESSAGES_METHODS, name);
+        },
+
+        // Rate limit per connection ID
+        connectionId() { return true; },
+    }, 6, 1000);
+}
