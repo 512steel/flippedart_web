@@ -11,6 +11,8 @@ import '../../ui/pages/app-not-found.js';
 // Import to override accounts templates
 import '../../ui/accounts/accounts-templates.js';
 
+
+//TODO: old: remove this route
 FlowRouter.route('/lists/:_id', {
   name: 'Lists.show',
   action() {
@@ -18,8 +20,127 @@ FlowRouter.route('/lists/:_id', {
   },
 });
 
+
+/* Dynamic pages */
+FlowRouter.route('/profile/:username/post/:userPostId', {
+    name: 'profile.post',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+FlowRouter.route('/profile/:username/post/:userPostId/edit', {
+    name: 'profile.post.edi',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/profile/:username/projects', {
+    name: 'profile.projects',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/profile/:username/:postsLimit?', {
+    name: 'profile.feed',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+FlowRouter.route('/profile/:username/top/:postsLimit?', {
+    name: 'profile.feed.top',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/add', {
+    name: 'projects.add',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+FlowRouter.route('projects/:exchangeItemId', {
+    name: 'projects.single',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/exchanges', {
+    name: 'exchanges.user',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+FlowRouter.route('/exchanges/:exchangeItemId', {
+    name: 'exchanges.user.single',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/top/:thing', {
+    name: 'top.thing',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+FlowRouter.route('/explore', {
+    name: 'explore',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+FlowRouter.route('/account', {
+    name: 'user.account',
+    action() {
+        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+    },
+});
+
+
+/* Static pages */
+FlowRouter.route('/about', {
+    name: 'static.about',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
+FlowRouter.route('/make', {
+    name: 'static.make',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
+FlowRouter.route('/feedback', {
+    name: 'static.feedback',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
+FlowRouter.route('/feedback/thanks', {
+    name: 'static.feedback/thanks',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
+FlowRouter.route('/policies', {
+    name: 'static.policies',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
+FlowRouter.route('/donate', {
+    name: 'static.donate',
+    action() {
+        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+    },
+});
 FlowRouter.route('/', {
-  name: 'App.home',
+  name: 'static.home',  //TODO: used to be "App.home"
   action() {
     BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
   },
