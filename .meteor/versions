@@ -30,6 +30,7 @@ cfs:http-methods@0.0.32
 check@1.2.1
 chriswessels:hammer@4.0.2
 coffeescript@1.0.17
+cosmos:browserify@0.5.1
 crosswalk@1.6.2
 dburles:collection-helpers@1.0.4
 ddp@1.2.5
@@ -42,6 +43,8 @@ diff-sequence@1.0.5
 dispatch:mocha-core@0.0.1
 dispatch:mocha-phantomjs@0.1.0
 dispatch:phantomjs-tests@0.0.4
+djedi:sanitize-html@1.11.3
+djedi:sanitize-html-client@1.11.3
 ecmascript@0.4.3
 ecmascript-runtime@0.2.10
 ejson@1.0.11

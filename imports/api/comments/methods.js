@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
+import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
 import { Comments } from './comments.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
@@ -29,7 +30,7 @@ export const insert = new ValidatedMethod({
         if (this.userId) {
             console.log('in method comments.insert');
 
-            //TODO: Sanitize "text" here
+            text = sanitizeHtml(text);
 
             const user = Meteor.user();  //TODO: is this any more or less secure, server-side, than querying by this.userId?
             const userPost = UserPosts.findOne(userPostId);
@@ -89,7 +90,7 @@ export const edit = new ValidatedMethod({
     run({ commentId, text }) {
         console.log('in method comments.edit');
 
-        //TODO: sanitize "text" here
+        text = sanitizeHtml(text);
 
         const comment = Comments.findOne(commentId);
 

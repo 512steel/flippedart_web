@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
+import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
 import { Notifications } from './notifications.js';
 import { UserPosts } from '../user-posts/user-posts.js';
@@ -127,6 +128,7 @@ export const createCommentNotification = (commentId, userPostId, commenterName) 
             commenterName: commenterName
         }, createCommentNotificationFunctionSchema);
 
+        commenterName = sanitizeHtml(commenterName);
 
         const userPost = UserPosts.findOne(userPostId);
 
@@ -220,6 +222,53 @@ export const createChatMessageNotification = (chatMessage) => {
     console.log('in server method createChatMessageNotification');
 
     if (Meteor.isServer) {
+
+        /*
+         NOTE: check()ing these nested fields got way to wonky when mixed with SimpleSchema,
+         so I just pulled them all out into separate variables.
+        */
+        const chatSessionId = chatMessage.chatSessionId;
+        const text = sanitizeHtml(chatMessage.text);
+        const imageLink = chatMessage.imageLink;
+        const senderId = chatMessage.senderId;
+        const senderUserName = sanitizeHtml(chatMessage.senderUserName);
+        const createdAt = chatMessage.createdAt;
+
+        const createChatMessageNotificationFunctionSchema = new SimpleSchema({
+            chatSessionId: {
+                    type: String,
+                    regEx: SimpleSchema.RegEx.Id,
+                },
+            text: {
+                    type: String,
+                    optional: true,
+                },
+            imageLink: {
+                    type: String,
+                    //regEx: SimpleSchema.RegEx.Id,  //TODO
+                    optional: true,
+                },
+            senderId: {
+                    type: String,
+                    regEx: SimpleSchema.RegEx.Id,
+                },
+            senderUserName: {
+                    type: String,
+                },
+            createdAt: {
+                    type: Date,
+                },
+        });
+        check({
+                chatSessionId: chatSessionId,
+                text: text,
+                imageLink: imageLink,
+                senderId: senderId,
+                senderUserName: senderUserName,
+                createdAt: createdAt,
+        }, createChatMessageNotificationFunctionSchema);
+
+
         const chatSession = ChatSessions.findOne(chatMessage.chatSessionId);
 
         if (chatSession) {

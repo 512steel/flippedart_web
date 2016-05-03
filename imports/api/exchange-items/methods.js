@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
+import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
 import { ExchangeItems } from './exchange-items.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
@@ -15,22 +16,29 @@ export const insert = new ValidatedMethod({
     validate: new SimpleSchema({
         title: { type: String },
         description: { type: String },
-        imageLinks: { type: [String] },
-        available: { type: Boolean, defaultValue: true },
-        tag: { type: String, optional: true },
+        imageLinks: {
+            type: [String],
+            //regEx: SimpleSchema.RegEx.Url,  //TODO: confirm with Cloudinary before turning this on.
+            minCount: 1,
+        },
+        available: {
+            type: Boolean,
+            defaultValue: true
+        },
+        tag: {
+            type: String,
+            optional: true
+        },
     }).validator(),
     run({ title, description, imageLinks, available, tag }) {
         console.log('in method exchangeItems.insert');
 
-        //TODO: sanitize title/description/imageLinks/tag here
+        title = sanitizeHtml(title);
+        description = sanitizeHtml(description);
+        tag = sanitizeHtml(tag);
 
-        //truncate and sanitize the imageLinks array
+        //truncate the imageLinks array
         imageLinks = imageLinks.slice(0, 4);
-        /*
-         for (var i = 0; i < userPostAttributes.imageLinks.length; i++) {
-         userPostAttributes.imageLinks[i] = sanitizeLink(userPostAttributes.imageLinks[i]);
-         }
-        */
 
         if (this.userId) {
             var userAttributes = UserAttributes.findOne({userId: this.userId});
@@ -73,26 +81,37 @@ export const edit = new ValidatedMethod({
             type: String,
             regEx: SimpleSchema.RegEx.Id,
         },
-        title: { type: String, optional: true },
-        description: { type: String, optional: true },
-        imageLinks: { type: [String], optional: true },
-        available: { type: Boolean, optional: true },
-        tag: { type: String, optional: true },
+        title: {
+            type: String,
+            optional: true
+        },
+        description: {
+            type: String,
+            optional: true
+        },
+        imageLinks: {
+            type: [String],
+            optional: true  //NOTE: it's not necessary to re-add an image, even though at least one is required to be there for an exchangeItem.
+        },
+        available: {
+            type: Boolean,
+            optional: true },
+        tag: {
+            type: String,
+            optional: true
+        },
     }).validator(),
     run({ exchangeItemId, title, description, imageLinks, available, tag }) {
         if (this.userId) {
             console.log('in method exchangeItems.insert');
 
-            //TODO: sanitize title/description/imageLinks/tag here
+            title = sanitizeHtml(title);
+            description = sanitizeHtml(description);
+            tag = sanitizeHtml(tag);
 
-            //truncate and sanitize the imageLinks array
+            //truncate the imageLinks array
             if (imageLinks)
                 imageLinks = imageLinks.slice(0, 4);
-            /*
-             for (var i = 0; i < userPostAttributes.imageLinks.length; i++) {
-             userPostAttributes.imageLinks[i] = sanitizeLink(userPostAttributes.imageLinks[i]);
-             }
-            */
 
             const exchangeItem = ExchangeItems.findOne(exchangeItemId);
 
@@ -180,43 +199,6 @@ export const deleteItem = new ValidatedMethod({
             userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd * -1);
         }
     },
-});
-
-
-//TODO: these lock/unlockMethods are just for testing from client - remove
-export const lockMethod = new ValidatedMethod({
-    name: 'exchangeItems.lockMethod',
-    validate: new SimpleSchema({
-        itemIds: {type: [String]},  //NOTE: this Method allows us to lock multiple items with one call
-    }).validator(),
-    run({ itemIds }) {
-        console.log('in lock Method');
-        lock(itemIds);
-    }
-});
-
-export const unlockMethod = new ValidatedMethod({
-    name: 'exchangeItems.unlockMethod',
-    validate: new SimpleSchema({
-        itemIds: {type: [String]},  //NOTE: this Method allows us to lock multiple items with one call
-    }).validator(),
-    run({ itemIds }) {
-        console.log('in unlock Method');
-        unlock(itemIds);
-    }
-});
-
-export const transferMethod = new ValidatedMethod({
-    name: 'exchangeItems.transferMethod',
-    validate: new SimpleSchema({
-        itemIds: {type: [String]},
-        oldOwnerId: {type: String},
-        newOwnerId: {type: String},
-    }).validator(),
-    run({ itemIds, oldOwnerId, newOwnerId }) {
-        console.log('in transfer Method');
-        transfer(itemIds, oldOwnerId, newOwnerId);
-    }
 });
 
 

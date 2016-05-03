@@ -27,8 +27,6 @@ export const insert = (requesterId, requesteeId) => {
             requesteeId: requesteeId,
         }, insertFunctionSchema);
 
-
-        console.log('1');
         const requester = Meteor.users.findOne(requesterId);
         const requestee = Meteor.users.findOne(requesteeId);
 
@@ -50,12 +48,8 @@ export const insert = (requesterId, requesteeId) => {
             ]
         });
 
-        console.log('3');
         if (requester && requestee) {
-            console.log('4');
             if (!chatSessionAlreadyExists) {
-                console.log('5');
-                console.log('inserting chatSession');
                 const chatSession = {
                     firstUserId: requestee._id,
                     firstUserName: requestee.username,
@@ -80,9 +74,3 @@ export const insert = (requesterId, requesteeId) => {
         console.log('You can\'t call this method from the client.');
     }
 };
-
-
-
-
-
-

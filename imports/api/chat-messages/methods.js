@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
+import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
 import { ChatMessages } from './chat-messages.js';
 import { ChatSessions } from '../chat-sessions/chat-sessions.js';
@@ -33,6 +34,9 @@ export const insert = new ValidatedMethod({
         console.log('in method chatMessage.insert');
 
         if (this.userId) {
+
+            text = sanitizeHtml(text);
+
             if (text || imageLink) {
 
                 const currentUser = Meteor.users.findOne(this.userId);
@@ -57,8 +61,6 @@ export const insert = new ValidatedMethod({
                         if (Meteor.isServer) {
                             createChatMessageNotification(chatMessage);
                         }
-
-                        console.log('created chatMessage!');
                     }
                     else {
                         throw new Meteor.Error('chatMessage.insert.invalidSession',

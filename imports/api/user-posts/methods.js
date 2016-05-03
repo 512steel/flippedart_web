@@ -26,17 +26,12 @@ export const insert = new ValidatedMethod({
         var user = Meteor.users.findOne(this.userId);
 
         if (user) {
-            //TODO: fix "sanitize" methods.
-            //text = sanitizeString(text);
-            //tag = sanitizeString(tag);
 
-            //truncate and sanitize the imageLinks array
+            text = sanitizeHtml(text);
+            tag = sanitizeHtml(tag);
+
+            //truncate the imageLinks array
             imageLinks = imageLinks.slice(0, 4);
-            /*
-             for (var i = 0; i < userPostAttributes.imageLinks.length; i++) {
-             userPostAttributes.imageLinks[i] = sanitizeLink(userPostAttributes.imageLinks[i]);
-             }
-             */
 
             const userAttributes = UserAttributes.findOne({userId: this.userId});
 
@@ -81,10 +76,16 @@ export const edit = new ValidatedMethod({
         },
         text: { type: String },
         tag: { type: String },
-        imageLinks: { type: [String] },
+        imageLinks: {
+            type: [String],
+            //regEx: SimpleSchema.RegEx.Url  //TODO
+        },
     }).validator(),
     run({ userPostId, text, tag, imageLinks }) {
         console.log('in method userPosts.edit');
+
+        text = sanitizeHtml(text);
+        tag = sanitizeHtml(tag);
 
         const userPost = UserPosts.findOne(userPostId);
 

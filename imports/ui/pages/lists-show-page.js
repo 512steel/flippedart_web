@@ -34,9 +34,6 @@ import { insert as exchangeItemInsert,
          lock as exchangeItemLock,
          unlock as exchangeItemUnlock,
          transfer as exchangeItemsTransfer,
-         lockMethod as exchangeItemLockMethod,
-         unlockMethod as exchangeItemUnlockMethod,
-         transferMethod as exchangeItemTransferMethod,
          deleteItem as exchangeItemDeleteItem }
         from '../../api/exchange-items/methods.js';
 
@@ -313,6 +310,10 @@ Template.Lists_show_page.events({
         });
         console.log('exItem edit called?');
     },
+
+    /*
+     NOTE these testing methods have been removed from exchangeItems.methods.
+
     'click .exchangeItems-lock' : function() {
         console.log(' in exchangeItems-lock test');
         exchangeItemLockMethod.call({
@@ -334,10 +335,8 @@ Template.Lists_show_page.events({
         });
         //exchangeItemsTransfer(['K92NKf92Fe7hmvhd6'], 'j9nhN65WcpqpoXWgy', 'BSLLPh3TCSiXrGc52')
     },
-    'click .exchangeItems-updateRank' : function() {
-        console.log(' in exchangeItems-updateRank test');
+    */
 
-    },
     'click .exchangeItems-deleteItem' : function() {
         console.log(' in exchangeItems-deleteItem test');
         exchangeItemDeleteItem.call({
@@ -348,8 +347,8 @@ Template.Lists_show_page.events({
     'click .transaction-request' : function () {
         console.log(' in transaction-request test');
         requestTransaction.call({
-            requesteeName: 'asdf2',
-            itemIds: ['xwALAC9udEXMQRNY6'],  //TODO: fill this array with exchangeItem ids
+            requesteeName: 'asdf',
+            itemIds: ['FD32hRJvBCkwLpdZF'],  //TODO: fill this array with exchangeItem ids
         });
     },
     'click .transaction-approve' : function () {
@@ -393,8 +392,8 @@ Template.Lists_show_page.events({
     'click .chatMessage-insert': function() {
         console.log(' in chatMessage-insert test');
         chatMessageInsert.call({
-            chatSessionId: 'J75cDBa3kaScArJGW',  //TODO: fill in a chatSessionId here
-            text: 'Testy text 1',
+            chatSessionId: 'eL2Bw2wZZ5GxH7NNX',  //TODO: fill in a chatSessionId here
+            text: 'Test message text 2',
             imageLink: ' ',
         });
     },

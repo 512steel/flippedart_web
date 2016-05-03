@@ -52,6 +52,7 @@ ExchangeItems.schema = new SimpleSchema({
     },
     imageLinks: {
         type: [String],
+        minCount: 1  //NOTE: all exchange items must include an image
     },
     mainImageLink: {
         type: String,
