@@ -1,32 +1,35 @@
-<template name="userSingleExchange">
+<template name="user_single_exchange">
+    <p>User Single Exchange</p>
     {{#unless isExchangeMember}}
-        {{> signUpCTA }}
+        {{> signup_call_to_action}}
     {{else}}
-        <h1>Your exchange with {{#with exchange}}{{#if isRequestee}}{{requesterUsername}}{{else}}{{requesteeUsername}}{{/if}}{{/with}} </h1>
-        {{#with exchange}}
+        <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
+        {{#with transaction}}
             <div class="push-down">
-                {{> exchangeListing }}
+                {{> exchange_listing }}
             </div>
         {{/with}}
         <div class="push-down">
-            {{#each items}}
+            <p>each exchangeItems in the transaction</p>
+            {{#each exchangeItems}}
                 <h4>
+                    <!--TODO: singleItemPage -->
                     <a href="{{pathFor 'singleItemPage' exchangeItemId=this._id}}">
-                        {{this.title}}{{#if itemHasTag}}({{this.tag}}){{/if}}
+                        {{this.title}}{{#if itemHasTag}} ({{this.tag}}){{/if}}
                         {{#if itemHasDescription}}| {{this.description}}{{/if}}
                     </a>
                 </h4>
             {{/each}}
         </div>
         <div class="shift-down">
-            {{#with exchange}}
+            {{#with transaction}}
                 {{#if isRequestee}}
-                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow' username=requesterUsername}}">chat with {{requesterUsername}}</a></p>
+                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesterName}}">chat with {{requesterName}}</a></p>
                 {{else}}
-                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow' username=requesteeUsername}}">chat with {{requesteeUsername}}</a></p>
+                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesteeName}}">chat with {{requesteeName}}</a></p>
                 {{/if}}
             {{/with}}
-            <p><a class="btn btn-default" href="{{pathFor 'userExchanges'}}">back to your exchanges</a></p>
+            <p><a class="btn btn-default" href="{{pathFor 'exchanges.user'}}">back to your exchanges</a></p>
         </div>
     {{/unless}}
 </template>

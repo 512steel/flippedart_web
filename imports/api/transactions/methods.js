@@ -20,6 +20,8 @@ import { createTransactionStateNotification } from '../notifications/methods.js'
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
 
 /***
+ * TODO: put these states into a global variable like POINTS_SYSTEM
+ *
  * NOTE: the transaction "states" are as follows:
  *
  *      "requested" - requester has "requested"

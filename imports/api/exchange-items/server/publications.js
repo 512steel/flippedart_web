@@ -17,7 +17,6 @@ Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" obj
     );
 });
 
-
 Meteor.publish('exchangeItems.user', function(username, options) {
     check(username, String);
     check(options, {

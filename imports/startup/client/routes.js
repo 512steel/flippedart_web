@@ -6,7 +6,9 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/root-redirector.js';
 import '../../ui/components/app-not-found.js';
+import '../../ui/components/signup-call-to-action';
 
+// Static page imports
 import '../../ui/pages/home-page.js';
 import '../../ui/pages/about-page.js';
 import '../../ui/pages/make-page.js';
@@ -15,14 +17,16 @@ import '../../ui/pages/policies-page.js';
 import '../../ui/pages/feedback-page.js';
 import '../../ui/pages/feedback-thanks-page.js';
 
+// Dynamic page imports
+import '../../ui/components/exchanges-pages/exchanges-components.js';
+
 
 // Import to override accounts templates
 import '../../ui/accounts/accounts-templates.js';
 
-import '../../ui/model-tests/model-tests.js';
-
 
 //TODO: comment this out before deploying
+import '../../ui/model-tests/model-tests.js';
 FlowRouter.route('/tests', {
     name: 'model.tests',
     action() {
@@ -65,6 +69,13 @@ FlowRouter.route('/profile/:username/top/:postsLimit?', {
     },
 });
 
+FlowRouter.route('/messages/:username/:messagesLimit?', {
+    name: 'chatWindow.user',
+    action() {
+        BlazeLayout.render('App_body', { main: 'chat_window'});
+    }
+});
+
 FlowRouter.route('/add', {
     name: 'projects.add',
     action() {
@@ -81,13 +92,13 @@ FlowRouter.route('/projects/:exchangeItemId', {
 FlowRouter.route('/exchanges', {
     name: 'exchanges.user',
     action() {
-        BlazeLayout.render('App_body', { main: 'exchanges_user' });
+        BlazeLayout.render('App_body', { main: 'user_exchanges' });
     },
 });
-FlowRouter.route('/exchanges/:exchangeItemId', {
+FlowRouter.route('/exchanges/:exchangeId', {
     name: 'exchanges.user.single',
     action() {
-        BlazeLayout.render('App_body', { main: 'exchanges_single' });
+        BlazeLayout.render('App_body', { main: 'user_single_exchange' });
     },
 });
 

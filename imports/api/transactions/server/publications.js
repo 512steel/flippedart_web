@@ -2,6 +2,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Transactions } from '../transactions.js';
+import { ExchangeItems } from '../../exchange-items/exchange-items.js';
 
 Meteor.publish('transactions.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
     /*check(options, {
@@ -18,36 +19,53 @@ Meteor.publish('transactions.all', function () {  //TODO: pass in "options" obje
 });
 
 
-Meteor.publish('transactions.user', function(username, options) {
-    check(username, String);
+Meteor.publish('transactions.user', function(options) {
     check(options, {
-        sort: Object,
-        limit: Number
+        sort: Object
     });
-    return Transactions.find(
-        {
-            $or: [
-                {
-                    requesteeName: username
-                },
-                {
-                    requesterName: username
-                }
-            ]
-        }, options);
+
+    if (this.userId) {
+        return Transactions.find(
+            {
+                $or: [
+                    {
+                        requesteeId: this.userId
+                    },
+                    {
+                        requesterId: this.userId
+                    }
+                ]
+            }, options);
+    }
 });
 
 Meteor.publish('transactions.single', function(transactionId) {
     check(transactionId, String);
-    return Transactions.find(transactionId);
+
+    //TODO: test this
+    if (this.userId) {
+        return Transactions.find(
+            {
+                _id: transactionId,
+                $or: [
+                    {requesteeId: this.userId},
+                    {requesterId: this.userId}
+                ]
+            });
+    }
 });
-Meteor.publish('transaction.single.exchangeItems', function(transactionId) {
+
+//TODO: move this to exchangeItems publications?
+Meteor.publish('transactions.single.exchangeItems', function(transactionId) {
     check(transactionId, String);
 
-    var transaction = Transactions.findOne(transactionId);
-    if (transaction) {
-        var itemIds = transaction.itemIds;
-        return items = ExchangeItems.find({_id : {$in : itemIds}});
+    if (this.userId) {
+        var transaction = Transactions.findOne(transactionId);
+        if (transaction &&
+            (transaction.requesteeId == this.userId || transaction.requesterId == this.userId)) {
+            var itemIds = transaction.itemIds;
+            return ExchangeItems.find({_id : {$in : itemIds}});
+        }
     }
 });
 

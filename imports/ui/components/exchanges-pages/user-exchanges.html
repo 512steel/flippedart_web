@@ -1,17 +1,18 @@
-<template name="userExchanges">
+<template name="user_exchanges">
     {{#if currentUser }}
         <div class="col-sm-12">
             <h1>Your Exchanges</h1>
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xxs-12">
                     <h2>Requested:</h2>
-                    {{#unless cursorNotEmpty requestedEx}}<p>You haven't requested any items</p>{{/unless}}
                     <div class="push-down">
-                        {{#each requestedEx}}
+                        {{#each requestedExchanges}}
                             <div class="clearfix">
-                                {{> exchangeListing }}
+                                {{> exchange_listing }}
                                 <hr>
                             </div>
+                        {{else}}
+                            <p>You haven't requested any items</p>
                         {{/each}}
                     </div>
                 </div>
@@ -54,6 +55,6 @@
             </div>
         </div>
     {{else}}
-        {{> signUpCTA }}
+        {{> signup_call_to_action}}
     {{/if}}
 </template>
