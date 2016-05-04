@@ -1,0 +1,1 @@
+import './policies-page.html';

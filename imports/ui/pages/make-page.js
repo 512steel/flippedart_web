@@ -1,0 +1,1 @@
+import './make-page.html';

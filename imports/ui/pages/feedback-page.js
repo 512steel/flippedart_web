@@ -1,4 +1,6 @@
-Template.feedback.events({
+import './feedback-page.html';
+
+Template.feedback_page.events({
     'submit form.feedback-form': function(e) {
         e.preventDefault();
 

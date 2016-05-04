@@ -5,11 +5,22 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 // Import to load these templates
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/root-redirector.js';
-import '../../ui/pages/lists-show-page.js';
 import '../../ui/pages/app-not-found.js';
+import '../../ui/pages/lists-show-page.js';
+
+import '../../ui/pages/home-page.js';
+import '../../ui/pages/about-page.js';
+import '../../ui/pages/make-page.js';
+import '../../ui/pages/donate-page.js';
+import '../../ui/pages/policies-page.js';
+import '../../ui/pages/feedback-page.js';
+import '../../ui/pages/feedback-thanks-page.js';
+
 
 // Import to override accounts templates
 import '../../ui/accounts/accounts-templates.js';
+
+
 
 
 //TODO: old: remove this route
@@ -29,7 +40,7 @@ FlowRouter.route('/profile/:username/post/:userPostId', {
     },
 });
 FlowRouter.route('/profile/:username/post/:userPostId/edit', {
-    name: 'profile.post.edi',
+    name: 'profile.post.edit',
     action() {
         BlazeLayout.render('App_body', { main: 'Lists_show_page' });
     },
@@ -61,7 +72,7 @@ FlowRouter.route('/add', {
         BlazeLayout.render('App_body', { main: 'Lists_show_page' });
     },
 });
-FlowRouter.route('projects/:exchangeItemId', {
+FlowRouter.route('/projects/:exchangeItemId', {
     name: 'projects.single',
     action() {
         BlazeLayout.render('App_body', { main: 'Lists_show_page' });
@@ -106,61 +117,63 @@ FlowRouter.route('/account', {
 FlowRouter.route('/about', {
     name: 'static.about',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'about_page' });
     },
 });
 FlowRouter.route('/make', {
     name: 'static.make',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'make_page' });
     },
 });
 FlowRouter.route('/feedback', {
     name: 'static.feedback',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'feedback_page' });
     },
 });
 FlowRouter.route('/feedback/thanks', {
-    name: 'static.feedback/thanks',
+    name: 'static.feedback.thanks',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'feedback_thanks_page' });
     },
 });
 FlowRouter.route('/policies', {
     name: 'static.policies',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'policies_page' });
     },
 });
 FlowRouter.route('/donate', {
     name: 'static.donate',
     action() {
-        BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
+        BlazeLayout.render('App_body', { main: 'donate_page' });
     },
 });
 FlowRouter.route('/', {
-  name: 'static.home',  //TODO: used to be "App.home"
-  action() {
-    BlazeLayout.render('App_body', { main: 'app_rootRedirector' });
-  },
+    name: 'static.home',  //TODO: used to be "App.home"
+    action() {
+        console.log('in router home');
+        BlazeLayout.render('App_body', { main: 'home_page' });
+    },
 });
+
 
 // the App_notFound template is used for unknown routes and missing lists
 FlowRouter.notFound = {
-  action() {
-    BlazeLayout.render('App_body', { main: 'App_notFound' });
-  },
+    action() {
+        BlazeLayout.render('App_body', { main: 'App_notFound' });
+    },
 };
 
 AccountsTemplates.configureRoute('signIn', {
-  name: 'signin',
-  path: '/signin',
+    name: 'signin',
+    path: '/signin',
 });
 
 AccountsTemplates.configureRoute('signUp', {
-  name: 'join',
-  path: '/join',
+    name: 'join',
+    path: '/join',
 });
 
 AccountsTemplates.configureRoute('forgotPwd');
@@ -178,6 +191,7 @@ AccountsTemplates.configureRoute('resetPwd', {
 ***************************
  */
 
+/*
 Router.configure({
     layoutTemplate: 'layout',
     loadingTemplate: 'loading',
@@ -187,13 +201,14 @@ Router.configure({
         return [Meteor.subscribe('notifications')];
     }
 });
+*/
 
 
 
 /****        Flipped Art:        ****/
 
 
-
+/*
 Router.route('/profile/:username/post/:userPostId', {
     name: 'userPostPage',
     waitOn: function() {
@@ -607,8 +622,8 @@ MyAccountController = RouteController.extend({
     data: function () {
         return {
             user: Meteor.user(),
-            userAttributes: this.userAttributes() /*,
-             exchanges: this.transactions()*/
+            userAttributes: this.userAttributes() ,
+             //exchanges: this.transactions()
         }
     }
 });
@@ -664,3 +679,4 @@ var requireLogin = function() {
 
 Router.onBeforeAction('dataNotFound');
 Router.onBeforeAction(requireLogin, {only: ['postSubmit', 'editMyAccountForm']});  //TODO: add more route names to this list
+*/
