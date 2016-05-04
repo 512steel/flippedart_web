@@ -1,3 +1,5 @@
+//TODO: refactor into separate component files
+
 //Note: the lack of control-flow in spacebars makes this pretty janky.
 
 Template.exchangeListing.helpers({

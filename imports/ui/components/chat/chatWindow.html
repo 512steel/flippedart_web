@@ -18,7 +18,7 @@
             {{#unless equals chatSession.firstUsername yourName}}
                 You have asked {{chatSession.firstUsername}} to check out some items.  Use this chat window to discuss further details with {{chatSession.firstUsername}}.
             {{else}}
-                {{chatSession.secondUsername}} has asked to check out some items from you.  Go to your <a href="{{pathFor 'myAccount'}}">account page</a> to view your pending exchanges, and use this chat window to discuss further details with {{chatSession.secondUsername}}.
+                {{chatSession.secondUsername}} has asked to check out some items from you.  Go to your <a href="{{pathFor 'my-account'}}">account page</a> to view your pending exchanges, and use this chat window to discuss further details with {{chatSession.secondUsername}}.
             {{/unless}}
         </p>
     {{/if}}

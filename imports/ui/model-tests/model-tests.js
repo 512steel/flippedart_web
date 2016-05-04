@@ -8,63 +8,65 @@ import { Lists } from '../../api/lists/lists.js';
 /* *** New ValidatedMethod() tests *** */
 import { UserPosts } from '../../api/user-posts/user-posts.js';
 import { insert as userPostInsert,
-         edit as userPostEdit,
-         upvote as userPostUpvote,
-         flag as userPostFlag,
-         unflag as userPostUnflag,
-         decrementComments as userPostDecrementComments,
-         deletePost as userPostDeletePost }
-        from '../../api/user-posts/methods.js'
+    edit as userPostEdit,
+    upvote as userPostUpvote,
+    flag as userPostFlag,
+    unflag as userPostUnflag,
+    decrementComments as userPostDecrementComments,
+    deletePost as userPostDeletePost }
+    from '../../api/user-posts/methods.js'
 
 import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
 import { insert as userAttributesInsert,
-         edit as userAttributesEdit,
-         updateRank as userAttributesUpdateRank }
-        from '../../api/user-attributes/methods.js';
+    edit as userAttributesEdit,
+    updateRank as userAttributesUpdateRank }
+    from '../../api/user-attributes/methods.js';
 
 import { Comments } from '../../api/comments/comments.js';
 import { insert as commentInsert,
-         edit as commentEdit,
-         deleteComment as commentDeleteComment }
-        from '../../api/comments/methods.js';
+    edit as commentEdit,
+    deleteComment as commentDeleteComment }
+    from '../../api/comments/methods.js';
 
 import { ExchangeItems } from '../../api/exchange-items/exchange-items.js';
 import { insert as exchangeItemInsert,
-         edit as exchangeItemEdit,
-         lock as exchangeItemLock,
-         unlock as exchangeItemUnlock,
-         transfer as exchangeItemsTransfer,
-         deleteItem as exchangeItemDeleteItem }
-        from '../../api/exchange-items/methods.js';
+    edit as exchangeItemEdit,
+    lock as exchangeItemLock,
+    unlock as exchangeItemUnlock,
+    transfer as exchangeItemsTransfer,
+    deleteItem as exchangeItemDeleteItem }
+    from '../../api/exchange-items/methods.js';
 
 import { Transactions } from '../../api/transactions/transactions.js';
 import { requestTransaction,
-         approveTransaction,
-         completeTransaction,
-         declineTransaction,
-         cancelTransaction }
-        from '../../api/transactions/methods.js';
+    approveTransaction,
+    completeTransaction,
+    declineTransaction,
+    cancelTransaction }
+    from '../../api/transactions/methods.js';
 
 import { Notifications } from '../../api/notifications/notifications.js';
 import { clearAllNotifications,
-         clearSingleNotification } from '../../api/notifications/methods.js';
+    clearSingleNotification } from '../../api/notifications/methods.js';
 
 import { ChatSessions } from '../../api/chat-sessions/chat-sessions.js';
 
 import { ChatMessages } from '../../api/chat-messages/chat-messages.js';
 import { insert as chatMessageInsert,
-         remove as chatMessageRemove } from '../../api/chat-messages/methods.js';
+    remove as chatMessageRemove } from '../../api/chat-messages/methods.js';
 
 
 
 import { listRenderHold } from '../launch-screen.js';
-import './lists-show-page.html';
+//import './lists-show-page.html';
+
+import './model-tests.html';
 
 // Components used inside the template
 import './../components/app-not-found.js';
 import '../components/lists-show.js';
 
-Template.Lists_show_page.onCreated(function listsShowPageOnCreated() {
+Template.model_tests_page.onCreated(function listsShowPageOnCreated() {
     this.getListId = () => FlowRouter.getParam('_id');
 
     this.autorun(() => {
@@ -82,7 +84,7 @@ Template.Lists_show_page.onCreated(function listsShowPageOnCreated() {
     });
 });
 
-Template.Lists_show_page.onRendered(function listsShowPageOnRendered() {
+Template.model_tests_page.onRendered(function listsShowPageOnRendered() {
     this.autorun(() => {
         if (this.subscriptionsReady()) {
             //listRenderHold.release();
@@ -90,7 +92,7 @@ Template.Lists_show_page.onRendered(function listsShowPageOnRendered() {
     });
 });
 
-Template.Lists_show_page.helpers({
+Template.model_tests_page.helpers({
     // We use #each on an array of one item so that the "list" template is
     // removed and a new copy is added when changing lists, which is
     // important for animation purposes.
@@ -195,7 +197,7 @@ Template.Lists_show_page.helpers({
     },
 });
 
-Template.Lists_show_page.events({
+Template.model_tests_page.events({
 
     /* *** Test events for calling new ValidatedMethod()s here *** */
     'click .userPost-insert' : function() {
@@ -314,28 +316,28 @@ Template.Lists_show_page.events({
     /*
      NOTE these testing methods have been removed from exchangeItems.methods.
 
-    'click .exchangeItems-lock' : function() {
-        console.log(' in exchangeItems-lock test');
-        exchangeItemLockMethod.call({
-            itemIds: ['zo9Y8KNsqoNTW3x38']
-        });
-    },
-    'click .exchangeItems-unlock' : function() {
-        console.log(' in exchangeItems-unlock test');
-        exchangeItemUnlockMethod.call({
-            itemIds: ['zo9Y8KNsqoNTW3x38']
-        });
-    },
-    'click .exchangeItems-transfer' : function() {
-        console.log(' in exchangeItems-transfer test');
-        exchangeItemTransferMethod.call({
-            itemIds: ['zo9Y8KNsqoNTW3x38'],
-            oldOwnerId: 'j9nhN65WcpqpoXWgy',
-            newOwnerId: 'BSLLPh3TCSiXrGc52'
-        });
-        //exchangeItemsTransfer(['K92NKf92Fe7hmvhd6'], 'j9nhN65WcpqpoXWgy', 'BSLLPh3TCSiXrGc52')
-    },
-    */
+     'click .exchangeItems-lock' : function() {
+     console.log(' in exchangeItems-lock test');
+     exchangeItemLockMethod.call({
+     itemIds: ['zo9Y8KNsqoNTW3x38']
+     });
+     },
+     'click .exchangeItems-unlock' : function() {
+     console.log(' in exchangeItems-unlock test');
+     exchangeItemUnlockMethod.call({
+     itemIds: ['zo9Y8KNsqoNTW3x38']
+     });
+     },
+     'click .exchangeItems-transfer' : function() {
+     console.log(' in exchangeItems-transfer test');
+     exchangeItemTransferMethod.call({
+     itemIds: ['zo9Y8KNsqoNTW3x38'],
+     oldOwnerId: 'j9nhN65WcpqpoXWgy',
+     newOwnerId: 'BSLLPh3TCSiXrGc52'
+     });
+     //exchangeItemsTransfer(['K92NKf92Fe7hmvhd6'], 'j9nhN65WcpqpoXWgy', 'BSLLPh3TCSiXrGc52')
+     },
+     */
 
     'click .exchangeItems-deleteItem' : function() {
         console.log(' in exchangeItems-deleteItem test');

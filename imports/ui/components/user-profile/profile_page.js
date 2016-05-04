@@ -1,6 +1,6 @@
 Template.profilePage.onRendered(function () {
         if (!this.data.user) {
-            //Router.go('myAccount', {});
+            //Router.go('my-account', {});
         }
     }
 );

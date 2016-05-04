@@ -5,8 +5,7 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 // Import to load these templates
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/root-redirector.js';
-import '../../ui/pages/app-not-found.js';
-import '../../ui/pages/lists-show-page.js';
+import '../../ui/components/app-not-found.js';
 
 import '../../ui/pages/home-page.js';
 import '../../ui/pages/about-page.js';
@@ -20,15 +19,15 @@ import '../../ui/pages/feedback-thanks-page.js';
 // Import to override accounts templates
 import '../../ui/accounts/accounts-templates.js';
 
+import '../../ui/model-tests/model-tests.js';
 
 
-
-//TODO: old: remove this route
-FlowRouter.route('/lists/:_id', {
-  name: 'Lists.show',
-  action() {
-    BlazeLayout.render('App_body', { main: 'Lists_show_page' });
-  },
+//TODO: comment this out before deploying
+FlowRouter.route('/tests', {
+    name: 'model.tests',
+    action() {
+        BlazeLayout.render('App_body', { main: 'model_tests_page' });
+    },
 });
 
 
@@ -36,79 +35,79 @@ FlowRouter.route('/lists/:_id', {
 FlowRouter.route('/profile/:username/post/:userPostId', {
     name: 'profile.post',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'user_post' });
     },
 });
 FlowRouter.route('/profile/:username/post/:userPostId/edit', {
     name: 'profile.post.edit',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'user_post_edit' });
     },
 });
 
 FlowRouter.route('/profile/:username/projects', {
     name: 'profile.projects',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'items_user' });
     },
 });
 
 FlowRouter.route('/profile/:username/:postsLimit?', {
     name: 'profile.feed',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'user_profile_feed' });
     },
 });
 FlowRouter.route('/profile/:username/top/:postsLimit?', {
     name: 'profile.feed.top',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'user_profile_feed_top' });
     },
 });
 
 FlowRouter.route('/add', {
     name: 'projects.add',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'items_add' });
     },
 });
 FlowRouter.route('/projects/:exchangeItemId', {
     name: 'projects.single',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'items_single' });
     },
 });
 
 FlowRouter.route('/exchanges', {
     name: 'exchanges.user',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'exchanges_user' });
     },
 });
 FlowRouter.route('/exchanges/:exchangeItemId', {
     name: 'exchanges.user.single',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'exchanges_single' });
     },
 });
 
 FlowRouter.route('/top/:thing', {
     name: 'top.thing',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'top_things_page' });
     },
 });
 
 FlowRouter.route('/explore', {
     name: 'explore',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'explore_page' });
     },
 });
 FlowRouter.route('/account', {
     name: 'user.account',
     action() {
-        BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+        BlazeLayout.render('App_body', { main: 'user_account_page' });
     },
 });
 
@@ -153,7 +152,6 @@ FlowRouter.route('/donate', {
 FlowRouter.route('/', {
     name: 'static.home',  //TODO: used to be "App.home"
     action() {
-        console.log('in router home');
         BlazeLayout.render('App_body', { main: 'home_page' });
     },
 });
@@ -598,7 +596,7 @@ Router.route('/explore', {
 });
 
 MyAccountController = RouteController.extend({
-    template: 'myAccount',
+    template: 'my-account',
     userAttributes: function() {
         return UserAttributes.findOne({userId: Meteor.userId()});
     },
@@ -628,7 +626,7 @@ MyAccountController = RouteController.extend({
     }
 });
 Router.route('/account', {
-    name: 'myAccount',
+    name: 'my-account',
     controller: MyAccountController
 });
 

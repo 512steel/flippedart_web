@@ -1,0 +1,32 @@
+<template name="userSingleExchange">
+    {{#unless isExchangeMember}}
+        {{> signUpCTA }}
+    {{else}}
+        <h1>Your exchange with {{#with exchange}}{{#if isRequestee}}{{requesterUsername}}{{else}}{{requesteeUsername}}{{/if}}{{/with}} </h1>
+        {{#with exchange}}
+            <div class="push-down">
+                {{> exchangeListing }}
+            </div>
+        {{/with}}
+        <div class="push-down">
+            {{#each items}}
+                <h4>
+                    <a href="{{pathFor 'singleItemPage' exchangeItemId=this._id}}">
+                        {{this.title}}{{#if itemHasTag}}({{this.tag}}){{/if}}
+                        {{#if itemHasDescription}}| {{this.description}}{{/if}}
+                    </a>
+                </h4>
+            {{/each}}
+        </div>
+        <div class="shift-down">
+            {{#with exchange}}
+                {{#if isRequestee}}
+                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow' username=requesterUsername}}">chat with {{requesterUsername}}</a></p>
+                {{else}}
+                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow' username=requesteeUsername}}">chat with {{requesteeUsername}}</a></p>
+                {{/if}}
+            {{/with}}
+            <p><a class="btn btn-default" href="{{pathFor 'userExchanges'}}">back to your exchanges</a></p>
+        </div>
+    {{/unless}}
+</template>
