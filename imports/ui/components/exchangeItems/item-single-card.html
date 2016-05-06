@@ -1,0 +1,120 @@
+<template name="item_single_card">
+    <h3>In item_single_card</h3>
+
+    {{#unless currentUser}}
+        <div class="inventory-single-item">
+            <h3>{{title}}</h3>
+            <p class="push-down-sm">
+                <strong>description:</strong> {{description}}
+            </p>
+            <p class="push-down-sm">
+                owned by
+                <a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">
+                    {{ownerName}}
+                </a>
+                {{#if location}}({{location}}){{/if}}
+            </p>
+            {{#each imageLinks}}
+                <div class="item-listing-images push-down-sm">
+                    <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
+                        <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                    </a>
+                </div>
+            {{else}}
+                <p>No images provided for this item.</p>
+            {{/each}}
+            {{#if addendums}}
+                <p class="push-down-sm">
+                    <strong>additional details:</strong>
+                </p>
+                {{#each addendums}}
+                    <p class="push-down-sm">{{this}}</p>
+                {{/each}}
+            {{/if}}
+            {{#if tag}}
+                <p class="push-down-sm">
+                    <strong>tag:</strong> {{tag}}
+                </p>
+            {{/if}}
+            <p class="push-down-sm">
+                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
+            </p>
+        </div>
+    {{else}}
+        {{#if isItemOwner}}
+            <div class="inventory-single-item">
+                {{#if showItemEdit}}
+                    <button class="btn-sm pull-right item-edit bg-primary">cancel editing</button>
+
+                    <p>should item_edit</p>
+                {{else}}
+                    <h3>{{title}}</h3>
+                    <p class="push-down-sm"><strong>description:</strong> {{description}}</p>
+                    <p class="push-down-sm">You own this item {{#if location}}({{location}}){{/if}}</p>
+                    {{#each imageLinks}}
+                        <div class="item-listing-images push-down-sm">
+                            <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
+                                <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                            </a>
+                        </div>
+                    {{else}}
+                        <p>No images provided for this item.</p>
+                    {{/each}}
+                    {{#if addendums}}
+                        <p class="push-down-sm"><strong>additional details:</strong></p>
+                        {{#each addendums}}
+                            <p class="push-down-sm">{{this}}</p>
+                        {{/each}}
+                    {{/if}}
+                    {{#if tag}}
+                        <p class="push-down-sm"><strong>tag:</strong> {{tag}}</p>
+                    {{/if}}
+                    <p class="push-down-sm">
+                        <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
+                    </p>
+
+                    <button class="btn-sm pull-right {{editClass}} bg-primary">edit</button>
+                {{/if}}
+            </div>
+        {{else}}
+            <div class="inventory-single-item">
+                <h3>{{title}}</h3>
+                <p class="push-down-sm">
+                    <strong>description:</strong> {{description}}
+                </p>
+                <p class="push-down-sm">
+                    owned by
+                    <a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">
+                        {{ownerName}}
+                    </a>
+                    {{#if location}}({{location}}){{/if}}
+                </p>
+                {{#each imageLinks}}
+                    <div class="item-listing-images push-down-sm">
+                        <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
+                            <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                        </a>
+                    </div>
+                {{else}}
+                    <p>No images provided for this item.</p>
+                {{/each}}
+                {{#if addendums}}
+                    <p class="push-down-sm">
+                        <strong>additional details:</strong>
+                    </p>
+                    {{#each addendums}}
+                        <p class="push-down-sm">{{this}}</p>
+                    {{/each}}
+                {{/if}}
+                {{#if tag}}
+                    <p class="push-down-sm">
+                        <strong>tag:</strong> {{tag}}
+                    </p>
+                {{/if}}
+                <p class="push-down-sm">
+                    <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
+                </p>
+            </div>
+        {{/if}}
+    {{/unless}}
+</template>

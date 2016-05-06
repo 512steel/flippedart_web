@@ -1,0 +1,60 @@
+<template name="item_single_page">
+    <h3>In item_single_page</h3>
+    <hr>
+
+    {{#with exchangeItem}}
+        {{> item_single_card}}
+    {{/with}}
+
+
+    {{#unless currentUser}}
+        {{#if isExchangeItemAvailable}}
+            <p>This item is available!  Sign in to request it.</p>
+        {{else}}
+            <p>This item is not available to check out.</p>
+        {{/if}}
+        <p>
+            <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                See the rest of {{exchangeItem.ownerName}}'s projects
+            </a>
+        </p>
+    {{else}}
+        {{#if isItemOwner}}
+            <p><strong>ITEM_SUBMIT template here</strong></p>
+            <!--TODO: re-add  {{> item_submit}}-->
+
+            <!--FIXME: show the actual state of the item here: "locked"/"unlocked", "(un)available", transaction state (if it's involved in one)-->
+            {{#if isExchangeItemAvailable}}
+                <p>This item is available for other people to check out.</p>
+            {{else}}
+                <p>This item is not available for other people to check out.</p>
+
+            {{/if}}
+            <p>
+                <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                    See the rest of your projects
+                </a>
+            </p>
+        {{else}}
+            {{#if isExchangeItemAvailable}}
+                <form>
+                    <span class="hidden inventory-single-item-id">{{exchangeItem._id}}</span>
+                    <input class="single-item-request-form-button btn btn-primary" type="submit" value="Request this project"/>
+                </form>
+            {{else}}
+                <!--FIXME: in UI areas like this, if the exchangeItem is a part of a transaction that
+                    the currentUser is involved in, then display the state of the transaction here
+                    rather than this general "unavailable" message. -->
+                <p>This project is not available to check out.</p>
+            {{/if}}
+            <p>
+                <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                    See the rest of {{exchangeItem.ownerName}}'s projects
+                </a>
+            </p>
+        {{/if}}
+    {{/unless}}
+
+    <hr>
+    <p>bottom of item_single_page</p>
+</template>

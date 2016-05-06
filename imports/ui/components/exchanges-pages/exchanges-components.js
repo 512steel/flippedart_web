@@ -17,14 +17,9 @@ import {
     declineTransaction,
     cancelTransaction } from '../../../api/transactions/methods.js';
 
-//import './lists-show-page.html';
 import './exchange-listing.html';
 import './user-exchanges.html';
 import './single-exchange.html';
-
-// Components used inside the template:
-import '../../components/app-not-found';
-//import '../components/lists-show.js';
 
 Template.exchange_listing.onCreated(function exchangeListingOnCreated() {
 
@@ -185,7 +180,6 @@ Template.user_single_exchange.helpers({
         return ExchangeItems.find({});
     },
     transaction: function() {
-        console.log('in transaction helper');
         return Template.instance().transaction();
     },
 
@@ -239,6 +233,7 @@ Template.user_single_exchange.helpers({
 
 
 Template.exchange_listing.events({
+
     //FIXME: call the actual methods explicitly
     'submit form.exchange-advance': function(e) {
         e.preventDefault();

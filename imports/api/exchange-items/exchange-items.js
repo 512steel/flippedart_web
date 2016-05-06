@@ -100,7 +100,7 @@ ExchangeItems.publicFields = {
     available: 1,
     locked: 1,
     addendums: 1,
-    rank: 1,  //
+    //rank: 1,  //
     pastOwnerNames: 1,
     createdAt: 1,
 };

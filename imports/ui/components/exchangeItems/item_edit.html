@@ -1,5 +1,5 @@
-<template name="itemEdit">
-    {{#if equals currentUser.username ownerName}}
+<template name="item_edit">
+    {{#if equals currentUser.username ownerName}}  <!--TODO: unnecessary check -->
         <form class="main item-edit-form">
             <div class="form-group {{errorClass 'description'}}">
                 <div class="controls">

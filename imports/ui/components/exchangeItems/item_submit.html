@@ -1,6 +1,6 @@
-<template name="itemSubmit">
+<template name="item_submit">
     {{#if currentUser}}
-        <p class="push-down">You can add some of your own art materials here</p>
+        <p class="push-down">You can add your own projects here.</p>
         <hr>
         <form class="item-submit-form">
             <span class="help-block">{{errorMessage 'title'}}</span>
@@ -11,22 +11,22 @@
 
             <div class="item-submit-add-buttons">
                 <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
-                {{> addItemsButton}}
+                {{> add_items_button}}
             </div>
 
             <div style="clear: both">
                 {{#each singleItems}}
-                    {{> singleItemSubmit }}
+                    {{> single_item_submit }}
                 {{/each}}
             </div>
         </form>
         <hr>
     {{else}}
-        {{> signUpCTA }}
+        {{> signup_call_to_action }}
     {{/if}}
 </template>
 
-<template name="addItemsButton">
+<template name="add_items_button">
     <span class="pull-left">
         {{#unless greaterThan singleItemsCount 0}}
             <input type="submit" value="Add items" class="btn btn-primary" disabled/>
@@ -40,7 +40,7 @@
     </span>
 </template>
 
-<template name="singleItemSubmit">
+<template name="single_item_submit">
     <div class="single-item-form">
         <div><span class="pull-right btn-xs bg-danger close-single-item-submit">X</span></div>
         <div class="form-group">
@@ -78,7 +78,7 @@
     <script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>
 </template>
 
-<template name="addSingleItem">
+<template name="add_single_item">
     <h1>Add an item</h1>
-    {{> itemSubmit}}
+    {{> item_submit}}
 </template>

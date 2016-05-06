@@ -51,6 +51,18 @@ export const requestTransaction = new ValidatedMethod({
 
             if (requester && requestee && (requester._id != requestee._id)) {
 
+                const testItems = ExchangeItems.find(
+                    {
+                        _id: {
+                            $in: itemIds,
+                        }
+                    });
+                console.log('all testItems:');
+                testItems.forEach(function(item) {
+                    console.log(item);
+                });
+
+
                 //Check that each item being requested is owned by the "requestee"
                 const validItems = ExchangeItems.find(
                     {
@@ -92,13 +104,18 @@ export const requestTransaction = new ValidatedMethod({
 
 
                 //TODO: create a new ChatSession from here
-                console.log('inserting chatSession');
                 chatSessionInsert(requester._id, requestee._id);
-                console.log('inserted chatSession?');
 
                 createTransactionStateNotification(newTransactionId);
+
+                FlowRouter.go('exchanges.user.single', {exchangeId: newTransactionId});
+                console.log('gone to transaction page?');
             }
             else {
+                console.log(requester);
+                console.log(requestee);
+                console.log(this.userId);
+
                 //TODO: throw proper error to the client only if this fails on the server
                 console.log('[invalid]Invalid users included in this transaction.');
                 //throw new Meteor.Error('transaction.request.invalid',

@@ -14,7 +14,7 @@
             {{#each exchangeItems}}
                 <h4>
                     <!--TODO: singleItemPage -->
-                    <a href="{{pathFor 'singleItemPage' exchangeItemId=this._id}}">
+                    <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
                         {{this.title}}{{#if itemHasTag}} ({{this.tag}}){{/if}}
                         {{#if itemHasDescription}}| {{this.description}}{{/if}}
                     </a>

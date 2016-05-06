@@ -20,13 +20,26 @@ Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" obj
 Meteor.publish('exchangeItems.user', function(username, options) {
     check(username, String);
     check(options, {
-        sort: Object,
-        limit: Number
+        sort: Object
     });
-    return ExchangeItems.find({ownerName : username}, options)
+
+    return ExchangeItems.find(
+        {
+            ownerName : username
+        },
+        {
+            options,
+            fields: ExchangeItems.publicFields
+        });
 });
 
 Meteor.publish('exchangeItems.single', function(exchangeItemId) {
     check(exchangeItemId, String);
-    return ExchangeItems.find({_id: exchangeItemId});
+    return ExchangeItems.find(
+        {
+            _id: exchangeItemId
+        },
+        {
+            fields: ExchangeItems.publicFields,
+        });
 });

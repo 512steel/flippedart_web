@@ -1,0 +1,94 @@
+<template name="items_user_all">
+    <div class="content-scrollable">
+        <h1>Inventory page</h1>
+        <br>
+
+        {{#unless currentUser}}
+            {{#if hasExchangeItems}}
+                <div class="col-sm-12">
+                    <h1 class="row"><a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">{{currentPageUsername}}'s</a> projects</h1>
+                </div>
+                <div class="form-group">
+                    {{#each item in exchangeItems}}
+                        <div class="inventory-single-item">
+                            {{#with item}}{{> item_single_card }}{{/with}}
+                            {{#if isExchangeItemAvailable (item)}}
+                                <p>This project is available!  Sign in to request it</p>
+                            {{else}}
+                                <p>This project is not available for checkout.</p>
+                            {{/if}}
+                        </div>
+                        <hr>
+                    {{/each}}
+                </div>
+            {{else}}
+                <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
+            {{/if}}
+        {{else}}
+            {{#if isProfileOwner}}
+                {{#if hasExchangeItems}}
+                    <!-- TODO: re-add this   {{> item_submit }} -->
+                    <div class="col-sm-12">
+                        <h1 class="row">Your items</h1>
+                    </div>
+                    {{#each item in exchangeItems}}
+                        <div class="inventory-single-item">
+                            {{#with item}}{{> item_single_card }}{{/with}}
+                            {{#if isExchangeItemAvailable (item)}}
+                                <p>This project is available for others to check out.</p>
+                            {{else}}
+                                <p>This project is not available for others to checkout.</p>
+                            {{/if}}
+                        </div>
+                        <hr>
+                    {{/each}}
+                {{else}}
+                    <p>You don't have any projects at the moment.</p>
+                {{/if}}
+            {{else}}
+                {{#if hasExchangeItems}}
+                    <div class="col-sm-12">
+                        <h1 class="row">
+                            <a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">
+                                {{currentPageUsername}}'s
+                            </a> items
+                        </h1>
+                    </div>
+                    <div class="col-xxsish-8 right-border right-border-xxsish">
+                        <div class="row">
+                            <form class="item-request-form">
+                                <div class="form-group">
+                                    {{#each item in exchangeItems}}
+                                        <div class="inventory-single-item">
+                                            <span class="hidden inventory-single-item-id">{{_id}}</span>
+                                            {{#with item}}{{> item_single_card }}{{/with}}
+                                            {{#if isExchangeItemAvailable (item)}}
+                                                <label class="control-label">Request for checkout:</label>
+                                                <input class="request-checkout-checkbox form-control form-control-checkbox-left" type="checkbox"/>
+                                            {{else}}
+                                                <p>Can't be requested for checkout.</p>
+                                            {{/if}}
+                                        </div>
+                                        <hr>
+                                    {{/each}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
+                        <button class="multiple-item-request-form-button btn btn-primary" disabled>Request these items</button>
+                        {{#if requestedItems}}
+                            <div class="requested-items-list">
+                                {{#each requestedItems}}
+                                    <p>{{this}}</p>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
+                {{/if}}
+            {{/if}}
+        {{/unless}}
+    </div>
+</template>

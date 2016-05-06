@@ -19,6 +19,7 @@ import '../../ui/pages/feedback-thanks-page.js';
 
 // Dynamic page imports
 import '../../ui/components/exchanges-pages/exchanges-components.js';
+import '../../ui/components/exchangeItems/exchangeItems-components.js';
 
 
 // Import to override accounts templates
@@ -52,7 +53,7 @@ FlowRouter.route('/profile/:username/post/:userPostId/edit', {
 FlowRouter.route('/profile/:username/projects', {
     name: 'profile.projects',
     action() {
-        BlazeLayout.render('App_body', { main: 'items_user' });
+        BlazeLayout.render('App_body', { main: 'items_user_all' });
     },
 });
 
@@ -82,10 +83,10 @@ FlowRouter.route('/add', {
         BlazeLayout.render('App_body', { main: 'items_add' });
     },
 });
-FlowRouter.route('/projects/:exchangeItemId', {
+FlowRouter.route('/profile/:username/projects/:exchangeItemId', {
     name: 'projects.single',
     action() {
-        BlazeLayout.render('App_body', { main: 'items_single' });
+        BlazeLayout.render('App_body', { main: 'item_single_page' });
     },
 });
 
