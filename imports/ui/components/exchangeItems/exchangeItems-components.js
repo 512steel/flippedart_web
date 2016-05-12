@@ -330,9 +330,20 @@ Template.item_edit.events({
 
         //TODO: sweet alert for nicer looking "confirm" and "alert" boxes
         if (confirm("Are you sure you want to delete this project?  It won't be available for people to checkout any longer.")) {
-            exchangeItemDeleteItem({
+            exchangeItemDeleteItem.call({
                 exchangeItemId: this._id,
-            })
+            }, (err, res) => {
+                if (err) {
+                    //FIXME: throwError visibly to client
+                    console.log(err);
+                }
+                else {
+                    //FIXME: throwSuccess visibly to the client
+                    console.log('You have successfully deleted this project.');
+
+                    FlowRouter.go('profile.projects', {username: FlowRouter.getParam('username')});
+                }
+            });
         }
     }
 });

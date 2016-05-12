@@ -260,6 +260,9 @@ export const deleteItem = new ValidatedMethod({
                 //Call the server-only method updateRank on UserAttributes, and remove points
                 userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd * -1);
             }
+
+            //TODO: use Cloudinary method to delete image from Cloudinary (won't affect app performance,
+            // but it prevents my Cloudinary account from getting bogged down with deleted images.
         }
         else {
             console.log('[accessDenied] You must be signed in to edit an item.');

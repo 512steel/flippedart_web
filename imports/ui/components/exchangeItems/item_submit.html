@@ -1,26 +1,30 @@
-<template name="item_submit">
+<template name="item_submit_page">
     <div class="content-scrollable">
-        {{#if currentUser}}
-            <p class="push-down">You can add your own projects here.</p>
-            <hr>
-            <form class="item-submit-form">
-
-                <div class="item-submit-add-buttons">
-                    <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
-                    {{> add_items_button}}
-                </div>
-
-                <div style="clear: both">
-                    {{#each singleItems}}
-                        {{> single_item_submit }}
-                    {{/each}}
-                </div>
-            </form>
-            <hr>
-        {{else}}
-            {{> signup_call_to_action }}
-        {{/if}}
+        {{> item_submit}}
     </div>
+</template>
+
+<template name="item_submit">
+    {{#if currentUser}}
+        <p class="push-down">You can add your own projects here.</p>
+        <hr>
+        <form class="item-submit-form">
+
+            <div class="item-submit-add-buttons">
+                <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
+                {{> add_items_button}}
+            </div>
+
+            <div style="clear: both">
+                {{#each singleItems}}
+                    {{> single_item_submit }}
+                {{/each}}
+            </div>
+        </form>
+        <hr>
+    {{else}}
+        {{> signup_call_to_action }}
+    {{/if}}
 </template>
 
 <template name="add_items_button">

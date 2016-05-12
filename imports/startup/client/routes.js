@@ -117,7 +117,7 @@ FlowRouter.route('/messages/:username/:messagesLimit?', {
 FlowRouter.route('/add', {
     name: 'projects.add',
     action() {
-        BlazeLayout.render('App_body', { main: 'item_submit' });
+        BlazeLayout.render('App_body', { main: 'item_submit_page' });
     },
 });
 
