@@ -30,3 +30,16 @@ export const POINTS_SYSTEM = {
         'completed': 2,
     },
 };
+
+
+export const UPLOAD_LIMITS = {
+    'projects': 5,
+    'images': 4,
+};
+
+
+export const PROJECT_TAGS = [
+    'Chalkboard',
+    'Chalkboard stand',
+    'Other',
+];

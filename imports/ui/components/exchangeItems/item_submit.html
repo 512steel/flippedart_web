@@ -1,40 +1,37 @@
 <template name="item_submit">
-    {{#if currentUser}}
-        <p class="push-down">You can add your own projects here.</p>
-        <hr>
-        <form class="item-submit-form">
-            <span class="help-block">{{errorMessage 'title'}}</span>
-            <span class="help-block">{{errorMessage 'description'}}</span>
-            <span class="help-block">{{errorMessage 'imageLinks'}}</span>
-            <span class="help-block">{{errorMessage 'count'}}</span>
-            <span class="help-block">{{errorMessage 'server_message'}}</span>
+    <div class="content-scrollable">
+        {{#if currentUser}}
+            <p class="push-down">You can add your own projects here.</p>
+            <hr>
+            <form class="item-submit-form">
 
-            <div class="item-submit-add-buttons">
-                <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
-                {{> add_items_button}}
-            </div>
+                <div class="item-submit-add-buttons">
+                    <button class="item-submit-add-single-item btn bg-success-dark pull-right"><strong>+</strong></button>
+                    {{> add_items_button}}
+                </div>
 
-            <div style="clear: both">
-                {{#each singleItems}}
-                    {{> single_item_submit }}
-                {{/each}}
-            </div>
-        </form>
-        <hr>
-    {{else}}
-        {{> signup_call_to_action }}
-    {{/if}}
+                <div style="clear: both">
+                    {{#each singleItems}}
+                        {{> single_item_submit }}
+                    {{/each}}
+                </div>
+            </form>
+            <hr>
+        {{else}}
+            {{> signup_call_to_action }}
+        {{/if}}
+    </div>
 </template>
 
 <template name="add_items_button">
     <span class="pull-left">
-        {{#unless greaterThan singleItemsCount 0}}
+        {{#unless hasSingleItems}}
             <input type="submit" value="Add items" class="btn btn-primary" disabled/>
         {{else}}
             {{#if isUploading}}
                 <input type="submit" value="{{uploadingCopy}}" class="btn btn-primary" disabled/>
             {{else}}
-                <input type="submit" value="Add items" class="btn btn-primary"/>
+                <input type="submit" value="{{addProjectCopy}}" class="btn btn-primary"/>
             {{/if}}
         {{/unless}}
     </span>
@@ -45,7 +42,7 @@
         <div><span class="pull-right btn-xs bg-danger close-single-item-submit">X</span></div>
         <div class="form-group">
             <div class="controls">
-                <input class="single-item-title form-control" placeholder="Name your item" maxlength="500" required/>
+                <input class="single-item-title form-control" placeholder="Name your project" maxlength="500" required/>
             </div>
             <div class="controls">
                 <textarea class="single-item-description form-control" placeholder="Add a description" maxlength="5000" required></textarea>
@@ -64,9 +61,9 @@
 
                 <select class="single-item-tag form-control">
                     <option value=" " disabled selected style="color: gray">Tag your item</option>
-                    <option value="Chalkboard">Chalkboard</option>
-                    <option value="Chalkboard Stand">Chalkboard Stand</option>
-                    <option value="Other">Other</option>
+                    {{#each projectTags}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
                 </select>
             </div>
 
@@ -75,10 +72,5 @@
         </div>
     </div>
 
-    <script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>
-</template>
-
-<template name="add_single_item">
-    <h1>Add an item</h1>
-    {{> item_submit}}
+    <!--<script>$('[data-toggle="tooltip"]').tooltip({container: 'body'});</script>-->
 </template>

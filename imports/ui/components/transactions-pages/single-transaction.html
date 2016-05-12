@@ -1,4 +1,4 @@
-<template name="user_single_exchange">
+<template name="user_single_transaction">
     <p>User Single Exchange</p>
     {{#unless isExchangeMember}}
         {{> signup_call_to_action}}
@@ -6,7 +6,7 @@
         <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
         {{#with transaction}}
             <div class="push-down">
-                {{> exchange_listing }}
+                {{> transaction_listing }}
             </div>
         {{/with}}
         <div class="push-down">

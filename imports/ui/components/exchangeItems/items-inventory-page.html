@@ -26,10 +26,12 @@
             {{/if}}
         {{else}}
             {{#if isProfileOwner}}
+
+                {{> item_submit}}
+
                 {{#if hasExchangeItems}}
-                    <!-- TODO: re-add this   {{> item_submit }} -->
                     <div class="col-sm-12">
-                        <h1 class="row">Your items</h1>
+                        <h1 class="row">Your projects</h1>
                     </div>
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item">
@@ -51,7 +53,7 @@
                         <h1 class="row">
                             <a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">
                                 {{currentPageUsername}}'s
-                            </a> items
+                            </a> projects
                         </h1>
                     </div>
                     <div class="col-xxsish-8 right-border right-border-xxsish">
@@ -60,14 +62,18 @@
                                 <div class="form-group">
                                     {{#each item in exchangeItems}}
                                         <div class="inventory-single-item">
-                                            <span class="hidden inventory-single-item-id">{{_id}}</span>
-                                            {{#with item}}{{> item_single_card }}{{/with}}
-                                            {{#if isExchangeItemAvailable (item)}}
-                                                <label class="control-label">Request for checkout:</label>
-                                                <input class="request-checkout-checkbox form-control form-control-checkbox-left" type="checkbox"/>
-                                            {{else}}
-                                                <p>Can't be requested for checkout.</p>
-                                            {{/if}}
+                                            {{#with item}}
+                                                <span class="hidden inventory-single-item-id">{{_id}}</span>
+                                                {{> item_single_card }}
+
+                                                {{#if isExchangeItemAvailable (item)}}
+                                                    <label class="control-label">Request for checkout:</label>
+                                                    <input class="request-checkout-checkbox form-control form-control-checkbox-left" type="checkbox"/>
+                                                {{else}}
+                                                    <p>This project can't be requested for checkout.</p>
+                                                {{/if}}
+                                            {{/with}}
+
                                         </div>
                                         <hr>
                                     {{/each}}
@@ -76,10 +82,10 @@
                         </div>
                     </div>
                     <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
-                        <button class="multiple-item-request-form-button btn btn-primary" disabled>Request these items</button>
-                        {{#if requestedItems}}
+                        <button class="multiple-item-request-form-button btn btn-primary" disabled>Request these projects</button>
+                        {{#if requestedProjectNames}}
                             <div class="requested-items-list">
-                                {{#each requestedItems}}
+                                {{#each requestedProjectNames}}
                                     <p>{{this}}</p>
                                 {{/each}}
                             </div>

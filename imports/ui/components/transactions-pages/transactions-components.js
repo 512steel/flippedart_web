@@ -4,10 +4,12 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { ExchangeItems } from '../../../api/exchange-items/exchange-items.js';
+/*  TODO: these methods shouldn't be needed here
 import {
     insert as exchangeItemInsert,
     edit as exchangeItemEdit,
     deleteItem as exchangeItemDeleteItem } from '../../../api/exchange-items/methods.js';
+*/
 
 import { Transactions } from '../../../api/transactions/transactions.js';
 import {
@@ -17,11 +19,11 @@ import {
     declineTransaction,
     cancelTransaction } from '../../../api/transactions/methods.js';
 
-import './exchange-listing.html';
-import './user-exchanges.html';
-import './single-exchange.html';
+import './transaction-listing.html';
+import './user-transactions.html';
+import './single-transaction.html';
 
-Template.exchange_listing.onCreated(function exchangeListingOnCreated() {
+Template.transaction_listing.onCreated(function transactionListingOnCreated() {
 
     //TODO: keep an eye on this in case more data is passed into the template.
     this.transaction = () => this.data;
@@ -39,7 +41,7 @@ Template.exchange_listing.onCreated(function exchangeListingOnCreated() {
 
 });
 
-Template.user_exchanges.onCreated(function userExchangesOnCreated() {
+Template.user_transactions.onCreated(function userTransactionsOnCreated() {
     console.log('in user_exchanges onCreated');
 
     const transactionsSortOptions = {sort: {state: 1, createdAt: -1}};
@@ -51,7 +53,7 @@ Template.user_exchanges.onCreated(function userExchangesOnCreated() {
 
 });
 
-Template.user_single_exchange.onCreated(function userSingleExchangeOnCreated() {
+Template.user_single_transaction.onCreated(function userSingleTransactionOnCreated() {
     this.getExchangeId = () => FlowRouter.getParam('exchangeId');
 
     // Subscriptions go in here
@@ -64,7 +66,7 @@ Template.user_single_exchange.onCreated(function userSingleExchangeOnCreated() {
 });
 
 
-Template.user_exchanges.onRendered(function userExchangesOnRendered() {
+Template.user_transactions.onRendered(function userTransactionsOnRendered() {
 
     this.autorun(() => {
         if (this.subscriptionsReady()) {
@@ -73,7 +75,7 @@ Template.user_exchanges.onRendered(function userExchangesOnRendered() {
     });
 });
 
-Template.user_single_exchange.onRendered(function userSingleExchangeOnRendered() {
+Template.user_single_transaction.onRendered(function userSingleTransactionOnRendered() {
     this.autorun(() => {
         if (this.subscriptionsReady()) {
             // release renderHolds here
@@ -84,7 +86,7 @@ Template.user_single_exchange.onRendered(function userSingleExchangeOnRendered()
 
 //Note: the lack of control-flow in spacebars makes this pretty janky.
 
-Template.exchange_listing.helpers({
+Template.transaction_listing.helpers({
     isCurrentUserRequestee: function() {
         const currentUser = Meteor.user();
         const transaction = Template.instance().transaction();
@@ -148,7 +150,7 @@ Template.exchange_listing.helpers({
 });
 
 
-Template.user_exchanges.helpers({
+Template.user_transactions.helpers({
     requestedExchanges: function() {
         return Transactions.find({
             state: 'requested',
@@ -175,7 +177,7 @@ Template.user_exchanges.helpers({
 
 });
 
-Template.user_single_exchange.helpers({
+Template.user_single_transaction.helpers({
     exchangeItems: function() {
         return ExchangeItems.find({});
     },
@@ -232,7 +234,7 @@ Template.user_single_exchange.helpers({
 });
 
 
-Template.exchange_listing.events({
+Template.transaction_listing.events({
 
     //FIXME: call the actual methods explicitly
     'submit form.exchange-advance': function(e) {

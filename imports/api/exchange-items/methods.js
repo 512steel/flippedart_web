@@ -10,16 +10,25 @@ import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank as userAttributesUpdateRank } from '../user-attributes/methods.js';
 
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
+import { UPLOAD_LIMITS } from '../../ui/lib/globals.js';
 
-export const insert = new ValidatedMethod({
-    name: 'exchangeItems.insert',
-    validate: new SimpleSchema({
-        title: { type: String },
-        description: { type: String },
+
+//NOTE: insert() is a server-only method, so that only insertMany() can be called from the client (for DDP rate limiting)
+export const insert = (title, description, imageLinks, available, tag, userId) => {
+    console.log('in server method insert.');
+
+    const insertFunctionSchema = new SimpleSchema({
+        title: {
+            type: String
+        },
+        description: {
+            type: String
+        },
         imageLinks: {
             type: [String],
             //regEx: SimpleSchema.RegEx.Url,  //TODO: confirm with Cloudinary before turning this on.
             minCount: 1,
+            maxCount: UPLOAD_LIMITS.images
         },
         available: {
             type: Boolean,
@@ -29,49 +38,97 @@ export const insert = new ValidatedMethod({
             type: String,
             optional: true
         },
-    }).validator(),
-    run({ title, description, imageLinks, available, tag }) {
-        console.log('in method exchangeItems.insert');
+        userId: {
+            //NOTE: this.userId needs to be passed in from the ValidatedMethod, since the server-only method isn't a Meteor one.
+            type: String,
+            regEx: SimpleSchema.RegEx.Id
+        }
+    });
+    check({
+        title: title,
+        description: description,
+        imageLinks: imageLinks,
+        available: available,
+        tag: tag,
+        userId: userId,
+    }, insertFunctionSchema);
 
-        title = sanitizeHtml(title);
-        description = sanitizeHtml(description);
-        tag = sanitizeHtml(tag);
+    title = sanitizeHtml(title);
+    description = sanitizeHtml(description);
+    tag = sanitizeHtml(tag);
 
-        //truncate the imageLinks array
-        imageLinks = imageLinks.slice(0, 4);
+    if (Meteor.isServer) {
+        var userAttributes = UserAttributes.findOne({userId: userId});
 
-        if (this.userId) {
-            var userAttributes = UserAttributes.findOne({userId: this.userId});
+        if (userAttributes) {
+            const exchangeItem = {
+                ownerId: userId,
+                ownerName: userAttributes.username,
+                title: title,
+                description: description,
+                location: userAttributes.location ? userAttributes.location : ' ',
+                tag: tag ? tag : ' ',
+                imageLinks: imageLinks,
+                mainImageLink: imageLinks.length ? imageLinks[0] : ' ',  //TODO: allow user to select mainImageLink
+                available: available,
+                locked: false,
+                addendums: [],
+                rank: 0,
+                pastOwnerNames: [],
+                createdAt: new Date(),
+            };
 
-            if (userAttributes) {
-                const exchangeItem = {
-                    ownerId: this.userId,
-                    ownerName: userAttributes.username,
-                    title: title,
-                    description: description,
-                    location: userAttributes.location ? userAttributes.location : ' ',
-                    tag: tag ? tag : ' ',
-                    imageLinks: imageLinks,
-                    mainImageLink: imageLinks.length ? imageLinks[0] : ' ',  //TODO: allow user to select mainImageLink
-                    available: available,
-                    locked: false,
-                    addendums: [],
-                    rank: 0,
-                    pastOwnerNames: [],
-                    createdAt: new Date(),
-                };
+            ExchangeItems.insert(exchangeItem);
 
-                ExchangeItems.insert(exchangeItem);
-
-                //points system:
-                userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd);
-            }
+            //points system:
+            userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd);
         }
         else {
-            throw new Meteor.Error('exchangeItems.insert.accessDenied',
-                'You must be signed in to add an item.');
+            //FIXME
+            console.log('You need to update your user profile before adding a project.');
         }
     }
+    else {
+    }
+};
+
+export const insertMany = new ValidatedMethod({
+    name: 'exchangeItems.insertMany',
+    validate: new SimpleSchema({
+        itemArray: {
+            type: [Object],
+            minCount: 1,
+            maxCount: UPLOAD_LIMITS.projects,
+        },
+        "itemArray.$.title": {
+            type: String,
+        },
+        "itemArray.$.description": {
+            type: String,
+        },
+        "itemArray.$.tag": {
+            type: String,
+            optional: true,
+        },
+        "itemArray.$.available": {
+            type: Boolean,
+            defaultValue: true,
+        },
+        "itemArray.$.imageLinks": {
+            type: [String],
+            minCount: 1,
+            maxCount: UPLOAD_LIMITS.images
+        },
+    }).validator(),
+    run({ itemArray }) {
+        if (this.userId) {
+            const userId = this.userId;
+
+            itemArray.forEach(function(item) {
+                insert(item.title, item.description, item.imageLinks, item.available, item.tag, userId);
+            });
+        }
+    },
 });
 
 export const edit = new ValidatedMethod({
@@ -89,6 +146,10 @@ export const edit = new ValidatedMethod({
             type: String,
             optional: true
         },
+        location: {
+            type: String,
+            optional: true,
+        },
         imageLinks: {
             type: [String],
             optional: true  //NOTE: it's not necessary to re-add an image, even though at least one is required to be there for an exchangeItem.
@@ -101,13 +162,14 @@ export const edit = new ValidatedMethod({
             optional: true
         },
     }).validator(),
-    run({ exchangeItemId, title, description, imageLinks, available, tag }) {
+    run({ exchangeItemId, title, description, location, imageLinks, available, tag }) {
         if (this.userId) {
             console.log('in method exchangeItems.insert');
 
-            title = sanitizeHtml(title);
-            description = sanitizeHtml(description);
-            tag = sanitizeHtml(tag);
+            title = title ? sanitizeHtml(title) : title;
+            description = description ? sanitizeHtml(description) : description;
+            location = location ? sanitizeHtml(location) : location;
+            tag = tag ? sanitizeHtml(tag) : tag;
 
             //truncate the imageLinks array
             if (imageLinks)
@@ -124,6 +186,7 @@ export const edit = new ValidatedMethod({
                  supposed to.
                  */
 
+                console.log(exchangeItem);
                 throw new Meteor.Error('exchangeItems.edit.accessDenied',
                     'You don\'t have permission to edit this item.');
             }
@@ -135,8 +198,9 @@ export const edit = new ValidatedMethod({
                     $set: {
                         title: (title && isFirstOwner) ? title : exchangeItem.title,
                         description: (description && isFirstOwner) ? description : exchangeItem.description,
-                        imageLinks: imageLinks ? imageLinks : exchangeItem.imageLinks,
-                        available: available ? available : exchangeItem.available,
+                        location: location ? location : exchangeItem.location,
+                        //imageLinks: (imageLinks && imageLinks.length) ? imageLinks : exchangeItem.imageLinks,  //TODO: items MUST have a least one image link
+                        available: available,
                         tag: tag ? tag : exchangeItem.tag,
                     }
                 });
@@ -150,10 +214,6 @@ export const edit = new ValidatedMethod({
                             addendums: description,
                         }
                     });
-            }
-
-            if (title && !isFirstOwner) {
-                //TODO: throwError to the client here, saying that you can't change the title of an item that wasn't originally yours.
             }
         }
         else {
@@ -173,30 +233,36 @@ export const deleteItem = new ValidatedMethod({
     run({ exchangeItemId }) {
         console.log('in method exchangeItems.deleteItem');
 
-        //TODO: think about whether it's appropriate to let a user to delete a locked item that they own (since it's in transit)
+        if (this.userId) {
 
-        const exchangeItem = ExchangeItems.findOne(exchangeItemId);
+            //TODO: think about whether it's appropriate to let a user to delete a locked item that they own (since it's in transit)
 
-        if (!exchangeItem || !exchangeItem.editableBy(this.userId)) {
-            /*
-             NOTE: throwing a Meteor.Error will fail the client-side
-             simulation, preventing the server-side Method from ever being run.
-             So my hacky solution is to have a client-only editableBy(), which always
-             returns true, and a server-only editableBy, which checks what it's
-             supposed to.
-            */
+            const exchangeItem = ExchangeItems.findOne(exchangeItemId);
 
-            throw new Meteor.Error('exchangeItems.delete.accessDenied',
-                'You don\'t have permission to delete this item.');
+            if (!exchangeItem || !exchangeItem.editableBy(this.userId)) {
+                /*
+                 NOTE: throwing a Meteor.Error will fail the client-side
+                 simulation, preventing the server-side Method from ever being run.
+                 So my hacky solution is to have a client-only editableBy(), which always
+                 returns true, and a server-only editableBy, which checks what it's
+                 supposed to.
+                 */
+
+                throw new Meteor.Error('exchangeItems.delete.accessDenied',
+                    'You don\'t have permission to delete this item.');
+            }
+
+            ExchangeItems.remove(exchangeItemId);
+
+            //points system:
+            const userAttributes = UserAttributes.findOne({userId: this.userId});
+            if (userAttributes) {
+                //Call the server-only method updateRank on UserAttributes, and remove points
+                userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd * -1);
+            }
         }
-
-        ExchangeItems.remove(exchangeItemId);
-
-        //points system:
-        const userAttributes = UserAttributes.findOne({userId: this.userId});
-        if (userAttributes) {
-            //Call the server-only method updateRank on UserAttributes, and remove points
-            userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd * -1);
+        else {
+            console.log('[accessDenied] You must be signed in to edit an item.');
         }
     },
 });
@@ -380,7 +446,8 @@ export const updateRank = (itemId, amount) => {
 
 // Get list of all method names on Lists
 const USERATTRIBUTES_METHODS = _.pluck([
-    insert,
+    //insert,
+    insertMany,
     edit,
     deleteItem,
     //lock,

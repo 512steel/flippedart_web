@@ -36,6 +36,14 @@
                     <strong>tag:</strong> {{tag}}
                 </p>
             {{/if}}
+
+            <p class="push-down-sm">
+                <strong>locked:</strong> {{locked}}
+            </p>
+            <p class="push-down-sm">
+                <strong>available:</strong> {{available}}
+            </p>
+
             <p class="push-down-sm">
                 <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
             </p>
@@ -46,7 +54,7 @@
                 {{#if showItemEdit}}
                     <button class="btn-sm pull-right item-edit bg-primary">cancel editing</button>
 
-                    <p>should item_edit</p>
+                    {{> item_edit}}
                 {{else}}
                     <h3>{{title}}</h3>
                     <p class="push-down-sm"><strong>description:</strong> {{description}}</p>
@@ -69,6 +77,14 @@
                     {{#if tag}}
                         <p class="push-down-sm"><strong>tag:</strong> {{tag}}</p>
                     {{/if}}
+
+                    <p class="push-down-sm">
+                        <strong>locked:</strong> {{locked}}
+                    </p>
+                    <p class="push-down-sm">
+                        <strong>available:</strong> {{available}}
+                    </p>
+
                     <p class="push-down-sm">
                         <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
                     </p>
@@ -111,6 +127,14 @@
                         <strong>tag:</strong> {{tag}}
                     </p>
                 {{/if}}
+
+                <p class="push-down-sm">
+                    <strong>locked:</strong> {{locked}}
+                </p>
+                <p class="push-down-sm">
+                    <strong>available:</strong> {{available}}
+                </p>
+
                 <p class="push-down-sm">
                     <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
                 </p>

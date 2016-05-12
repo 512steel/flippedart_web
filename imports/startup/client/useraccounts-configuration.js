@@ -28,6 +28,13 @@ AccountsTemplates.addFields([
     displayName: "username",
     required: true,
     minLength: 3,
+
+    /*
+     TODO: this is the username blacklist, since routes are configured with '/:username' off the root.
+     Is there a cleaner way to configure this regex, pulling from a global USERNAME_BLACKLIST variable?
+    */
+    re: /^((?!(\bsignin\b|\bjoin\b|\breset-password\b|\babout\b|\bmake\b|\bfeedback\b|\bpolicies\b|\bdonate\b|\bmessages\b|\badd\b|\bexchanges\b|\btop\b|\bexplore\b|\baccount\b|\badmin\b)).)*$/,
+    errStr: 'Reserved username',
   },
   {
     _id: 'email',

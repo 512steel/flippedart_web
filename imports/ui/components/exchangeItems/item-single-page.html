@@ -20,16 +20,17 @@
         </p>
     {{else}}
         {{#if isItemOwner}}
-            <p><strong>ITEM_SUBMIT template here</strong></p>
-            <!--TODO: re-add  {{> item_submit}}-->
 
-            <!--FIXME: show the actual state of the item here: "locked"/"unlocked", "(un)available", transaction state (if it's involved in one)-->
+            <!--FIXME: show the actual state of the item here:  transaction state (if it's involved in one)-->
             {{#if isExchangeItemAvailable}}
                 <p>This item is available for other people to check out.</p>
             {{else}}
                 <p>This item is not available for other people to check out.</p>
 
             {{/if}}
+
+            {{> item_submit}}
+
             <p>
                 <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
                     See the rest of your projects

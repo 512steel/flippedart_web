@@ -2,14 +2,19 @@
 
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Cloudinary } from 'meteor/lepozepo:cloudinary';
 
 import { ExchangeItems } from '../../../api/exchange-items/exchange-items.js';
 import {
-    insert as exchangeItemInsert,
+    //insert as exchangeItemInsert,
+    insertMany as exchangeItemsInsertMany,
     edit as exchangeItemEdit,
     deleteItem as exchangeItemDeleteItem } from '../../../api/exchange-items/methods.js';
 
 import { requestTransaction } from '../../../api/transactions/methods.js';
+
+import { UPLOAD_LIMITS,
+         PROJECT_TAGS } from '../../lib/globals.js';
 
 
 import './item-single-page.html';
@@ -30,7 +35,8 @@ Template.item_single_page.onCreated(function itemSinglePageOnCreated() {
 });
 
 Template.items_user_all.onCreated(function() {
-    this.requestedItems = new ReactiveVar([]);
+    this.requestedProjectNames = new ReactiveVar([]);
+    this.requestedProjectIDs = new ReactiveVar([]);
 
     this.getPageUsername = () => FlowRouter.getParam('username');
     this.getExchangeItems = () => ExchangeItems.find({});
@@ -66,6 +72,10 @@ Template.item_submit.onCreated(function itemSubmitOnCreated() {
     this.autorun(() => {
 
     });
+
+    Session.set('itemsToSubmit', [currentSessionItemId]);
+    Session.set('itemSubmitErrors', {}); //TODO: get rid of this?
+    Session.set('areItemsUploading', false);
 });
 
 
@@ -125,8 +135,11 @@ Template.items_user_all.helpers({
     currentPageUsername: function() {
         return Template.instance().getPageUsername();
     },
-    requestedItems: function() {
-        return Template.instance().requestedItems.get();
+    requestedProjectNames: function() {
+        return Template.instance().requestedProjectNames.get();
+    },
+    requestedProjectIDs: function() {
+        return Template.instance().requestedProjectIDs.get();
     },
     isExchangeItemAvailable: function (exchangeItem) {
         return (exchangeItem.available && !exchangeItem.locked);
@@ -162,21 +175,47 @@ Template.item_single_card.helpers({
 });
 
 Template.item_edit.helpers({
-
+    isFirstOwner: function() {
+        return !this.pastOwnerNames.length;
+        //TODO: display a tooltip informing the client that the title of a project can't be changed once it's changed owners
+    },
+    isAvailable: function() {
+        return this.available;
+    }
 });
 
 Template.item_submit.helpers({
-
+    singleItems: function() {
+        //user can choose to upload multiple items at once, each contained within
+        //its own "single_item_submit" template,
+        return Session.get('itemsToSubmit');
+    },
+});
+Template.add_items_button.helpers({
+    hasSingleItems: function() {
+        return Session.get('itemsToSubmit').length;
+    },
+    isUploading: function() {
+        return Session.get('areItemsUploading');
+    },
+    uploadingCopy: function() {
+        return "Uploading...";
+    },
+    addProjectCopy: function() {
+        if (Session.get('itemsToSubmit').length > 1)
+            return 'Add projects';
+        else
+            return 'Add project';
+    }
+});
+Template.single_item_submit.helpers({
+    projectTags: function() {
+        return PROJECT_TAGS;
+    }
 });
 
 
 Template.item_single_page.events({
-    /*'change .request-checkout-checkbox': function (e, template) {
-        /!* TODO: look at this & put in the inventory page *!/
-        var isOneChecked = $(".item-request-form input[type='checkbox']:checked").length > 0;
-
-        $('.item-request-form-button').prop('disabled', !isOneChecked);
-    },*/
     'click form .single-item-request-form-button': function(e) {
         e.preventDefault();
 
@@ -204,69 +243,46 @@ Template.items_user_all.events({
 
         var isOneChecked = $(".item-request-form input[type='checkbox']:checked").length > 0;
 
-        console.log(isOneChecked);
-        console.log(e.target);
-        console.log($(e.target));
-        console.log($(e.target).parent());
-
-        var arr = Template.instance().requestedItems.get();
+        var nameArr = Template.instance().requestedProjectNames.get();
+        var idArr = Template.instance().requestedProjectIDs.get();
         if (e.target.checked) {
-            arr.push(this.title);
+            //push projects to reactive arrays
+            nameArr.push(this.title);
+            idArr.push(this._id);
         }
         else {
-            var index = arr.indexOf(this.title);
-            if (index > -1) {
-                arr.splice(index, 1);
-            }
-        }
-        Template.instance().requestedItems.set(arr);
+            //remove projects from reactive arrays
+            var index = nameArr.indexOf(this.title);
+            if (index > -1)
+                nameArr.splice(index, 1);
 
-        $('.item-request-form-button').prop('disabled', !isOneChecked);
+            index = idArr.indexOf(this._id);
+            if (index > -1)
+                idArr.splice(index, 1);
+        }
+        Template.instance().requestedProjectNames.set(nameArr);
+        Template.instance().requestedProjectIDs.set(idArr);
+
+        $('.multiple-item-request-form-button').prop('disabled', !isOneChecked);
     },
     'click .multiple-item-request-form-button': function(e) {
         e.preventDefault();
+        console.log('in multi-request event')
 
-        /*
-         FIXME: this is similar to the "request" event above - make naming conventions etc. consistent.
-        */
+        const projectIds = Template.instance().requestedProjectIDs.get();
+        if (projectIds.length && Meteor.user()) {
+            console.log('about to requestTransaction() for multiple projects!');
 
-        if (this.user && Meteor.user()) {
-            if (this.user._id != Meteor.userId()) {
-                var itemIds = [];
-                var requesteeUsername = this.user.username;
+            requestTransaction.call({
+                requesteeName: Template.instance().getPageUsername(),
+                itemIds: projectIds,
+            }/*, throwError */);
 
-                $(".item-request-form input[type='checkbox']:checked").each(function() {
-                    itemIds.push($(this).closest('.inventory-single-item').find('.inventory-single-item-id').text());
-                });
-
-                var transaction = {
-                    requesteeId: this.user._id,
-                    itemIds: itemIds
-                };
-
-                Meteor.call('transactionInsert', transaction, function(error, result) {
-                    if (error) {
-                        throwError(error.reason);
-                    }
-                    else {
-                        //a chatSession is created inside of transactionInsert(), to route to it here
-                        Router.go('chatWindow', {
-                            username: requesteeUsername
-                        });
-
-                    }
-                });
-            }
+            //TODO: router.go('chatWindow');
         }
-
-        /*This does the following:
-         -start a transaction and put it in the "requested" state,
-         -start a chatSession between the currentUser and this user's page (assuming they're different),
-         -send a notification to the requestee
-         -redirect this user to the newly-created chatSession ('/messages/:otherUsername')
-         -if no messages have been sent it'll display a call-to-send-first-message-action
-         -disallow the items to be "re-requested" while the transaction is in-progress (any state other than "denied")
-         */
+        else {
+            console.log('[error] Could not make the transaction request');
+        }
     }
 });
 
@@ -284,9 +300,197 @@ Template.item_single_card.events({
 });
 
 Template.item_edit.events({
+    'submit form.item-edit-form': function(e, template) {
+        e.preventDefault();
 
+        console.log(this);
+
+        const title = $(e.target).find('[name=title]').val();
+        const description = $(e.target).find('[name=description]').val();
+        const location = $(e.target).find('[name=location]').val();
+        const imageLinks = $(e.target).find('[name=imageLinks]').val();
+        const available = $(e.target).find('[name=availableCheckbox]').is(':checked');
+        const tag = $(e.target).find('[name=tag]').val();
+
+        exchangeItemEdit.call({
+            exchangeItemId: this._id,
+            title: title ? title : this.title,
+            description: description ? description : this.description,
+            location: location ? location : this.location,
+            imageLinks: imageLinks ? imageLinks : this.imageLinks,  //TODO: ability to edit or add to a project's imageLinks array
+            available: available,
+            tag: tag ? tag : this.tag,  //TODO: add a "tag" edit field
+        }/*, displayError */);
+
+        //TODO: reset the reactiveVar "showItemEdit" after this
+
+    },
+    'click .delete-item': function(e) {
+        e.preventDefault();
+
+        //TODO: sweet alert for nicer looking "confirm" and "alert" boxes
+        if (confirm("Are you sure you want to delete this project?  It won't be available for people to checkout any longer.")) {
+            exchangeItemDeleteItem({
+                exchangeItemId: this._id,
+            })
+        }
+    }
 });
 
 Template.item_submit.events({
+    'click .item-submit-add-single-item': function(e) {
+        e.preventDefault();
 
+        if ($(".single-item-form").length >= UPLOAD_LIMITS.projects) {
+            //TODO: throw a visible error to the client here
+            console.log('Sorry, you can\'t add more than ' + UPLOAD_LIMITS.projects + ' projects at one time');
+        }
+        else {
+            //for some reason, pushing directly to the session variable returns a number, not an array
+            var arr = Session.get('itemsToSubmit');
+
+            if (arr.length < UPLOAD_LIMITS.projects) {
+                arr.push(nextSessionItemId());
+                Session.set('itemsToSubmit', arr);
+            }
+        }
+    },
+    'submit form.item-submit-form': function (e) {
+        e.preventDefault();
+
+        var items = [];
+        var erros = {};
+        var currentItemsCount = $(".single-item-form").length;
+        var successfulItems = 0;
+
+        if (currentItemsCount > UPLOAD_LIMITS.projects) {
+            console.log('Please add a maximum of ' + UPLOAD_LIMITS.projects + ' projects at a time.');
+            //FIXME: throwError visibly to the client
+        }
+        else {
+            Session.set('areItemsUploading', true);
+
+            $(e.target).find('.single-item-form').each(function(idx) {
+                var formToClose = $(this).find('.close-single-item-submit');
+
+                var titleVal = $(this).find('.single-item-title').val();
+                var descriptionVal = $(this).find('.single-item-description').val();
+                var tagVal = $(this).find('.single-item-tag').val();
+                var availableVal = $(this).find('.single-item-available').is(':checked');
+
+                $(this).find('input[type="file"]').each(function() {
+                    var files = this.files;
+                    var imageLinks = [];
+
+                    for (var i = 0; i < files.length; i++) {
+                        if (files[i].size > 2000000) {
+                            //FIXME: throw this error visibly to client
+                            console.log("One of your images is bigger than the 2MB upload limit");
+                            Session.set('areItemsUploading', false);
+                            return;
+                        }
+                    }
+
+                    if (files.length > UPLOAD_LIMITS.images) {
+                        //FIXME: throw this error visibly to client
+                        console.log('Sorry, one of your items has ' + files.length.toString() + ' images.  The maximum you can upload is ' + UPLOAD_LIMITS.images + '.');
+                        Session.set('areItemsUploading', false);
+                    }
+                    else if (files.length > 0) {
+                        var fileIndex = 0;
+                        Cloudinary.upload(files, {
+                            folder: "secret"  //FIXME: change this folder to "flippedart"
+                        }, function(error, result) {
+                            if (error) {
+                                //FIXME: throw error visibly to client
+                                console.log(error);
+                            }
+
+                            //FIXME - since Cloudinary.upload() is asynchronous there's no way to check if there's an error before submitting the userPost and it will likely hang on `null.public_id`
+                            // -- can we check "if (result) first?"
+
+                            imageLinks.push(result.public_id);
+
+                            var item = {
+                                title: titleVal,
+                                description: descriptionVal,
+                                tag: tagVal ? tagVal : " ",
+                                available: availableVal,
+                                imageLinks: imageLinks
+                            };
+
+                            /*errors = validateExchangeItem(item);
+                            if (errors.title || errors.description || errors.imageLinks) {
+                                return Session.set('itemSubmitErrors', errors);
+                            }*/
+
+                            fileIndex++;  //hack to only insert the post after all photos are uploaded
+                            if (fileIndex >= files.length) {
+
+                                //FIXME: remove one of the outer loops to insert all items at once
+                                exchangeItemsInsertMany.call({
+                                    itemArray: [item]
+                                }, (err, res) => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    else {
+                                        formToClose.trigger('change');
+                                        successfulItems++;
+
+                                        if (successfulItems == currentItemsCount) {
+                                            if (currentItemsCount > 1) {
+                                                //FIXME: throwSuccess visibly to client
+                                                console.log('Your projects have been added!');
+                                            }
+                                            else {
+                                                //FIXME: throwSuccess visibly to client
+                                                console.log('Your project has been added!');
+                                            }
+
+                                            //reset the item submit forms
+                                            var arr = [nextSessionItemId()];
+                                            Session.set('itemsToSubmit', arr);
+                                            Session.set('areItemsUploading', false);
+
+                                            //FIXME: flowrouter.go(user inventory page);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        //FIXME: throw this error visibly to client
+                        console.log("You must include at least one photo per project.");
+                        Session.set('areItemsUploading', false);
+                    }
+                });
+            });
+        }
+    }
 });
+
+Template.single_item_submit.events({
+    'click .close-single-item-submit': function(e, template) {
+        var arr = Session.get('itemsToSubmit');
+        arr.splice(arr.indexOf(parseInt(this)), 1);
+        Session.set('itemsToSubmit', arr);
+        return false;
+    },
+    'change .close-single-item-submit': function(e, template) {
+        //this removes item-submit forms from the session one by one, in case many are submitted and only one throws errors
+        e.preventDefault();
+        var arr = Session.get('itemsToSubmit');
+        arr.splice(arr.indexOf(parseInt(this)), 1);
+        Session.set('itemsToSubmit', arr);
+    }
+});
+
+
+var currentSessionItemId = 1;
+var nextSessionItemId = function() {
+    //always increment
+    currentSessionItemId += 1;
+    return currentSessionItemId;
+};
