@@ -41,11 +41,11 @@ Template.items_user_all.onCreated(function() {
     this.getPageUsername = () => FlowRouter.getParam('username');
     this.getExchangeItems = () => ExchangeItems.find({});
 
-    const transactionsSortOptions = {sort: {createdAt: -1}};
+    const projectSortOptions = {sort: {createdAt: -1}};
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('exchangeItems.user', this.getPageUsername(), transactionsSortOptions);
+        this.subscribe('exchangeItems.user', this.getPageUsername(), projectSortOptions);
     });
 });
 
@@ -158,6 +158,22 @@ Template.item_single_card.helpers({
             return exchangeItem.ownerName == currentUser.username;
         }
     },
+    addendumsWithAuthors: function() {
+        const exchangeItem = Template.instance().getExchangeItem();
+
+        var addendumsWithAuthorsArr = [];
+        const addendumAuthorsLength = exchangeItem.addendumAuthors ? exchangeItem.addendumAuthors.length : 0;
+        for (var i = 0; i < addendumAuthorsLength; i++) {
+            addendumsWithAuthorsArr.push(
+                {
+                    addendum: exchangeItem.addendums[i],
+                    author: exchangeItem.addendumAuthors[i],
+                }
+            );
+        }
+
+        return addendumsWithAuthorsArr;
+    },
 
     showItemEdit: function() {
         if (this && !this.locked) {
@@ -232,7 +248,19 @@ Template.item_single_page.events({
             requestTransaction.call({
                 requesteeName: Template.instance().getPageUsername(),
                 itemIds: itemIds,
-            }/*, throwError */);
+            }, (err, res) => {
+                if (err) {
+                    //FIXME: throwError visibly to client
+                    console.log(err);
+                }
+                else {
+                    //FIXME: throwSuccess visibly to the client
+                    console.log('You have successfully requested this project.');
+
+                    //NOTE: 'res' is the return value of the newly-inserted Transaction.
+                    FlowRouter.go('exchanges.user.single', {exchangeId: res});
+                }
+            });
         }
     }
 });
@@ -290,12 +318,8 @@ Template.item_single_card.events({
     'click .item-edit': function (e, template) {
         e.preventDefault();
 
-        console.log('clicked .item-edit event');
-
         //toggle the "item edit" template
         template.showItemEdit.set(!template.showItemEdit.get());
-
-
     }
 });
 
@@ -322,7 +346,8 @@ Template.item_edit.events({
             tag: tag ? tag : this.tag,  //TODO: add a "tag" edit field
         }/*, displayError */);
 
-        //TODO: reset the reactiveVar "showItemEdit" after this
+        //NOTE: using parent() is ugly, but it's the only way I could think of to get the value of item_single_card's reactiveVar from this template
+        Template.instance().parent().showItemEdit.set(!Template.instance().parent().showItemEdit.get());
 
     },
     'click .delete-item': function(e) {
@@ -464,7 +489,8 @@ Template.item_submit.events({
                                             Session.set('itemsToSubmit', arr);
                                             Session.set('areItemsUploading', false);
 
-                                            //FIXME: flowrouter.go(user inventory page);
+                                            if (Meteor.user())
+                                                FlowRouter.go('profile.projects', {username: Meteor.user().username});
                                         }
                                     }
                                 });

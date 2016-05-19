@@ -1,41 +1,42 @@
-<template name="transaction_listing">
-    <p>Exchange Listing</p>
+<template name="transaction_card">
+    <p>Transaction card</p>
 
     {{#if isTransactionRequested}}
         {{#if isCurrentUserRequestee}}
-            <p>Button to let this requestee 'approve' the request.</p>
-            <p>Button to let this requestee 'decline' the request.</p>
+            <button class="btn-transaction-approve">Approve</button>
+            <button class="btn-transaction-decline">Decline</button>
+            (todo: tooltips)
         {{else}}
-            <p>Button to let this requester 'cancel' the request.</p>
+            <button class="btn-transaction-cancel">Cancel request</button>
         {{/if}}
     {{else}}
         {{#if isTransactionApproved}}
             {{#if isCurrentUserRequestee}}
-                <p>Button to let this requestee 'complete' the request.</p>
-                <p>Button to let this requestee 'decline' the request.</p>
+                <button class="btn-transaction-complete">Complete</button>
+                <button class="btn-transaction-decline">Decline</button>
             {{else}}
-                <p>Button to let this requester 'cancel' the request.</p>
+                <button class="btn-transaction-cancel">Cancel request</button>
             {{/if}}
         {{else}}
             {{#if isTransactionCompleted}}
                 {{#if isCurrentUserRequestee}}
-                    <p>[Disabled] notice that the current requestee has 'completed' this transaction.</p>
+                    <button disabled>You have completed this exchange</button>
                 {{else}}
-                    <p>[Disabled] notice to the current requester that the transaction has been 'completed'.</p>
+                    <button disabled>{{requesterName}} has completed this exchange</button>
                 {{/if}}
             {{else}}
                 {{#if isTransactionDeclined}}
                     {{#if isCurrentUserRequestee}}
-                        <p>[Disabled] notice that the current requestee has 'declined' this transaction.</p>
+                        <button disabled>You have declined this exchange</button>
                     {{else}}
-                        <p>[Disabled] notice to the current requester that the transaction has been 'declined'.</p>
+                        <button disabled>{{requesteeName}} has declined this exchange</button>
                     {{/if}}
                 {{else}}
                     {{#if isTransactionCancelled}}
                         {{#if isCurrentUserRequestee}}
-                            <p>[Disabled] notice to the current requestee that the transaction has been 'cancelled'.</p>
+                            <button disabled>{{requesterName}} has canceled this exchange</button>
                         {{else}}
-                            <p>[Disabled] notice that the current requester has 'cancelled' this transaction.</p>
+                            <button disabled>You have canceled this exchange</button>
                         {{/if}}
                     {{/if}}
                 {{/if}}
@@ -46,6 +47,7 @@
     <p class="clearfix push-down-sm">
         {{#if isCurrentUserRequestee}}
 
+            <!-- FIXME: chronologicalUserPosts route -> user profile page -->
             <a href="{{pathFor 'chronologicalUserPosts' username=requesterName}}">
                 {{requesterName}}
             </a>

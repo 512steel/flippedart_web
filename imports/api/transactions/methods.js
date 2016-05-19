@@ -108,8 +108,7 @@ export const requestTransaction = new ValidatedMethod({
 
                 createTransactionStateNotification(newTransactionId);
 
-                FlowRouter.go('exchanges.user.single', {exchangeId: newTransactionId});
-                console.log('gone to transaction page?');
+                return newTransactionId;  //NOTE: this return is used for redirecting the user to the transaction page via FlowRouter.
             }
             else {
                 console.log(requester);

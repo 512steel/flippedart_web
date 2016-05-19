@@ -29,6 +29,7 @@ callback-hook@1.0.8
 cfs:http-methods@0.0.32
 check@1.2.1
 chriswessels:hammer@4.0.2
+chuangbo:cookie@1.1.0
 coffeescript@1.0.17
 cosmos:browserify@0.5.1
 crosswalk@1.6.2
@@ -75,6 +76,10 @@ mdg:validated-method@1.1.0
 mdg:validation-error@0.5.1
 meteor@1.1.14
 meteor-base@1.0.4
+meteorhacks:fast-render@2.14.0
+meteorhacks:inject-data@2.0.0
+meteorhacks:meteorx@1.4.1
+meteorhacks:picker@1.0.3
 meteorspark:util@0.2.0
 meteortoys:toykit@3.0.4
 minifier-css@1.1.11

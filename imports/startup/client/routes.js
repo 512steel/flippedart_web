@@ -121,19 +121,6 @@ FlowRouter.route('/add', {
     },
 });
 
-FlowRouter.route('/exchanges', {
-    name: 'exchanges.user',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_transactions' });
-    },
-});
-FlowRouter.route('/exchanges/:exchangeId', {
-    name: 'exchanges.user.single',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_single_transaction' });
-    },
-});
-
 FlowRouter.route('/top/:thing', {
     name: 'top.thing',
     action() {
@@ -153,6 +140,37 @@ FlowRouter.route('/account', {
         BlazeLayout.render('App_body', { main: 'user_account_page' });
     },
 });
+
+
+FlowRouter.route('/:username/exchanges', {
+    name: 'exchanges.user',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_transactions' });
+    },
+});
+FlowRouter.route('/:username/exchanges/:exchangeId', {
+    name: 'exchanges.user.single',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_single_transaction' });
+    },
+});
+/*
+    The following two are aliases for the '/exchanges' route.
+    TODO: when using the FlowRouter.go() method, include the :username param for more semantic routes?
+*/
+FlowRouter.route('/exchanges', {
+    name: 'exchanges.user',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_transactions' });
+    },
+});
+FlowRouter.route('/exchanges/:exchangeId', {
+    name: 'exchanges.user.single',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_single_transaction' });
+    },
+});
+
 
 FlowRouter.route('/:username/post/:userPostId', {
     name: 'profile.post',

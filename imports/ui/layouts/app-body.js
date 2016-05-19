@@ -108,6 +108,7 @@ Template.App_body.events({
   },
 
   'click .js-logout'() {
+    //FIXME: this should be AccountsTemplates.logout() instead of Meteor.logout().
     Meteor.logout();
 
     // if we are on a private list, we'll need to go to a public one

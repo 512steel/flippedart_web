@@ -70,6 +70,10 @@ ExchangeItems.schema = new SimpleSchema({
         type: [String],
         optional: true,
     },
+    addendumAuthors: {
+        type: [String],
+        optional: true,
+    },
     rank: {
         type: Number,
     },
@@ -100,6 +104,7 @@ ExchangeItems.publicFields = {
     available: 1,
     locked: 1,
     addendums: 1,
+    addendumAuthors: 1,
     //rank: 1,  //
     pastOwnerNames: 1,
     createdAt: 1,

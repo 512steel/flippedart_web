@@ -1,14 +1,14 @@
 <template name="user_transactions">
     {{#if currentUser }}
         <div class="col-sm-12 content-scrollable">
-            <h1>Your Exchanges</h1>
+            <h1>Your project exchanges</h1>
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xxs-12">
                     <h2>Requested:</h2>
                     <div class="push-down">
                         {{#each requestedExchanges}}
                             <div class="clearfix">
-                                {{> transaction_listing }}
+                                {{> transaction_card }}
                                 <hr>
                             </div>
                         {{else}}
@@ -21,7 +21,7 @@
                     <div class="push-down">
                         {{#each pendingExchanges}}
                             <div class="clearfix">
-                                {{> transaction_listing }}
+                                {{> transaction_card }}
                                 <hr>
                             </div>
                         {{else}}
@@ -34,7 +34,7 @@
                     <div class="push-down">
                         {{#each completedExchanges}}
                             <div class="clearfix">
-                                {{> transaction_listing }}
+                                {{> transaction_card }}
                                 <hr>
                             </div>
                         {{else}}
@@ -47,7 +47,7 @@
                     <div class="push-down">
                         {{#each terminatedExchanges}}
                             <div class="clearfix">
-                                {{> transaction_listing }}
+                                {{> transaction_card }}
                                 <hr>
                             </div>
                         {{else}}

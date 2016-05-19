@@ -27,8 +27,8 @@
                 <p class="push-down-sm">
                     <strong>additional details:</strong>
                 </p>
-                {{#each addendums}}
-                    <p class="push-down-sm">{{this}}</p>
+                {{#each addendumsWithAuthors}}
+                    <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
                 {{/each}}
             {{/if}}
             {{#if tag}}
@@ -71,17 +71,18 @@
                     {{/each}}
                     {{#if addendums}}
                         <p class="push-down-sm"><strong>additional details:</strong></p>
-                        {{#each addendums}}
-                            <p class="push-down-sm">{{this}}</p>
+                        {{#each addendumsWithAuthors}}
+                            <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
                         {{/each}}
                     {{/if}}
                     {{#if tag}}
                         <p class="push-down-sm"><strong>tag:</strong> {{tag}}</p>
                     {{/if}}
 
-                    <p class="push-down-sm">
-                        <strong>locked:</strong> {{locked}}
-                    </p>
+                    {{#if locked}}
+                        <p class="push-down-sm">You cannot edit or delete this project because it is locked.</p>
+                    {{/if}}
+
                     <p class="push-down-sm">
                         <strong>available:</strong> {{available}}
                     </p>
@@ -119,8 +120,8 @@
                     <p class="push-down-sm">
                         <strong>additional details:</strong>
                     </p>
-                    {{#each addendums}}
-                        <p class="push-down-sm">{{this}}</p>
+                    {{#each addendumsWithAuthors}}
+                        <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
                     {{/each}}
                 {{/if}}
                 {{#if tag}}

@@ -5,15 +5,19 @@
             <div class="form-group">
                 <div class="controls">
 
+                    <p>Title:</p>
                     {{#unless isFirstOwner}}
                         <input name="title" type="text" value="{{title}}" disabled />
                     {{else}}
                         <input name="title" type="text" value="{{title}}" />
                     {{/unless}}
 
-                    <label class="control-label">{{#unless isFirstOwner}}Make an addendum to this item's description{{else}}Description{{/unless}} </label><br>
+                    <br>
+
+                    <label class="control-label">{{#unless isFirstOwner}}Make an addendum to this item's description:{{else}}Description:{{/unless}} </label><br>
                     <input name="description" type="text" value="{{lastAddendum}}" placeholder="Update this project's description" class="form-control" maxlength="5000"/><br>
 
+                    <p>Tag:</p>
                     <input name="location" type="text" value="{{location}}" placeholder="New location" class="form-control" maxlength="500"/><br>
                 </div>
             </div>

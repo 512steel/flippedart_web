@@ -73,6 +73,7 @@ export const insert = (title, description, imageLinks, available, tag, userId) =
                 available: available,
                 locked: false,
                 addendums: [],
+                addendumAuthors: [],
                 rank: 0,
                 pastOwnerNames: [],
                 createdAt: new Date(),
@@ -208,12 +209,36 @@ export const edit = new ValidatedMethod({
             // A little wonky, but this pushes any subsequent owners' descriptions as "addendums" rather
             // than allowing them to edit the description that the original owner gave.
             if (description && !isFirstOwner) {
-                ExchangeItems.update(exchangeItem,
-                    {
-                        $push: {
-                            addendums: description,
-                        }
-                    });
+
+                const isLastAddendumAuthor = (exchangeItem.addendumAuthors &&
+                                              exchangeItem.addendumAuthors.length &&
+                                              exchangeItem.addendumAuthors.length == exchangeItem.addendums.length &&
+                                              exchangeItem.ownerName == exchangeItem.addendumAuthors[exchangeItem.addendumAuthors.length-1]);
+
+                //Allow a user to edit their own addendum
+                if (isLastAddendumAuthor) {
+                    ExchangeItems.update(exchangeItem._id,
+                        {
+                            $pop: {
+                                addendums: 1
+                            }
+                        });
+                    ExchangeItems.update(exchangeItem._id,
+                        {
+                            $push: {
+                                addendums: description
+                            }
+                        });
+                }
+                else {
+                    ExchangeItems.update(exchangeItem._id,
+                        {
+                            $push: {
+                                addendums: description,
+                                addendumAuthors: exchangeItem.ownerName,
+                            }
+                        });
+                }
             }
         }
         else {

@@ -13,26 +13,26 @@ import {
 
 import { Transactions } from '../../../api/transactions/transactions.js';
 import {
-    requestTransaction,
+    //requestTransaction,  //this is done from the exchangeItems-components.js file.
     approveTransaction,
     completeTransaction,
     declineTransaction,
     cancelTransaction } from '../../../api/transactions/methods.js';
 
-import './transaction-listing.html';
+import './transaction-card.html';
 import './user-transactions.html';
 import './single-transaction.html';
 
-Template.transaction_listing.onCreated(function transactionListingOnCreated() {
+Template.transaction_card.onCreated(function transactionCardOnCreated() {
 
     //TODO: keep an eye on this in case more data is passed into the template.
     this.transaction = () => this.data;
 
-    this.isCurrentUserRequestee = () => {
+    /*this.isCurrentUserRequestee = () => {
         const currentUser = Meteor.user();
         if (currentUser && currentUser.username == this.transaction().requesteeName)
             return true;
-    };
+    };*/
 
     // Subscriptions go in here
     this.autorun(() => {
@@ -86,13 +86,20 @@ Template.user_single_transaction.onRendered(function userSingleTransactionOnRend
 
 //Note: the lack of control-flow in spacebars makes this pretty janky.
 
-Template.transaction_listing.helpers({
+Template.transaction_card.helpers({
     isCurrentUserRequestee: function() {
         const currentUser = Meteor.user();
         const transaction = Template.instance().transaction();
         if (currentUser && transaction &&
             (currentUser.username == transaction.requesteeName))
             return true;
+    },
+
+    requesterName: function() {
+        return Template.instance().transaction().requesterName;
+    },
+    requesteeName: function() {
+        return Template.instance().transaction().requesteeName;
     },
 
     isTransactionRequested: function() {
@@ -119,19 +126,6 @@ Template.transaction_listing.helpers({
         const transaction = Template.instance().transaction();
         if (transaction && transaction.state == 'cancelled')
             return true;
-    },
-
-    advanceButtonCopy: function() {
-        if (this && this.state) {
-            switch (this.state) {
-                case 'requested':
-                    return 'Approve this request';
-                case 'pending':
-                    return 'Complete this request';
-                default:
-                    return 'Completed';
-            }
-        }
     },
 
     isMultipleItems: function() {
@@ -174,7 +168,6 @@ Template.user_transactions.helpers({
             ]
         });
     },
-
 });
 
 Template.user_single_transaction.helpers({
@@ -185,6 +178,16 @@ Template.user_single_transaction.helpers({
         return Template.instance().transaction();
     },
 
+    isExchangeMember: function() {
+        const transaction = Template.instance().transaction();
+        const currentUser = Meteor.user();
+
+        if (currentUser && transaction &&
+            (currentUser._id == transaction.requesteeId || currentUser._id == transaction.requesterId))
+        {
+            return true;
+        }
+    },
     isRequestee: function() {
         //TOOD: refactor ifs and this.requ...
         if (Meteor.user()) {
@@ -195,17 +198,7 @@ Template.user_single_transaction.helpers({
         return false;
     },
 
-    //TODO: why not ternaries instead of all these "has___()" methods?
-    itemHasTitle: function() {
-        if (this.title) {
-            return true;
-        }
-    },
-    itemHasDescription: function() {
-        if (this.description) {
-            return true;
-        }
-    },
+    //TODO: use these with discretion - they are essentially "previews" for when you click through into the single project page.
     itemHasMainImageLink: function() {
         if (this.mainImageLink) {
             return true;
@@ -220,46 +213,70 @@ Template.user_single_transaction.helpers({
         if (this.tag) {
             return true;
         }
-    },
-    isExchangeMember: function() {
-        const transaction = Template.instance().transaction();
-        const currentUser = Meteor.user();
-
-        if (currentUser && transaction &&
-            (currentUser._id == transaction.requesteeId || currentUser._id == transaction.requesterId))
-        {
-                return true;
-        }
     }
 });
 
 
-Template.transaction_listing.events({
+Template.transaction_card.events({
 
-    //FIXME: call the actual methods explicitly
-    'submit form.exchange-advance': function(e) {
+    'click button.btn-transaction-approve': function(e) {
         e.preventDefault();
 
-        Meteor.call('transactionIncrementState', this._id, function (error, result) {
-            if (error) {
-                throwError(error.reason);
+        approveTransaction.call({
+            transactionId: this._id
+        }, (err, res) => {
+            if (err) {
+                //FIXME: throwError visibly to the client
+                console.log('Looks like there was a problem with approving this request');
+            }
+            else {
+                //FIXME: throwSuccess message visibly to the client
             }
         });
     },
-    'submit form.exchange-decline': function(e) {
+    'click button.btn-transaction-complete': function(e) {
         e.preventDefault();
 
-        Meteor.call('transactionDecline', this._id, function (error, result) {
-            if (error) {
-                throwError(error.reason);
+        completeTransaction.call({
+            transactionId: this._id
+        }, (err, res) => {
+            if (err) {
+                //FIXME: throwError visibly to the client
+                console.log('Looks like there was a problem with completing this request');
+            }
+            else {
+                //FIXME: throwSuccess message visibly to the client
             }
         });
     },
-    'submit form.exchange-cancel': function(e) {
+    'click button.btn-transaction-decline': function(e) {
+        e.preventDefault();
+
+        declineTransaction.call({
+            transactionId: this._id
+        }, (err, res) => {
+            if (err) {
+                //FIXME: throwError visibly to the client
+                console.log('Looks like there was a problem with declining this request');
+            }
+            else {
+                //FIXME: throwSuccess message visibly to the client
+            }
+        });
+    },
+    'click button.btn-transaction-cancel': function(e) {
         e.preventDefault();
 
         cancelTransaction.call({
             transactionId: this._id
-        }/*, throwError */);
+        }, (err, res) => {
+            if (err) {
+                //FIXME: throwError visibly to the client
+                console.log('Looks like there was a problem with canceling this request');
+            }
+            else {
+                //FIXME: throwSuccess message visibly to the client
+            }
+        });
     },
 });

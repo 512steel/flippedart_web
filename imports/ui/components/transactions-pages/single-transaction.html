@@ -6,19 +6,20 @@
         <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
         {{#with transaction}}
             <div class="push-down">
-                {{> transaction_listing }}
+                {{> transaction_card }}
             </div>
         {{/with}}
         <div class="push-down">
-            <p>each exchangeItems in the transaction</p>
+            <p>each exchangeItems in the transaction:</p>
             {{#each exchangeItems}}
-                <h4>
-                    <!--TODO: singleItemPage -->
-                    <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
-                        {{this.title}}{{#if itemHasTag}} ({{this.tag}}){{/if}}
-                        {{#if itemHasDescription}}| {{this.description}}{{/if}}
-                    </a>
-                </h4>
+                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
+                    <h4>{{this.title}}</h4>
+                    <p>
+                        {{#if itemHasTag}}{{this.tag}}<br>{{/if}}
+                        {{this.description}}
+                    </p>
+                </a>
+                <hr>
             {{/each}}
         </div>
         <div class="shift-down">

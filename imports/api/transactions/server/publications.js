@@ -4,6 +4,8 @@ import { Meteor } from 'meteor/meteor';
 import { Transactions } from '../transactions.js';
 import { ExchangeItems } from '../../exchange-items/exchange-items.js';
 
+
+//FIXME: remove these ".all" publications
 Meteor.publish('transactions.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
     /*check(options, {
      sort: Object,
@@ -35,7 +37,10 @@ Meteor.publish('transactions.user', function(options) {
                         requesterId: this.userId
                     }
                 ]
-            }, options);
+            },
+            {
+                sort: options.sort,
+            });
     }
 });
 

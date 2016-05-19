@@ -3,6 +3,8 @@
 import { Meteor } from 'meteor/meteor';
 import { ExchangeItems } from '../exchange-items.js';
 
+
+//FIXME: remove these ".all" publications
 Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
     /*check(options, {
      sort: Object,
@@ -28,7 +30,7 @@ Meteor.publish('exchangeItems.user', function(username, options) {
             ownerName : username
         },
         {
-            options,
+            sort: options.sort,
             fields: ExchangeItems.publicFields
         });
 });
