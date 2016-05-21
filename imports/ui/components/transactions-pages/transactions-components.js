@@ -4,12 +4,6 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { ExchangeItems } from '../../../api/exchange-items/exchange-items.js';
-/*  TODO: these methods shouldn't be needed here
-import {
-    insert as exchangeItemInsert,
-    edit as exchangeItemEdit,
-    deleteItem as exchangeItemDeleteItem } from '../../../api/exchange-items/methods.js';
-*/
 
 import { Transactions } from '../../../api/transactions/transactions.js';
 import {

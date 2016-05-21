@@ -1,0 +1,57 @@
+<template name="user_posts_all">
+    <div class="content-scrollable">
+        <p>In template user_posts_all.</p>
+
+        <h1>
+            {{#if isProfileOwner}}Your{{else}}{{pageUsername}}'s{{/if}} posts
+        </h1>
+
+        <div>
+            {{> user_post_submit}}
+            <hr>
+        </div>
+
+        <div>
+            {{#each userPosts}}
+                <p>author: {{this.author}} | _id: {{this._id}}</p>
+                <a href="{{pathFor 'profile.post' username=this.author userPostId=this._id}}">
+                    {{> user_post_card}}
+                </a>
+                <hr>
+            {{else}}
+                <p>{{#if isProfileOwner}}You haven't{{else}}{{pageUsername}} hasn't{{/if}} made any posts yet.</p>
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+
+<!--
+<template name="itemSidebarListing">
+    <div class="push-down-sm">
+        <a href="{{pathFor 'singleItemPage' exchangeItemId=this._id}}">
+            <strong>{{this.title}}</strong> {{#if this.location}}({{this.location}}){{/if}} {{#if this.tag}}| {{this.tag}}{{/if}}
+        </a>
+    </div>
+</template>
+-->
+
+
+<!-- FIXME: move this to the generic "profile page" rather than the specific "posts" page. -->
+<!--
+<template name="mobileProfileButtons">
+    <div>
+        {{#if chatExists}}
+            <a class="sidebar-button-half btn btn-info" href="{{pathFor 'chatWindow' username=user.username}}">Message</a>
+            <a class="sidebar-button-half btn btn-primary" href="{{pathFor 'userInventoryPage' username=user.username}}">Items</a>
+        {{else}}
+            {{#unless isProfileOwner}}
+                <a class="sidebar-button btn btn-primary" href="{{pathFor 'userInventoryPage' username=user.username}}">{{user.username}}'s items</a>
+            {{else}}
+                <a class="sidebar-button-half btn btn-success" href="{{pathFor 'userExchanges'}}">Exchanges</a>
+                <a class="sidebar-button-half btn btn-primary" href="{{pathFor 'userInventoryPage' username=user.username}}">Items</a>
+            {{/unless}}
+        {{/if}}
+    </div>
+</template>
+-->

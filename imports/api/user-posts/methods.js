@@ -51,7 +51,7 @@ export const insert = new ValidatedMethod({
                 createdAt: new Date(),
             };
 
-            UserPosts.insert(userPost);
+            const result = UserPosts.insert(userPost);
 
             //points system:
             if (userAttributes) {
@@ -60,6 +60,8 @@ export const insert = new ValidatedMethod({
                 //Call the server-only method updateRank on UserAttributes
                 updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.post);
             }
+
+            return result;
         }
         else {
             console.log("You need to be signed in to do this.");
@@ -126,18 +128,16 @@ export const upvote = new ValidatedMethod({
         console.log('in method userPosts.upvote');
 
         if (this.userId) {
+            const voterName = Meteor.users.findOne(this.userId).username;
+
             var affected = UserPosts.update({
                     _id: userPostId,
-                    voters: {$ne: this.userId}  //TODO: this works, but why is it "$ne" and not "$nin"?
-                                                //ALSO: voters isn't a publicField, so why does not throw an error to the client like "unflag" and "edit"?
+                    voters: {$ne: voterName}  //TODO: this works, but why is it "$ne" and not "$nin"?
                 },
                 {
-                    $addToSet: {voters: this.userId},
+                    $addToSet: {voters: voterName},
                     $inc: {upvotes: 1, rank: POINTS_SYSTEM.UserPosts.upvote}
                 });
-
-            const userPost = UserPosts.findOne(userPostId);
-            console.log(userPost);
 
             if (!affected) {
                 throw new Meteor.Error('invalid', "You weren't able to upvote that post.");
@@ -161,17 +161,16 @@ export const flag = new ValidatedMethod({
         console.log('in method userPosts.flag');
 
         if (this.userId) {
+            const flaggerName = Meteor.users.findOne(this.userId).username;
+
             var affected = UserPosts.update({
                     _id: userPostId,
-                    flaggers: {$ne: this.userId}  //TODO: again, this works, but why is it "$ne" and not "$nin"?
+                    flaggers: {$ne: flaggerName}  //TODO: again, this works, but why is it "$ne" and not "$nin"?
                 },
                 {
-                    $addToSet: {flaggers: this.userId},
+                    $addToSet: {flaggers: flaggerName},
                     $inc: {flags: 1}
                 });
-
-            const userPost = UserPosts.findOne(userPostId);
-            console.log(userPost);
 
             if (!affected) {
                 throw new Meteor.Error('invalid', "You weren't able to flag that post");
@@ -202,19 +201,16 @@ export const unflag = new ValidatedMethod({
         console.log('in method userPosts.unflag');
 
         if (this.userId) {
+            const flaggerName = Meteor.users.findOne(this.userId).username;
+
             var affected = UserPosts.update({
                     _id: userPostId,
-                    flaggers: { $in: [this.userId] },
+                    flaggers: { $in: [flaggerName] },
                 },
                 {
-                    $pull: {flaggers: this.userId},
+                    $pull: {flaggers: flaggerName},
                     $inc: {flags: -1}
                 });
-
-            const userPost = UserPosts.findOne(userPostId);
-            console.log(userPost);
-            console.log(this.userId);
-            console.log(affected);
 
             if (!affected) {
                 console.log('[invalid] You weren\'t able to unflag that post');

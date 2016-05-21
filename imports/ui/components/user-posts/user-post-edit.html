@@ -1,0 +1,16 @@
+<template name="user_post_edit">
+    <a class="btn btn-default shift-down" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">go back</a>
+    {{#if ownPost}}
+        <form class="main form edit-post shift-down-sm">
+            <div class="form-group">
+                <label class="control-label" for="userPostText">Edit your post</label><br>
+                <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
+            </div>
+            <input type="submit" value="Edit" class="btn btn-primary submit"/>
+        </form>
+
+        <a class="btn btn-danger delete-user-post pull-right" href="#">Delete post</a>
+    {{else}}
+        {{> App_notAuthorized}}
+    {{/if}}
+</template>

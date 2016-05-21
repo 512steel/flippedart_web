@@ -23,10 +23,21 @@ Meteor.publish('userPosts.user', function(username, options) {
         sort: Object,
         limit: Number
     });
-    return UserPosts.find({author : username}, options)
+    return UserPosts.find(
+        {author : username},
+        {
+            options,
+            fields: UserPosts.publicFields,
+        }
+    );
 });
 
 Meteor.publish('userPosts.single', function(userPostId) {
     check(userPostId, String);
-    return UserPosts.find({_id: userPostId});
+    return UserPosts.find(
+        {_id: userPostId},
+        {
+            fields: UserPosts.publicFields,
+        }
+    );
 });

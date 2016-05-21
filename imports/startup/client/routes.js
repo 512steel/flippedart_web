@@ -6,7 +6,8 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/root-redirector.js';
 import '../../ui/components/app-not-found.js';
-import '../../ui/components/signup-call-to-action';
+import '../../ui/components/app-not-authorized.js';
+import '../../ui/components/signup-call-to-action.js';
 
 // Static page imports
 import '../../ui/pages/home-page.js';
@@ -20,13 +21,14 @@ import '../../ui/pages/feedback-thanks-page.js';
 // Dynamic page imports
 import '../../ui/components/transactions-pages/transactions-components.js';
 import '../../ui/components/exchangeItems/exchangeItems-components.js';
+import '../../ui/components/user-posts/user-posts-components.js';
 
 
 // Import to override accounts templates
 import '../../ui/accounts/accounts-templates.js';
 
 
-//TODO: comment this out before deploying
+//FIXME: comment this out before deploying
 import '../../ui/model-tests/model-tests.js';
 FlowRouter.route('/tests', {
     name: 'model.tests',
@@ -117,7 +119,7 @@ FlowRouter.route('/messages/:username/:messagesLimit?', {
 FlowRouter.route('/add', {
     name: 'projects.add',
     action() {
-        BlazeLayout.render('App_body', { main: 'item_submit_page' });
+        BlazeLayout.render('App_body', { main: 'project_submit_page' });
     },
 });
 
@@ -172,27 +174,27 @@ FlowRouter.route('/exchanges/:exchangeId', {
 });
 
 
-FlowRouter.route('/:username/post/:userPostId', {
-    name: 'profile.post',
+//TODO: make these "posts" routes more semantic
+FlowRouter.route('/:username/posts', {
+    name: 'profile.posts',
     action() {
-        BlazeLayout.render('App_body', { main: 'user_post' });
+        BlazeLayout.render('App_body', {main: 'user_posts_all'});
     },
 });
-FlowRouter.route('/:username/post/:userPostId/edit', {
-    name: 'profile.post.edit',
+FlowRouter.route('/:username/posts/all', {
+    name: 'profile.posts.new',
     action() {
-        BlazeLayout.render('App_body', { main: 'user_post_edit' });
+        BlazeLayout.render('App_body', {main: 'user_posts_all'});
     },
 });
-
-FlowRouter.route('/:username/projects', {
-    name: 'profile.projects',
+FlowRouter.route('/:username/posts/top', {  //TODO...
+    name: 'profile.posts.top',
     action() {
-        BlazeLayout.render('App_body', { main: 'items_user_all' });
+        BlazeLayout.render('App_body', {main: 'user_posts_all'});
     },
 });
-
-FlowRouter.route('/:username/:postsLimit?', {
+//FIXME: the following two are old routes from chalkboard_exchange.  Assimilate their meaning into the routes above.
+/*FlowRouter.route('/:username/:postsLimit?', {
     name: 'profile.feed',
     action() {
         BlazeLayout.render('App_body', { main: 'user_profile_feed' });
@@ -203,10 +205,32 @@ FlowRouter.route('/:username/top/:postsLimit?', {
     action() {
         BlazeLayout.render('App_body', { main: 'user_profile_feed_top' });
     },
+});*/
+
+
+FlowRouter.route('/:username/posts/:userPostId', {
+    name: 'profile.post',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_post_single_page' });
+    },
+});
+FlowRouter.route('/:username/posts/:userPostId/edit', {
+    name: 'profile.post.edit',
+    action() {
+        BlazeLayout.render('App_body', { main: 'user_post_edit' });
+    },
+});
+
+
+FlowRouter.route('/:username/projects', {
+    name: 'profile.projects',
+    action() {
+        BlazeLayout.render('App_body', { main: 'projects_user_all' });
+    },
 });
 FlowRouter.route('/:username/projects/:exchangeItemId', {
     name: 'projects.single',
     action() {
-        BlazeLayout.render('App_body', { main: 'item_single_page' });
+        BlazeLayout.render('App_body', { main: 'project_single_page' });
     },
 });

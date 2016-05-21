@@ -23,7 +23,7 @@ import './item_edit.html';
 import './item_submit.html';
 import './items-inventory-page.html';
 
-Template.item_single_page.onCreated(function itemSinglePageOnCreated() {
+Template.project_single_page.onCreated(function() {
     this.getExchangeItemId = () => FlowRouter.getParam('exchangeItemId');
     this.getExchangeItem = () => ExchangeItems.findOne({});
     this.getPageUsername = () => FlowRouter.getParam('username');
@@ -34,7 +34,7 @@ Template.item_single_page.onCreated(function itemSinglePageOnCreated() {
     });
 });
 
-Template.items_user_all.onCreated(function() {
+Template.projects_user_all.onCreated(function() {
     this.requestedProjectNames = new ReactiveVar([]);
     this.requestedProjectIDs = new ReactiveVar([]);
 
@@ -49,7 +49,7 @@ Template.items_user_all.onCreated(function() {
     });
 });
 
-Template.item_single_card.onCreated(function() {
+Template.project_single_card.onCreated(function() {
     this.showItemEdit = new ReactiveVar(false);
 
     this.getExchangeItem = () => ExchangeItems.findOne({});
@@ -79,7 +79,7 @@ Template.item_submit.onCreated(function itemSubmitOnCreated() {
 });
 
 
-Template.item_single_page.onRendered(function itemSinglePageOnRendered() {
+Template.project_single_page.onRendered(function itemSinglePageOnRendered() {
     this.autorun(() => {
         if (this.subscriptionsReady()) {
             // release renderHolds here
@@ -104,7 +104,7 @@ Template.item_submit.onRendered(function itemSubmitOnRendered() {
 });
 
 
-Template.item_single_page.helpers({
+Template.project_single_page.helpers({
     exchangeItem: function() {
         return Template.instance().getExchangeItem();
     },
@@ -125,7 +125,7 @@ Template.item_single_page.helpers({
     },
 });
 
-Template.items_user_all.helpers({
+Template.projects_user_all.helpers({
     isProfileOwner: function() {
         return Meteor.user().username === FlowRouter.getParam('username');
     },
@@ -149,7 +149,7 @@ Template.items_user_all.helpers({
     },
 });
 
-Template.item_single_card.helpers({
+Template.project_single_card.helpers({
     isItemOwner: function() {
         const exchangeItem = Template.instance().getExchangeItem();
         const currentUser = Meteor.user();
@@ -231,7 +231,7 @@ Template.single_item_submit.helpers({
 });
 
 
-Template.item_single_page.events({
+Template.project_single_page.events({
     'click form .single-item-request-form-button': function(e) {
         e.preventDefault();
 
@@ -265,7 +265,7 @@ Template.item_single_page.events({
     }
 });
 
-Template.items_user_all.events({
+Template.projects_user_all.events({
     'change .request-checkout-checkbox': function (e, template) {
         console.log('in change .request-checkout-checkbox event');
 
@@ -314,7 +314,7 @@ Template.items_user_all.events({
     }
 });
 
-Template.item_single_card.events({
+Template.project_single_card.events({
     'click .item-edit': function (e, template) {
         e.preventDefault();
 
@@ -325,6 +325,9 @@ Template.item_single_card.events({
 
 Template.item_edit.events({
     'submit form.item-edit-form': function(e, template) {
+
+        //FIXME: include the ability to edit the "imageLinks"
+
         e.preventDefault();
 
         console.log(this);
@@ -346,7 +349,7 @@ Template.item_edit.events({
             tag: tag ? tag : this.tag,  //TODO: add a "tag" edit field
         }/*, displayError */);
 
-        //NOTE: using parent() is ugly, but it's the only way I could think of to get the value of item_single_card's reactiveVar from this template
+        //NOTE: using parent() is ugly, but it's the only way I could think of to get the value of project_single_card's reactiveVar from this template
         Template.instance().parent().showItemEdit.set(!Template.instance().parent().showItemEdit.get());
 
     },
@@ -505,6 +508,8 @@ Template.item_submit.events({
                 });
             });
         }
+
+        //FIXME: clear the "text" field after submitting.
     }
 });
 

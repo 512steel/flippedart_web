@@ -1,4 +1,4 @@
-<template name="items_user_all">
+<template name="projects_user_all">
     <div class="content-scrollable">
         <h1>Inventory page</h1>
         <br>
@@ -11,7 +11,7 @@
                 <div class="form-group">
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item">
-                            {{#with item}}{{> item_single_card }}{{/with}}
+                            {{#with item}}{{> project_single_card }}{{/with}}
                             {{#if isExchangeItemAvailable (item)}}
                                 <p>This project is available!  Sign in to request it</p>
                             {{else}}
@@ -35,7 +35,7 @@
                     </div>
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item">
-                            {{#with item}}{{> item_single_card }}{{/with}}
+                            {{#with item}}{{> project_single_card }}{{/with}}
                             {{#if isExchangeItemAvailable (item)}}
                                 <p>This project is available for others to check out.</p>
                             {{else}}
@@ -64,7 +64,7 @@
                                         <div class="inventory-single-item">
                                             {{#with item}}
                                                 <span class="hidden inventory-single-item-id">{{_id}}</span>
-                                                {{> item_single_card }}
+                                                {{> project_single_card }}
 
                                                 {{#if isExchangeItemAvailable (item)}}
                                                     <label class="control-label">Request for checkout:</label>

@@ -1,10 +1,9 @@
-<template name="userPostSubmit">
+<template name="user_post_submit">
     <form enctype="multipart/form-data" class="main form user-post-submit">
-        <div class="form-group {{errorClass 'text'}}">
+        <div class="form-group">
             <!--<label class="control-label" for="userPostText">Post an update</label>-->
             <div class="controls">
-                <textarea name="userPostText" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
-                <span class="help-block">{{errorMessage 'text'}}</span>
+                <textarea name="user-post-submit-text" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
             </div>
         </div>
         <label class="control-label">Upload a photo</label>
