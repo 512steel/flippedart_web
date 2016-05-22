@@ -1,0 +1,57 @@
+<template name="chat_window_card">
+    <h2>Chat window card.</h2>
+
+    {{#unless isChatSession}}
+        <p>
+            You don't have a chat started with {{usernamePath}}.
+            <a href="{{pathFor 'userInventoryPage' username=usernamePath}}">Request some items from them!</a>
+        </p>
+    {{else}}
+        <div class="sticky-headline-wrap">
+            <h2 id="sticky-headline">Messages with {{otherName}}<hr></h2>
+        </div>
+        {{#if equals chatMessagesCount 0}}
+            <p>
+                {{#unless equals chatSession.firstUsername yourName}}
+                    You have asked {{chatSession.firstUsername}} to check out some items.  Use this chat window to discuss further details with {{chatSession.firstUsername}}.
+                {{else}}
+                    {{chatSession.secondUsername}} has asked to check out some items from you.  Go to your <a href="{{pathFor 'my-account'}}">account page</a> to view your pending exchanges, and use this chat window to discuss further details with {{chatSession.secondUsername}}.
+                {{/unless}}
+            </p>
+        {{/if}}
+
+        {{#if nextPath}}
+            <a class="load-more" href="{{nextPath}}">Load more</a>
+        {{else}}
+            {{#unless ready}}
+                {{> spinner}}
+            {{/unless}}
+        {{/if}}
+
+        <div class="push-down">
+            {{#each chatMessagesReversed}}
+                {{> chat_message_card}}
+            {{/each}}
+        </div>
+
+        <div class="chat-message-submit-wrap push-down" id="chat-message-submit-wrap">
+            <hr>
+            {{> chat_message_submit}}
+            <div class="pull-left push-left push-down push-right">
+                <p><a href="{{pathFor 'chronologicalUserPosts' username=otherName}}">{{otherName}}'s profile</a></p>
+                <p><a href="{{pathFor 'userInventoryPage' username=otherName}}">Check out {{otherName}}'s items</a></p>
+                <p><a href="{{pathFor 'userExchanges'}}">See your exchanges</a></p>
+            </div>
+        </div>
+
+        <!--<script>
+            var navHeight = $('.navbar').height();
+            $('.sticky-headline-wrap').css('min-height', navHeight);
+            $('#sticky-headline').affix({
+                offset: {
+                    top: navHeight
+                }
+            });
+        </script>-->
+    {{/unless}}
+</template>

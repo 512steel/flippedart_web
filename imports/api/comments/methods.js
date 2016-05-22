@@ -50,6 +50,8 @@ export const insert = new ValidatedMethod({
                 text: text,
                 userId: this.userId,
                 author: user.username,
+                flaggers: [],
+                flags: 0,
                 createdAt: new Date(),
             };
 

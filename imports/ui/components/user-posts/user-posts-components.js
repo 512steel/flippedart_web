@@ -213,7 +213,6 @@ Template.user_post_submit.helpers({
 
 Template.user_post_single_page.helpers({
     userPost: function() {
-        console.log(UserPosts.findOne({}));
         return UserPosts.findOne({});
     },
     ownPost: function() {

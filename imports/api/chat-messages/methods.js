@@ -84,8 +84,8 @@ export const insert = new ValidatedMethod({
     }
 });
 
-export const remove = new ValidatedMethod({
-    name: 'chatMessage.remove',
+export const deleteChatMessage = new ValidatedMethod({
+    name: 'chatMessage.deleteChatMessage',
     validate: new SimpleSchema({
         chatMessageId: {
             type: String,
@@ -93,7 +93,7 @@ export const remove = new ValidatedMethod({
         },
     }).validator(),
     run({ chatMessageId }) {
-        console.log('in method chatMessage.remove');
+        console.log('in method chatMessage.deleteChatMessage');
 
         const chatMessage = ChatMessages.findOne(chatMessageId);
 
@@ -117,7 +117,7 @@ export const remove = new ValidatedMethod({
 // Get list of all method names on Comments
 const CHAT_MESSAGES_METHODS = _.pluck([
     insert,
-    remove,
+    deleteChatMessage,
 ], 'name');
 
 if (Meteor.isServer) {

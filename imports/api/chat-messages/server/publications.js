@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { ChatMessages } from '../chat-messages.js';
 import { ChatSessions } from '../../chat-sessions/chat-sessions.js';
 
-Meteor.publish('chatMessages.all', function () {  //TODO: this is for testing purposes only - remove
+Meteor.publish('chatMessages.all', function () {  //FIXME: this is for testing purposes only - remove
     return ChatMessages.find(
         {},
         {
@@ -34,6 +34,9 @@ Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO
                         ]
                     },
                 ]
+            },
+            {
+                fields: ChatSessions.publicFields,
             }
         );
 
@@ -43,7 +46,7 @@ Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO
                     chatSessionId: chatSession._id,
                 },
                 {
-                    //options
+                    //TODO: sort options here
                     fields: ChatMessages.publicFields,
                 }
             );

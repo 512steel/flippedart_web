@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ChatSessions } from '../chat-sessions.js';
 
-Meteor.publish('chatSessions.all', function () {  //TODO: this is for testing purposes only - remove
+Meteor.publish('chatSessions.all', function () {  //FIXME: these are for testing purposes only - remove
     return ChatSessions.find(
         {},
         {
