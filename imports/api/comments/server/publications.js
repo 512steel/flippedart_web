@@ -23,7 +23,16 @@ Meteor.publish('comments.userPost', function(userPostId, options) {
         sort: Object,
         limit: Number
     });
-    return Comments.find({userPostId: userPostId});
+    return Comments.find(
+        {
+            userPostId: userPostId
+        },
+        {
+            sort: options.sort,
+            limit: options.limit,
+            fields: Comments.publicFields,
+        }
+    );
 });
 
 Meteor.publish('comments.user', function(username, options) {
@@ -32,10 +41,25 @@ Meteor.publish('comments.user', function(username, options) {
         sort: Object,
         limit: Number
     });
-    return Comments.find({author : username}, options)
+    return Comments.find(
+        {
+            author : username
+        },
+        {
+            sort: options.sort,
+            limit: options.limit,
+            fields: Comments.publicFields,
+        })
 });
 
 Meteor.publish('comments.single', function(commentId) {
     check(commentId, String);
-    return Comments.find({_id: commentId});
+    return Comments.find(
+        {
+            _id: commentId
+        },
+        {
+            fields: Comments.publicFields,
+        }
+    );
 });

@@ -41,6 +41,12 @@ Comments.schema = new SimpleSchema({
         type: String,
         max: 5000,
     },
+    flaggers: {
+        type: [String],
+    },
+    flags: {
+        type: Number,
+    },
     createdAt: {
         type: Date,
         denyUpdate: true,
@@ -57,6 +63,8 @@ Comments.publicFields = {
     author: 1,
     text: 1,
     userPostId: 1,
+    flaggers: 1,
+    flags: 1,
     createdAt: 1,
 };
 

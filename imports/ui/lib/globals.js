@@ -43,3 +43,9 @@ export const PROJECT_TAGS = [
     'Chalkboard stand',
     'Other',
 ];
+
+
+export const FLAG_THRESHOLD = {
+    'post': 2,
+    'comment': 2,
+};

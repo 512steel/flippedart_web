@@ -116,6 +116,83 @@ export const edit = new ValidatedMethod({
     }
 });
 
+export const flag = new ValidatedMethod({
+    name: 'comments.flag',
+    validate: new SimpleSchema({
+        commentId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
+    }).validator(),
+    run({ commentId }) {
+        console.log('in method comments.flag');
+
+        if (this.userId) {
+            const flaggerName = Meteor.users.findOne(this.userId).username;
+
+            var affected = Comments.update({
+                    _id: commentId,
+                    flaggers: {$ne: flaggerName}  //TODO: this works, but why is it "$ne" and not "$nin"?
+                },
+                {
+                    $addToSet: {flaggers: flaggerName},
+                    $inc: {flags: 1}
+                });
+
+            if (!affected) {
+                throw new Meteor.Error('invalid', "You weren't able to flag that comment");
+            }
+            else {
+                //TODO: import "throwError"/"throwWarning" methods from temporaryNotifications
+                //throwWarning("You have flagged this comment as inappropriate.");
+                console.log("You have flagged this comment as inappropriate.");
+            }
+        }
+        else {
+            //TODO: import "throwError"/"throwWarning"
+            //throwError("You must be signed in to flag a comment.");
+            console.log("You must be signed in to flag a comment.");
+        }
+    },
+});
+
+export const unflag = new ValidatedMethod({
+    name: 'comments.unflag',
+    validate: new SimpleSchema({
+        commentId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
+    }).validator(),
+    run({ commentId }) {
+        console.log('in method comments.unflag');
+
+        if (this.userId) {
+            const flaggerName = Meteor.users.findOne(this.userId).username;
+
+            var affected = Comments.update({
+                    _id: commentId,
+                    flaggers: { $in: [flaggerName] },
+                },
+                {
+                    $pull: {flaggers: flaggerName},
+                    $inc: {flags: -1}
+                });
+
+            if (!affected) {
+                console.log('[invalid] You weren\'t able to unflag that comment');
+
+                //FIXME: what's the best error-throwing mechanism to use?  The below line, and for example
+                //       the edit() method, will always throw an error during Meteor's client-side
+                //       simulation of the Method, as flaggers (and in edit(), userId) is not made
+                //       available to the client.  Console.logging is fine, but it clutters the console
+                //       if someone were to look for it.
+                //throw new Meteor.Error('invalid', "You weren't able to unflag that comment");
+            }
+        }
+    }
+});
+
 export const deleteComment = new ValidatedMethod({
     name: 'comments.delete',
     validate: new SimpleSchema({
@@ -160,7 +237,10 @@ export const deleteComment = new ValidatedMethod({
 const COMMENTS_METHODS = _.pluck([
     insert,
     edit,
+    flag,
+    unflag,
     deleteComment,
+    //TODO: add flag/unflag methods     <-- FIXME
 ], 'name');
 
 if (Meteor.isServer) {

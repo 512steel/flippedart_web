@@ -5,16 +5,20 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/underscore';
 import { Cloudinary } from 'meteor/lepozepo:cloudinary';
 
+import { FLAG_THRESHOLD } from '../../lib/globals.js';
 
 import { UserPosts } from '../../../api/user-posts/user-posts.js';
 import {
     insert,
     edit,
     upvote,
+    unUpvote,
     flag,
     unflag,
     deletePost
 } from '../../../api/user-posts/methods.js';
+
+import { Comments } from '../../../api/comments/comments.js';
 
 // component used for the "user_post_edit" template
 import './../../components/app-not-authorized.js';
@@ -24,6 +28,11 @@ import './user-post-edit.html';
 import './user-post-submit.html';
 import './user-post-single-page.html';
 import './user-posts-all.html';
+
+import './../comments/comment-card.html';
+import './../comments/comment_edit.html';
+import './../comments/comment_submit.html';
+import './../comments/comments-components.js';
 
 
 Template.user_post_card.onCreated(function userPostCardOnCreated() {
@@ -62,6 +71,7 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.single', this.getUserPostId());
+        this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
     });
 });
 
@@ -69,11 +79,24 @@ Template.user_posts_all.onCreated(function userPostsAllOnCreated() {
     this.getUsername = () => FlowRouter.getParam('username');
 
     //FIXME: make a sensible "load more" and "toggle sort" option
-    const subOptions = {sort: {createdAt: -1}, limit: 15};
+    this.toggleSortText = new ReactiveVar('top');
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('userPosts.user', this.getUsername(), subOptions);
+        switch (FlowRouter.getRouteName()) {
+            case 'profile.posts':
+                this.toggleSortText.set('top');
+                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
+                break;
+            case 'profile.posts.new':
+                this.toggleSortText.set('top');
+                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
+                break;
+            case 'profile.posts.top':
+                this.toggleSortText.set('new');
+                this.subscribe('userPosts.user', this.getUsername(), {sort: {rank: -1, createdAt: -1}, limit: 15});
+                break;
+        }
     });
 });
 
@@ -132,11 +155,15 @@ Template.user_post_card.helpers({
         else return false;
     },
     upvotedClass: function() {
-        if (Meteor.user() && !_.include(this.voters, Meteor.user().username)) {
+        if (!Meteor.user()) {
+            return 'disabled';
+        }
+
+        if (!_.include(this.voters, Meteor.user().username)) {
             return 'btn-primary upvotable';
         }
         else {
-            return 'disabled';
+            return 'btn-secondary upvoted';
         }
     },
     flaggedClass: function() {
@@ -154,8 +181,7 @@ Template.user_post_card.helpers({
         else return false;
     },
     inappropriate: function() {
-        const flagThreshold = 1;
-        if (this.flags > flagThreshold) {
+        if (this.flags >= FLAG_THRESHOLD.post) {
             return true;
         }
         else {
@@ -187,6 +213,7 @@ Template.user_post_submit.helpers({
 
 Template.user_post_single_page.helpers({
     userPost: function() {
+        console.log(UserPosts.findOne({}));
         return UserPosts.findOne({});
     },
     ownPost: function() {
@@ -197,7 +224,7 @@ Template.user_post_single_page.helpers({
     },
 
     comments: function() {
-        //TODO: return Comments.find({userPostId: this._id});
+        return Comments.find({userPostId: Template.instance().getUserPostId()});
     }
 });
 
@@ -214,6 +241,10 @@ Template.user_posts_all.helpers({
     pageUsername: function() {
         return Template.instance().getUsername();
     },
+    toggleSortText: function() {
+        return Template.instance().toggleSortText.get();
+    }
+
     //TODO: make a "profileExists" helper here.
 });
 
@@ -226,8 +257,16 @@ Template.user_post_card.events({
             userPostId: this._id,
         });
     },
+    'click .upvoted': function(e) {
+        e.preventDefault();
+
+        unUpvote.call({
+            userPostId: this._id,
+        });
+    },
+
     'click .flag.flaggable': function(e) {
-        console.log('clicked to flag');
+        e.preventDefault();
 
         flag.call({
             userPostId: this._id,
@@ -245,6 +284,8 @@ Template.user_post_card.events({
 Template.user_post_edit.events({
     'submit form.edit-post': function(e) {
         e.preventDefault();
+
+        //FIXME: include the ability to edit the "imageLinks"
 
         const userPostId = Template.instance().getUserPostId();
         const username = Template.instance().getUsername();
@@ -373,8 +414,10 @@ Template.user_post_submit.events({
                         Session.set('isPostUploading', false);
 
                         if (Meteor.user()) {
+                            console.log('flowrouting?');
+                            console.log(res);
                             FlowRouter.go('profile.post',
-                                {username: Meteor.user().username, userPostId: res._id}
+                                {username: Meteor.user().username, userPostId: res}
                             );
                         }
                     }
@@ -391,7 +434,18 @@ Template.user_post_single_page.events({
 });
 
 Template.user_posts_all.events({
-    'click .asdf': function(e) {
+    'click .toggle-posts-sort': function(e) {
+        e.preventDefault();
 
+        switch(Template.instance().toggleSortText.get()) {
+            case 'top':
+                Template.instance().toggleSortText.set('new');
+                FlowRouter.go('profile.posts.top', {username: FlowRouter.getParam('username')});
+                break;
+            case 'new':
+                Template.instance().toggleSortText.set('top');
+                FlowRouter.go('profile.posts.new', {username: FlowRouter.getParam('username')});
+                break;
+        }
     },
 });

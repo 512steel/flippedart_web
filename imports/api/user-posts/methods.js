@@ -146,8 +146,35 @@ export const upvote = new ValidatedMethod({
     },
 });
 
-//TODO: add a method to "un-upvote", similar to "liking"/"unliking"
+export const unUpvote = new ValidatedMethod({
+    name: 'userPosts.unUpvote',
+    validate: new SimpleSchema({
+        userPostId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+        },
+    }).validator(),
+    run({ userPostId }) {
+        console.log('in method userPosts.unUpvote');
 
+        if (this.userId) {
+            const voterName = Meteor.users.findOne(this.userId).username;
+
+            var affected = UserPosts.update({
+                    _id: userPostId,
+                    voters: { $in: [voterName] }
+                },
+                {
+                    $pull: {voters: voterName},
+                    $inc: {upvotes: -1, rank: -1 * POINTS_SYSTEM.UserPosts.upvote}
+                });
+
+            if (!affected) {
+                throw new Meteor.Error('invalid', "You weren't able to unUpvote that post.");
+            }
+        }
+    },
+});
 
 export const flag = new ValidatedMethod({
     name: 'userPosts.flag',
@@ -305,6 +332,7 @@ const USERPOSTS_METHODS = _.pluck([
     insert,
     edit,
     upvote,
+    unUpvote,
     flag,
     unflag,
     deletePost,

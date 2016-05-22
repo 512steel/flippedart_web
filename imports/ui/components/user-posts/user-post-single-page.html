@@ -1,25 +1,34 @@
 <template name="user_post_single_page">
-    <a class="btn btn-default shift-down" href="{{pathFor 'profile.posts' username=userPost.author}}">
-        back to
-        {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
-        profile
-    </a>
-    <div class="shift-down-sm">
-        {{#with userPost}}
-            {{> user_post_card}}
-    {{/with}}
+    <div class="content-scrollable">
+        <a class="btn btn-default shift-down" href="{{pathFor 'profile.posts' username=userPost.author}}">
+            back to
+            {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
+            posts
+        </a>
+        <div class="shift-down-sm">
+            {{#with userPost}}
+                {{> user_post_card}}
+            {{/with}}
+        </div>
+
+        <hr>
+
+        <ul class="comments">
+            {{#each comments}}
+                {{> comment_card }}
+            {{else}}
+                <p>There are no comments on this post.</p>
+            {{/each}}
+        </ul>
+
+        <hr>
+
+        {{#if currentUser}}
+            {{#with userPost}}
+                {{> comment_submit}}
+            {{/with}}
+        {{else}}
+            <p class="push-down">Log in to leave a comment</p>
+        {{/if}}
     </div>
-
-    <p>FIXME: comments go here</p>
-    <!--<ul class="comments">
-        {{#each comments}}
-            {{> commentItem }}
-        {{/each}}
-    </ul>
-
-    {{#if currentUser}}
-        {{> commentSubmit}}
-    {{else}}
-        <p class="push-down">Log in to leave a comment</p>
-    {{/if}}-->
 </template>

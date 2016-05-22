@@ -26,7 +26,8 @@ Meteor.publish('userPosts.user', function(username, options) {
     return UserPosts.find(
         {author : username},
         {
-            options,
+            sort: options.sort,
+            limit: options.limit,
             fields: UserPosts.publicFields,
         }
     );

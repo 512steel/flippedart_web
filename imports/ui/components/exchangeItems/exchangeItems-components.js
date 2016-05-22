@@ -325,9 +325,6 @@ Template.project_single_card.events({
 
 Template.item_edit.events({
     'submit form.item-edit-form': function(e, template) {
-
-        //FIXME: include the ability to edit the "imageLinks"
-
         e.preventDefault();
 
         console.log(this);
@@ -508,8 +505,6 @@ Template.item_submit.events({
                 });
             });
         }
-
-        //FIXME: clear the "text" field after submitting.
     }
 });
 
