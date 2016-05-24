@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
+import { Accounts } from 'meteor/accounts-base'
 
 import { Transactions } from './transactions.js';
 //import { UserAttributes } from '../user-attributes/user-attributes.js';
@@ -47,7 +48,12 @@ export const requestTransaction = new ValidatedMethod({
 
         if (this.userId) {
             const requester = Meteor.users.findOne(this.userId);
-            const requestee = Meteor.users.findOne({username: requesteeName});
+            let requestee = Meteor.users.findOne({username: requesteeName});
+
+            if (Meteor.isServer) {
+                //a bit of wonkiness here, but if `findUserByUsername` runs on the client the method quits executing entirely
+                requestee = Accounts.findUserByUsername(requesteeName);
+            }
 
             if (requester && requestee && (requester._id != requestee._id)) {
 
