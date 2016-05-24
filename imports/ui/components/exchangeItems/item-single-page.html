@@ -15,7 +15,7 @@
                 <p>This item is not available to check out.</p>
             {{/if}}
             <p>
-                <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
                     See the rest of {{exchangeItem.ownerName}}'s projects
                 </a>
             </p>
@@ -33,7 +33,7 @@
                 {{> item_submit}}
 
                 <p>
-                    <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                    <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
                         See the rest of your projects
                     </a>
                 </p>
@@ -50,7 +50,7 @@
                     <p>This project is not available to check out.</p>
                 {{/if}}
                 <p>
-                    <a href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                    <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
                         See the rest of {{exchangeItem.ownerName}}'s projects
                     </a>
                 </p>

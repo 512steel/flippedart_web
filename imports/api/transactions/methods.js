@@ -51,18 +51,6 @@ export const requestTransaction = new ValidatedMethod({
 
             if (requester && requestee && (requester._id != requestee._id)) {
 
-                const testItems = ExchangeItems.find(
-                    {
-                        _id: {
-                            $in: itemIds,
-                        }
-                    });
-                console.log('all testItems:');
-                testItems.forEach(function(item) {
-                    console.log(item);
-                });
-
-
                 //Check that each item being requested is owned by the "requestee"
                 const validItems = ExchangeItems.find(
                     {

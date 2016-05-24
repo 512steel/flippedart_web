@@ -38,7 +38,7 @@
             <hr>
             {{> chat_message_submit}}
             <div class="pull-left push-left push-down push-right">
-                <p><a href="{{pathFor 'chronologicalUserPosts' username=otherName}}">{{otherName}}'s profile</a></p>
+                <p><a href="{{pathFor 'profile.page' username=otherName}}">{{otherName}}'s profile</a></p>
                 <p><a href="{{pathFor 'userInventoryPage' username=otherName}}">Check out {{otherName}}'s items</a></p>
                 <p><a href="{{pathFor 'userExchanges'}}">See your exchanges</a></p>
             </div>

@@ -41,7 +41,7 @@
         <hr>
         {{> chatMessageSubmit }}
         <div class="pull-left push-left push-down push-right">
-            <p><a href="{{pathFor 'chronologicalUserPosts' username=otherName}}">{{otherName}}'s profile</a></p>
+            <p><a href="{{pathFor 'profile.page' username=otherName}}">{{otherName}}'s profile</a></p>
             <p><a href="{{pathFor 'userInventoryPage' username=otherName}}">Check out {{otherName}}'s items</a></p>
             <p><a href="{{pathFor 'userExchanges'}}">See your exchanges</a></p>
         </div>
@@ -61,7 +61,7 @@
 <template name="chatMessage">
     <div class="chat-message shift-down chat-message-{{senderClass}}">
         {{#if equals senderClass "mine"}}<form><a class="btn-xs btn-danger pull-right chat-message-delete" href="#">X</a></form>{{/if}}
-        <p><a href="{{pathFor 'chronologicalUserPosts' username=senderUsername}}">{{senderUsername}}</a></p>
+        <p><a href="{{pathFor 'profile.page' username=senderUsername}}">{{senderUsername}}</a></p>
         {{#if imageLink}}
             <p>Image Link: {{imageLink}}</p>
         {{/if}}

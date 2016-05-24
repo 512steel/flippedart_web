@@ -30,7 +30,7 @@
                     <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesteeName}}">chat with {{requesteeName}}</a></p>
                 {{/if}}
             {{/with}}
-            <p><a class="btn btn-default" href="{{pathFor 'exchanges.user'}}">back to your exchanges</a></p>
+            <p><a class="btn btn-default" href="{{pathFor 'exchanges.user' username=pageUsername}}">back to your exchanges</a></p>
         </div>
     {{/unless}}
 </template>

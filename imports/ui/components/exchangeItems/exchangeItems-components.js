@@ -159,15 +159,13 @@ Template.project_single_card.helpers({
         }
     },
     addendumsWithAuthors: function() {
-        const exchangeItem = Template.instance().getExchangeItem();
-
         var addendumsWithAuthorsArr = [];
-        const addendumAuthorsLength = exchangeItem.addendumAuthors ? exchangeItem.addendumAuthors.length : 0;
+        const addendumAuthorsLength = this.addendumAuthors ? this.addendumAuthors.length : 0;
         for (var i = 0; i < addendumAuthorsLength; i++) {
             addendumsWithAuthorsArr.push(
                 {
-                    addendum: exchangeItem.addendums[i],
-                    author: exchangeItem.addendumAuthors[i],
+                    addendum: this.addendums[i],
+                    author: this.addendumAuthors[i],
                 }
             );
         }
@@ -197,6 +195,18 @@ Template.item_edit.helpers({
     },
     isAvailable: function() {
         return this.available;
+    },
+
+    latestAddendum: function() {
+        if (Meteor.user()) {
+            if (!this.pastOwnerNames.length) {
+                return this.description;
+            }
+            else if (this.addendumAuthors.length &&
+                     this.addendumAuthors[this.addendumAuthors.length-1] == Meteor.user().username) {
+                return this.addendums[this.addendums.length-1];
+            }
+        }
     }
 });
 
@@ -258,7 +268,7 @@ Template.project_single_page.events({
                     console.log('You have successfully requested this project.');
 
                     //NOTE: 'res' is the return value of the newly-inserted Transaction.
-                    FlowRouter.go('exchanges.user.single', {exchangeId: res});
+                    FlowRouter.go('exchanges.user.single', {username: Meteor.user().username, exchangeId: res});
                 }
             });
         }
@@ -295,18 +305,17 @@ Template.projects_user_all.events({
     },
     'click .multiple-item-request-form-button': function(e) {
         e.preventDefault();
-        console.log('in multi-request event')
 
         const projectIds = Template.instance().requestedProjectIDs.get();
         if (projectIds.length && Meteor.user()) {
-            console.log('about to requestTransaction() for multiple projects!');
 
             requestTransaction.call({
                 requesteeName: Template.instance().getPageUsername(),
                 itemIds: projectIds,
-            }/*, throwError */);
-
-            //TODO: router.go('chatWindow');
+            }, (err, res) => {
+                //NOTE: 'res' is the return value of the newly-inserted Transaction.
+                FlowRouter.go('exchanges.user.single', {username: Meteor.user().username, exchangeId: res});
+            });
         }
         else {
             console.log('[error] Could not make the transaction request');
@@ -326,8 +335,6 @@ Template.project_single_card.events({
 Template.item_edit.events({
     'submit form.item-edit-form': function(e, template) {
         e.preventDefault();
-
-        console.log(this);
 
         const title = $(e.target).find('[name=title]').val();
         const description = $(e.target).find('[name=description]').val();
@@ -366,7 +373,7 @@ Template.item_edit.events({
                     //FIXME: throwSuccess visibly to the client
                     console.log('You have successfully deleted this project.');
 
-                    FlowRouter.go('profile.projects', {username: FlowRouter.getParam('username')});
+                    FlowRouter.go('profile.page', {username: FlowRouter.getParam('username')});
                 }
             });
         }
@@ -490,7 +497,7 @@ Template.item_submit.events({
                                             Session.set('areItemsUploading', false);
 
                                             if (Meteor.user())
-                                                FlowRouter.go('profile.projects', {username: Meteor.user().username});
+                                                FlowRouter.go('profile.page', {username: Meteor.user().username});
                                         }
                                     }
                                 });

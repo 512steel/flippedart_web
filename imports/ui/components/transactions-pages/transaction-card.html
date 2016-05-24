@@ -47,12 +47,11 @@
     <p class="clearfix push-down-sm">
         {{#if isCurrentUserRequestee}}
 
-            <!-- FIXME: chronologicalUserPosts route -> user profile page -->
-            <a href="{{pathFor 'chronologicalUserPosts' username=requesterName}}">
+            <a href="{{pathFor 'profile.page' username=requesterName}}">
                 {{requesterName}}
             </a>
             asked to check out
-            <a href="{{pathFor 'exchanges.user.single' exchangeId=transactionId}}">
+            <a href="{{pathFor 'exchanges.user.single' username=currentUsername exchangeId=transactionId}}">
                 {{numberOfItems}} item{{#if isMultipleItems}}s{{/if}}
             </a>
             from you
@@ -61,11 +60,11 @@
         {{else}}
 
             You asked to check out
-            <a href="{{pathFor 'exchanges.user.single' exchangeId=transactionId}}">
+            <a href="{{pathFor 'exchanges.user.single' username=currentUsername exchangeId=transactionId}}">
                 {{numberOfItems}} item{{#if isMultipleItems}}s{{/if}}
             </a>
             from
-            <a href="{{pathFor 'chronologicalUserPosts' username=requesteeName}}">
+            <a href="{{pathFor 'profile.page' username=requesteeName}}">
                 {{requesteeName}}
             </a>
             {{dateTimeAgo createdAt}}.

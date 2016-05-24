@@ -9,7 +9,7 @@
             </p>
             <p class="push-down-sm">
                 owned by
-                <a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">
+                <a href="{{pathFor 'profile.page' username=ownerName}}">
                     {{ownerName}}
                 </a>
                 {{#if location}}({{location}}){{/if}}
@@ -102,7 +102,7 @@
                 </p>
                 <p class="push-down-sm">
                     owned by
-                    <a href="{{pathFor 'chronologicalUserPosts' username=ownerName}}">
+                    <a href="{{pathFor 'profile.page' username=ownerName}}">
                         {{ownerName}}
                     </a>
                     {{#if location}}({{location}}){{/if}}

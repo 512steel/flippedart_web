@@ -18,6 +18,7 @@
         {{else}}
 
             {{#unless userAttributes}}
+                <!-- FIXME: force with the UI to fill this out first, otherwise projects can't be added. -->
                 <p>Please fill out your profile information.</p>
             {{else}}
                 <p>{{userAttributes.bio}}</p>

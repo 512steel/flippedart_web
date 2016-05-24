@@ -15,8 +15,7 @@
             </a>
             {{#if userMenuOpen}}
                 <!-- TODO: these buttons need to link to the actual pages -->
-              <a href="{{pathFor 'user.account'}}" class="btn-secondary">{{_ 'My account'}}</a>
-              <a href="{{pathFor 'profile.feed'}}" class="btn-secondary">{{_ 'My profile'}}</a>
+              <a href="{{pathFor 'profile.page' username=currentUsername}}" class="btn-secondary">{{_ 'My profile'}}</a>
               <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
               <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
             {{/if}}
@@ -33,6 +32,7 @@
               {{#each userNotifications}}
                   notification: {{> notification_card}}<br>
               {{/each}}
+              <p class="notifications-clear-all">Clear all notifications</p>
           </div>
 
         <div class="list-todos">

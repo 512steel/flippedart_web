@@ -148,33 +148,15 @@ FlowRouter.route('/account', {
 FlowRouter.route('/:username/exchanges', {
     name: 'exchanges.user',
     action() {
-        console.log('1');
         BlazeLayout.render('App_body', { main: 'user_transactions' });
     },
 });
 FlowRouter.route('/:username/exchanges/:exchangeId', {
     name: 'exchanges.user.single',
     action() {
-        console.log('2');
         BlazeLayout.render('App_body', { main: 'user_single_transaction' });
     },
 });
-/*
-    The following two are aliases for the '/exchanges' route.
-    TODO: when using the FlowRouter.go() method, include the :username param for more semantic routes?
-*/
-/*FlowRouter.route('/exchanges', {
-    name: 'exchanges.user',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_transactions' });
-    },
-});
-FlowRouter.route('/exchanges/:exchangeId', {
-    name: 'exchanges.user.single',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_single_transaction' });
-    },
-});*/
 
 
 FlowRouter.route('/:username', {

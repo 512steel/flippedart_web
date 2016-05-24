@@ -88,6 +88,11 @@ Template.transaction_card.helpers({
             (currentUser.username == transaction.requesteeName))
             return true;
     },
+    currentUsername: function() {
+        if (Meteor.user()) {
+            return Meteor.user().username;
+        }
+    },
 
     requesterName: function() {
         return Template.instance().transaction().requesterName;
@@ -211,6 +216,10 @@ Template.user_single_transaction.helpers({
         if (this.tag) {
             return true;
         }
+    },
+
+    pageUsername: function() {
+        return FlowRouter.getParam('username');
     }
 });
 

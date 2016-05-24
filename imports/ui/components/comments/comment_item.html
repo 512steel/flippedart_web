@@ -5,7 +5,7 @@
             {{> commentEdit }}
         {{else}}
             <span class="date pull-right">{{timeToMinutes createdAt}}</span>
-            <p class="author shift-down"><a href="{{pathFor 'chronologicalUserPosts' username=author}}">{{author}}</a> said:</p>
+            <p class="author shift-down"><a href="{{pathFor 'profile.page' username=author}}">{{author}}</a> said:</p>
             <p class="push-down-sm">{{body}}</p>
         {{/if}}
     </li>

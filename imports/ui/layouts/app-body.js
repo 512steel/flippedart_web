@@ -12,8 +12,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { insert } from '../../api/lists/methods.js';
 
 import { Notifications } from '../../api/notifications/notifications.js';
-import { clearAllNotifications,
-    clearSingleNotification } from '../../api/notifications/methods.js';
+import { clearAllNotifications } from '../../api/notifications/methods.js';
 
 import '../components/notifications/notifications-components.js';
 
@@ -53,6 +52,11 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 Template.App_body.helpers({
   userNotifications() {
       return Notifications.find({});
+  },
+  currentUsername() {
+    if (Meteor.user()) {
+      return Meteor.user().username;
+    }
   },
 
 
@@ -101,17 +105,9 @@ Template.App_body.helpers({
 });
 
 Template.App_body.events({
-    'click .notificatins-clear-all': function () {
+    'click .notifications-clear-all': function () {
         console.log(' in notifications-clear test');
-        clearAllNotifications.call({
-            //...
-        })
-    },
-    'click .notificatins-clear-single': function () {
-        console.log(' in notifications-clear test');
-        clearSingleNotification.call({
-            notificationId: 'J9z6rYgW63XzDGEWJ'  //TODO: fill in a notificationId here
-        })
+        clearAllNotifications.call({ });
     },
 
 
