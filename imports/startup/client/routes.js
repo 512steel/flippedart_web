@@ -23,6 +23,7 @@ import '../../ui/components/transactions-pages/transactions-components.js';
 import '../../ui/components/exchangeItems/exchangeItems-components.js';
 import '../../ui/components/user-posts/user-posts-components.js';
 import '../../ui/components/user-profile/profile-page-components.js';
+import '../../ui/components/chat/chat-window-components.js';
 
 
 // Import to override accounts templates
@@ -111,7 +112,7 @@ FlowRouter.route('/', {
 FlowRouter.route('/messages/:username/:messagesLimit?', {
     name: 'chatWindow.user',
     action() {
-        BlazeLayout.render('App_body', { main: 'chat_window'});
+        BlazeLayout.render('App_body', { main: 'chat_window_card'});
     }
 });
 

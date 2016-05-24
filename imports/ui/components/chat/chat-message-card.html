@@ -1,13 +1,25 @@
 <template name="chat_message_card">
-    <h3>Chat message card.</h3>
 
     <div class="chat-message shift-down chat-message-{{senderClass}}">
-        {{#if equals senderClass "mine"}}<form><a class="btn-xs btn-danger pull-right chat-message-delete" href="#">X</a></form>{{/if}}
-        <p><a href="{{pathFor 'profile.page' username=senderUsername}}">{{senderUsername}}</a></p>
-        {{#if imageLink}}
-            <p>Image Link: {{imageLink}}</p>
+
+        {{#if equals senderClass "mine"}}
+            <a class="btn-xs btn-danger pull-right chat-message-delete" href="#">X</a>
         {{/if}}
+
+        <p>
+            <a href="{{pathFor 'profile.page' username=senderUserName}}">
+                {{senderUserName}}
+            </a>
+        </p>
+
+        {{#if imageLink}}
+            <p>Image Link: {{imageLink}}</p>  <!-- TODO: c.url imageLinks -->
+        {{/if}}
+
         <h4 class="push-down-sm">{{text}}</h4>
+
         <p class="push-down-sm">sent on {{timeToMinutes createdAt}}</p>
+
     </div>
+
 </template>

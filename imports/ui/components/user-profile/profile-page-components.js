@@ -24,7 +24,7 @@ Template.profile_page_card.onCreated(function () {
         this.subscribe('userAttributes.byUsername', this.getUsername());
 
         if (Meteor.user()) {
-            this.subscribe('chatSession.single', Meteor.user().username, this.getUsername());
+            this.subscribe('chatSession.single', this.getUsername());
         }
     });
 });

@@ -14,14 +14,16 @@ Meteor.publish('chatMessages.all', function () {  //FIXME: this is for testing p
 });
 
 // "username" here refers to the username in the _route_ of the chatwindow, i.e. who the current user is chatting _with_
-Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO: use "options" to sort by createdAt
+Meteor.publish('chatMessages.session', function(otherUsername, options) {  //TODO: use "options" to sort by createdAt
+    check(otherUsername, String);
+    check(options, {
+        sort: Object,
+        limit: Number
+    });
+
     if (this.userId) {
 
-        /****
-         *
-        //FIXME: where is "username" being used?
-         *
-         ****/
+        const currentUsername = Meteor.users.findOne(this.userId).username;
 
         // this query is borrowed from the chatSessions.insert() function
         const chatSession = ChatSessions.findOne(
@@ -29,14 +31,14 @@ Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO
                 $or: [
                     {
                         $and: [
-                            {firstUserId: {$not: {$ne: requesteeId}}},
-                            {secondUserId: {$not: {$ne: requesterId}}},
+                            {firstUserName: {$not: {$ne: currentUsername}}},
+                            {secondUserName: {$not: {$ne: otherUsername}}},
                         ]
                     },
                     {
                         $and: [
-                            {firstUserId: {$not: {$ne: requesterId}}},
-                            {secondUserId: {$not: {$ne: requesteeId}}},
+                            {firstUserName: {$not: {$ne: otherUsername}}},
+                            {secondUserName: {$not: {$ne: currentUsername}}},
                         ]
                     },
                 ]
@@ -47,12 +49,14 @@ Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO
         );
 
         if (chatSession) {
+
             return ChatMessages.find(
                 {
                     chatSessionId: chatSession._id,
                 },
                 {
-                    //TODO: 'sort' and 'limit' options here
+                    sort: options.sort,
+                    limit: options.limit,
                     fields: ChatMessages.publicFields,
                 }
             );

@@ -27,36 +27,36 @@ Meteor.publish('chatSessions.user', function() {
 
 
 // "username" here refers to the username in the _route_ of the chatwindow, i.e. who the current user is chatting _with_
-Meteor.publish('chatSession.single', function(currentUsername, otherUsername) {
+Meteor.publish('chatSession.single', function(otherUsername) {
+    check(otherUsername, String);
+
     if (this.userId) {
 
-        /****
-         *
-         //FIXME: where is "username" being used?
-         *
-         ****/
+        const currentUsername = Meteor.users.findOne(this.userId).username;
 
-        // this query is borrowed from the chatSessions.insert() function
-        return ChatSessions.find(
-            {
-                $or: [
-                    {
-                        $and: [
-                            {firstUserName: {$not: {$ne: currentUsername}}},
-                            {secondUserName: {$not: {$ne: otherUsername}}},
-                        ]
-                    },
-                    {
-                        $and: [
-                            {firstUserName: {$not: {$ne: otherUsername}}},
-                            {secondUserName: {$not: {$ne: currentUsername}}},
-                        ]
-                    },
-                ]
-            },
-            {
-                fields: ChatSessions.publicFields,
-            }
-        );
+        if (currentUsername) {
+            // this query is borrowed from the chatSessions.insert() function
+            return ChatSessions.find(
+                {
+                    $or: [
+                        {
+                            $and: [
+                                {firstUserName: {$not: {$ne: currentUsername}}},
+                                {secondUserName: {$not: {$ne: otherUsername}}},
+                            ]
+                        },
+                        {
+                            $and: [
+                                {firstUserName: {$not: {$ne: otherUsername}}},
+                                {secondUserName: {$not: {$ne: currentUsername}}},
+                            ]
+                        },
+                    ]
+                },
+                {
+                    fields: ChatSessions.publicFields,
+                }
+            );
+        }
     }
 });
