@@ -25,5 +25,12 @@ Meteor.publish('userAttributes.byId', function(userId) {
 Meteor.publish('userAttributes.byUsername', function (username) {
     check(username, String);
 
-    return UserAttributes.find({username : username});
+    return UserAttributes.find(
+        {
+            username : username
+        },
+        {
+            fields: UserAttributes.publicFields
+        }
+    );
 });

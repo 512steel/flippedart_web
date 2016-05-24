@@ -89,7 +89,7 @@ export const edit = new ValidatedMethod({
                  If it comes to it that's what I ought to switch to, in order to maintain
                  consistency with how UserPosts handles editing a post.
                 */
-                console.log('[access denied] You don\'t have permission to edit this post.');
+                console.log('[access denied] You don\'t have permission to edit this information.');
                 //throw new Meteor.Error('userPosts.edit.accessDenied',
                 //    'You don\'t have permission to edit this post.');
             }
@@ -147,7 +147,7 @@ const defaultTexts = (username) => {
     return {
         bio:  username + ' hasn\'t entered their bio yet.',
         location: username + ' hasn\'t entered their location yet.',
-        profilePhotoLink: username + ' hasn\'t uploaded a profile photo yet.',
+        profilePhotoLink: 'https://res.cloudinary.com/dwgim6or9/image/upload/v1447227436/anonymous-user_aw4wxr.png',
     }
 };
 

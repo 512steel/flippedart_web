@@ -25,4 +25,38 @@ Meteor.publish('chatSessions.user', function() {
         });
 });
 
-//NOTE: the equivalent of "chatSessions.single" is handled by the "chatMessages.session" pub.
+
+// "username" here refers to the username in the _route_ of the chatwindow, i.e. who the current user is chatting _with_
+Meteor.publish('chatSession.single', function(currentUsername, otherUsername) {
+    if (this.userId) {
+
+        /****
+         *
+         //FIXME: where is "username" being used?
+         *
+         ****/
+
+        // this query is borrowed from the chatSessions.insert() function
+        return ChatSessions.find(
+            {
+                $or: [
+                    {
+                        $and: [
+                            {firstUserName: {$not: {$ne: currentUsername}}},
+                            {secondUserName: {$not: {$ne: otherUsername}}},
+                        ]
+                    },
+                    {
+                        $and: [
+                            {firstUserName: {$not: {$ne: otherUsername}}},
+                            {secondUserName: {$not: {$ne: currentUsername}}},
+                        ]
+                    },
+                ]
+            },
+            {
+                fields: ChatSessions.publicFields,
+            }
+        );
+    }
+});

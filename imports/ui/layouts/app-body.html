@@ -28,6 +28,13 @@
           </div>
         {{/if}}
 
+          <div class="btns-group">
+              <p>Notifications:</p>
+              {{#each userNotifications}}
+                  notification: {{> notification_card}}<br>
+              {{/each}}
+          </div>
+
         <div class="list-todos">
           <a class="js-new-list link-list-new">
             <span class="icon-plus"></span>

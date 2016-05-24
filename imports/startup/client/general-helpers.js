@@ -58,7 +58,7 @@ Template.registerHelper('timeToMinutes', function(date) {
 
 Template.registerHelper('photoFullLink', function(link) {
     //Returns the proper image link depending on if it's a local or Cloudinary upload
-    if (link.slice(0,7) == "http://") {
+    if (link.slice(0,7) == "http://" || link.slice(0,8) == "https://") {
         return link;
     }
     else {

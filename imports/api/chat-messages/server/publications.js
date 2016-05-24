@@ -17,6 +17,12 @@ Meteor.publish('chatMessages.all', function () {  //FIXME: this is for testing p
 Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO: use "options" to sort by createdAt
     if (this.userId) {
 
+        /****
+         *
+        //FIXME: where is "username" being used?
+         *
+         ****/
+
         // this query is borrowed from the chatSessions.insert() function
         const chatSession = ChatSessions.findOne(
             {
@@ -46,7 +52,7 @@ Meteor.publish('chatMessages.session', function(username/*, options*/) {  //TODO
                     chatSessionId: chatSession._id,
                 },
                 {
-                    //TODO: sort options here
+                    //TODO: 'sort' and 'limit' options here
                     fields: ChatMessages.publicFields,
                 }
             );

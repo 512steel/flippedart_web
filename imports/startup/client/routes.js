@@ -22,6 +22,7 @@ import '../../ui/pages/feedback-thanks-page.js';
 import '../../ui/components/transactions-pages/transactions-components.js';
 import '../../ui/components/exchangeItems/exchangeItems-components.js';
 import '../../ui/components/user-posts/user-posts-components.js';
+import '../../ui/components/user-profile/profile-page-components.js';
 
 
 // Import to override accounts templates
@@ -160,7 +161,7 @@ FlowRouter.route('/:username/exchanges/:exchangeId', {
     The following two are aliases for the '/exchanges' route.
     TODO: when using the FlowRouter.go() method, include the :username param for more semantic routes?
 */
-FlowRouter.route('/exchanges', {
+/*FlowRouter.route('/exchanges', {
     name: 'exchanges.user',
     action() {
         BlazeLayout.render('App_body', { main: 'user_transactions' });
@@ -171,8 +172,15 @@ FlowRouter.route('/exchanges/:exchangeId', {
     action() {
         BlazeLayout.render('App_body', { main: 'user_single_transaction' });
     },
-});
+});*/
 
+
+FlowRouter.route('/:username', {
+    name: 'profile.page',
+    action() {
+        BlazeLayout.render('App_body', {main: 'profile_page_card'});
+    },
+});
 
 //TODO: make these "posts" routes more semantic
 FlowRouter.route('/:username/posts', {
@@ -193,19 +201,6 @@ FlowRouter.route('/:username/posts/top', {
         BlazeLayout.render('App_body', {main: 'user_posts_all'});
     },
 });
-//FIXME: the following two are old routes from chalkboard_exchange.  Assimilate their meaning into the routes above.
-/*FlowRouter.route('/:username/:postsLimit?', {
-    name: 'profile.feed',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_profile_feed' });
-    },
-});
-FlowRouter.route('/:username/top/:postsLimit?', {
-    name: 'profile.feed.top',
-    action() {
-        BlazeLayout.render('App_body', { main: 'user_profile_feed_top' });
-    },
-});*/
 
 
 FlowRouter.route('/:username/posts/:userPostId', {

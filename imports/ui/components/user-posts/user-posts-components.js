@@ -84,6 +84,13 @@ Template.user_posts_all.onCreated(function userPostsAllOnCreated() {
     // Subscriptions go in here
     this.autorun(() => {
         switch (FlowRouter.getRouteName()) {
+            //FIXME: how to sort posts inside of the profile page?
+            case 'profile.page':
+                this.toggleSortText.set('top');
+                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
+                break;
+
+            /* === */
             case 'profile.posts':
                 this.toggleSortText.set('top');
                 this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
@@ -229,7 +236,25 @@ Template.user_post_single_page.helpers({
 
 Template.user_posts_all.helpers({
     userPosts: function() {
-        return UserPosts.find({});
+        switch (FlowRouter.getRouteName()) {
+            //FIXME: how to sort posts inside of the profile page?
+            case 'profile.page':
+                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                break;
+
+            /* === */
+            case 'profile.posts':
+                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                break;
+            case 'profile.posts.new':
+                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                break;
+            case 'profile.posts.top':
+                return UserPosts.find({}, {sort: {rank: -1, createdAt: -1}, limit: 15});
+                break;
+        }
+
+        //return UserPosts.find({});
     },
     isProfileOwner: function() {
         if (Meteor.user() && Meteor.user().username == Template.instance().getUsername()) {
@@ -413,8 +438,6 @@ Template.user_post_submit.events({
                         Session.set('isPostUploading', false);
 
                         if (Meteor.user()) {
-                            console.log('flowrouting?');
-                            console.log(res);
                             FlowRouter.go('profile.post',
                                 {username: Meteor.user().username, userPostId: res}
                             );

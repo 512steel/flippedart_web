@@ -1,12 +1,15 @@
 <template name="projects_user_all">
-    <div class="content-scrollable">
+    <div class="">
         <h1>Inventory page</h1>
         <br>
 
         {{#unless currentUser}}
             {{#if hasExchangeItems}}
                 <div class="col-sm-12">
-                    <h1 class="row"><a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">{{currentPageUsername}}'s</a> projects</h1>
+                    <h2 class="row">
+                        <a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">
+                            {{currentPageUsername}}'s
+                        </a> projects</h2>
                 </div>
                 <div class="form-group">
                     {{#each item in exchangeItems}}
@@ -31,7 +34,7 @@
 
                 {{#if hasExchangeItems}}
                     <div class="col-sm-12">
-                        <h1 class="row">Your projects</h1>
+                        <h2 class="row">Your projects</h2>
                     </div>
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item">
@@ -50,11 +53,11 @@
             {{else}}
                 {{#if hasExchangeItems}}
                     <div class="col-sm-12">
-                        <h1 class="row">
+                        <h2 class="row">
                             <a href="{{pathFor 'chronologicalUserPosts' username=currentPageUsername}}">
                                 {{currentPageUsername}}'s
                             </a> projects
-                        </h1>
+                        </h2>
                     </div>
                     <div class="col-xxsish-8 right-border right-border-xxsish">
                         <div class="row">

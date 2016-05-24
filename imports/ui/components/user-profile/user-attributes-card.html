@@ -1,0 +1,38 @@
+<template name="user_attributes_card">
+    <h3>User attributes card.</h3>
+
+
+
+    <!-- FIXME: make this a general link that defaults to the blank photo -->
+    {{#if userAttributes.profilePhotoLink}}
+        <img src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
+    {{/if}}
+
+
+
+    {{#if isProfileOwner}}
+
+        <button class="btn userAttributes-edit">Edit</button>
+        {{#if showUserAttributesEdit}}
+            {{> user_attributes_edit }}
+        {{else}}
+
+            {{#unless userAttributes}}
+                <p>Please fill out your profile information.</p>
+            {{else}}
+                <p>{{userAttributes.bio}}</p>
+                <p>Location: {{userAttributes.location}}</p>
+            {{/unless}}
+
+        {{/if}}
+
+    {{else}}
+        {{#unless userAttributes}}
+            <p>{{profileUsername}} hasn't completed their profile yet.</p>
+        {{else}}
+            <p>{{userAttributes.bio}}</p>
+            <p>Location: {{userAttributes.location}}</p>
+        {{/unless}}
+    {{/if}}
+
+</template>

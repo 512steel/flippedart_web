@@ -11,6 +11,12 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { insert } from '../../api/lists/methods.js';
 
+import { Notifications } from '../../api/notifications/notifications.js';
+import { clearAllNotifications,
+    clearSingleNotification } from '../../api/notifications/methods.js';
+
+import '../components/notifications/notifications-components.js';
+
 import '../components/loading.js';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
@@ -35,6 +41,8 @@ Template.App_body.onCreated(function appBodyOnCreated() {
   this.subscribe('lists.public');
   this.subscribe('lists.private');
 
+  this.subscribe('notifications.user');
+
   this.state = new ReactiveDict();
   this.state.setDefault({
     menuOpen: false,
@@ -43,6 +51,11 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 });
 
 Template.App_body.helpers({
+  userNotifications() {
+      return Notifications.find({});
+  },
+
+
   menuOpen() {
     const instance = Template.instance();
     return instance.state.get('menuOpen') && 'menu-open';
@@ -88,6 +101,20 @@ Template.App_body.helpers({
 });
 
 Template.App_body.events({
+    'click .notificatins-clear-all': function () {
+        console.log(' in notifications-clear test');
+        clearAllNotifications.call({
+            //...
+        })
+    },
+    'click .notificatins-clear-single': function () {
+        console.log(' in notifications-clear test');
+        clearSingleNotification.call({
+            notificationId: 'J9z6rYgW63XzDGEWJ'  //TODO: fill in a notificationId here
+        })
+    },
+
+
   'click .js-menu'(event, instance) {
     instance.state.set('menuOpen', !instance.state.get('menuOpen'));
   },

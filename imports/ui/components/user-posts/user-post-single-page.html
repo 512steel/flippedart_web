@@ -1,9 +1,9 @@
 <template name="user_post_single_page">
     <div class="content-scrollable">
-        <a class="btn btn-default shift-down" href="{{pathFor 'profile.posts' username=userPost.author}}">
+        <a class="btn btn-default shift-down" href="{{pathFor 'profile.page' username=userPost.author}}">
             back to
             {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
-            posts
+            profile
         </a>
         <div class="shift-down-sm">
             {{#with userPost}}

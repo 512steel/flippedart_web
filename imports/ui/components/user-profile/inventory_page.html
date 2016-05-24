@@ -73,8 +73,8 @@
             {{#if hasImageLinks}}
                 <div class="item-listing-images push-down-sm">
                     {{#each imageLinks}}
-                        <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
-                            <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                        <a href="{{c.url this secure=true}}" data-toggle="lightbox" data-type="image">
+                            <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}"/>
                         </a>
                     {{/each}}
                 </div>
@@ -101,8 +101,8 @@
                 {{#if hasImageLinks}}
                     <div class="item-listing-images push-down-sm">
                         {{#each imageLinks}}
-                            <a href="{{c.url this}}" data-toggle="lightbox" data-type="image">
-                                <img src="{{c.url this width=250 height=200 crop='fit'}}"/>
+                            <a href="{{c.url this secure=true}}" data-toggle="lightbox" data-type="image">
+                                <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}"/>
                             </a>
                         {{/each}}
                     </div>

@@ -1,0 +1,57 @@
+<template name="profile_page_card">
+    <div class="content-scrollable">
+        <h1>Profile page card.</h1>
+
+        <div>
+            {{#if isProfileOwner}}
+                <h1>Your profile</h1>
+            {{else}}
+                <h1>{{profileUsername}}'s profile</h1>
+            {{/if}}
+        </div>
+
+        <hr>
+
+        <div>
+            {{> user_attributes_card}}
+        </div>
+
+        <hr>
+
+        <div>
+            {{#if isProfileOwner}}
+                <a href="{{pathFor 'exchanges.user'}}">Your exchanges</a>
+            {{/if}}
+
+            {{#if chatExists}}
+                <a href="{{pathFor 'chatWindow.user' username=profileUsername}}">Message {{profileUsername}}</a>
+            {{/if}}
+
+        </div>
+
+        <hr>
+
+        <div>
+            {{#if isProfileOwner}}
+                <h3>Your posts</h3>
+            {{else}}
+                <h3>{{profileUsername}}'s posts</h3>
+            {{/if}}
+
+            {{> user_posts_all}}
+        </div>
+
+        <hr>
+
+        <div>
+            {{#if isProfileOwner}}
+                <h3>Your projects</h3>
+            {{else}}
+                <h3>{{profileUsername}}'s projects</h3>
+            {{/if}}
+
+            {{> projects_user_all}}
+        </div>
+    </div>
+
+</template>
