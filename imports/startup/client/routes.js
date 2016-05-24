@@ -148,12 +148,14 @@ FlowRouter.route('/account', {
 FlowRouter.route('/:username/exchanges', {
     name: 'exchanges.user',
     action() {
+        console.log('1');
         BlazeLayout.render('App_body', { main: 'user_transactions' });
     },
 });
 FlowRouter.route('/:username/exchanges/:exchangeId', {
     name: 'exchanges.user.single',
     action() {
+        console.log('2');
         BlazeLayout.render('App_body', { main: 'user_single_transaction' });
     },
 });

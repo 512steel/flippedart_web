@@ -36,7 +36,7 @@ Template.transaction_card.onCreated(function transactionCardOnCreated() {
 });
 
 Template.user_transactions.onCreated(function userTransactionsOnCreated() {
-    console.log('in user_exchanges onCreated');
+    this.getUsername = () => FlowRouter.getParam('username');
 
     const transactionsSortOptions = {sort: {state: 1, createdAt: -1}};
 
@@ -161,6 +161,10 @@ Template.user_transactions.helpers({
                 {state: 'cancelled'}
             ]
         });
+    },
+
+    pageUsername: function() {
+        return Template.instance().getUsername();
     },
 });
 

@@ -2,6 +2,11 @@
     {{#if currentUser }}
         <div class="col-sm-12 content-scrollable">
             <h1>Your project exchanges</h1>
+
+            <a class="btn btn-default shift-down" href="{{pathFor 'profile.page' username=pageUsername}}">
+                back to your profile
+            </a>
+
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xxs-12">
                     <h2>Requested:</h2>
