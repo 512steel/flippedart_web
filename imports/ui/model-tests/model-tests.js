@@ -56,7 +56,6 @@ import { insert as chatMessageInsert,
     remove as chatMessageRemove } from '../../api/chat-messages/methods.js';
 
 
-
 import { listRenderHold } from '../launch-screen.js';
 //import './lists-show-page.html';
 
@@ -64,7 +63,6 @@ import './model-tests.html';
 
 // Components used inside the template
 import './../components/app-not-found.js';
-import '../components/lists-show.js';
 
 Template.model_tests_page.onCreated(function listsShowPageOnCreated() {
     this.getListId = () => FlowRouter.getParam('_id');
