@@ -68,10 +68,13 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
     this.getUsername = () => FlowRouter.getParam('username');
     this.getUserPostId = () => FlowRouter.getParam('userPostId');
 
+    this.commentsSubscription = null;
+
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.single', this.getUserPostId());
-        this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
+        //this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
+        this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 3);
     });
 });
 
@@ -231,6 +234,13 @@ Template.user_post_single_page.helpers({
 
     comments: function() {
         return Comments.find({userPostId: Template.instance().getUserPostId()});
+    },
+
+    hasMoreComments: function() {
+        const sub = Template.instance().commentsSubscription;
+
+        return sub.loaded() < Counts.get('comments.userPost.count') &&
+            sub.loaded() == sub.limit();
     }
 });
 
@@ -450,9 +460,11 @@ Template.user_post_submit.events({
 });
 
 Template.user_post_single_page.events({
-    'click .asdf': function(e) {
+    'click .js-load-more-comments': function(e) {
+        e.preventDefault();
 
-    },
+        Template.instance().commentsSubscription.loadNextPage();
+    }
 });
 
 Template.user_posts_all.events({

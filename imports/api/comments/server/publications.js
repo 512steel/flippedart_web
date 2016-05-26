@@ -17,19 +17,22 @@ Meteor.publish('comments.all', function () {  //TODO: pass in "options" object f
     );
 });
 
-Meteor.publish('comments.userPost', function(userPostId, options) {
+Meteor.publish('comments.userPost', function(userPostId, options, limit) {
     check(userPostId, String);
     check(options, {
         sort: Object,
-        limit: Number
     });
+    check(limit, Number);
+
+    Counts.publish(this, 'comments.userPost.count', Comments.find({userPostId: userPostId}), { noReady: true });
+
     return Comments.find(
         {
             userPostId: userPostId
         },
         {
             sort: options.sort,
-            limit: options.limit,
+            limit: limit,
             fields: Comments.publicFields,
         }
     );

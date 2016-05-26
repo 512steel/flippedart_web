@@ -16,6 +16,11 @@
         <ul class="comments">
             {{#each comments}}
                 {{> comment_card }}
+
+                {{#if hasMoreComments}}
+                    <p><a class="js-load-more-comments">Load more comments</a></p>
+                {{/if}}
+
             {{else}}
                 <p>There are no comments on this post.</p>
             {{/each}}
