@@ -3,13 +3,10 @@ import './app-body.html';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
-import { Lists } from '../../api/lists/lists.js';
 import { Template } from 'meteor/templating';
 import { ActiveRoute } from 'meteor/zimme:active-route';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { TAPi18n } from 'meteor/tap:i18n';
-
-import { insert } from '../../api/lists/methods.js';
 
 import { Notifications } from '../../api/notifications/notifications.js';
 import { clearAllNotifications } from '../../api/notifications/methods.js';
@@ -37,8 +34,6 @@ Meteor.startup(() => {
 });
 
 Template.App_body.onCreated(function appBodyOnCreated() {
-  this.subscribe('lists.public');
-  this.subscribe('lists.private');
 
   this.subscribe('notifications.user');
 
@@ -74,18 +69,6 @@ Template.App_body.helpers({
   userMenuOpen() {
     const instance = Template.instance();
     return instance.state.get('userMenuOpen');
-  },
-  lists() {
-    return Lists.find({ $or: [
-      { userId: { $exists: false } },
-      { userId: Meteor.userId() },
-    ] });
-  },
-  activeListClass(list) {
-    const active = ActiveRoute.name('Lists.show')
-      && FlowRouter.getParam('_id') === list._id;
-
-    return active && 'active';
   },
   connected() {
     if (showConnectionIssue.get()) {
@@ -134,27 +117,6 @@ Template.App_body.events({
     //FIXME: this should be AccountsTemplates.logout() instead of Meteor.logout().
     Meteor.logout();
 
-    // if we are on a private list, we'll need to go to a public one
-    if (ActiveRoute.name('Lists.show')) {
-      // TODO -- test this code path
-      const list = Lists.findOne(FlowRouter.getParam('_id'));
-      if (list.userId) {
-        FlowRouter.go('Lists.show', Lists.findOne({ userId: { $exists: false } }));
-      }
-    }
-  },
-
-  'click .js-new-list'() {
-    const listId = insert.call((err) => {
-      if (err) {
-        // At this point, we have already redirected to the new list page, but
-        // for some reason the list didn't get created. This should almost never
-        // happen, but it's good to handle it anyway.
-        FlowRouter.go('App.home');
-        alert(TAPi18n.__('Could not create list.')); // eslint-disable-line no-alert
-      }
-    });
-
-    FlowRouter.go('Lists.show', { _id: listId });
+    //TODO: FlowRouter.go(...)
   },
 });

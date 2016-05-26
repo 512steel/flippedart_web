@@ -14,7 +14,6 @@
               {{emailLocalPart}}
             </a>
             {{#if userMenuOpen}}
-                <!-- TODO: these buttons need to link to the actual pages -->
               <a href="{{pathFor 'profile.page' username=currentUsername}}" class="btn-secondary">{{_ 'My profile'}}</a>
               <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
               <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
@@ -35,27 +34,6 @@
               <p class="notifications-clear-all">Clear all notifications</p>
           </div>
 
-        <div class="list-todos">
-          <a class="js-new-list link-list-new">
-            <span class="icon-plus"></span>
-            {{_ "New List"}}
-          </a>
-
-          {{#each list in lists}}
-            <a href="{{pathFor 'Lists.show' _id=list._id}}" title="{{list.name}}"
-                class="list-todo {{activeListClass list}}">
-              {{#if list.userId}}
-                <span class="icon-lock"></span>
-              {{/if}}
-
-              {{#if list.incompleteCount}}
-                <span class="count-list">{{list.incompleteCount}}</span>
-              {{/if}}
-
-              {{list.name}}
-            </a>
-          {{/each}}
-        </div>
       </section>
 
       {{#unless connected}}
