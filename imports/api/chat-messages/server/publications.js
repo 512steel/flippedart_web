@@ -14,12 +14,12 @@ Meteor.publish('chatMessages.all', function () {  //FIXME: this is for testing p
 });
 
 // "username" here refers to the username in the _route_ of the chatwindow, i.e. who the current user is chatting _with_
-Meteor.publish('chatMessages.session', function(otherUsername, options) {  //TODO: use "options" to sort by createdAt
+Meteor.publish('chatMessages.session', function(otherUsername, options, limit) {
     check(otherUsername, String);
     check(options, {
         sort: Object,
-        limit: Number
     });
+    check(limit, Number);
 
     if (this.userId) {
 
@@ -50,13 +50,15 @@ Meteor.publish('chatMessages.session', function(otherUsername, options) {  //TOD
 
         if (chatSession) {
 
+            Counts.publish(this, 'chatMessages.session.count', ChatMessages.find({chatSessionId: chatSession._id}), { noReady: true });
+
             return ChatMessages.find(
                 {
                     chatSessionId: chatSession._id,
                 },
                 {
                     sort: options.sort,
-                    limit: options.limit,
+                    limit: limit,
                     fields: ChatMessages.publicFields,
                 }
             );

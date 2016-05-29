@@ -1,62 +1,64 @@
 <template name="chat_window_card">
-    <h2>Chat window card.</h2>
 
-    {{#if currentUser}}
+    <div class="content-scrollable">
+        <h2>Chat window card.</h2>
 
-        {{#unless currentChatSession}}
+        {{#if currentUser}}
 
-            {{#if isOwnPageUsername}}
-                {{> App_notAuthorized}}
+            {{#unless currentChatSession}}
+
+                {{#if isOwnPageUsername}}
+                    {{> App_notAuthorized}}
+                {{else}}
+                    <p>
+                        You don't have a chat started with {{otherUsername}}.<br>
+                        <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
+                    </p>
+                {{/if}}
+
             {{else}}
-                <p>
-                    You don't have a chat started with {{otherUsername}}.<br>
-                    <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
-                </p>
-            {{/if}}
+
+                <div class="sticky-headline-wrap">
+                    <h2 id="sticky-headline">Messages with {{otherUsername}}<hr></h2>
+                </div>
+                {{#if equals chatMessagesCount 0}}
+                    <p>
+                        {{#unless equals currentChatSession.firstUsername yourUsername}}
+                            You have asked {{currentChatSession.firstUsername}} to check out some items.  Use this chat window to discuss further details with {{currentChatSession.firstUsername}}.
+                        {{else}}
+                            {{currentChatSession.secondUsername}} has asked to check out some items from you.  <a href="{{pathFor 'exchanges.user' username=yourUsername}}">View your pending exchanges</a> and use this chat window to discuss further details with {{currentChatSession.secondUsername}}.
+                        {{/unless}}
+                    </p>
+                {{/if}}
+
+                <div class="push-down">
+                    {{#each chatMessages}}
+                        {{> chat_message_card}}
+                        <br><br><br>
+
+                    {{else}}
+                        <p>Send a message to {{otherUsername}} to start a conversation.</p>
+                    {{/each}}
+
+                    {{#if hasMoreChatMessages}}
+                        <p><a class="js-load-more-chat-messages">Load more messages</a></p>
+                    {{/if}}
+                </div>
+
+                <div class="chat-message-submit-wrap push-down" id="chat-message-submit-wrap">
+                    <hr>
+                    {{> chat_message_submit}}
+                    <div class="pull-left push-left push-down push-right">
+                        <p><a href="{{pathFor 'profile.page' username=otherUsername}}">{{otherUsername}}'s profile</a></p>
+                        <p><a href="{{pathFor 'exchanges.user' username=yourUsername}}">See your exchanges</a></p>
+                    </div>
+                </div>
+
+            {{/unless}}
 
         {{else}}
-
-            <div class="sticky-headline-wrap">
-                <h2 id="sticky-headline">Messages with {{otherUsername}}<hr></h2>
-            </div>
-            {{#if equals chatMessagesCount 0}}
-                <p>
-                    {{#unless equals currentChatSession.firstUsername yourUsername}}
-                        You have asked {{currentChatSession.firstUsername}} to check out some items.  Use this chat window to discuss further details with {{currentChatSession.firstUsername}}.
-                    {{else}}
-                        {{currentChatSession.secondUsername}} has asked to check out some items from you.  <a href="{{pathFor 'exchanges.user' username=yourUsername}}">View your pending exchanges</a> and use this chat window to discuss further details with {{currentChatSession.secondUsername}}.
-                    {{/unless}}
-                </p>
-            {{/if}}
-
-            <!--{{#if nextPath}}
-                <a class="load-more" href="{{nextPath}}">Load more</a>
-                {{else}}
-                    {{#unless ready}}
-                        {{> spinner}}
-                    {{/unless}}
-                {{/if}}-->
-
-            <div class="push-down">
-                {{#each chatMessages}}
-                    {{> chat_message_card}}
-                    <br><br><br>
-                {{/each}}
-            </div>
-
-            <div class="chat-message-submit-wrap push-down" id="chat-message-submit-wrap">
-                <hr>
-                {{> chat_message_submit}}
-                <div class="pull-left push-left push-down push-right">
-                    <p><a href="{{pathFor 'profile.page' username=otherUsername}}">{{otherUsername}}'s profile</a></p>
-                    <p><a href="{{pathFor 'exchanges.user' username=yourUsername}}">See your exchanges</a></p>
-                </div>
-            </div>
-
-        {{/unless}}
-
-    {{else}}
-        {{> App_notAuthorized}}
-    {{/if}}
+            {{> App_notAuthorized}}
+        {{/if}}
+    </div>
 
 </template>

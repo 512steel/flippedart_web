@@ -24,6 +24,10 @@
                         <hr>
                     {{/each}}
                 </div>
+
+                {{#if hasMoreExchangeItems}}
+                    <p><a class="js-load-more-projects">Load more of {{currentPageUsername}}'s projects</a></p>
+                {{/if}}
             {{else}}
                 <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
             {{/if}}
@@ -47,6 +51,10 @@
                         </div>
                         <hr>
                     {{/each}}
+
+                    {{#if hasMoreExchangeItems}}
+                        <p><a class="js-load-more-projects">Load more of your projects</a></p>
+                    {{/if}}
                 {{else}}
                     <p>You don't have any projects at the moment.</p>
                 {{/if}}
@@ -84,6 +92,11 @@
                             </form>
                         </div>
                     </div>
+
+                    {{#if hasMoreExchangeItems}}
+                        <p><a class="js-load-more-projects">Load more of {{currentPageUsername}}'s projects</a></p>
+                    {{/if}}
+
                     <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
                         <button class="multiple-item-request-form-button btn btn-primary" disabled>Request these projects</button>
                         {{#if requestedProjectNames}}

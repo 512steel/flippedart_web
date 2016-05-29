@@ -35,7 +35,8 @@ Meteor.startup(() => {
 
 Template.App_body.onCreated(function appBodyOnCreated() {
 
-  this.subscribe('notifications.user');
+  //TODO: paginate?
+  this.subscribe('notifications.user', {sort: {createdAt: -1}});
 
   this.state = new ReactiveDict();
   this.state.setDefault({

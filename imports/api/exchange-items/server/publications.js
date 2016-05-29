@@ -19,11 +19,14 @@ Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" obj
     );
 });
 
-Meteor.publish('exchangeItems.user', function(username, options) {
+Meteor.publish('exchangeItems.user', function(username, options, limit) {
     check(username, String);
     check(options, {
         sort: Object
     });
+    check(limit, Number);
+
+    Counts.publish(this, 'exchangeItems.user.count', ExchangeItems.find({ownerName: username}), { noReady: true });
 
     return ExchangeItems.find(
         {
@@ -31,6 +34,7 @@ Meteor.publish('exchangeItems.user', function(username, options) {
         },
         {
             sort: options.sort,
+            limit: limit,
             fields: ExchangeItems.publicFields
         });
 });

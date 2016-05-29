@@ -20,11 +20,9 @@ Template.chat_window_card.onCreated(function chatWindowCardOnCreated() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
-
         if (Meteor.user()) {
             this.subscribe('chatSession.single', this.getOtherUsername());
-            this.subscribe('chatMessages.session', this.getOtherUsername(), {sort: {createdAt: -1}, limit: 15});
+            this.chatMessagesSubscription = Meteor.subscribeWithPagination('chatMessages.session', this.getOtherUsername(), {sort: {createdAt: -1}}, 3);
         }
     });
 
@@ -101,8 +99,14 @@ Template.chat_window_card.helpers({
     },
 
     chatMessages: function() {
-        //FIXME: how best to paginate these?
-        return ChatMessages.find({});
+
+        return ChatMessages.find({}, {sort: {createdAt: -1}});
+    },
+    hasMoreChatMessages: function() {
+        const sub = Template.instance().chatMessagesSubscription;
+
+        return sub.loaded() < Counts.get('chatMessages.session.count') &&
+            sub.loaded() == sub.limit();
     }
 });
 
@@ -121,7 +125,11 @@ Template.chat_message_submit.helpers({
 
 
 Template.chat_window_card.events({
+    'click .js-load-more-chat-messages': function(e) {
+        e.preventDefault();
 
+        Template.instance().chatMessagesSubscription.loadNextPage();
+    },
 });
 
 Template.chat_message_card.events({

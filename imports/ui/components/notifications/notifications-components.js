@@ -54,7 +54,6 @@ Template.notification_card.helpers({
         if (Meteor.user() && this) {
             switch (this.type) {
                 case 'comment':
-                    console.log(this);
                     return FlowRouter.path('profile.post', {username: Meteor.user().username, userPostId: this.userPostId});;
                     break;
 

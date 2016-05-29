@@ -41,11 +41,9 @@ Template.projects_user_all.onCreated(function() {
     this.getPageUsername = () => FlowRouter.getParam('username');
     this.getExchangeItems = () => ExchangeItems.find({});
 
-    const projectSortOptions = {sort: {createdAt: -1}};
-
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('exchangeItems.user', this.getPageUsername(), projectSortOptions);
+        this.projectsSubscription = Meteor.subscribeWithPagination('exchangeItems.user', this.getPageUsername(), {sort: {createdAt: -1}}, 3);
     });
 });
 
@@ -129,9 +127,6 @@ Template.projects_user_all.helpers({
     isProfileOwner: function() {
         return Meteor.user().username === FlowRouter.getParam('username');
     },
-    exchangeItems: function() {
-        return Template.instance().getExchangeItems();
-    },
     currentPageUsername: function() {
         return Template.instance().getPageUsername();
     },
@@ -144,8 +139,18 @@ Template.projects_user_all.helpers({
     isExchangeItemAvailable: function (exchangeItem) {
         return (exchangeItem.available && !exchangeItem.locked);
     },
+
+    exchangeItems: function() {
+        return Template.instance().getExchangeItems();
+    },
     hasExchangeItems: function() {
         return Template.instance().getExchangeItems().count() > 0;
+    },
+    hasMoreExchangeItems: function() {
+        const sub = Template.instance().projectsSubscription;
+
+        return sub.loaded() < Counts.get('exchangeItems.user.count') &&
+            sub.loaded() == sub.limit();
     },
 });
 
@@ -320,7 +325,13 @@ Template.projects_user_all.events({
         else {
             console.log('[error] Could not make the transaction request');
         }
-    }
+    },
+
+    'click .js-load-more-projects': function(e) {
+        e.preventDefault();
+
+        Template.instance().projectsSubscription.loadNextPage();
+    },
 });
 
 Template.project_single_card.events({

@@ -84,27 +84,21 @@ Template.user_posts_all.onCreated(function userPostsAllOnCreated() {
     //FIXME: make a sensible "load more" and "toggle sort" option
     this.toggleSortText = new ReactiveVar('top');
 
+    this.userPostsSubscription = null;
+
     // Subscriptions go in here
     this.autorun(() => {
-        switch (FlowRouter.getRouteName()) {
-            //FIXME: how to sort posts inside of the profile page?
-            case 'profile.page':
-                this.toggleSortText.set('top');
-                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
-                break;
+        this.userPostsSubscription = Meteor.subscribeWithPagination('userPosts.user', this.getUsername(), {sort: {createdAt: -1}}, 3);
 
-            /* === */
+        //FIXME: how to sort posts inside of the profile page?
+        switch (FlowRouter.getRouteName()) {
+            case 'profile.page':
+                break;
             case 'profile.posts':
-                this.toggleSortText.set('top');
-                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
                 break;
             case 'profile.posts.new':
-                this.toggleSortText.set('top');
-                this.subscribe('userPosts.user', this.getUsername(), {sort: {createdAt: -1}, limit: 15});
                 break;
             case 'profile.posts.top':
-                this.toggleSortText.set('new');
-                this.subscribe('userPosts.user', this.getUsername(), {sort: {rank: -1, createdAt: -1}, limit: 15});
                 break;
         }
     });
@@ -249,23 +243,30 @@ Template.user_posts_all.helpers({
         switch (FlowRouter.getRouteName()) {
             //FIXME: how to sort posts inside of the profile page?
             case 'profile.page':
-                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                return UserPosts.find({}, {sort: {createdAt: -1}});
                 break;
 
             /* === */
             case 'profile.posts':
-                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                return UserPosts.find({}, {sort: {createdAt: -1}});
                 break;
             case 'profile.posts.new':
-                return UserPosts.find({}, {sort: {createdAt: -1}, limit: 15});
+                return UserPosts.find({}, {sort: {createdAt: -1}});
                 break;
             case 'profile.posts.top':
-                return UserPosts.find({}, {sort: {rank: -1, createdAt: -1}, limit: 15});
+                return UserPosts.find({}, {sort: {rank: -1, createdAt: -1}});
                 break;
         }
 
         //return UserPosts.find({});
     },
+    hasMorePosts: function() {
+        const sub = Template.instance().userPostsSubscription;
+
+        return sub.loaded() < Counts.get('userPosts.user.count') &&
+            sub.loaded() == sub.limit();
+    },
+
     isProfileOwner: function() {
         if (Meteor.user() && Meteor.user().username == Template.instance().getUsername()) {
             return true;
@@ -468,6 +469,12 @@ Template.user_post_single_page.events({
 });
 
 Template.user_posts_all.events({
+    'click .js-load-more-posts': function(e) {
+        e.preventDefault();
+
+        Template.instance().userPostsSubscription.loadNextPage();
+    },
+
     'click .toggle-posts-sort': function(e) {
         e.preventDefault();
 

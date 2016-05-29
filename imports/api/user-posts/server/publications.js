@@ -17,17 +17,22 @@ Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object 
     );
 });
 
-Meteor.publish('userPosts.user', function(username, options) {
+Meteor.publish('userPosts.user', function(username, options, limit) {
     check(username, String);
     check(options, {
         sort: Object,
-        limit: Number
     });
+    check(limit, Number);
+
+    Counts.publish(this, 'userPosts.user.count', UserPosts.find({author: username}), { noReady: true });
+
     return UserPosts.find(
-        {author : username},
+        {
+            author : username
+        },
         {
             sort: options.sort,
-            limit: options.limit,
+            limit: limit,
             fields: UserPosts.publicFields,
         }
     );

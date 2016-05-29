@@ -18,9 +18,14 @@
                     {{> user_post_card}}
                 </a>
                 <hr>
+
             {{else}}
                 <p>{{#if isProfileOwner}}You haven't{{else}}{{pageUsername}} hasn't{{/if}} made any posts yet.</p>
             {{/each}}
+
+            {{#if hasMorePosts}}
+                <p><a class="js-load-more-posts">Load more posts</a></p>
+            {{/if}}
         </div>
     </div>
 </template>
