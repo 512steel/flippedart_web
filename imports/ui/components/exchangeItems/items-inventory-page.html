@@ -56,7 +56,7 @@
                         <p><a class="js-load-more-projects">Load more of your projects</a></p>
                     {{/if}}
                 {{else}}
-                    <p>You don't have any projects at the moment.</p>
+                    <p>You don't have any projects at the moment.  <a href="{{pathFor 'projects.add'}}">Add some.</a></p>
                 {{/if}}
             {{else}}
                 {{#if hasExchangeItems}}
