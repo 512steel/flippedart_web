@@ -242,11 +242,10 @@ const COMMENTS_METHODS = _.pluck([
     flag,
     unflag,
     deleteComment,
-    //TODO: add flag/unflag methods     <-- FIXME
 ], 'name');
 
 if (Meteor.isServer) {
-    // Only allow 5 comment operations per connection per second
+    // Only allow 1 comment operations per connection per second
     DDPRateLimiter.addRule({
         name(name) {
             return _.contains(COMMENTS_METHODS, name);
@@ -254,5 +253,5 @@ if (Meteor.isServer) {
 
         // Rate limit per connection ID
         connectionId() { return true; },
-    }, 5, 1000);
+    }, 5, 5000);
 }

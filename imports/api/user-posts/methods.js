@@ -340,7 +340,7 @@ const USERPOSTS_METHODS = _.pluck([
 ], 'name');
 
 if (Meteor.isServer) {
-    // Only allow 5 userPost operations per connection per second
+    // Only allow 2 userPost operations per connection per second
     DDPRateLimiter.addRule({
         name(name) {
             return _.contains(USERPOSTS_METHODS, name);
@@ -348,5 +348,5 @@ if (Meteor.isServer) {
 
         // Rate limit per connection ID
         connectionId() { return true; },
-    }, 5, 1000);
+    }, 5, 2500);
 }

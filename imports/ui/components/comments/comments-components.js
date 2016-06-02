@@ -98,10 +98,10 @@ Template.comment_card.helpers({
     },
     flaggedClass: function() {
         if (Meteor.user() && !_.include(this.flaggers, Meteor.user().username)) {
-            return 'primary flaggable';
+            return 'flaggable';
         }
         else {
-            return 'secondary unflag';
+            return 'hollow unflag';
         }
     },
     userHasFlagged: function() {
@@ -137,7 +137,6 @@ Template.comment_card.events({
     'click .flag.flaggable': function(e) {
         e.preventDefault();
 
-        console.log(this);
         flag.call({
             commentId: this._id,
         });
@@ -194,8 +193,6 @@ Template.comment_edit.events({
 Template.comment_submit.events({
     'submit form.comment-submit-form': function(e) {
         e.preventDefault();
-
-        console.log('in comment_submit event');
 
         let $text = $(e.target).find('[name=text]');
         insert.call({

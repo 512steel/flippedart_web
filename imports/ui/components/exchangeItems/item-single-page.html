@@ -1,7 +1,5 @@
 <template name="project_single_page">
-    <div class="content-scrollable">
-        <h3>In project_single_page</h3>
-        <hr>
+    <div class="">
 
         {{#with exchangeItem}}
             {{> project_single_card}}
@@ -10,9 +8,9 @@
 
         {{#unless currentUser}}
             {{#if isExchangeItemAvailable}}
-                <p>This item is available!  Sign in to request it.</p>
+                <p>This project is available!  Sign in to request it.</p>
             {{else}}
-                <p>This item is not available to check out.</p>
+                <p>This project is not available to check out.</p>
             {{/if}}
             <p>
                 <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
@@ -22,11 +20,11 @@
         {{else}}
             {{#if isItemOwner}}
 
-                <!--FIXME: show the actual state of the item here:  transaction state (if it's involved in one)-->
+                <!--FIXME: show the actual state of the project here:  transaction state (if it's involved in one)-->
                 {{#if isExchangeItemAvailable}}
-                    <p>This item is available for other people to check out.</p>
+                    <p>This project is available for other people to check out.</p>
                 {{else}}
-                    <p>This item is not available for other people to check out.</p>
+                    <p>This project is not available for other people to check out.</p>
 
                 {{/if}}
 
@@ -40,8 +38,10 @@
             {{else}}
                 {{#if isExchangeItemAvailable}}
                     <form>
-                        <span class="hidden inventory-single-item-id">{{exchangeItem._id}}</span>
-                        <input class="single-item-request-form-button btn btn-primary" type="submit" value="Request this project"/>
+                        <div class="row column">
+                            <input class="single-item-request-form-button button primary" type="submit" value="Request this project"/>
+                            <span class="invisible inventory-single-item-id">{{exchangeItem._id}}</span>
+                        </div>
                     </form>
                 {{else}}
                     <!--FIXME: in UI areas like this, if the exchangeItem is a part of a transaction that
@@ -57,7 +57,5 @@
             {{/if}}
         {{/unless}}
 
-        <hr>
-        <p>bottom of project_single_page</p>
     </div>
 </template>

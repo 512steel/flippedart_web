@@ -18,7 +18,11 @@
 
         <ul class="comments">
             {{#each comments}}
-                {{> comment_card }}
+                <div class="row">
+                    <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered">
+                        {{> comment_card }}
+                    </div>
+                </div>
 
             {{else}}
                 <p>There are no comments on this post.</p>

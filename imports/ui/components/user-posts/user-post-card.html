@@ -18,14 +18,10 @@
             <h3>[This post has been flagged as inappropriate]</h3>
         {{/unless}}
 
-        <p class="push-down-sm">location: {{location}}</p>
-
-        {{#if ownPost}}
-            <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="pull-left button float-right ">Edit</a>
-        {{/if}}
+        <!--<p class="push-down-sm">location: {{location}}</p>-->
 
         <div class="button-group">
-            <a href="#" class="upvote button {{upvotedClass}}">
+            <a href="#" class="upvote button primary {{upvotedClass}}">
                 <i class="fi-star"></i>&nbsp;&nbsp;{{#if upvotes}}{{upvotes}}{{else}}0{{/if}}
             </a>
 
@@ -35,9 +31,11 @@
 
             {{#if currentUser}}
                 {{#unless ownPost}}
-                    <a href="#" class="flag button {{flaggedClass}}">
+                    <a href="#" class="flag button primary {{flaggedClass}}">
                         {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
                     </a>
+                {{else}}
+                    <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="button primary">Edit</a>
                 {{/unless}}
             {{/if}}
         </div>

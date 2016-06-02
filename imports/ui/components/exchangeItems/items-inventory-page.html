@@ -1,7 +1,5 @@
 <template name="projects_user_all">
-    <div class="">
-        <h1>Inventory page</h1>
-        <br>
+    <div class="row column">
 
         {{#unless currentUser}}
             {{#if hasExchangeItems}}
@@ -74,7 +72,7 @@
                                     {{#each item in exchangeItems}}
                                         <div class="inventory-single-item">
                                             {{#with item}}
-                                                <span class="hidden inventory-single-item-id">{{_id}}</span>
+                                                <span class="invisible inventory-single-item-id">{{_id}}</span>
                                                 {{> project_single_card }}
 
                                                 {{#if isExchangeItemAvailable (item)}}

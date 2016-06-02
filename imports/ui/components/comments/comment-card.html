@@ -1,11 +1,11 @@
 <template name="comment_card">
-    <div class="row small-10 medium-8 large-6 large-offset-2 small-centered columns">
+    <div class="row column">
         {{#if ownComment}}
             <button class="button float-right comment-edit">Edit</button>
         {{/if}}
         {{#unless ownComment}}
             {{#if currentUser}}
-                <a href="#" class="flag button float-right {{flaggedClass}}">
+                <a href="#" class="flag button primary float-right {{flaggedClass}}">
                     {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
                 </a>
             {{/if}}

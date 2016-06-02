@@ -9,3 +9,18 @@
     display: inline-block;
   }
 }
+
+.push-down {
+  margin-bottom: 2rem;
+}
+.push-down-small {
+  margin-bottom: 1rem;
+}
+.push-down-large {
+  margin-bottom: 3rem;
+}
+
+
+input.padded, textarea.padded {
+  padding: .5rem
+}

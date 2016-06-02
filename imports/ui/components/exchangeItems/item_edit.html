@@ -1,39 +1,53 @@
 <template name="item_edit">
-    <h3>In item_edit</h3>
-    {{#if equals currentUser.username ownerName}}  <!--TODO: unnecessary check? -->
+    {{#if equals currentUser.username ownerName}}  <!--TODO: perform this check in a helper -->
+        <h3>Edit your project's details</h3>
+
         <form class="main item-edit-form">
-            <div class="form-group">
-                <div class="controls">
 
-                    <p>Title:</p>
-                    {{#unless isFirstOwner}}
-                        <input name="title" type="text" value="{{title}}" disabled />
-                    {{else}}
-                        <input name="title" type="text" value="{{title}}" />
-                    {{/unless}}
+            <div class="row column small-12 medium-10 large-8 medium-centered large-centered">
+                <div class="small-12 medium-10 large-10 medium-offset-2 large-offset-2 columns">
+                    <div class="row column">
+                        <label>Title:</label>
+                        {{#unless isFirstOwner}}
+                            <input name="title" type="text" value="{{title}}" disabled />
+                        {{else}}
+                            <input name="title" type="text" value="{{title}}" placeholder="Edit the title" />
+                        {{/unless}}
+                    </div>
 
-                    <br>
+                    <div class="row column">
+                        <label>
+                            {{#unless isFirstOwner}}Make an addendum to this item's description:{{else}}Description:{{/unless}}
+                        </label>
+                        <input name="description" type="text" value="{{latestAddendum}}" placeholder="Update this project's description"  maxlength="5000"/>
+                    </div>
 
-                    <label class="control-label">{{#unless isFirstOwner}}Make an addendum to this item's description:{{else}}Description:{{/unless}} </label><br>
-                    <input name="description" type="text" value="{{latestAddendum}}" placeholder="Update this project's description" class="form-control" maxlength="5000"/><br>
+                    <div class="row column">
+                        <label>Location:</label>
+                        <input name="location" type="text" value="{{location}}" placeholder="New location" maxlength="500"/>
+                    </div>
 
-                    <p>Tag:</p>
-                    <input name="location" type="text" value="{{location}}" placeholder="New location" class="form-control" maxlength="500"/><br>
+                    <!-- TODO: tag edit? -->
+
+                    <div class="row column">
+                        <span data-tooltip="" aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Check this box if you'd like to share your project with other people.">Available for checkout?</span>
+
+                        {{#if isAvailable}}
+                            <input name="availableCheckbox" type="checkbox" checked/>
+                        {{else}}
+                            <input name="availableCheckbox" type="checkbox"/>
+                        {{/if}}
+                    </div>
+
+                    <hr>
+
+                    <div class="row column">
+                        <input type="submit" value="Save" class="button primary submit float-left"/>
+                        <a class="button alert float-right delete-item" href="#">Delete</a>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="controls">
-                    <label class="control-label">Available for checkout?</label><br>
-                    {{#if isAvailable}}
-                        <input name="availableCheckbox" type="checkbox" checked/>
-                    {{else}}
-                        <input name="availableCheckbox" type="checkbox"/>
-                    {{/if}}
-                </div>
-            </div>
-            <input type="submit" value="Edit" class="btn btn-primary submit"/>
-            <hr/>
-            <a class="btn btn-danger delete-item" href="#">Delete</a>
+
         </form>
     {{/if}}
 </template>

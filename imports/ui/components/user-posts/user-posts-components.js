@@ -168,18 +168,18 @@ Template.user_post_card.helpers({
         }
 
         if (!_.include(this.voters, Meteor.user().username)) {
-            return 'primary upvotable';
+            return 'upvotable';
         }
         else {
-            return 'secondary upvoted';
+            return 'hollow upvoted';
         }
     },
     flaggedClass: function() {
         if (Meteor.user() && !_.include(this.flaggers, Meteor.user().username)) {
-            return 'primary flaggable';
+            return 'flaggable';
         }
         else {
-            return 'secondary unflag';
+            return 'hollow unflag';
         }
     },
     userHasFlagged: function() {

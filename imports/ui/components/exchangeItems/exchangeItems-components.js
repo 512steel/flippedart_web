@@ -91,6 +91,8 @@ Template.item_edit.onRendered(function itemEditOnRendered() {
             // release renderHolds here
         }
     });
+
+    this.tooltip = new Foundation.Tooltip($('.has-tip'));
 });
 
 Template.item_submit.onRendered(function itemSubmitOnRendered() {
@@ -98,6 +100,12 @@ Template.item_submit.onRendered(function itemSubmitOnRendered() {
         if (this.subscriptionsReady()) {
             // release renderHolds here
         }
+    });
+});
+
+Template.single_item_submit.onRendered(function() {
+    $('.has-tip').each(function() {
+        new Foundation.Tooltip($(this));
     });
 });
 
@@ -189,7 +197,7 @@ Template.project_single_card.helpers({
         if (this && !this.locked) {
             return "item-edit";
         }
-        else return "hidden";
+        else return "invisible";
     },
 });
 
@@ -242,6 +250,12 @@ Template.add_items_button.helpers({
 Template.single_item_submit.helpers({
     projectTags: function() {
         return PROJECT_TAGS;
+    },
+    maxPhotoUploadCount: function() {
+        return UPLOAD_LIMITS.images;
+    },
+    singleItemSubmitTemplateId: function() {
+        return this;
     }
 });
 
@@ -256,9 +270,6 @@ Template.project_single_page.events({
             var itemIds = [];
 
             itemIds.push($(e.target).parent().find('.inventory-single-item-id').text());
-
-            console.log('about to requestTransaction()');
-            console.log(Template.instance().getPageUsername());
 
             requestTransaction.call({
                 requesteeName: Template.instance().getPageUsername(),

@@ -56,9 +56,9 @@
                             </div>
                         {{/if}}
 
-                        <li><a href="{{pathFor 'explore.page'}}">explore</a></li>
-                        <li><a href="{{pathFor 'static.make'}}">make art</a></li>
-                        <li><a href="{{pathFor 'static.about'}}">about</a></li>
+                        <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">explore</a></li>
+                        <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">make art</a></li>
+                        <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">about</a></li>
                     </ul>
                 </div>
 
@@ -67,9 +67,9 @@
                     <div class="top-bar-left">
                         <ul class="menu">
                             <li><a href="{{pathFor 'static.home'}}">[logo]</a></li>
-                            <li><a href="{{pathFor 'explore.page'}}">explore</a></li>
-                            <li><a href="{{pathFor 'static.make'}}">make art</a></li>
-                            <li><a href="{{pathFor 'static.about'}}">about</a></li>
+                            <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">explore</a></li>
+                            <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">make art</a></li>
+                            <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">about</a></li>
                         </ul>
                     </div>
                     <div class="top-bar-right">
