@@ -1,17 +1,16 @@
 <template name="user_post_submit">
     <form enctype="multipart/form-data" class="main form user-post-submit">
         <div class="form-group">
-            <!--<label class="control-label" for="userPostText">Post an update</label>-->
-            <div class="controls">
-                <textarea name="user-post-submit-text" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
-            </div>
+            <textarea required name="user-post-submit-text" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
         </div>
-        <label class="control-label">Upload a photo</label>
-        <input type="file" accept="image/*" multiple/>
+
+        <label for="postFileUpload" class="button expanded">Upload photos (up to {{maxPhotoUploadCount}})</label>
+        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" multiple/>
+
         {{#if isUploading}}
-            <input type="submit" value="{{uploadingCopy}}" class="btn btn-primary pull-right" disabled/>
+            <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
         {{else}}
-            <input type="submit" value="Post" class="btn btn-primary pull-right"/>
+            <input type="submit" value="Post" class="button primary float-right"/>
         {{/if}}
     </form>
 </template>

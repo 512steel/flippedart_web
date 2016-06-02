@@ -1,5 +1,5 @@
 <template name="user_posts_all">
-    <div class="">
+    <div class="row column">
         <h1>
             {{#if isProfileOwner}}Your{{else}}{{pageUsername}}'s{{/if}} posts
         </h1>
@@ -24,7 +24,7 @@
             {{/each}}
 
             {{#if hasMorePosts}}
-                <p><a class="js-load-more-posts">Load more posts</a></p>
+                <p><a class="js-load-more-posts button secondary">Load more posts</a></p>
             {{/if}}
         </div>
     </div>

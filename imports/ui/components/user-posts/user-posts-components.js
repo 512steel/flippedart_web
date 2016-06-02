@@ -5,7 +5,9 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/underscore';
 import { Cloudinary } from 'meteor/lepozepo:cloudinary';
 
-import { FLAG_THRESHOLD } from '../../lib/globals.js';
+import {
+    FLAG_THRESHOLD,
+    UPLOAD_LIMITS } from '../../lib/globals.js';
 
 import { UserPosts } from '../../../api/user-posts/user-posts.js';
 import {
@@ -110,6 +112,8 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
     this.autorun(() => {
         if (this.subscriptionsReady()) {
             // release renderHolds here
+
+            this.myOrbitInstance = new Foundation.Orbit($('.orbit'));
         }
     });
 });
@@ -164,18 +168,18 @@ Template.user_post_card.helpers({
         }
 
         if (!_.include(this.voters, Meteor.user().username)) {
-            return 'btn-primary upvotable';
+            return 'primary upvotable';
         }
         else {
-            return 'btn-secondary upvoted';
+            return 'secondary upvoted';
         }
     },
     flaggedClass: function() {
         if (Meteor.user() && !_.include(this.flaggers, Meteor.user().username)) {
-            return 'flaggable';
+            return 'primary flaggable';
         }
         else {
-            return 'unflag';
+            return 'secondary unflag';
         }
     },
     userHasFlagged: function() {
@@ -212,6 +216,9 @@ Template.user_post_submit.helpers({
     },
     uploadingCopy: function() {
         return "Posting...";
+    },
+    maxPhotoUploadCount: function() {
+        return UPLOAD_LIMITS.images;
     }
 });
 
@@ -425,7 +432,7 @@ Template.user_post_submit.events({
 
                                 if (Meteor.user()) {
                                     FlowRouter.go('profile.post',
-                                        {username: Meteor.user().username, userPostId: res._id}
+                                        {username: Meteor.user().username, userPostId: res}
                                     );
                                 }
                             }

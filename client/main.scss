@@ -1,3 +1,11 @@
 @import './settings';
 @import '{zurb:foundation-sites}/scss/foundation';
 @include foundation-everything;
+
+.horizontal-scroll-row {
+  white-space:nowrap;
+  overflow-x:scroll;
+  a {
+    display: inline-block;
+  }
+}

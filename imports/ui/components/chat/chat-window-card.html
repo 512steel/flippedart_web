@@ -1,7 +1,6 @@
 <template name="chat_window_card">
 
     <div class="content-scrollable">
-        <h2>Chat window card.</h2>
 
         {{#if currentUser}}
 
@@ -41,7 +40,7 @@
                     {{/each}}
 
                     {{#if hasMoreChatMessages}}
-                        <p><a class="js-load-more-chat-messages">Load more messages</a></p>
+                        <p><a class="js-load-more-chat-messages button secondary">Load more messages</a></p>
                     {{/if}}
                 </div>
 

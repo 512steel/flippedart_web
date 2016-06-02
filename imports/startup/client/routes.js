@@ -133,7 +133,7 @@ FlowRouter.route('/top/:thing', {
 });
 
 FlowRouter.route('/explore', {
-    name: 'explore',
+    name: 'explore.page',
     action() {
         BlazeLayout.render('App_body', { main: 'explore_page' });
     },

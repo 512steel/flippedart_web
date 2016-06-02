@@ -1,0 +1,151 @@
+<template name="App_body">
+    {{#HammerTouchArea gestureMap=templateGestures}}
+
+        <div class="off-canvas-wrapper">
+            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+                <!-- off-canvas title bar for 'small' screen -->
+                <div class="title-bar" data-responsive-toggle="widemenu" data-hide-for="medium">
+                    <div class="title-bar-left">
+                        <a href="{{pathFor 'static.home'}}"><span class="title-bar-title">[logo]</span></a>
+                    </div>
+                    <div class="title-bar-right">
+                        <button class="menu-icon" type="button" data-open="offCanvasRight"></button>
+                    </div>
+                </div>
+
+                <!-- off-canvas right menu -->
+                <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right">
+                    <ul class="vertical dropdown menu" data-dropdown-menu>
+
+                        {{#if currentUser}}
+                            <ul class="dropdown menu" data-dropdown-menu>
+                                <li class="has-submenu">
+                                    <a href="#" class="js-user-menu btn-secondary">
+                                        {{#if userMenuOpen}}
+                                            <span class="icon-arrow-up"></span>
+                                        {{else}}
+                                            <span class="icon-arrow-down"></span>
+                                        {{/if}}
+
+                                        {{emailLocalPart}}
+                                    </a>
+
+                                    <ul class="submenu menu vertical" data-submenu>
+                                        <li>
+                                            <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                                               class="btn-secondary">{{_ 'My profile'}}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
+                                        </li>
+                                        <li>
+                                            <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {{else}}
+                            <div class="menu btns-group">
+                                <li>
+                                    <a href="{{pathFor 'signin'}}" class="btn-secondary">{{_ 'Sign In'}}</a>
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'join'}}" class="btn-secondary">{{_ 'Join'}}</a>
+                                </li>
+                            </div>
+                        {{/if}}
+
+                        <li><a href="{{pathFor 'explore.page'}}">explore</a></li>
+                        <li><a href="{{pathFor 'static.make'}}">make art</a></li>
+                        <li><a href="{{pathFor 'static.about'}}">about</a></li>
+                    </ul>
+                </div>
+
+                <!-- "wider" top-bar menu for 'medium' and up -->
+                <div id="widemenu" class="top-bar">
+                    <div class="top-bar-left">
+                        <ul class="menu">
+                            <li><a href="{{pathFor 'static.home'}}">[logo]</a></li>
+                            <li><a href="{{pathFor 'explore.page'}}">explore</a></li>
+                            <li><a href="{{pathFor 'static.make'}}">make art</a></li>
+                            <li><a href="{{pathFor 'static.about'}}">about</a></li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right">
+                        {{#if currentUser}}
+                            <ul class="dropdown menu" data-dropdown-menu>
+                                <li class="has-submenu">
+                                    <a href="#" class="js-user-menu btn-secondary">
+                                        {{#if userMenuOpen}}
+                                            <span class="icon-arrow-up"></span>
+                                        {{else}}
+                                            <span class="icon-arrow-down"></span>
+                                        {{/if}}
+
+                                        {{emailLocalPart}}
+                                    </a>
+
+                                    <ul class="submenu menu vertical" data-submenu>
+                                        <li>
+                                            <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                                               class="btn-secondary">{{_ 'My profile'}}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
+                                        </li>
+                                        <li>
+                                            <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {{else}}
+                            <div class="menu btns-group">
+                                <li>
+                                    <a href="{{pathFor 'signin'}}" class="btn-secondary">{{_ 'Sign In'}}</a>
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'join'}}" class="btn-secondary">{{_ 'Join'}}</a>
+                                </li>
+                            </div>
+                        {{/if}}
+
+                    </div>
+                </div>
+
+                <!-- original content goes in this container -->
+                <div class="off-canvas-content" data-off-canvas-content>
+                    <div class="row column">
+                        {{#unless connected}}
+                            <div class="notifications">
+                                <div class="notification">
+                                    <span class="icon-sync"></span>
+                                    <div class="meta">
+                                        <div class="title-notification">Trying to connect</div>
+                                        <div class="description">There seems to be a connection issue</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/unless}}
+
+                        <div class="content-overlay"></div>
+
+                        <div id="content-container">
+                            {{#momentum plugin="fade"}}
+                                {{#if Template.subscriptionsReady}}
+                                    {{> Template.dynamic template=main}}
+                                {{else}}
+                                    {{> App_loading}}
+                                {{/if}}
+                            {{/momentum}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- close wrapper, no more content after this -->
+            </div>
+        </div>
+
+    {{/HammerTouchArea}}
+</template>

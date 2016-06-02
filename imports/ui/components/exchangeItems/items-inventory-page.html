@@ -26,7 +26,7 @@
                 </div>
 
                 {{#if hasMoreExchangeItems}}
-                    <p><a class="js-load-more-projects">Load more of {{currentPageUsername}}'s projects</a></p>
+                    <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s projects</a></p>
                 {{/if}}
             {{else}}
                 <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
@@ -53,7 +53,7 @@
                     {{/each}}
 
                     {{#if hasMoreExchangeItems}}
-                        <p><a class="js-load-more-projects">Load more of your projects</a></p>
+                        <p><a class="js-load-more-projects button secondary">Load more of your projects</a></p>
                     {{/if}}
                 {{else}}
                     <p>You don't have any projects at the moment.  <a href="{{pathFor 'projects.add'}}">Add some.</a></p>
@@ -94,7 +94,7 @@
                     </div>
 
                     {{#if hasMoreExchangeItems}}
-                        <p><a class="js-load-more-projects">Load more of {{currentPageUsername}}'s projects</a></p>
+                        <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s projects</a></p>
                     {{/if}}
 
                     <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">

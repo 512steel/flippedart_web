@@ -1,4 +1,6 @@
-import './app-body.html';
+//import './app-body.html';
+//import './app-body-foundation-top-bar.html';
+import './app-body-foundation-off-canvas.html';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -43,6 +45,10 @@ Template.App_body.onCreated(function appBodyOnCreated() {
     menuOpen: false,
     userMenuOpen: false,
   });
+});
+
+Template.App_body.onRendered(function() {
+  $(document).foundation();
 });
 
 Template.App_body.helpers({

@@ -6,8 +6,8 @@
                     <textarea name="text" type="text" placeholder="Edit your comment" class="form-control" maxlength="5000">{{text}}</textarea>
                 </div>
             </div>
-            <input type="submit" value="Edit" class="btn btn-primary submit"/>
-            <a class="btn btn-danger delete pull-right" href="#">Delete comment</a>
+            <input type="submit" value="Save" class="button primary submit float-left"/>
+            <a class="button alert delete float-right" href="#">Delete comment</a>
         </form>
     {{else}}
         {{> App_notAuthorized}}

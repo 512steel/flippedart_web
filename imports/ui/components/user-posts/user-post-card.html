@@ -1,36 +1,45 @@
 <template name="user_post_card">
-    <div class="post">
-        <p class="pull-right">{{timeToMinutes createdAt}}</p>
+    <div class="post row column">
+        <p class="float-right">{{dateTimeAgo createdAt}}</p>
         <p><strong><a href="{{pathFor 'profile.page' username=author}}">{{author}}</a></strong></p>
         {{#unless inappropriate}}
             <h4 class="user-post-body">{{text}}</h4>
-            {{#each imageLinks}}
-                <div class="post-images-list">
-                    <a href="{{c.url this secure=true}}" data-toggle="lightbox" data-type="image">
-                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}"/>
+
+            <!-- TODO: a proper orbit/lightbox with Motion-UI -->
+            <div class="post-images-list row column horizontal-scroll-row">
+                {{#each imageLinks}}
+                    <a class="thumbnail" href="{{c.url this secure=true}}">
+                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                     </a>
-                </div>
-            {{/each}}
+                {{/each}}
+            </div>
+
         {{else}}
             <h3>[This post has been flagged as inappropriate]</h3>
         {{/unless}}
 
         <p class="push-down-sm">location: {{location}}</p>
 
-        <a href="#" class="upvote btn btn-default pull-left {{upvotedClass}}">
-            {{#if upvotes}}{{upvotes}}{{else}}0{{/if}} <i class="fa fa-star push-right-xs"></i>
-        </a>
-
-        <a href="{{pathFor 'profile.post' username=author userPostId=_id}}" class="discuss pull-left btn btn-default">
-            {{commentsCount}} {{pluralize commentsCount "comment"}}
-        </a>
-
         {{#if ownPost}}
-            <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="pull-left btn btn-default">Edit</a>
+            <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="pull-left button float-right ">Edit</a>
         {{/if}}
 
-        <a href="#" class="flag btn btn-default pull-right {{flaggedClass}}">
-            {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
-        </a>
+        <div class="button-group">
+            <a href="#" class="upvote button {{upvotedClass}}">
+                <i class="fi-star"></i>&nbsp;&nbsp;{{#if upvotes}}{{upvotes}}{{else}}0{{/if}}
+            </a>
+
+            <a href="{{pathFor 'profile.post' username=author userPostId=_id}}" class="discuss button">
+                {{commentsCount}} {{pluralize commentsCount "comment"}}
+            </a>
+
+            {{#if currentUser}}
+                {{#unless ownPost}}
+                    <a href="#" class="flag button {{flaggedClass}}">
+                        {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
+                    </a>
+                {{/unless}}
+            {{/if}}
+        </div>
     </div>
 </template>

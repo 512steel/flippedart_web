@@ -98,10 +98,10 @@ Template.comment_card.helpers({
     },
     flaggedClass: function() {
         if (Meteor.user() && !_.include(this.flaggers, Meteor.user().username)) {
-            return 'flaggable';
+            return 'primary flaggable';
         }
         else {
-            return 'unflag';
+            return 'secondary unflag';
         }
     },
     userHasFlagged: function() {

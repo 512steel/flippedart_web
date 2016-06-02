@@ -1,29 +1,37 @@
 <template name="comment_card">
-    <h2>Comment card.</h2>
-    <li>
-        {{#if ownComment}}<button class="btn comment-edit">Edit</button>{{/if}}
+    <div class="row small-10 medium-8 large-6 large-offset-2 small-centered columns">
+        {{#if ownComment}}
+            <button class="button float-right comment-edit">Edit</button>
+        {{/if}}
+        {{#unless ownComment}}
+            {{#if currentUser}}
+                <a href="#" class="flag button float-right {{flaggedClass}}">
+                    {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
+                </a>
+            {{/if}}
+        {{/unless}}
 
         {{#if showCommentEdit}}
             {{> comment_edit }}
         {{else}}
-            <span class="date pull-right">{{timeToMinutes createdAt}}</span>
-
             <p class="author shift-down">
-                <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
+                {{#unless ownComment}}
+                    <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
+                {{else}}
+                    You
+                {{/unless}}
                 said:
             </p>
 
             {{#unless inappropriate}}
                 <p class="push-down-sm">{{text}}</p>
+                <p><span class="date">{{dateTimeAgo createdAt}}</span></p>
             {{else}}
                 <h3>[This comment has been flagged as inappropriate]</h3>
             {{/unless}}
 
             <br>
-            <a href="#" class="flag btn btn-default pull-right {{flaggedClass}}">
-                {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
-            </a>
 
         {{/if}}
-    </li>
+    </div>
 </template>

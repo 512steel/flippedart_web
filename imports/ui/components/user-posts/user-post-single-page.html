@@ -1,10 +1,13 @@
 <template name="user_post_single_page">
-    <div class="content-scrollable">
+    <div>
         <a class="btn btn-default shift-down" href="{{pathFor 'profile.page' username=userPost.author}}">
             back to
             {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
             profile
         </a>
+
+        <hr>
+
         <div class="shift-down-sm">
             {{#with userPost}}
                 {{> user_post_card}}
@@ -22,7 +25,7 @@
             {{/each}}
 
             {{#if hasMoreComments}}
-                <p><a class="js-load-more-comments">Load more comments</a></p>
+                <p><a class="js-load-more-comments button secondary">Load more comments</a></p>
             {{/if}}
         </ul>
 
