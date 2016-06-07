@@ -48,6 +48,7 @@ Template.user_attributes_edit.onCreated(function () {
     });
 
     this.userAttributes = () => UserAttributes.findOne({});
+    Session.set('isProfilePictureUploading', false);
 });
 
 
@@ -128,6 +129,9 @@ Template.user_attributes_edit.helpers({
     userAttributes: function() {
         return Template.instance().userAttributes();
     },
+    isUploadingProfilePicture: function() {
+        return Session.get('isProfilePictureUploading');
+    },
 });
 
 
@@ -163,6 +167,7 @@ Template.user_attributes_edit.events({
             }
             else if (files.length > 0) {
                 //user is uploading a profile photo
+                Session.set('isProfilePictureUploading', true);
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
@@ -170,6 +175,7 @@ Template.user_attributes_edit.events({
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError);
+                            Session.set('isProfilePictureUploading', false);
                         }
 
                         //FIXME - can't actually check whether there's an error before getting the public id on the asynchronous upload
@@ -182,6 +188,7 @@ Template.user_attributes_edit.events({
                             if (err) {
                                 //TODO throwError
                                 throwError(err);
+                                Session.set('showUserAttributesEdit', false);
                             }
                             else {
                                 //TODO: throwSuccess
@@ -235,6 +242,7 @@ Template.user_attributes_edit.events({
             }
             else if (files.length > 0) {
                 //user is uploading a profile photo
+                Session.set('isProfilePictureUploading', true);
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
@@ -242,6 +250,7 @@ Template.user_attributes_edit.events({
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError);
+                            Session.set('isProfilePictureUploading', false);
                         }
 
                         //FIXME - can't actually check whether there's an error before getting the public id on the asynchronous upload
@@ -254,12 +263,14 @@ Template.user_attributes_edit.events({
                             if (err) {
                                 //TODO throwError
                                 throwError(err);
+                                Session.set('isProfilePictureUploading', false);
                             }
                             else {
                                 //TODO: throwSuccess
 
                                 //hide the edit form after it's been submitted
                                 Session.set('showUserAttributesEdit', false);
+                                Session.set('isProfilePictureUploading', false);
                             }
                         });
                     });

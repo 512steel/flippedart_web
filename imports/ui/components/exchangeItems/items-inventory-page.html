@@ -1,30 +1,50 @@
+<template name="projects_user_all_page">
+    <div class="row">
+        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+            <div class="row column">
+                <a class="button-go-back" href="{{pathFor 'profile.page' username=userPageUsername}}">
+                    back to
+                    {{#if ownPage}}your{{else}}{{userPageUsername}}'s{{/if}}
+                    profile
+                </a>
+            </div>
+            <div class="row column">
+                {{> projects_user_all}}
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="projects_user_all">
     <div class="row column">
 
         {{#unless currentUser}}
             {{#if hasExchangeItems}}
-                <div class="col-sm-12">
-                    <h2 class="row">
-                        <a href="{{pathFor 'profile.page' username=currentPageUsername}}">
-                            {{currentPageUsername}}'s
-                        </a> projects</h2>
-                </div>
-                <div class="form-group">
-                    {{#each item in exchangeItems}}
-                        <div class="inventory-single-item">
-                            {{#with item}}{{> project_single_card }}{{/with}}
-                            {{#if isExchangeItemAvailable (item)}}
-                                <p>This project is available!  Sign in to request it</p>
-                            {{else}}
-                                <p>This project is not available for checkout.</p>
-                            {{/if}}
-                        </div>
-                        <hr>
-                    {{/each}}
+                <div class="row column">
+                    <h2 class="">
+                        {{currentPageUsername}}'s projects
+                    </h2>
                 </div>
 
+                {{#each item in exchangeItems}}
+                    <div class="inventory-single-item">
+                        {{#with item}}
+                            {{> project_single_card }}
+                        {{/with}}
+
+                        <!--{{#if isExchangeItemAvailable (item)}}
+                            <p>This project is available!  Sign in to request it</p>
+                        {{else}}
+                            <p>This project is not available for checkout.</p>
+                        {{/if}}-->
+                    </div>
+
+                    <hr>
+                {{/each}}
+
                 {{#if hasMoreExchangeItems}}
-                    <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s projects</a></p>
+                    <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s
+                        projects</a></p>
                 {{/if}}
             {{else}}
                 <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
@@ -32,20 +52,27 @@
         {{else}}
             {{#if isProfileOwner}}
 
-                {{> item_submit}}
+                <div class="row column push-down">
+                    <h2>Add a project</h2>
+                    {{> item_submit}}
+                </div>
+
 
                 {{#if hasExchangeItems}}
-                    <div class="col-sm-12">
-                        <h2 class="row">Your projects</h2>
+                    <div class="row column">
+                        <h2 class="">Your projects</h2>
                     </div>
                     {{#each item in exchangeItems}}
-                        <div class="inventory-single-item">
-                            {{#with item}}{{> project_single_card }}{{/with}}
-                            {{#if isExchangeItemAvailable (item)}}
+                        <div class="inventory-single-item row column">
+                            {{#with item}}
+                                {{> project_single_card }}
+                            {{/with}}
+
+                            <!--{{#if isExchangeItemAvailable (item)}}
                                 <p>This project is available for others to check out.</p>
                             {{else}}
                                 <p>This project is not available for others to checkout.</p>
-                            {{/if}}
+                            {{/if}}-->
                         </div>
                         <hr>
                     {{/each}}
@@ -54,49 +81,52 @@
                         <p><a class="js-load-more-projects button secondary">Load more of your projects</a></p>
                     {{/if}}
                 {{else}}
-                    <p>You don't have any projects at the moment.  <a href="{{pathFor 'projects.add'}}">Add some.</a></p>
+                    <p><strong>You don't have any projects at the moment.</strong> <a href="{{pathFor 'projects.add'}}">Add
+                        some.</a></p>
                 {{/if}}
             {{else}}
                 {{#if hasExchangeItems}}
-                    <div class="col-sm-12">
-                        <h2 class="row">
-                            <a href="{{pathFor 'profile.page' username=currentPageUsername}}">
-                                {{currentPageUsername}}'s
-                            </a> projects
+                    <div class="row column">
+                        <h2>
+                            {{currentPageUsername}}'s projects
                         </h2>
                     </div>
-                    <div class="col-xxsish-8 right-border right-border-xxsish">
-                        <div class="row">
-                            <form class="item-request-form">
-                                <div class="form-group">
-                                    {{#each item in exchangeItems}}
-                                        <div class="inventory-single-item">
-                                            {{#with item}}
-                                                <span class="invisible inventory-single-item-id">{{_id}}</span>
-                                                {{> project_single_card }}
 
-                                                {{#if isExchangeItemAvailable (item)}}
-                                                    <label class="control-label">Request for checkout:</label>
-                                                    <input class="request-checkout-checkbox form-control form-control-checkbox-left" type="checkbox"/>
-                                                {{else}}
-                                                    <p>This project can't be requested for checkout.</p>
-                                                {{/if}}
-                                            {{/with}}
+                    <div class="row column">
+                        <form class="item-request-form">
+                            {{#each item in exchangeItems}}
+                                <div class="inventory-single-item">
+                                    {{#with item}}
+                                        <span class="invisible inventory-single-item-id">{{_id}}</span>
+                                        {{> project_single_card }}
 
-                                        </div>
-                                        <hr>
-                                    {{/each}}
+                                        {{#if isExchangeItemAvailable (item)}}
+                                            <label class="control-label">Request for checkout:</label>
+                                            <input class="request-checkout-checkbox form-control form-control-checkbox-left"
+                                                   type="checkbox"/>
+                                        {{else}}
+                                            <p>This project can't be requested for checkout.</p>
+                                        {{/if}}
+                                    {{/with}}
+
                                 </div>
-                            </form>
-                        </div>
+                                <hr>
+                            {{/each}}
+                        </form>
                     </div>
 
                     {{#if hasMoreExchangeItems}}
-                        <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s projects</a></p>
+                        <p>
+                            <a class="js-load-more-projects button secondary">
+                                Load more of {{currentPageUsername}}'s projects
+                            </a>
+                        </p>
                     {{/if}}
 
                     <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
-                        <button class="multiple-item-request-form-button btn btn-primary" disabled>Request these projects</button>
+                        <button class="multiple-item-request-form-button button primary" disabled>Request these
+                            projects
+                        </button>
                         {{#if requestedProjectNames}}
                             <div class="requested-items-list">
                                 {{#each requestedProjectNames}}

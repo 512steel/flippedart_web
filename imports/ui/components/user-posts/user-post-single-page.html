@@ -1,6 +1,6 @@
 <template name="user_post_single_page">
     <div>
-        <a class="btn btn-default shift-down" href="{{pathFor 'profile.page' username=userPost.author}}">
+        <a class="button-go-back" href="{{pathFor 'profile.page' username=userPost.author}}">
             back to
             {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
             profile
@@ -19,7 +19,7 @@
         <ul class="comments">
             {{#each comments}}
                 <div class="row">
-                    <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered">
+                    <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
                         {{> comment_card }}
                     </div>
                 </div>
@@ -29,7 +29,11 @@
             {{/each}}
 
             {{#if hasMoreComments}}
-                <p><a class="js-load-more-comments button secondary">Load more comments</a></p>
+                <div class="row">
+                    <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                        <a class="js-load-more-comments button secondary">Load more comments</a>
+                    </div>
+                </div>
             {{/if}}
         </ul>
 

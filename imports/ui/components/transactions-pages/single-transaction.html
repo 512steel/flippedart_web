@@ -1,36 +1,43 @@
 <template name="user_single_transaction">
-    <p>User Single Exchange</p>
-    {{#unless isExchangeMember}}
-        {{> signup_call_to_action}}
-    {{else}}
-        <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
-        {{#with transaction}}
-            <div class="push-down">
-                {{> transaction_card }}
+
+    <div class="row">
+        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+            <div class="row column">
+                <a class="button-go-back" href="{{pathFor 'exchanges.user' username=pageUsername}}">back to your exchanges</a>
             </div>
-        {{/with}}
-        <div class="push-down">
-            <p>each exchangeItems in the transaction:</p>
-            {{#each exchangeItems}}
-                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
-                    <h4>{{this.title}}</h4>
-                    <p>
-                        {{#if itemHasTag}}{{this.tag}}<br>{{/if}}
-                        {{this.description}}
-                    </p>
-                </a>
-                <hr>
-            {{/each}}
+
+            {{#unless isExchangeMember}}
+                {{> signup_call_to_action}}
+            {{else}}
+                <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
+                {{#with transaction}}
+                    <div class="push-down">
+                        {{> transaction_card }}
+                    </div>
+                {{/with}}
+                <div class="push-down">
+                    {{#each exchangeItems}}
+                        <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
+                            <h4>{{this.title}}</h4>
+                            <p>
+                                {{#if itemHasTag}}{{this.tag}}<br>{{/if}}
+                                {{this.description}}
+                            </p>
+                        </a>
+                        <hr>
+                    {{/each}}
+                </div>
+                <div class="shift-down">
+                    {{#with transaction}}
+                        {{#if isRequestee}}
+                            <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesterName}}">chat with {{requesterName}}</a></p>
+                        {{else}}
+                            <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesteeName}}">chat with {{requesteeName}}</a></p>
+                        {{/if}}
+                    {{/with}}
+
+                </div>
+            {{/unless}}
         </div>
-        <div class="shift-down">
-            {{#with transaction}}
-                {{#if isRequestee}}
-                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesterName}}">chat with {{requesterName}}</a></p>
-                {{else}}
-                    <p><a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesteeName}}">chat with {{requesteeName}}</a></p>
-                {{/if}}
-            {{/with}}
-            <p><a class="btn btn-default" href="{{pathFor 'exchanges.user' username=pageUsername}}">back to your exchanges</a></p>
-        </div>
-    {{/unless}}
+    </div>
 </template>

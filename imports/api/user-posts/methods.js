@@ -8,7 +8,9 @@ import { UserPosts } from './user-posts.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank } from '../user-attributes/methods.js';
 
-import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
+import {
+    POINTS_SYSTEM,
+    UPLOAD_LIMITS } from '../../ui/lib/globals.js';
 
 export const insert = new ValidatedMethod({
     name: 'userPosts.insert',
@@ -31,7 +33,7 @@ export const insert = new ValidatedMethod({
             tag = sanitizeHtml(tag);
 
             //truncate the imageLinks array
-            imageLinks = imageLinks.slice(0, 4);
+            imageLinks = imageLinks.slice(0, UPLOAD_LIMITS.images);
 
             const userAttributes = UserAttributes.findOne({userId: this.userId});
 

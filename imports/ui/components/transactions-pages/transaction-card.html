@@ -1,42 +1,45 @@
 <template name="transaction_card">
-    <p>Transaction card</p>
 
+    <!-- FIXME: add tooltips on these buttons -->
     {{#if isTransactionRequested}}
         {{#if isCurrentUserRequestee}}
-            <button class="btn-transaction-approve">Approve</button>
-            <button class="btn-transaction-decline">Decline</button>
-            (todo: tooltips)
+            <div class="button-group expanded">
+                <button class="button primary btn-transaction-approve">Approve</button>
+                <button class="button alert btn-transaction-decline">Decline</button>
+            </div>
         {{else}}
-            <button class="btn-transaction-cancel">Cancel request</button>
+            <button class="button secondary expanded btn-transaction-cancel">Cancel request</button>
         {{/if}}
     {{else}}
         {{#if isTransactionApproved}}
             {{#if isCurrentUserRequestee}}
-                <button class="btn-transaction-complete">Complete</button>
-                <button class="btn-transaction-decline">Decline</button>
+                <div class="button-group expanded">
+                    <button class="button primary btn-transaction-complete">Complete</button>
+                    <button class="button alert btn-transaction-decline">Decline</button>
+                </div>
             {{else}}
-                <button class="btn-transaction-cancel">Cancel request</button>
+                <button class="button secondary expanded btn-transaction-cancel">Cancel request</button>
             {{/if}}
         {{else}}
             {{#if isTransactionCompleted}}
                 {{#if isCurrentUserRequestee}}
-                    <button disabled>You have completed this exchange</button>
+                    <button class="button primary expanded" disabled>You have completed this exchange</button>
                 {{else}}
-                    <button disabled>{{requesterName}} has completed this exchange</button>
+                    <button class="button primary expanded" disabled>{{requesterName}} has completed this exchange</button>
                 {{/if}}
             {{else}}
                 {{#if isTransactionDeclined}}
                     {{#if isCurrentUserRequestee}}
-                        <button disabled>You have declined this exchange</button>
+                        <button class="button alert expanded" disabled>You have declined this exchange</button>
                     {{else}}
-                        <button disabled>{{requesteeName}} has declined this exchange</button>
+                        <button class="button alert expanded" disabled>{{requesteeName}} has declined this exchange</button>
                     {{/if}}
                 {{else}}
                     {{#if isTransactionCancelled}}
                         {{#if isCurrentUserRequestee}}
-                            <button disabled>{{requesterName}} has canceled this exchange</button>
+                            <button class="button secondary expanded" disabled>{{requesterName}} has canceled this exchange</button>
                         {{else}}
-                            <button disabled>You have canceled this exchange</button>
+                            <button class="button secondary expanded" disabled>You have canceled this exchange</button>
                         {{/if}}
                     {{/if}}
                 {{/if}}
@@ -44,7 +47,7 @@
         {{/if}}
     {{/if}}
 
-    <p class="clearfix push-down-sm">
+    <p class="row column">
         {{#if isCurrentUserRequestee}}
 
             <a href="{{pathFor 'profile.page' username=requesterName}}">

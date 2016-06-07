@@ -1,51 +1,54 @@
 <template name="profile_page_card">
-    <div class="content-scrollable">
-        <h1>Profile page card.</h1>
+    <div class="row column">
 
-        <div>
-            {{#if isProfileOwner}}
+        <div class="row column">
+            <h1>{{profileUsername}}</h1>
+            <!--{{#if isProfileOwner}}
                 <h1>Your profile</h1>
             {{else}}
                 <h1>{{profileUsername}}'s profile</h1>
-            {{/if}}
+            {{/if}}-->
         </div>
 
         <hr>
 
-        <div>
-            {{> user_attributes_card}}
+        <div class="row">
+            <div class="small-10 medium-10 large-10 small-centered medium-centered large-centered columns">
+                {{> user_attributes_card}}
+
+                <div class="column">
+                    {{#if isProfileOwner}}
+                        <hr>
+                        <a class="button secondary expanded" href="{{pathFor 'exchanges.user' username=profileUsername}}">
+                            My exchanges
+                        </a>
+                    {{/if}}
+                    {{#if chatExists}}
+                        <hr>
+                        <a class="button secondary expanded" href="{{pathFor 'chatWindow.user' username=profileUsername}}">
+                            Message {{profileUsername}}
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
         </div>
 
         <hr>
 
-        <div>
-            {{#if isProfileOwner}}
-                <a href="{{pathFor 'exchanges.user' username=profileUsername}}">Your exchanges</a>
-            {{/if}}
+        <div class="row column">
+            <div class="small-12 medium-6 large-6 columns">
+                {{> user_posts_all}}
+            </div>
 
-            {{#if chatExists}}
-                <a href="{{pathFor 'chatWindow.user' username=profileUsername}}">Message {{profileUsername}}</a>
-            {{/if}}
+            <div class="small-12 medium-1 large-1 columns">
+                <!-- TODO: vertical border -->
+            </div>
 
+            <div class="small-12 medium-5 large-5 columns">
+                {{> projects_user_all}}
+            </div>
         </div>
 
-        <hr>
-
-        <div>
-            {{> user_posts_all}}
-        </div>
-
-        <hr>
-
-        <div>
-            {{#if isProfileOwner}}
-                <h3>Your projects</h3>
-            {{else}}
-                <h3>{{profileUsername}}'s projects</h3>
-            {{/if}}
-
-            {{> projects_user_all}}
-        </div>
     </div>
 
 </template>

@@ -205,7 +205,7 @@ FlowRouter.route('/:username/posts/:userPostId/edit', {
 FlowRouter.route('/:username/projects', {
     name: 'profile.projects',
     action() {
-        BlazeLayout.render('App_body', { main: 'projects_user_all' });
+        BlazeLayout.render('App_body', { main: 'projects_user_all_page' });
     },
 });
 FlowRouter.route('/:username/projects/:exchangeItemId', {

@@ -1,35 +1,59 @@
 <template name="user_attributes_card">
-    <h3>User attributes card.</h3>
 
-    <!-- FIXME: make this a general link that defaults to the blank photo -->
-    {{#if userAttributes.profilePhotoLink}}
-        <img src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
-    {{/if}}
+    <div class="row column">
+        <div class="small-12 medium-4 large-3 column">
+            <!-- FIXME: make this a general link that defaults to the blank photo -->
+            {{#if userAttributes.profilePhotoLink}}
+                <!-- TODO: lightbox -->
+                <a href="{{c.url userAttributes.profilePhotoLink secure=true}}">
+                    <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
+                </a>
+            {{/if}}
+        </div>
 
-    {{#if isProfileOwner}}
+        <div class="small-12 medium-8 large-9 column">
+            {{#if isProfileOwner}}
 
-        <button class="btn userAttributes-edit">Edit</button>
-        {{#if showUserAttributesEdit}}
-            {{> user_attributes_edit }}
-        {{else}}
+                {{#if showUserAttributesEdit}}
+                    <button class="button primary hollow float-right userAttributes-edit">Cancel editing</button>
 
-            {{#unless userAttributes}}
-                <!-- FIXME: force with the UI to fill this out first, otherwise projects can't be added. -->
-                <p>Please fill out your profile information.</p>
+                    {{> user_attributes_edit }}
+                {{else}}
+                    <button class="button primary hollow float-right userAttributes-edit">Edit profile</button>
+
+                    {{#unless userAttributes}}
+                        <!-- FIXME: force with the UI to fill this out first, otherwise projects can't be added. -->
+                        <div class="row column clearfix-small">
+                            <p>Please fill out your profile information.</p>
+                        </div>
+                    {{else}}
+
+                        <div class="row column clearfix-small">
+                            <p>{{userAttributes.bio}}</p>
+                        </div>
+                        <div class="row column">
+                            <p>Location: {{userAttributes.location}}</p>
+                        </div>
+
+                    {{/unless}}
+
+                {{/if}}
+
             {{else}}
-                <p>{{userAttributes.bio}}</p>
-                <p>Location: {{userAttributes.location}}</p>
-            {{/unless}}
-
-        {{/if}}
-
-    {{else}}
-        {{#unless userAttributes}}
-            <p>{{profileUsername}} hasn't completed their profile yet.</p>
-        {{else}}
-            <p>{{userAttributes.bio}}</p>
-            <p>Location: {{userAttributes.location}}</p>
-        {{/unless}}
-    {{/if}}
+                {{#unless userAttributes}}
+                    <div class="row column">
+                        <p>{{profileUsername}} hasn't completed their profile yet.</p>
+                    </div>
+                {{else}}
+                    <div class="row column">
+                        <p>{{userAttributes.bio}}</p>
+                    </div>
+                    <div class="row column">
+                        <p>Location: {{userAttributes.location}}</p>
+                    </div>
+                {{/unless}}
+            {{/if}}
+        </div>
+    </div>
 
 </template>

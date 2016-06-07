@@ -11,6 +11,9 @@ Template.registerHelper('pluralize', function(n, thing) {
 Template.registerHelper('equals', function(a, b) {
     return a === b;
 });
+Template.registerHelper('notEquals', function(a, b) {
+    return a !== b;
+});
 Template.registerHelper('greaterThan', function(a, b) {
     return a > b;
 });

@@ -35,7 +35,7 @@
                         {{#if userHasFlagged}}flagged{{else}}flag{{/if}}
                     </a>
                 {{else}}
-                    <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="button primary">Edit</a>
+                    <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="button primary"><i class="fi-pencil"></i></a>
                 {{/unless}}
             {{/if}}
         </div>

@@ -47,6 +47,16 @@ Template.projects_user_all.onCreated(function() {
     });
 });
 
+Template.projects_user_all_page.onCreated(function() {
+
+    this.getPageUsername = () => FlowRouter.getParam('username');
+
+    // Subscriptions go in here
+    this.autorun(() => {
+
+    });
+});
+
 Template.project_single_card.onCreated(function() {
     this.showItemEdit = new ReactiveVar(false);
 
@@ -160,6 +170,17 @@ Template.projects_user_all.helpers({
         return sub.loaded() < Counts.get('exchangeItems.user.count') &&
             sub.loaded() == sub.limit();
     },
+});
+
+Template.projects_user_all_page.helpers({
+    userPageUsername: function() {
+        return Template.instance().getPageUsername();
+    },
+    ownPage: function() {
+        if (Meteor.user()) {
+            return Meteor.user().username === Template.instance().getPageUsername();
+        }
+    }
 });
 
 Template.project_single_card.helpers({
@@ -424,7 +445,6 @@ Template.item_submit.events({
         e.preventDefault();
 
         var items = [];
-        var erros = {};
         var currentItemsCount = $(".single-item-form").length;
         var successfulItems = 0;
 
@@ -519,7 +539,7 @@ Template.item_submit.events({
                                             Session.set('areItemsUploading', false);
 
                                             if (Meteor.user())
-                                                FlowRouter.go('profile.page', {username: Meteor.user().username});
+                                                FlowRouter.go('profile.projects', {username: Meteor.user().username});
                                         }
                                     }
                                 });

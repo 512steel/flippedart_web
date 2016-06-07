@@ -16,49 +16,42 @@
 
                 <!-- off-canvas right menu -->
                 <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right">
-                    <ul class="vertical dropdown menu" data-dropdown-menu>
+
+                    <button class="float-right push-down-small padded" aria-label="Close menu" type="button" data-close>
+                        <span class="" aria-hidden="true">X</span>
+                    </button>
+
+                    <ul class="vertical menu text-center">
 
                         {{#if currentUser}}
-                            <ul class="dropdown menu" data-dropdown-menu>
-                                <li class="has-submenu">
-                                    <a href="#" class="js-user-menu btn-secondary">
-                                        {{#if userMenuOpen}}
-                                            <span class="icon-arrow-up"></span>
-                                        {{else}}
-                                            <span class="icon-arrow-down"></span>
-                                        {{/if}}
 
-                                        {{emailLocalPart}}
-                                    </a>
+                            <li class="{{isActiveRoute 'profile.page'}}">
+                                <a href="{{pathFor 'profile.page' username=currentUsername}}" class="" data-close>{{currentUsername}}</a>
+                            </li>
+                            <li class="{{isActiveRoute 'profile.projects'}}">
+                                <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My projects</a>
+                            </li>
 
-                                    <ul class="submenu menu vertical" data-submenu>
-                                        <li>
-                                            <a href="{{pathFor 'profile.page' username=currentUsername}}"
-                                               class="btn-secondary">{{_ 'My profile'}}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
-                                        </li>
-                                        <li>
-                                            <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
                         {{else}}
-                            <div class="menu btns-group">
+                            <div class="menu button-group expanded">
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="btn-secondary">{{_ 'Sign In'}}</a>
+                                    <a href="{{pathFor 'signin'}}" class="button primary hollow" data-close>{{_ 'Sign In'}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="btn-secondary">{{_ 'Join'}}</a>
+                                    <a href="{{pathFor 'join'}}" class="button primary hollow" data-close>{{_ 'Join'}}</a>
                                 </li>
                             </div>
                         {{/if}}
 
-                        <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">explore</a></li>
-                        <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">make art</a></li>
-                        <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">about</a></li>
+                        <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                        <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                        <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
+                        <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+
+                        {{#if currentUser}}
+                            <li><a class="js-logout" data-close>{{_ 'logout'}}</a></li>
+                        {{/if}}
+
                     </ul>
                 </div>
 
@@ -67,29 +60,26 @@
                     <div class="top-bar-left">
                         <ul class="menu">
                             <li><a href="{{pathFor 'static.home'}}">[logo]</a></li>
-                            <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">explore</a></li>
-                            <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">make art</a></li>
-                            <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">about</a></li>
+                            <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                            <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                            <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
                         </ul>
                     </div>
                     <div class="top-bar-right">
                         {{#if currentUser}}
                             <ul class="dropdown menu" data-dropdown-menu>
                                 <li class="has-submenu">
-                                    <a href="#" class="js-user-menu btn-secondary">
-                                        {{#if userMenuOpen}}
-                                            <span class="icon-arrow-up"></span>
-                                        {{else}}
-                                            <span class="icon-arrow-down"></span>
-                                        {{/if}}
-
-                                        {{emailLocalPart}}
+                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
+                                        {{currentUsername}}
                                     </a>
 
                                     <ul class="submenu menu vertical" data-submenu>
-                                        <li>
+                                        <!--<li>
                                             <a href="{{pathFor 'profile.page' username=currentUsername}}"
                                                class="btn-secondary">{{_ 'My profile'}}</a>
+                                        </li>-->
+                                        <li>
+                                            <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
                                         </li>
                                         <li>
                                             <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
@@ -101,12 +91,12 @@
                                 </li>
                             </ul>
                         {{else}}
-                            <div class="menu btns-group">
+                            <div class="menu button-group">
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="btn-secondary">{{_ 'Sign In'}}</a>
+                                    <a href="{{pathFor 'signin'}}" class="button secondary hollow">{{_ 'Sign In'}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="btn-secondary">{{_ 'Join'}}</a>
+                                    <a href="{{pathFor 'join'}}" class="button secondary hollow">{{_ 'Join'}}</a>
                                 </li>
                             </div>
                         {{/if}}

@@ -1,16 +1,22 @@
 <template name="user_post_edit">
-    <a class="shift-down" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
-    {{#if ownPost}}
-        <form class="main form edit-post shift-down-sm">
-            <div class="form-group">
-                <h4>Edit your post</h4>
-                <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
+    <div class="row">
+        <div class="column small-12 medium-8 large-8 medium-centered large-centered">
+            <div>
+                <a class="button-go-back" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
             </div>
-            <input type="submit" value="Save" class="button primary submit float-left"/>
-        </form>
+            {{#if ownPost}}
+                <form class="main form edit-post shift-down-sm">
+                    <div class="form-group">
+                        <h4>Edit post</h4>
+                        <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
+                    </div>
+                    <input type="submit" value="Save" class="button primary submit float-left"/>
+                </form>
 
-        <a class="button alert delete-user-post float-right" href="#">Delete post</a>
-    {{else}}
-        {{> App_notAuthorized}}
-    {{/if}}
+                <a class="button alert delete-user-post float-right" href="#">Delete post</a>
+            {{else}}
+                {{> App_notAuthorized}}
+            {{/if}}
+        </div>
+    </div>
 </template>

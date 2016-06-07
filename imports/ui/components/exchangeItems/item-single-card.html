@@ -1,142 +1,26 @@
 <template name="project_single_card">
 
-    <div class="row">&nbsp;</div>
-    <div class="row column">
-        {{#unless currentUser}}
-            <div class="inventory-single-item">
-                <h3>{{title}}</h3>
+    <!-- FIXME: tooltips on "locked" and "available" buttons -->
 
-                <p class="push-down-sm">
-                    owned by
-                    <a href="{{pathFor 'profile.page' username=ownerName}}">
-                        {{ownerName}}
-                    </a>
-                </p>
-
-                <p class="push-down-sm">
-                    {{description}}
-                </p>
-
-                <!-- TODO: a proper orbit/lightbox with Motion-UI -->
-                <div class="project-images-list row column horizontal-scroll-row">
-                    {{#each imageLinks}}
-                        <a class="thumbnail" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                        </a>
-                    {{else}}
-                        <p>No images provided for this project.</p>
-                    {{/each}}
-                </div>
-
-                {{#if location}}
-                    <p class="push-down-sm">
-                        <strong>Located near:</strong> {{location}}
-                    </p>
-                {{/if}}
-
-                {{#if addendums}}
-                    <p class="push-down-sm">
-                        <strong>additional details:</strong>
-                    </p>
-                    {{#each addendumsWithAuthors}}
-                        <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
-                    {{/each}}
-                {{/if}}
-
-                {{#if tag}}
-                    <p class="push-down-sm">
-                        <strong>Project type:</strong> {{tag}}
-                    </p>
-                {{/if}}
-
-                <p class="push-down-sm">
-                    <strong>locked:</strong> {{locked}}
-                </p>
-                <p class="push-down-sm">
-                    <strong>available:</strong> {{available}}
-                </p>
-
-                <p class="push-down-sm">
-                    <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
-                </p>
-            </div>
-        {{else}}
-            {{#if isItemOwner}}
-                <div class="inventory-single-item">
-                    {{#if showItemEdit}}
-                        <button class="button primary float-right item-edit">cancel editing</button>
-
-                        {{> item_edit}}
-                    {{else}}
-                        <button class="button primary float-right {{editClass}}">edit</button>
-
-                        <h3>{{title}}</h3>
-
-                        <p class="push-down-sm">
-                            You own this project.
-                        </p>
-
-                        <p class="push-down-sm">
-                            {{description}}
-                        </p>
-
-                        <!-- TODO: a proper orbit/lightbox with Motion-UI -->
-                        <div class="project-images-list row column horizontal-scroll-row">
-                            {{#each imageLinks}}
-                                <a class="thumbnail" href="{{c.url this secure=true}}">
-                                    <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                                </a>
-                            {{else}}
-                                <p>No images provided for this project.</p>
-                            {{/each}}
-                        </div>
-
-                        {{#if location}}
-                            <p class="push-down-sm">
-                                <strong>Located near:</strong> {{location}}
-                            </p>
-                        {{/if}}
-
-                        {{#if addendums}}
-                            <p class="push-down-sm"><strong>additional details:</strong></p>
-                            {{#each addendumsWithAuthors}}
-                                <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
-                            {{/each}}
-                        {{/if}}
-
-                        {{#if tag}}
-                            <p class="push-down-sm">
-                                <strong>Project type:</strong> {{tag}}
-                            </p>
-                        {{/if}}
-
-                        {{#if locked}}
-                            <p class="push-down-sm">You cannot edit or delete this project because it is locked.</p>
-                        {{/if}}
-
-                        <p class="push-down-sm">
-                            <strong>available:</strong> {{available}}
-                        </p>
-
-                        <p class="push-down-sm">
-                            <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
-                        </p>
-                    {{/if}}
-                </div>
-            {{else}}
+    <div class="row column">&nbsp;</div>
+    <div class="row">
+        <div class="column">
+            {{#unless currentUser}}
                 <div class="inventory-single-item">
                     <h3>{{title}}</h3>
 
-                    <p class="push-down-sm">
-                        owned by
-                        <a href="{{pathFor 'profile.page' username=ownerName}}">
-                            {{ownerName}}
-                        </a>
-                    </p>
+                    <div class="row column push-down-small">
+                        <p>
+                            owned by
+                            <a href="{{pathFor 'profile.page' username=ownerName}}">
+                                {{ownerName}}
+                            </a>
+                        </p>
+                    </div>
 
-                    <p class="push-down-sm">
-                        {{description}}
-                    </p>
+                    <div class="row column push-down-small">
+                        <p>{{description}}</p>
+                    </div>
 
                     <!-- TODO: a proper orbit/lightbox with Motion-UI -->
                     <div class="project-images-list row column horizontal-scroll-row">
@@ -149,40 +33,165 @@
                         {{/each}}
                     </div>
 
+                    <div class="row column button-group expanded push-down-small">
+                        <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                        <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                    </div>
+
                     {{#if location}}
-                        <p class="push-down-sm">
+                        <p class="row column push-down-small">
                             <strong>Located near:</strong> {{location}}
                         </p>
                     {{/if}}
 
-                    {{#if addendums}}
-                        <p class="push-down-sm">
-                            <strong>additional details:</strong>
-                        </p>
-                        {{#each addendumsWithAuthors}}
-                            <p class="push-down-sm">{{this.addendum}} - {{this.author}}</p>
-                        {{/each}}
-                    {{/if}}
-
                     {{#if tag}}
-                        <p class="push-down-sm">
+                        <p class="row column push-down-small">
                             <strong>Project type:</strong> {{tag}}
                         </p>
                     {{/if}}
 
-                    <p class="push-down-sm">
-                        <strong>locked:</strong> {{locked}}
-                    </p>
-                    <p class="push-down-sm">
-                        <strong>available:</strong> {{available}}
-                    </p>
+                    {{#if addendums}}
+                        <p class="row column push-down-small">
+                            <strong>Additional details:</strong>
+                        </p>
+                        {{#each addendumsWithAuthors}}
+                            <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                        {{/each}}
+                    {{/if}}
 
-                    <p class="push-down-sm">
+                    <p class="row column push-down-small">
                         <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
                     </p>
                 </div>
-            {{/if}}
-        {{/unless}}
+            {{else}}
+                {{#if isItemOwner}}
+                    <div class="inventory-single-item">
+                        {{#if showItemEdit}}
+                            <button class="button primary float-right item-edit">cancel editing</button>
+
+                            {{> item_edit}}
+                        {{else}}
+                            <button class="button primary float-right {{editClass}}"><i class="fi-pencil"></i></button>
+
+                            <h3>{{title}}</h3>
+
+                            <p class="row column push-down-small">
+                                You own this project.
+                            </p>
+
+                            <div class="row column push-down-small">
+                                <p>
+                                    {{description}}
+                                </p>
+                            </div>
+
+                            <!-- TODO: a proper orbit/lightbox with Motion-UI -->
+                            <div class="project-images-list row column horizontal-scroll-row">
+                                {{#each imageLinks}}
+                                    <a class="thumbnail" href="{{c.url this secure=true}}">
+                                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
+                                    </a>
+                                {{else}}
+                                    <p>No images provided for this project.</p>
+                                {{/each}}
+                            </div>
+
+                            <div class="row column button-group expanded push-down-small">
+                                <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                                <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                            </div>
+
+                            {{#if locked}}
+                                <p class="row column push-down-small">You cannot edit or delete this project because it is locked.</p>
+                            {{/if}}
+
+                            {{#if location}}
+                                <p class="row column push-down-small">
+                                    <strong>Located near:</strong> {{location}}
+                                </p>
+                            {{/if}}
+
+                            {{#if tag}}
+                                <p class="row column push-down-small">
+                                    <strong>Project type:</strong> {{tag}}
+                                </p>
+                            {{/if}}
+
+                            {{#if addendums}}
+                                <p class="row column push-down-small"><strong>additional details:</strong></p>
+                                {{#each addendumsWithAuthors}}
+                                    <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                                {{/each}}
+                            {{/if}}
+
+                            <p class="row column push-down-small">
+                                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
+                            </p>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <div class="inventory-single-item">
+                        <h3>{{title}}</h3>
+
+                        <div class="row column push-down-small">
+                            <p>
+                                owned by
+                                <a href="{{pathFor 'profile.page' username=ownerName}}">
+                                    {{ownerName}}
+                                </a>
+                            </p>
+                        </div>
+
+                        <div class="row column push-down-small">
+                            <p>
+                                {{description}}
+                            </p>
+                        </div>
+
+                        <!-- TODO: a proper orbit/lightbox with Motion-UI -->
+                        <div class="project-images-list row column horizontal-scroll-row">
+                            {{#each imageLinks}}
+                                <a class="thumbnail" href="{{c.url this secure=true}}">
+                                    <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
+                                </a>
+                            {{else}}
+                                <p>No images provided for this project.</p>
+                            {{/each}}
+                        </div>
+
+                        <div class="row column button-group expanded push-down-small">
+                            <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                            <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                        </div>
+
+                        {{#if location}}
+                            <p class="row column push-down-small">
+                                <strong>Located near:</strong> {{location}}
+                            </p>
+                        {{/if}}
+
+                        {{#if tag}}
+                            <p class="row column push-down-small">
+                                <strong>Project type:</strong> {{tag}}
+                            </p>
+                        {{/if}}
+
+                        {{#if addendums}}
+                            <p class="row column push-down-small">
+                                <strong>additional details:</strong>
+                            </p>
+                            {{#each addendumsWithAuthors}}
+                                <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                            {{/each}}
+                        {{/if}}
+
+                        <p class="row column push-down-small">
+                            <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
+                        </p>
+                    </div>
+                {{/if}}
+            {{/unless}}
+        </div>
     </div>
 
 </template>

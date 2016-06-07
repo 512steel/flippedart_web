@@ -1,8 +1,8 @@
 <template name="user_posts_all">
     <div class="row column">
-        <h1>
-            {{#if isProfileOwner}}Your{{else}}{{pageUsername}}'s{{/if}} posts
-        </h1>
+        <h2>
+            {{#if isProfileOwner}}My{{else}}{{pageUsername}}'s{{/if}} posts
+        </h2>
 
         {{#if isProfileOwner}}
             <div>
@@ -12,7 +12,8 @@
         {{/if}}
 
         <div>
-            <a class="toggle-posts-sort">{{toggleSortText}}</a>
+            <!--<a class="toggle-posts-sort">{{toggleSortText}}</a>-->
+
             {{#each userPosts}}
                 <a href="{{pathFor 'profile.post' username=this.author userPostId=this._id}}">
                     {{> user_post_card}}

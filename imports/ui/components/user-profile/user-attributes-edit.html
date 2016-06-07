@@ -1,25 +1,22 @@
 <template name="user_attributes_edit">
-    <h3>User attributes edit form.</h3>
 
-    <form class="main form userAttributes-{{#if userAttributes}}edit{{else}}insert{{/if}}-form">
-        <div class="form-group">
-            <div class="controls">
+    <div class="row column clearfix-small">
+        <form class="main form userAttributes-{{#if userAttributes}}edit{{else}}insert{{/if}}-form">
 
-                <textarea name="bio" type="text" placeholder="Add a brief bio" class="form-control" maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
-                <input name="location" type="text" placeholder="Add your general location"
-                       value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}" />
+            <textarea name="bio" type="text" placeholder="Add a brief bio" class="" maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
 
+            <input name="location" type="text" placeholder="Add your general location"
+                   value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}" />
 
-                {{#if and userAttributes userAttributes.profilePhotoLink}}
-                    <p>Update your profile photo</p>
-                {{else}}
-                    <p>Set a profile photo</p>
-                {{/if}}
-                <input name="profile-photo-link" type="file" accept="image/*"><br>
+            <label for="profilePhotoFileUpload" class="button secondary hollow expanded">Update profile photo</label>
+            <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file" accept="image/*"/>
 
-            </div>
-        </div>
-        <input type="submit" value="{{#if userAttributes}}Edit your profile{{else}}Start your profile{{/if}}" class="btn btn-primary submit"/>
-    </form>
+            {{#if isUploadingProfilePicture}}
+                <input class="button primary float-right submit" type="submit" value="Saving..." disabled/>
+            {{else}}
+                <input class="button primary float-right submit" type="submit" value="Save"/>
+            {{/if}}
+        </form>
+    </div>
 
 </template>

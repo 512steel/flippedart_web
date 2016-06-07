@@ -195,7 +195,7 @@ Template.user_post_card.helpers({
         else {
             return false;
         }
-    }
+    },
 });
 
 Template.user_post_edit.helpers({
@@ -377,8 +377,6 @@ Template.user_post_submit.events({
 
         var imageLinks = [];
 
-        Session.set('isPostUploading', true);
-
         $(".user-post-submit input[type='file']").each(function() {
             var files = this.files;
 
@@ -386,16 +384,16 @@ Template.user_post_submit.events({
                 if (files[i].size > 2000000) {
                     //TODO: implement throwError()
                     throwError("One of your images is bigger than the 2MB upload limit");
-                    Session.set('isPostUploading', false);
                     return;
                 }
             }
 
-            if (files.length > 4) {
-                throwError("Sorry, you are trying to upload " + files.length.toString() + " images.  The maximum you can upload is 4.");
+            if (files.length > UPLOAD_LIMITS.images) {
+                throwError("Sorry, you are trying to upload " + files.length.toString() + " images.  The maximum you can upload is " + UPLOAD_LIMITS.images + ".");
             }
             else if (files.length > 0) {
                 //user is uploading an image
+                Session.set('isPostUploading', true);
 
                 var fileIndex = 0;
                 Cloudinary.upload(files, {
@@ -426,6 +424,7 @@ Template.user_post_submit.events({
                             if (err) {
                                 //FIXME: visible throwError
                                 console.log(err);
+                                Session.set('isPostUploading', false);
                             }
                             else {
                                 Session.set('isPostUploading', false);

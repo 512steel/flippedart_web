@@ -34,7 +34,7 @@ export const POINTS_SYSTEM = {
 
 export const UPLOAD_LIMITS = {
     'projects': 5,
-    'images': 4,
+    'images': 6,
 };
 
 

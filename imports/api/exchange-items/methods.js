@@ -9,8 +9,7 @@ import { ExchangeItems } from './exchange-items.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank as userAttributesUpdateRank } from '../user-attributes/methods.js';
 
-import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
-import { UPLOAD_LIMITS } from '../../ui/lib/globals.js';
+import { POINTS_SYSTEM, UPLOAD_LIMITS } from '../../ui/lib/globals.js';
 
 
 //NOTE: insert() is a server-only method, so that only insertMany() can be called from the client (for DDP rate limiting)
@@ -174,7 +173,7 @@ export const edit = new ValidatedMethod({
 
             //truncate the imageLinks array
             if (imageLinks)
-                imageLinks = imageLinks.slice(0, 4);
+                imageLinks = imageLinks.slice(0, UPLOAD_LIMITS.images);
 
             const exchangeItem = ExchangeItems.findOne(exchangeItemId);
 
