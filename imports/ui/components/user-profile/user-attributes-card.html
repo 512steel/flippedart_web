@@ -15,11 +15,11 @@
             {{#if isProfileOwner}}
 
                 {{#if showUserAttributesEdit}}
-                    <button class="button primary hollow float-right userAttributes-edit">Cancel editing</button>
+                    <button class="button primary hollow float-right push-left userAttributes-edit">Cancel editing</button>
 
                     {{> user_attributes_edit }}
                 {{else}}
-                    <button class="button primary hollow float-right userAttributes-edit">Edit profile</button>
+                    <button class="button primary hollow float-right push-left userAttributes-edit">Edit profile</button>
 
                     {{#unless userAttributes}}
                         <!-- FIXME: force with the UI to fill this out first, otherwise projects can't be added. -->

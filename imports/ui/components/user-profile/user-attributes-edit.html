@@ -8,7 +8,7 @@
             <input name="location" type="text" placeholder="Add your general location"
                    value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}" />
 
-            <label for="profilePhotoFileUpload" class="button secondary hollow expanded">Update profile photo</label>
+            <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo</label>
             <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file" accept="image/*"/>
 
             {{#if isUploadingProfilePicture}}

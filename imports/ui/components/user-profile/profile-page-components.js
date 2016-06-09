@@ -9,8 +9,9 @@ import {
 import { ChatSessions } from '../../../api/chat-sessions/chat-sessions.js';
 
 import './profile-page-card.html';
-import './user-attributes-card.html'
-import './user-attributes-edit.html'
+import './user-attributes-card.html';
+import './user-attributes-edit.html';
+import './user-attributes-insert-page.html';
 
 import '../user-posts/user-posts-components.js';
 import '../exchangeItems/exchangeItems-components.js';
@@ -36,7 +37,7 @@ Template.user_attributes_card.onCreated(function () {
     this.autorun(() => {
     });
 
-    this.userAttributes = () => UserAttributes.findOne({});
+    this.userAttributes = () => UserAttributes.findOne({username: this.getUsername()});
 });
 
 Template.user_attributes_edit.onCreated(function () {
@@ -188,13 +189,16 @@ Template.user_attributes_edit.events({
                             if (err) {
                                 //TODO throwError
                                 throwError(err);
-                                Session.set('showUserAttributesEdit', false);
                             }
                             else {
                                 //TODO: throwSuccess
 
-                                //hide the edit form after it's been submitted
-                                Session.set('showUserAttributesEdit', false);
+                                console.log('succeeded!!!');
+                                console.log(res);
+
+                                if (Meteor.user()) {
+                                    FlowRouter.go('profile.page', {username: Meteor.user().username})
+                                }
                             }
                         });
                     });
@@ -215,9 +219,12 @@ Template.user_attributes_edit.events({
                     }
                     else {
                         //TODO: throwSuccess
+                        console.log('succeeded!!!');
+                        console.log(res);
 
-                        //hide the edit form after it's been submitted
-                        Session.set('showUserAttributesEdit', false);
+                        if (Meteor.user()) {
+                            FlowRouter.go('profile.page', {username: Meteor.user().username})
+                        }
                     }
                 });
             }

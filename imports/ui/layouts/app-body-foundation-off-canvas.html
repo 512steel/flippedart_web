@@ -24,14 +24,14 @@
                     <ul class="vertical menu text-center">
 
                         {{#if currentUser}}
-
-                            <li class="{{isActiveRoute 'profile.page'}}">
-                                <a href="{{pathFor 'profile.page' username=currentUsername}}" class="" data-close>{{currentUsername}}</a>
-                            </li>
-                            <li class="{{isActiveRoute 'profile.projects'}}">
-                                <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My projects</a>
-                            </li>
-
+                            {{# if hasUserAttributes}}
+                                <li class="{{isActiveRoute 'profile.page'}}">
+                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class="" data-close>{{currentUsername}}</a>
+                                </li>
+                                <li class="{{isActiveRoute 'profile.projects'}}">
+                                    <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My projects</a>
+                                </li>
+                            {{/if}}
                         {{else}}
                             <div class="menu button-group expanded">
                                 <li>
@@ -43,13 +43,24 @@
                             </div>
                         {{/if}}
 
-                        <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
-                        <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                        <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
-                        <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
 
                         {{#if currentUser}}
-                            <li><a class="js-logout" data-close>{{_ 'logout'}}</a></li>
+                            {{# if hasUserAttributes}}
+                                    <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                                    <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                                    <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
+                                    <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+                            {{/if}}
+                        {{else}}
+                                <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                                <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+                        {{/if}}
+
+
+                        {{#if currentUser}}
+                            <li><a class="js-logout" data-close>{{_ 'Logout'}}</a></li>
                         {{/if}}
 
                     </ul>
@@ -60,36 +71,51 @@
                     <div class="top-bar-left">
                         <ul class="menu">
                             <li><a href="{{pathFor 'static.home'}}">[logo]</a></li>
-                            <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
-                            <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                            <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
+                            {{#if currentUser}}
+                                {{#unless hasUserAttributes}}
+
+                                {{else}}
+                                    <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                                    <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                                    <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
+                                {{/unless}}
+                            {{else}}
+                                <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                                <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
+                            {{/if}}
+
                         </ul>
                     </div>
                     <div class="top-bar-right">
                         {{#if currentUser}}
-                            <ul class="dropdown menu" data-dropdown-menu>
-                                <li class="has-submenu">
-                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
-                                        {{currentUsername}}
-                                    </a>
+                            {{#unless hasUserAttributes}}
+                                <a class="js-logout btn-secondary">Logout ({{currentUsername}})</a>
+                            {{else}}
+                                <ul class="dropdown menu" data-dropdown-menu>
+                                    <li class="has-submenu">
+                                        <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
+                                            {{currentUsername}}
+                                        </a>
 
-                                    <ul class="submenu menu vertical" data-submenu>
-                                        <!--<li>
-                                            <a href="{{pathFor 'profile.page' username=currentUsername}}"
-                                               class="btn-secondary">{{_ 'My profile'}}</a>
-                                        </li>-->
-                                        <li>
-                                            <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
-                                        </li>
-                                        <li>
-                                            <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                        <ul class="submenu menu vertical" data-submenu>
+                                            <!--<li>
+                                                <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                                                   class="btn-secondary">{{_ 'My profile'}}</a>
+                                            </li>-->
+                                            <li>
+                                                <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
+                                            </li>
+                                            <li>
+                                                <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            {{/unless}}
                         {{else}}
                             <div class="menu button-group">
                                 <li>
@@ -108,14 +134,10 @@
                 <div class="off-canvas-content" data-off-canvas-content>
                     <div class="row column">
                         {{#unless connected}}
-                            <div class="notifications">
-                                <div class="notification">
-                                    <span class="icon-sync"></span>
-                                    <div class="meta">
-                                        <div class="title-notification">Trying to connect</div>
-                                        <div class="description">There seems to be a connection issue</div>
-                                    </div>
-                                </div>
+                            <div class="callout secondary pull-down">
+                                {{{loadingIcon}}}
+                                <div class="title-notification">Trying to connect</div>
+                                <div class="description">There seems to be a connection issue</div>
                             </div>
                         {{/unless}}
 
@@ -124,7 +146,17 @@
                         <div id="content-container">
                             {{#momentum plugin="fade"}}
                                 {{#if Template.subscriptionsReady}}
-                                    {{> Template.dynamic template=main}}
+
+                                    {{#if currentUser}}
+                                        {{#unless hasUserAttributes}}
+                                            {{> user_attributes_insert_page}}
+                                        {{else}}
+                                            {{> Template.dynamic template=main}}
+                                        {{/unless}}
+                                    {{else}}
+                                        {{> Template.dynamic template=main}}
+                                    {{/if}}
+
                                 {{else}}
                                     {{> App_loading}}
                                 {{/if}}

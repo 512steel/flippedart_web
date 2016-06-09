@@ -28,6 +28,15 @@
 .pull-down-large {
   margin-top: 3rem;
 }
+.push-left {
+  margin-left: 2rem;
+}
+.push-left-small {
+  margin-left: 1rem;
+}
+.push-left-large {
+  margin-left: 3rem;
+}
 
 input.padded, textarea.padded, button.padded, span.padded, p.padded {
   padding: .5rem
@@ -47,4 +56,24 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded {
     clear: both;
 
   }
+}
+
+
+@keyframes anim-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  display: inline-block;
+  font-size:2.5em;
+  height: 1em;
+  line-height: 1;
+  margin: .75em;
+  animation: anim-rotate 2s infinite linear;
+  color: #fff;
+  text-shadow: 0 0 .25em rgba(255,255,255, .3);
 }
