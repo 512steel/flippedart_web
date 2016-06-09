@@ -23,6 +23,7 @@ import {
 import '../components/notifications/notifications-components.js';
 import '../components/temporary_notifications.js';
 import '../components/loading.js';
+import '../components/footer-components.js';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
 

@@ -1,5 +1,3 @@
-//TODO: refactor this js into separate component files
-
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/underscore';

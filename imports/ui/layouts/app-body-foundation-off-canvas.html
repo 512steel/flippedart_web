@@ -132,7 +132,7 @@
                                     <li>
                                         <ul class="dropdown menu" data-dropdown-menu>
                                             <li class="has-submenu">
-                                                <a><span class="circle-background-text">{{userNotificationsCount}}</span></a>
+                                                <a href="{{pathFor 'notifications.page'}}"><span class="circle-background-text">{{userNotificationsCount}}</span></a>
                                                 <ul class="submenu menu vertical" data-submenu>
                                                     {{#each userNotifications}}
                                                         <li class="padded">
@@ -164,7 +164,7 @@
                                                    class="btn-secondary">{{_ 'My profile'}}</a>
                                             </li>-->
                                                     <li>
-                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projdsj lksdfj lskfdj flsdkj flskdjf sldkfj lkects</a>
+                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{pathFor 'static.donate'}}">{{_ 'Donate'}}</a>
@@ -194,7 +194,7 @@
 
                 <!-- original content goes in this container -->
                 <div class="off-canvas-content" data-off-canvas-content>
-                    <div class="row column">
+                    <div class="">
                         {{#unless connected}}
                             <div class="callout secondary pull-down">
                                 {{{loadingIcon}}}
@@ -217,9 +217,11 @@
                                             {{> user_attributes_insert_page}}
                                         {{else}}
                                             {{> Template.dynamic template=main}}
+                                            {{> footer_card}}
                                         {{/unless}}
                                     {{else}}
                                         {{> Template.dynamic template=main}}
+                                        {{> footer_card}}
                                     {{/if}}
 
                                 {{else}}

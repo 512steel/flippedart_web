@@ -26,13 +26,13 @@
   margin-bottom: 3rem;
 }
 .pull-down {
-  margin-top: 2rem;
+  padding-top: 2rem;
 }
 .pull-down-small {
-  margin-top: 1rem;
+  padding-top: 1rem;
 }
 .pull-down-large {
-  margin-top: 3rem;
+  padding-top: 3rem;
 }
 .push-left {
   margin-left: 2rem;
@@ -53,6 +53,7 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
 }
 
 .button-go-back {
+  margin-top: 1rem;
   @extend .pull-down-small, .push-down-small, .button, .secondary, .hollow;
 }
 
@@ -118,4 +119,17 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
   padding: .25rem;
   background-color: white;
   line-height: 1rem;
+}
+
+footer {
+  color: white;
+  background-color: $secondary-color;
+
+  a {
+    color: white;
+  }
+}
+
+.text-centered {
+  text-align: center;
 }

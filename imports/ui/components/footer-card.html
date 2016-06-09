@@ -1,0 +1,47 @@
+<template name="footer_card">
+    <footer>
+        <div class="row pull-down-large">
+            <div class="column push-down-large small-12 medium-8 large-6 medium-centered large-centered">
+                <div class="row column push-down">
+                    <!--<ul class="menu horizontal">-->
+                        <a href="{{pathFor 'static.about'}}">about</a> |
+                        <a href="{{pathFor 'static.make'}}">make art</a> |
+                        <a href="{{pathFor 'static.donate'}}">donate</a> |
+                        <a href="{{pathFor 'static.policies'}}">policies</a> |
+                        <a href="https://github.com/flippedart" target="_blank">open source</a>
+                    <!--</ul>-->
+                </div>
+                <div class="row column">
+                    <div class="float-left">
+                        Made with <i class="fi-heart"></i> in Des Moines.
+                    </div>
+                    <div class="float-right">
+                        {{currentYear}} - Flipped Art
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--
+        <hr>
+        <div class="footer-container">
+
+            <p>
+                <a href="{{pathFor 'my-account'}}">my account</a> &#8226;
+                <a href="{{pathFor 'about_page'}}">about</a> &#8226;
+                <a href="{{pathFor 'makeyourownpage'}}">make your own</a> &#8226;
+                <a href="{{pathFor 'feedback'}}">feedback</a> &#8226;
+                <a href="{{pathFor 'policies'}}">policies</a>
+            </p>
+            <p>
+                Flipped Art is free to use, built and maintained
+                as a side project by
+                <a href="http://alexpete.me" target="_blank">Alex Peterson</a>.
+            </p>
+            <p>
+                {{currentYear}} - Flipped Art
+            </p>
+
+        </div>-->
+    </footer>
+</template>

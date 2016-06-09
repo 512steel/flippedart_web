@@ -1,50 +1,52 @@
 <template name="user_post_single_page">
-    <div>
-        <a class="button-go-back" href="{{pathFor 'profile.page' username=userPost.author}}">
-            back to
-            {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
-            profile
-        </a>
+    <div class="row">
+        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+            <a class="button-go-back" href="{{pathFor 'profile.page' username=userPost.author}}">
+                back to
+                {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
+                profile
+            </a>
 
-        <hr>
+            <hr>
 
-        <div class="shift-down-sm">
-            {{#with userPost}}
-                {{> user_post_card}}
-            {{/with}}
-        </div>
+            <div class="shift-down-sm">
+                {{#with userPost}}
+                    {{> user_post_card}}
+                {{/with}}
+            </div>
 
-        <hr>
+            <hr>
 
-        <ul class="comments">
-            {{#each comments}}
-                <div class="row">
-                    <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
-                        {{> comment_card }}
+            <ul class="comments">
+                {{#each comments}}
+                    <div class="row">
+                        <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                            {{> comment_card }}
+                        </div>
                     </div>
-                </div>
 
+                {{else}}
+                    <p>There are no comments on this post.</p>
+                {{/each}}
+
+                {{#if hasMoreComments}}
+                    <div class="row">
+                        <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                            <a class="js-load-more-comments button secondary">Load more comments</a>
+                        </div>
+                    </div>
+                {{/if}}
+            </ul>
+
+            <hr>
+
+            {{#if currentUser}}
+                {{#with userPost}}
+                    {{> comment_submit}}
+                {{/with}}
             {{else}}
-                <p>There are no comments on this post.</p>
-            {{/each}}
-
-            {{#if hasMoreComments}}
-                <div class="row">
-                    <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
-                        <a class="js-load-more-comments button secondary">Load more comments</a>
-                    </div>
-                </div>
+                <p class="push-down">Log in to leave a comment</p>
             {{/if}}
-        </ul>
-
-        <hr>
-
-        {{#if currentUser}}
-            {{#with userPost}}
-                {{> comment_submit}}
-            {{/with}}
-        {{else}}
-            <p class="push-down">Log in to leave a comment</p>
-        {{/if}}
+        </div>
     </div>
 </template>
