@@ -1,7 +1,7 @@
 <template name="comment_card">
     <div class="row column">
         {{#if ownComment}}
-            <button class="button float-right comment-edit">Edit</button>
+            <button class="button float-right comment-edit"><i class="fi-pencil"></i></button>
         {{/if}}
         {{#unless ownComment}}
             {{#if currentUser}}

@@ -12,6 +12,11 @@ import {
     POINTS_SYSTEM,
     UPLOAD_LIMITS } from '../../ui/lib/globals.js';
 
+import {
+    throwError,
+    throwWarning } from '../../ui/lib/temporary-alerts.js';
+
+
 export const insert = new ValidatedMethod({
     name: 'userPosts.insert',
     validate: new SimpleSchema({
@@ -205,15 +210,11 @@ export const flag = new ValidatedMethod({
                 throw new Meteor.Error('invalid', "You weren't able to flag that post");
             }
             else {
-                //TODO: import "throwError"/"throwWarning" methods from temporaryNotifications
-                //throwWarning("You have flagged this post as inappropriate.");
-                console.log("You have flagged this post as inappropriate.");
+                throwWarning("You have flagged this post as inappropriate.");
             }
         }
         else {
-            //TODO: import "throwError"/"throwWarning"
-            //throwError("You must be signed in to flag a post.");
-            console.log("You must be signed in to flag a post.");
+            throwError("You must be signed in to flag a post.");
         }
     },
 });

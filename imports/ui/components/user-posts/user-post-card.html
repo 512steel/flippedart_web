@@ -6,7 +6,7 @@
             <h4 class="user-post-body">{{text}}</h4>
 
             <!-- TODO: a proper orbit/lightbox with Motion-UI -->
-            <div class="post-images-list row column horizontal-scroll-row">
+            <div class="post-images-list row column horizontal-scroll-row push-down">
                 {{#each imageLinks}}
                     <a class="thumbnail" href="{{c.url this secure=true}}">
                         <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">

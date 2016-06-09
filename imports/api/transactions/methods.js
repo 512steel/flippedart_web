@@ -20,6 +20,9 @@ import { createTransactionStateNotification } from '../notifications/methods.js'
 
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
 
+import { throwError } from '../../ui/lib/temporary-alerts.js';
+
+
 /***
  * TODO: put these states into a global variable like POINTS_SYSTEM
  *
@@ -71,7 +74,8 @@ export const requestTransaction = new ValidatedMethod({
                     });
 
                 if (validItems.count() != itemIds.length) {
-                    //TODO: throw a client-side error too
+                    throwError('At least one item you\'ve requested is not able to be requested from this user.');
+
                     throw new Meteor.Error('transaction.request.invalid-items',
                         'At least one item you\'ve requested is not able to be requested from this user.');
                 }
@@ -105,14 +109,11 @@ export const requestTransaction = new ValidatedMethod({
                 return newTransactionId;  //NOTE: this return is used for redirecting the user to the transaction page via FlowRouter.
             }
             else {
-                console.log(requester);
-                console.log(requestee);
-                console.log(this.userId);
-
-                //TODO: throw proper error to the client only if this fails on the server
-                console.log('[invalid]Invalid users included in this transaction.');
-                //throw new Meteor.Error('transaction.request.invalid',
-                //   'Invalid users included in this transaction.');
+                if (Meteor.isServer) {
+                    throwError('[invalid]Invalid users were included in this transaction.');
+                    //throw new Meteor.Error('transaction.request.invalid',
+                    //   'Invalid users included in this transaction.');
+                }
             }
         }
         else {

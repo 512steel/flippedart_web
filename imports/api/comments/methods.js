@@ -16,6 +16,11 @@ import { createCommentNotification } from '../notifications/methods.js';
 
 import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
 
+import {
+    throwError,
+    throwWarning,
+    throwSuccess } from '../../ui/lib/temporary-alerts.js';
+
 
 export const insert = new ValidatedMethod({
     name: 'comments.insert',
@@ -145,15 +150,11 @@ export const flag = new ValidatedMethod({
                 throw new Meteor.Error('invalid', "You weren't able to flag that comment");
             }
             else {
-                //TODO: import "throwError"/"throwWarning" methods from temporaryNotifications
-                //throwWarning("You have flagged this comment as inappropriate.");
-                console.log("You have flagged this comment as inappropriate.");
+                throwWarning("You have flagged this comment as inappropriate.");
             }
         }
         else {
-            //TODO: import "throwError"/"throwWarning"
-            //throwError("You must be signed in to flag a comment.");
-            console.log("You must be signed in to flag a comment.");
+            throwError("You must be signed in to flag a comment.");
         }
     },
 });
@@ -189,6 +190,7 @@ export const unflag = new ValidatedMethod({
                 //       simulation of the Method, as flaggers (and in edit(), userId) is not made
                 //       available to the client.  Console.logging is fine, but it clutters the console
                 //       if someone were to look for it.
+
                 //throw new Meteor.Error('invalid', "You weren't able to unflag that comment");
             }
         }

@@ -303,7 +303,7 @@ export const createChatMessageNotification = (chatMessage) => {
         }
     }
     else {
-        //TODO: should be a new Meteor.Error
+        //TODO: should this be a new Meteor.Error?
         console.log('You aren\'t allowed to do this from the client.');
     }
 };
