@@ -106,7 +106,7 @@ Template.item_edit.onRendered(function itemEditOnRendered() {
         }
     });
 
-    this.tooltip = new Foundation.Tooltip($('.has-tip'));
+    this.tooltip = new Foundation.Tooltip($('.has-tip-item-edit'));
 });
 
 Template.item_submit.onRendered(function itemSubmitOnRendered() {
@@ -118,7 +118,7 @@ Template.item_submit.onRendered(function itemSubmitOnRendered() {
 });
 
 Template.single_item_submit.onRendered(function() {
-    $('.has-tip').each(function() {
+    $('.has-tip-item-submit').each(function() {
         new Foundation.Tooltip($(this));
     });
 });

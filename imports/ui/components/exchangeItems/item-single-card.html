@@ -67,11 +67,11 @@
                 {{#if isItemOwner}}
                     <div class="inventory-single-item">
                         {{#if showItemEdit}}
-                            <button class="button primary float-right item-edit">cancel editing</button>
+                            <button class="button primary float-right item-edit push-left">cancel editing</button>
 
                             {{> item_edit}}
                         {{else}}
-                            <button class="button primary float-right {{editClass}}"><i class="fi-pencil"></i></button>
+                            <button class="button primary float-right push-left {{editClass}}"><i class="fi-pencil"></i></button>
 
                             <h3>{{title}}</h3>
 

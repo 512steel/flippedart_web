@@ -125,6 +125,13 @@ FlowRouter.route('/add', {
     },
 });
 
+FlowRouter.route('/notifications', {
+    name: 'notifications.page',
+    action() {
+        BlazeLayout.render('App_body', { main: 'notifications_page' });
+    }
+});
+
 FlowRouter.route('/top/:thing', {
     name: 'top.thing',
     action() {

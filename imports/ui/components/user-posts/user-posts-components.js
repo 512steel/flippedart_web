@@ -200,6 +200,8 @@ Template.user_post_card.helpers({
             return false;
         }
     },
+
+    //TODO: hasImageLinks helper for UI
 });
 
 Template.user_post_edit.helpers({

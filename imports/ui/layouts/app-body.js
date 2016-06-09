@@ -61,11 +61,25 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 
 Template.App_body.onRendered(function() {
   $(document).foundation();
+
+  //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).  The easy solution is to set this short timeout.
+  Meteor.setTimeout(function(){
+    $(document).foundation();
+  }, 100);
 });
 
 Template.App_body.helpers({
   userNotifications() {
-      return Notifications.find({});
+    return Notifications.find({});
+  },
+  userHasNotifications() {
+    if (Notifications.find({}).count()) {
+      return true;
+    }
+    else return false;
+  },
+  userNotificationsCount() {
+    return Notifications.find({}).count();
   },
   currentUsername() {
     if (Meteor.user()) {

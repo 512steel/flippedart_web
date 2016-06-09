@@ -2,14 +2,22 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { pathFor } from 'meteor/arillo:flow-router-helpers';
 
-import { clearSingleNotification } from '../../../api/notifications/methods.js';
+import { Notifications } from '../../../api/notifications/notifications.js';
+import {
+    clearSingleNotification,
+    clearAllNotifications } from '../../../api/notifications/methods.js';
 
 import './notification-card.html';
+import './notifications-page.html';
+
 
 Template.notification_card.onCreated(function () {
 
 });
 
+Template.notifications_page.onCreated(function() {
+    this.subscribe('notifications.user', {sort: {createdAt: -1}});
+});
 
 Template.notification_card.helpers({
     notificationText: function() {
@@ -85,6 +93,21 @@ Template.notification_card.helpers({
     }
 });
 
+Template.notifications_page.helpers({
+    userNotifications() {
+        return Notifications.find({});
+    },
+    userHasNotifications() {
+        if (Notifications.find({}).count()) {
+            return true;
+        }
+        else return false;
+    },
+    userNotificationsCount() {
+        return Notifications.find({}).count();
+    }
+});
+
 
 Template.notification_card.events({
     'click .notification-card': function(e) {
@@ -94,4 +117,11 @@ Template.notification_card.events({
             notificationId: this._id,
         });
     }
+});
+
+Template.notifications_page.events({
+    'click .notifications-clear-all': function () {
+        console.log(' in notifications-clear test');
+        clearAllNotifications.call({ });
+    },
 });

@@ -46,12 +46,40 @@
 
                         {{#if currentUser}}
                             {{# if hasUserAttributes}}
+
+                                <li class="{{isActiveRoute 'notifications.page'}}" data-close>
+                                    <a href="{{pathFor 'notifications.page'}}">
+                                        Notifications ({{userNotificationsCount}})
+                                    </a>
+                                </li>
+
+                                <!--<li>
+                                    <ul class="dropdown menu" data-dropdown-menu>
+                                        <li class="has-submenu">
+                                            <a>Notifications ({{userNotificationsCount}})</a>
+                                            <ul class="submenu menu vertical" data-submenu>
+                                                {{#each userNotifications}}
+                                                    <li class="padded">
+                                                        {{> notification_card}}
+                                                    </li>
+                                                    <hr>
+                                                {{/each}}
+
+                                                {{#if userHasNotifications}}
+                                                    <li class="notifications-clear-all padded"><a>Clear all notifications</a></li>
+                                                {{else}}
+                                                    <li class="padded">You don't have any notifications</li>
+                                                {{/if}}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>-->
 <!--
-                                    <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
+                                <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                    <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                                    <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
-                                    <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
+                                <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
                             {{/if}}
                         {{else}}
 <!--
@@ -100,25 +128,51 @@
                             {{#unless hasUserAttributes}}
                                 <a class="js-logout btn-secondary">Logout ({{currentUsername}})</a>
                             {{else}}
-                                <ul class="dropdown menu" data-dropdown-menu>
-                                    <li class="has-submenu">
-                                        <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
-                                            {{currentUsername}}
-                                        </a>
+                                <ul class="menu">
+                                    <li>
+                                        <ul class="dropdown menu" data-dropdown-menu>
+                                            <li class="has-submenu">
+                                                <a><span class="circle-background-text">{{userNotificationsCount}}</span></a>
+                                                <ul class="submenu menu vertical" data-submenu>
+                                                    {{#each userNotifications}}
+                                                        <li class="padded">
+                                                            {{> notification_card}}
+                                                        </li>
+                                                        <hr>
+                                                    {{/each}}
 
-                                        <ul class="submenu menu vertical" data-submenu>
-                                            <!--<li>
+                                                    {{#if userHasNotifications}}
+                                                        <li class="notifications-clear-all padded"><a>Clear all notifications</a></li>
+                                                    {{else}}
+                                                        <li class="padded">You don't have any notifications</li>
+                                                    {{/if}}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <ul class="dropdown menu push-left" data-dropdown-menu>
+                                            <li class="has-submenu">
+                                                <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
+                                                    {{currentUsername}}
+                                                </a>
+
+                                                <ul class="submenu menu vertical" data-submenu>
+                                                    <!--<li>
                                                 <a href="{{pathFor 'profile.page' username=currentUsername}}"
                                                    class="btn-secondary">{{_ 'My profile'}}</a>
                                             </li>-->
-                                            <li>
-                                                <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{pathFor 'static.donate'}}" class="btn-secondary">{{_ 'Donate'}}</a>
-                                            </li>
-                                            <li>
-                                                <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                                    <li>
+                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projdsj lksdfj lskfdj flsdkj flskdjf sldkfj lkects</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{pathFor 'static.donate'}}">{{_ 'Donate'}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                                    </li>
+                                                </ul>
                                             </li>
                                         </ul>
                                     </li>
@@ -144,8 +198,8 @@
                         {{#unless connected}}
                             <div class="callout secondary pull-down">
                                 {{{loadingIcon}}}
-                                <div class="title-notification">Trying to connect</div>
-                                <div class="description">There seems to be a connection issue</div>
+                                <div>Trying to connect</div>
+                                <div>There seems to be a connection issue</div>
                             </div>
                         {{/unless}}
 
@@ -153,7 +207,7 @@
 
                         <div id="content-container">
                             {{#momentum plugin="fade"}}
-                                
+
                                 {{>temporary_notifications}}
 
                                 {{#if Template.subscriptionsReady}}

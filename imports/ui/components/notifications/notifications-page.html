@@ -1,0 +1,25 @@
+<template name="notifications_page">
+    <div class="row">
+        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+            <h1 class="push-down">Your notifications ({{userNotificationsCount}})</h1>
+            <div>
+                {{#each userNotifications}}
+                    <div class="row column">
+                        {{>notification_card}}
+                    </div>
+                    <hr>
+                {{else}}
+                    <div class="row column">
+                        <p>You don't have any notifications.</p>
+                    </div>
+                {{/each}}
+
+                {{#if userHasNotifications}}
+                    <div class="row column notifications-clear-all">
+                        <p>Clear your notifications.</p>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>

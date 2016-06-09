@@ -44,7 +44,7 @@
   margin-left: 3rem;
 }
 
-input.padded, textarea.padded, button.padded, span.padded, p.padded {
+input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
   padding: .5rem
 }
 
@@ -108,4 +108,14 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded {
 }
 .temporary-alert-success {
   @extend .success;
+}
+
+.circle-background-text {
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  text-align: center;
+  padding: .25rem;
+  background-color: white;
+  line-height: 1rem;
 }
