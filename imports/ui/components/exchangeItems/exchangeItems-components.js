@@ -16,6 +16,10 @@ import { requestTransaction } from '../../../api/transactions/methods.js';
 import { UPLOAD_LIMITS,
          PROJECT_TAGS } from '../../lib/globals.js';
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 
 import './item-single-page.html';
 import './item-single-card.html';
@@ -297,12 +301,10 @@ Template.project_single_page.events({
                 itemIds: itemIds,
             }, (err, res) => {
                 if (err) {
-                    //FIXME: throwError visibly to client
-                    console.log(err);
+                    throwError(err.reason);
                 }
                 else {
-                    //FIXME: throwSuccess visibly to the client
-                    console.log('You have successfully requested this project.');
+                    throwSuccess('You have successfully requested this project.  Keep an eye on your notifications for the progress of your exchange.');
 
                     //NOTE: 'res' is the return value of the newly-inserted Transaction.
                     FlowRouter.go('exchanges.user.single', {username: Meteor.user().username, exchangeId: res});
@@ -409,12 +411,10 @@ Template.item_edit.events({
                 exchangeItemId: this._id,
             }, (err, res) => {
                 if (err) {
-                    //FIXME: throwError visibly to client
-                    console.log(err);
+                    throwError(err.reason);
                 }
                 else {
-                    //FIXME: throwSuccess visibly to the client
-                    console.log('You have successfully deleted this project.');
+                    throwSuccess('You have successfully deleted this project.');
 
                     FlowRouter.go('profile.page', {username: FlowRouter.getParam('username')});
                 }
@@ -428,8 +428,7 @@ Template.item_submit.events({
         e.preventDefault();
 
         if ($(".single-item-form").length >= UPLOAD_LIMITS.projects) {
-            //TODO: throw a visible error to the client here
-            console.log('Sorry, you can\'t add more than ' + UPLOAD_LIMITS.projects + ' projects at one time');
+            throwError('Sorry, you can\'t add more than ' + UPLOAD_LIMITS.projects + ' projects at one time');
         }
         else {
             //for some reason, pushing directly to the session variable returns a number, not an array
@@ -449,8 +448,7 @@ Template.item_submit.events({
         var successfulItems = 0;
 
         if (currentItemsCount > UPLOAD_LIMITS.projects) {
-            console.log('Please add a maximum of ' + UPLOAD_LIMITS.projects + ' projects at a time.');
-            //FIXME: throwError visibly to the client
+            throwError('Please add a maximum of ' + UPLOAD_LIMITS.projects + ' projects at a time.');
         }
         else {
             Session.set('areItemsUploading', true);
@@ -469,16 +467,14 @@ Template.item_submit.events({
 
                     for (var i = 0; i < files.length; i++) {
                         if (files[i].size > 2000000) {
-                            //FIXME: throw this error visibly to client
-                            console.log("One of your images is bigger than the 2MB upload limit");
+                            throwError("Sorry, one of your images is bigger than the 2MB upload limit.");
                             Session.set('areItemsUploading', false);
                             return;
                         }
                     }
 
                     if (files.length > UPLOAD_LIMITS.images) {
-                        //FIXME: throw this error visibly to client
-                        console.log('Sorry, one of your items has ' + files.length.toString() + ' images.  The maximum you can upload is ' + UPLOAD_LIMITS.images + '.');
+                        throwError('Sorry, one of your projects has ' + files.length.toString() + ' images.  The maximum you can upload is ' + UPLOAD_LIMITS.images + '.');
                         Session.set('areItemsUploading', false);
                     }
                     else if (files.length > 0) {
@@ -487,8 +483,7 @@ Template.item_submit.events({
                             folder: "secret"  //FIXME: change this folder to "flippedart"
                         }, function(error, result) {
                             if (error) {
-                                //FIXME: throw error visibly to client
-                                console.log(error);
+                                throwError(error.reason);
                             }
 
                             //FIXME - since Cloudinary.upload() is asynchronous there's no way to check if there's an error before submitting the userPost and it will likely hang on `null.public_id`
@@ -525,12 +520,10 @@ Template.item_submit.events({
 
                                         if (successfulItems == currentItemsCount) {
                                             if (currentItemsCount > 1) {
-                                                //FIXME: throwSuccess visibly to client
-                                                console.log('Your projects have been added!');
+                                                throwSuccess('Your projects have been added!');
                                             }
                                             else {
-                                                //FIXME: throwSuccess visibly to client
-                                                console.log('Your project has been added!');
+                                                throwSuccess('Your project has been added!');
                                             }
 
                                             //reset the item submit forms
@@ -547,8 +540,7 @@ Template.item_submit.events({
                         });
                     }
                     else {
-                        //FIXME: throw this error visibly to client
-                        console.log("You must include at least one photo per project.");
+                        throwError("Sorry, you need to include at least one photo per project.");
                         Session.set('areItemsUploading', false);
                     }
                 });

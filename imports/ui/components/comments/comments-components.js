@@ -4,6 +4,10 @@ import { _ } from 'meteor/underscore';
 
 import { FLAG_THRESHOLD } from '../../lib/globals.js';
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 import { Comments } from '../../../api/comments/comments.js';
 import {
     insert,
@@ -159,11 +163,10 @@ Template.comment_edit.events({
             text: $(e.target).find('[name=text]').val(),
         }, (err, res) => {
             if (err) {
-                //TODO throwError
-                throwError(err);
+                throwError(err.reason);
             }
             else {
-                //TODO: throwSuccess
+                throwSuccess('Comment saved');
 
                 //hide the edit form after it's been submitted
                 //fixme: this is apparently super bad practice - https://forums.meteor.com/t/access-parent-template-reactivevar-from-child-template/973
@@ -179,11 +182,10 @@ Template.comment_edit.events({
                 commentId: this._id,
             }, (err, res) => {
                 if (err) {
-                    //TODO throwError
-                    throwError(err);
+                    throwError(err.reason);
                 }
                 else {
-                    //TODO throwSuccess here
+                    throwSuccess('Comment deleted');
                 }
             });
         }
@@ -200,8 +202,7 @@ Template.comment_submit.events({
             text: $text.val(),
         }, (err, res) => {
             if (err) {
-                //TODO:
-                throwError(err);
+                throwError(err.reason);
             }
             else {
                 // success!

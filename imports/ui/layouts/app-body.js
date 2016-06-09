@@ -10,13 +10,18 @@ import { ActiveRoute } from 'meteor/zimme:active-route';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
+
 import { Notifications } from '../../api/notifications/notifications.js';
 import { clearAllNotifications } from '../../api/notifications/methods.js';
 
-import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
+import {
+  throwError,
+  throwWarning,
+  throwSuccess } from '../lib/temporary-alerts.js';
 
 import '../components/notifications/notifications-components.js';
-
+import '../components/temporary_notifications.js';
 import '../components/loading.js';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
@@ -131,10 +136,10 @@ Template.App_body.helpers({
 });
 
 Template.App_body.events({
-    'click .notifications-clear-all': function () {
-        console.log(' in notifications-clear test');
-        clearAllNotifications.call({ });
-    },
+  'click .notifications-clear-all': function () {
+    console.log(' in notifications-clear test');
+    clearAllNotifications.call({ });
+  },
 
 
   'click .js-menu'(event, instance) {

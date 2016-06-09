@@ -6,6 +6,10 @@ import {
     insert as userAttributesInsert,
     edit as userAttributesEdit } from '../../../api/user-attributes/methods.js'
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 import { ChatSessions } from '../../../api/chat-sessions/chat-sessions.js';
 
 import './profile-page-card.html';
@@ -164,7 +168,7 @@ Template.user_attributes_edit.events({
             }
 
             if (files.length > 1) {
-                throwError("You can only have one profile photo at a time");
+                throwError("Oops! You can only have one profile photo at a time");
             }
             else if (files.length > 0) {
                 //user is uploading a profile photo
@@ -175,7 +179,7 @@ Template.user_attributes_edit.events({
                         folder: "secret"  //FIXME: change to 'flippedart' folder
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
-                            throwError(uploadError);
+                            throwError(uploadError.reason);
                             Session.set('isProfilePictureUploading', false);
                         }
 
@@ -187,14 +191,10 @@ Template.user_attributes_edit.events({
                             profilePhotoLink: uploadResult.public_id,
                         }, (err, res) => {
                             if (err) {
-                                //TODO throwError
-                                throwError(err);
+                                throwError(err.reason);
                             }
                             else {
-                                //TODO: throwSuccess
-
-                                console.log('succeeded!!!');
-                                console.log(res);
+                                throwSuccess('Yay!  You\'ve successfully updated your profile.  Be sure to explore what others are doing.');
 
                                 if (Meteor.user()) {
                                     FlowRouter.go('profile.page', {username: Meteor.user().username})
@@ -214,13 +214,10 @@ Template.user_attributes_edit.events({
                     profilePhotoLink: ' ',
                 }, (err, res) => {
                     if (err) {
-                        //TODO throwError
-                        throwError(err);
+                        throwError(err.reason);
                     }
                     else {
-                        //TODO: throwSuccess
-                        console.log('succeeded!!!');
-                        console.log(res);
+                        throwSuccess('Yay!  You\'ve successfully updated your profile.  Be sure to explore what others are doing.');
 
                         if (Meteor.user()) {
                             FlowRouter.go('profile.page', {username: Meteor.user().username})
@@ -245,7 +242,7 @@ Template.user_attributes_edit.events({
             }
 
             if (files.length > 1) {
-                throwError("You can only have one profile photo at a time");
+                throwError("Oops! You can only have one profile photo at a time");
             }
             else if (files.length > 0) {
                 //user is uploading a profile photo
@@ -256,7 +253,7 @@ Template.user_attributes_edit.events({
                         folder: "secret"  //FIXME: change to 'flippedart' folder
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
-                            throwError(uploadError);
+                            throwError(uploadError.reason);
                             Session.set('isProfilePictureUploading', false);
                         }
 
@@ -268,12 +265,11 @@ Template.user_attributes_edit.events({
                             profilePhotoLink: uploadResult.public_id,
                         }, (err, res) => {
                             if (err) {
-                                //TODO throwError
-                                throwError(err);
+                                throwError(err.reason);
                                 Session.set('isProfilePictureUploading', false);
                             }
                             else {
-                                //TODO: throwSuccess
+                                throwSuccess('Yay!  You\'ve successfully updated your profile.');
 
                                 //hide the edit form after it's been submitted
                                 Session.set('showUserAttributesEdit', false);
@@ -293,11 +289,10 @@ Template.user_attributes_edit.events({
                     profilePhotoLink: ' ',
                 }, (err, res) => {
                     if (err) {
-                        //TODO throwError
-                        throwError(err);
+                        throwError(err.reason);
                     }
                     else {
-                        //TODO: throwSuccess
+                        throwSuccess('Yay!  You\'ve successfully updated your profile.');
 
                         //hide the edit form after it's been submitted
                         Session.set('showUserAttributesEdit', false);

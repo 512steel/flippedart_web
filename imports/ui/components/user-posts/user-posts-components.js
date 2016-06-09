@@ -9,6 +9,10 @@ import {
     FLAG_THRESHOLD,
     UPLOAD_LIMITS } from '../../lib/globals.js';
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 import { UserPosts } from '../../../api/user-posts/user-posts.js';
 import {
     insert,
@@ -341,8 +345,7 @@ Template.user_post_edit.events({
             imageLinks: [],
         }, (err, res) => {
             if (err) {
-                //TODO: throwError here.
-                console.log(err);
+                throwError(err.reason);
             }
             else {
                 FlowRouter.go('profile.post', {username: username, userPostId: userPostId});
@@ -360,8 +363,7 @@ Template.user_post_edit.events({
                 userPostId: userPostId,
             }, (err, res) => {
                 if (err) {
-                    //TODO: throwError here.
-                    console.log(err);
+                    throwError(err.reason);
                 }
                 else {
                     FlowRouter.go('profile.posts', {username: username});
@@ -382,8 +384,7 @@ Template.user_post_submit.events({
 
             for (var i = 0; i < files.length; i++) {
                 if (files[i].size > 2000000) {
-                    //TODO: implement throwError()
-                    throwError("One of your images is bigger than the 2MB upload limit");
+                    throwError("Sorry, one of your images is bigger than the 2MB upload limit");
                     return;
                 }
             }
@@ -400,8 +401,7 @@ Template.user_post_submit.events({
                     folder: "secret"  //FIXME: change this folder to "flippedart"
                 }, function(error, result) {
                     if (error) {
-                        //FIXME: throw error visibly to client
-                        throwError(error);
+                        throwError(error.reason);
                     }
 
                     //FIXME - since Cloudinary.upload() is asynchronous there's no way to check if there's an error before submitting the userPost and it will likely hang on `null.public_id`
@@ -422,8 +422,7 @@ Template.user_post_submit.events({
                             imageLinks: imageLinks,
                         }, (err, res) => {
                             if (err) {
-                                //FIXME: visible throwError
-                                console.log(err);
+                                throwError(err.reason);
                                 Session.set('isPostUploading', false);
                             }
                             else {
@@ -448,8 +447,7 @@ Template.user_post_submit.events({
                     imageLinks: [],
                 }, (err, res) => {
                     if (err) {
-                        //FIXME: visible throwError
-                        console.log(err);
+                        throwError(err.reason);
                     }
                     else {
                         Session.set('isPostUploading', false);

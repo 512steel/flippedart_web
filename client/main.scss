@@ -10,6 +10,12 @@
   }
 }
 
+.column-centered-vertical {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .push-down {
   margin-bottom: 2rem;
 }
@@ -76,4 +82,30 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded {
   animation: anim-rotate 2s infinite linear;
   color: #fff;
   text-shadow: 0 0 .25em rgba(255,255,255, .3);
+}
+
+.temporary-notifications {
+  position: absolute;
+  right: 1em;
+  width: 85%;
+  max-width: 300px;
+  @extend .pull-down-small;
+}
+.temporary-alert {
+  /* TODO: animate fadein and fadeout */
+  clear: both;
+  width: 100%;
+  margin-bottom: 5px;
+  pointer-events: auto;
+
+  @extend .float-right, .callout;
+}
+.temporary-alert-error {
+  @extend .alert;
+}
+.temporary-alert-warning {
+  @extend .warning;
+}
+.temporary-alert-success {
+  @extend .success;
 }

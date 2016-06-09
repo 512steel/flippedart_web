@@ -10,6 +10,10 @@ import {
     deleteChatMessage,
 } from '../../../api/chat-messages/methods.js';
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 import './chat-window-card.html';
 import './chat-message-card.html';
 import './chat-message-submit.html';
@@ -160,8 +164,7 @@ Template.chat_message_submit.events({
             imageLink: " ".trim()  //TODO - get the actual link from cloudinary API here (once "hiding" is in place)
         }, (err, res) => {
             if (err) {
-                //FIXME...
-                throwError(error);
+                throwError(error.reason);
             }
             else {
                 $messageText.val('');

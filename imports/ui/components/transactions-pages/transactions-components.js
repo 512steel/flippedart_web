@@ -13,6 +13,10 @@ import {
     declineTransaction,
     cancelTransaction } from '../../../api/transactions/methods.js';
 
+import {
+    throwError,
+    throwSuccess } from '../../lib/temporary-alerts.js';
+
 import './transaction-card.html';
 import './user-transactions.html';
 import './single-transaction.html';
@@ -233,11 +237,10 @@ Template.transaction_card.events({
             transactionId: this._id
         }, (err, res) => {
             if (err) {
-                //FIXME: throwError visibly to the client
-                console.log('Looks like there was a problem with approving this request');
+                throwError('Oops! Looks like there was a problem with approving this request');
             }
             else {
-                //FIXME: throwSuccess message visibly to the client
+                throwSuccess('Yay! You\'ve successfully approved this request.  Be sure to send messages back and forth to work out the details.');
             }
         });
     },
@@ -248,11 +251,10 @@ Template.transaction_card.events({
             transactionId: this._id
         }, (err, res) => {
             if (err) {
-                //FIXME: throwError visibly to the client
-                console.log('Looks like there was a problem with completing this request');
+                throwError('Oops! Looks like there was a problem with completing this exchange');
             }
             else {
-                //FIXME: throwSuccess message visibly to the client
+                throwSuccess('Yay! The exchange has been completed.  Be sure to congratulate your project\'s proud new owner.');
             }
         });
     },
@@ -263,11 +265,10 @@ Template.transaction_card.events({
             transactionId: this._id
         }, (err, res) => {
             if (err) {
-                //FIXME: throwError visibly to the client
-                console.log('Looks like there was a problem with declining this request');
+                throwError('Oops! Looks like there was a problem with declining this request');
             }
             else {
-                //FIXME: throwSuccess message visibly to the client
+                throwSuccess('You have successfully declined this request.  Be sure to send a message to the requester letting them know the reason.');
             }
         });
     },
@@ -278,11 +279,10 @@ Template.transaction_card.events({
             transactionId: this._id
         }, (err, res) => {
             if (err) {
-                //FIXME: throwError visibly to the client
-                console.log('Looks like there was a problem with canceling this request');
+                throwError('Oops! Looks like there was a problem with canceling this request');
             }
             else {
-                //FIXME: throwSuccess message visibly to the client
+                throwSuccess('You have successfully canceled this request.  Be sure to check out some of the other projects that community members are working on.');
             }
         });
     },
