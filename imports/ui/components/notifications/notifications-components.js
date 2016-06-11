@@ -105,6 +105,11 @@ Template.notifications_page.helpers({
     },
     userNotificationsCount() {
         return Notifications.find({}).count();
+    },
+    currentUsername() {
+        if (Meteor.user()) {
+            return Meteor.user().username;
+        }
     }
 });
 

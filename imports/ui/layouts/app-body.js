@@ -50,6 +50,11 @@ Template.App_body.onCreated(function appBodyOnCreated() {
   this.autorun(() => {
     if (Meteor.user()) {
       this.subscribe('userAttributes.byUsername', Meteor.user().username);
+
+      console.log('yuppity');
+      Meteor.setTimeout(function(){
+        $(document).foundation();
+      }, 100);
     }
   });
 
@@ -63,10 +68,59 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 Template.App_body.onRendered(function() {
   $(document).foundation();
 
-  //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).  The easy solution is to set this short timeout.
+  //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).  The easy solution is to set these short timeouts.
   Meteor.setTimeout(function(){
     $(document).foundation();
-  }, 100);
+  }, 50);
+  Meteor.setTimeout(function(){
+    $(document).foundation();
+  }, 200);
+
+  this.autorun(() => {
+    //FIXME: currently the sticky footer works, but, but switching between routes triggers it one
+    // switch late.  Uncomment below and see the console output for more details.
+    //FlowRouter.watchPathChange();
+    //stickyFooter();
+  });
+
+  /*function stickyFooter() {
+    if (document.getElementsByTagName("footer")[0].getAttribute("style") != null) {
+      document.getElementsByTagName("footer")[0].removeAttribute("style");
+    }
+
+    console.log(window.innerHeight);
+    console.log($('#__blaze-root').outerHeight());
+
+    if (window.innerHeight != $('#__blaze-root').outerHeight()) {
+      var offset = window.innerHeight - $('#__blaze-root').outerHeight();
+      var current = $('footer').css('margin-top');
+
+      if (isNaN(current) == true) {
+        console.log('1');
+        document.getElementsByTagName("footer")[0].setAttribute("style","margin-top:0px;");
+        current = 0;
+      } else {
+        console.log('2');
+        current = parseInt(current);
+      }
+      console.log('3');
+      console.log(offset);
+      console.log(current);
+      console.log($('footer').css('margin-top'));
+
+      if (current+offset > parseInt($('footer').css('margin-top'))) {
+        console.log('4');
+        document.getElementsByTagName("footer")[0].setAttribute("style","margin-top:"+(current+offset)+"px;");
+      }
+      console.log('5');
+    }
+  }
+
+  stickyFooter();
+  $(window).resize(function() {
+    //TODO: debounce this
+    stickyFooter();
+  });*/
 });
 
 Template.App_body.helpers({

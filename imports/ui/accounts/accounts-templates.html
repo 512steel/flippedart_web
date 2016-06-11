@@ -8,16 +8,18 @@
       </div>
     </nav>
 
-    <div class="content-scrollable">
-      <div class="wrapper-auth">
-        {{> atForm}}
-      </div>
+    <div class="row pull-down push-down-xxxlarge">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered">
+            <div class="wrapper-auth">
+                {{> atForm}}
+            </div>
+        </div>
     </div>
   </div>
 </template>
 
 <template name="override-atPwdFormBtn">
-  <button type="submit" class="button primary">
+  <button type="submit" class="button primary expanded">
     {{buttonText}}
   </button>
 </template>

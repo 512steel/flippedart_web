@@ -1,5 +1,5 @@
 <template name="notifications_page">
-    <div class="row">
+    <div class="row pull-down push-down-xxlarge">
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
             <h1 class="push-down">Your notifications ({{userNotificationsCount}})</h1>
             <div>
@@ -11,12 +11,13 @@
                 {{else}}
                     <div class="row column">
                         <p>You don't have any notifications.</p>
+                        <a href="{{pathFor 'profile.page' username=currentUsername}}" class="button-go-back">Back to your profile</a>
                     </div>
                 {{/each}}
 
                 {{#if userHasNotifications}}
-                    <div class="row column notifications-clear-all">
-                        <p>Clear your notifications.</p>
+                    <div class="row column notifications-clear-all button secondary expanded">
+                        Clear your notifications
                     </div>
                 {{/if}}
             </div>

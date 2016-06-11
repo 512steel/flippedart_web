@@ -1,0 +1,1 @@
+import './howto-page.html';

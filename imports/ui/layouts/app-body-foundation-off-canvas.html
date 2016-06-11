@@ -31,6 +31,9 @@
                                 <li class="{{isActiveRoute 'profile.projects'}}">
                                     <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My projects</a>
                                 </li>
+                                <li class="{{isActiveRoute 'exchanges.user'}}">
+                                    <a href="{{pathFor 'exchanges.user' username=currentUsername}}" data-close>My exchanges</a>
+                                </li>
                             {{/if}}
                         {{else}}
                             <div class="menu button-group expanded">
@@ -165,6 +168,9 @@
                                             </li>-->
                                                     <li>
                                                         <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{pathFor 'exchanges.user' username=currentUsername}}">My exchanges</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{pathFor 'static.donate'}}">{{_ 'Donate'}}</a>

@@ -25,6 +25,15 @@
 .push-down-large {
   margin-bottom: 3rem;
 }
+.push-down-xlarge {
+  margin-bottom: 5rem;
+}
+.push-down-xxlarge {
+  margin-bottom: 7rem;
+}
+.push-down-xxxlarge {
+  margin-bottom: 10rem;
+}
 .pull-down {
   padding-top: 2rem;
 }
@@ -132,4 +141,19 @@ footer {
 
 .text-centered {
   text-align: center;
+}
+
+.static-page-wrap {
+  @extend .row, .column, .small-12, .medium-10, .large-8, .small-centered, .medium-centered, .large-centered, .pull-down;
+}
+
+.list-errors {
+  @extend .pull-down-small, .push-down-small;
+  .list-item {
+    background: $light-gray;
+    color: $alert-color;
+    font-size: .625rem;
+    margin-bottom: 1px;
+    padding: .75rem;
+  }
 }
