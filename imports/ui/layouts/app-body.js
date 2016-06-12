@@ -51,7 +51,7 @@ Template.App_body.onCreated(function appBodyOnCreated() {
     if (Meteor.user()) {
       this.subscribe('userAttributes.byUsername', Meteor.user().username);
 
-      console.log('yuppity');
+      // this is triggered after a user signs in
       Meteor.setTimeout(function(){
         $(document).foundation();
       }, 100);

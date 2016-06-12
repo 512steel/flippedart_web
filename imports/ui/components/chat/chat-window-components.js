@@ -17,6 +17,7 @@ import {
 import './chat-window-card.html';
 import './chat-message-card.html';
 import './chat-message-submit.html';
+import './chat-sessions-list-page.html';
 
 
 Template.chat_window_card.onCreated(function chatWindowCardOnCreated() {
@@ -26,11 +27,33 @@ Template.chat_window_card.onCreated(function chatWindowCardOnCreated() {
     this.autorun(() => {
         if (Meteor.user()) {
             this.subscribe('chatSession.single', this.getOtherUsername());
-            this.chatMessagesSubscription = Meteor.subscribeWithPagination('chatMessages.session', this.getOtherUsername(), {sort: {createdAt: -1}}, 3);
+            this.chatMessagesSubscription = Meteor.subscribeWithPagination('chatMessages.session', this.getOtherUsername(), {sort: {createdAt: -1}}, 20);
         }
     });
 
     this.getCurrentChatSession = () => ChatSessions.findOne({});
+
+    const resizeCardElements = _.throttle(function() {
+        //reset this for a more accurate first-time measurement
+        $('#chat-window-messages-scrollable').css('height', '0px');
+
+        var headerHeight;
+        if($('.title-bar').css('display') == 'none') {
+            headerHeight = $('.top-bar').outerHeight();
+        }
+        else {
+            headerHeight = $('.title-bar').outerHeight();
+        }
+        var titleHeight = $('#chat-window-title').outerHeight();
+        var submitHeight = $('#chat-message-submit-wrap-outer').outerHeight();
+        var messagesElementHeight = $(window).height() - headerHeight - titleHeight - submitHeight - '50';
+
+        if (messagesElementHeight > 0) {
+            $('#chat-window-messages-scrollable').css('height', messagesElementHeight + "px");
+        }
+
+    }, 100);
+    $(window).resize(resizeCardElements);
 });
 
 Template.chat_message_card.onCreated(function chatMessageCardOnCreated() {
@@ -51,6 +74,16 @@ Template.chat_message_submit.onCreated(function chatMessageSubmitOnCreated() {
     this.getCurrentChatSession = () => ChatSessions.findOne({});
 });
 
+Template.chat_sessions_list_page.onCreated(function() {
+    this.autorun(() => {
+        if (Meteor.user()) {
+            this.subscribe('chatSessions.user');
+        }
+    });
+
+    this.getUserChatSessions = () => ChatSessions.find({});
+});
+
 
 Template.chat_window_card.onRendered(function chatWindowCardOnRendered() {
 
@@ -59,6 +92,17 @@ Template.chat_window_card.onRendered(function chatWindowCardOnRendered() {
             // release renderHolds here
         }
     });
+
+    //hacky way to resize the chat window elements after the DOM is rendered
+    Meteor.setTimeout(function(){
+        $(window).resize();
+
+        var el = document.getElementById('chat-window-messages-scrollable');
+        el.scrollTop = el.scrollHeight;
+    }, 200);
+    Meteor.setTimeout(function(){
+
+    }, 500);
 });
 
 Template.chat_message_card.onRendered(function chatMessageCardOnRendered() {
@@ -102,6 +146,10 @@ Template.chat_window_card.helpers({
         return false;
     },
 
+    chatMessagesCount: function() {
+        return ChatMessages.find({}).count();
+    },
+
     chatMessages: function() {
 
         return ChatMessages.find({}, {sort: {createdAt: -1}});
@@ -125,6 +173,20 @@ Template.chat_message_card.helpers({
 
 Template.chat_message_submit.helpers({
 
+});
+
+Template.chat_sessions_list_page.helpers({
+    chatSessions: function() {
+        return Template.instance().getUserChatSessions();
+    },
+    determineChatSessionName: function() {
+        if (Meteor.user()) {
+            if (Meteor.user().username == this.firstUserName) {
+                return this.secondUserName;
+            }
+            else return this.firstUserName;
+        }
+    }
 });
 
 

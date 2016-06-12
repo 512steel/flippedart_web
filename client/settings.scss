@@ -55,6 +55,7 @@ $foundation-palette: (
         warning: #ffae00,
         alert: #ec5840,
 );
+$super-light-gray: #f1f1f1;
 $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
 $dark-gray: #8a8a8a;
@@ -551,9 +552,9 @@ $tooltip-background-color: $black;
 $tooltip-color: $white;
 $tooltip-padding: 0.75rem;
 $tooltip-font-size: $small-font-size;
-$tooltip-pip-width: 0.75rem;
+$tooltip-pip-width: 0rem;  //helps, but doesn't solve the z-index bug
 $tooltip-pip-height: $tooltip-pip-width * 0.866;
-$tooltip-radius: $global-radius;
+$tooltip-radius: .5rem;
 
 // 36. Top Bar
 // -----------

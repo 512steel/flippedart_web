@@ -9,12 +9,18 @@
             {{#unless isExchangeMember}}
                 {{> signup_call_to_action}}
             {{else}}
+
                 <h1>Your exchange with {{#with transaction}}{{#if isRequestee}}{{requesterName}}{{else}}{{requesteeName}}{{/if}}{{/with}} </h1>
                 {{#with transaction}}
                     <div class="push-down">
                         {{> transaction_card }}
                     </div>
                 {{/with}}
+
+                <div class="row column">
+                    {{> transactions_info_card}}
+                </div>
+
                 <div class="push-down">
                     {{#each exchangeItems}}
                         <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">

@@ -8,8 +8,13 @@
                         <a class="button-go-back" href="{{pathFor 'profile.page' username=pageUsername}}">
                             back to your profile
                         </a>
-                        <h2 class="">Your project exchanges</h2>
+
+                        <h1 class="">Your project exchanges</h1>
                     </div>
+                </div>
+
+                <div class="row column">
+                    {{> transactions_info_card}}
                 </div>
 
                 <div class="row column">

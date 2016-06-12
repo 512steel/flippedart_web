@@ -99,6 +99,22 @@ Template.project_single_page.onRendered(function itemSinglePageOnRendered() {
     });
 });
 
+Template.project_single_card.onRendered(function projectSingleCardOnRendered() {
+    $('.has-tip-item-card-locked').each(function() {
+        new Foundation.Tooltip($(this));
+    });
+    $('.has-tip-item-card-unlocked').each(function() {
+        new Foundation.Tooltip($(this));
+    });
+    $('.has-tip-item-card-available').each(function() {
+        new Foundation.Tooltip($(this));
+    });
+    $('.has-tip-item-card-unavailable').each(function() {
+        new Foundation.Tooltip($(this));
+    });
+    //FIXME: Foundation has a display bug on multiple tooltips, where the "nub" is in front of the text
+});
+
 Template.item_edit.onRendered(function itemEditOnRendered() {
     this.autorun(() => {
         if (this.subscriptionsReady()) {
@@ -224,6 +240,33 @@ Template.project_single_card.helpers({
         }
         else return "invisible";
     },
+
+    //FIXME: more personal language here
+    tooltipLocked: function() {
+        return "This project is already a part of an exchange, so it can't be requested at this time.";
+    },
+    tooltipUnlocked: function() {
+        return "This project is in the possession of its owner.  If its owner has made it available, the project may be requested.";
+    },
+    tooltipAvailable: function() {
+        return "This project is able to be requested.";
+    },
+    tooltipUnavailable: function() {
+        return "This project is unable to be requested at this time.";
+    },
+    tooltipLockedYours: function() {
+        return "This project is a part of an exchange, so it can't be edited. Message the person who requested this project to complete the exchange.";
+    },
+    tooltipUnlockedYours: function() {
+        return "You own this project and it is not currently in the process of being exchanged.";
+    },
+    tooltipAvailableYours: function() {
+        return "You've made this project available to be requested.";
+    },
+    tooltipUnavailableYours: function() {
+        return "You've made this project unable to be requested.";
+    },
+
 });
 
 Template.item_edit.helpers({

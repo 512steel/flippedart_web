@@ -34,6 +34,12 @@
 .push-down-xxxlarge {
   margin-bottom: 10rem;
 }
+.push-down-xxxxlarge {
+  margin-bottom: 15rem;
+}
+.push-down-xxxxxlarge {
+  margin-bottom: 20rem;
+}
 .pull-down {
   padding-top: 2rem;
 }
@@ -42,6 +48,21 @@
 }
 .pull-down-large {
   padding-top: 3rem;
+}
+.pull-down-xlarge {
+  padding-top: 5rem;
+}
+.pull-down-xxlarge {
+  padding-top: 7rem;
+}
+.pull-down-xxxlarge {
+  padding-top: 10rem;
+}
+.pull-down-xxxxlarge {
+  padding-top: 15rem;
+}
+.pull-down-xxxxxlarge {
+  padding-top: 20rem;
 }
 .push-left {
   margin-left: 2rem;
@@ -53,7 +74,7 @@
   margin-left: 3rem;
 }
 
-input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
+input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded, div.padded {
   padding: .5rem
 }
 
@@ -70,7 +91,6 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
 @media screen and (max-width: 39.9375em) {
   .clearfix-small {
     clear: both;
-
   }
 }
 
@@ -95,14 +115,15 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded {
 }
 
 .temporary-notifications {
-  position: absolute;
+  position: fixed;
   right: 1em;
+  top: 1rem;
   width: 85%;
   max-width: 300px;
   @extend .pull-down-small;
 }
 .temporary-alert {
-  /* TODO: animate fadein and fadeout */
+  /* FIXME: animate fadein and fadeout */
   clear: both;
   width: 100%;
   margin-bottom: 5px;
@@ -156,4 +177,21 @@ footer {
     margin-bottom: 1px;
     padding: .75rem;
   }
+}
+
+div.hoverable {
+  background-color: $white;
+  -o-transition:.25s;
+  -moz-transition:.25s;
+  -webkit-transition:.25s;
+  transition:.25s;
+
+
+}
+div.hoverable:hover {
+  background-color: $super-light-gray;
+}
+
+#chat-window-messages-scrollable {
+  overflow-y: scroll;
 }

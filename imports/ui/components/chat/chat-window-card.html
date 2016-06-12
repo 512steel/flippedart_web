@@ -1,63 +1,60 @@
 <template name="chat_window_card">
 
-    <div class="content-scrollable">
+    <div class="row push-down-xxxlarge">
+        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+            {{#if currentUser}}
 
-        {{#if currentUser}}
+                {{#unless currentChatSession}}
 
-            {{#unless currentChatSession}}
+                    {{#if isOwnPageUsername}}
+                        {{> App_notAuthorized}}
+                    {{else}}
+                        <p>
+                            You don't have a chat started with {{otherUsername}}.<br>
+                            <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
+                        </p>
+                    {{/if}}
 
-                {{#if isOwnPageUsername}}
-                    {{> App_notAuthorized}}
                 {{else}}
-                    <p>
-                        You don't have a chat started with {{otherUsername}}.<br>
-                        <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
-                    </p>
-                {{/if}}
+
+                    <div class="row column pull-down-small" id="chat-window-title">
+                        <h2>Messages with {{otherUsername}}<hr></h2>
+                    </div>
+
+                    <div class="push-down" id="chat-window-messages-scrollable">
+                        {{#if hasMoreChatMessages}}
+                            <p><a class="js-load-more-chat-messages button secondary">Load more messages</a></p>
+                        {{/if}}
+
+                        {{#each reversed chatMessages}}
+                            <div class="row column push-down">
+                                {{> chat_message_card}}
+                            </div>
+
+                        {{else}}
+                            <div class="text-centered pull-down-xlarge push-down-xlarge">
+                                <p>Send a message to {{otherUsername}} to start your conversation.</p>
+                            </div>
+                        {{/each}}
+                    </div>
+
+                    <div id="chat-message-submit-wrap-outer" class="push-down">
+                        <div class="chat-message-submit-wrap-inner">
+                            <hr>
+                            {{> chat_message_submit}}
+                            <div class="pull-left push-left push-down push-right">
+                                <p><a href="{{pathFor 'profile.page' username=otherUsername}}">{{otherUsername}}'s profile</a></p>
+                                <p><a href="{{pathFor 'exchanges.user' username=yourUsername}}">Your exchanges</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                {{/unless}}
 
             {{else}}
-
-                <div class="sticky-headline-wrap">
-                    <h2 id="sticky-headline">Messages with {{otherUsername}}<hr></h2>
-                </div>
-                {{#if equals chatMessagesCount 0}}
-                    <p>
-                        {{#unless equals currentChatSession.firstUsername yourUsername}}
-                            You have asked {{currentChatSession.firstUsername}} to check out some items.  Use this chat window to discuss further details with {{currentChatSession.firstUsername}}.
-                        {{else}}
-                            {{currentChatSession.secondUsername}} has asked to check out some items from you.  <a href="{{pathFor 'exchanges.user' username=yourUsername}}">View your pending exchanges</a> and use this chat window to discuss further details with {{currentChatSession.secondUsername}}.
-                        {{/unless}}
-                    </p>
-                {{/if}}
-
-                <div class="push-down">
-                    {{#each chatMessages}}
-                        {{> chat_message_card}}
-                        <br><br><br>
-
-                    {{else}}
-                        <p>Send a message to {{otherUsername}} to start a conversation.</p>
-                    {{/each}}
-
-                    {{#if hasMoreChatMessages}}
-                        <p><a class="js-load-more-chat-messages button secondary">Load more messages</a></p>
-                    {{/if}}
-                </div>
-
-                <div class="chat-message-submit-wrap push-down" id="chat-message-submit-wrap">
-                    <hr>
-                    {{> chat_message_submit}}
-                    <div class="pull-left push-left push-down push-right">
-                        <p><a href="{{pathFor 'profile.page' username=otherUsername}}">{{otherUsername}}'s profile</a></p>
-                        <p><a href="{{pathFor 'exchanges.user' username=yourUsername}}">See your exchanges</a></p>
-                    </div>
-                </div>
-
-            {{/unless}}
-
-        {{else}}
-            {{> App_notAuthorized}}
-        {{/if}}
+                {{> App_notAuthorized}}
+            {{/if}}
+        </div>
     </div>
 
 </template>

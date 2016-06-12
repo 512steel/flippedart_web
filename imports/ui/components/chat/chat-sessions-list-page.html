@@ -1,0 +1,24 @@
+<template name="chat_sessions_list_page">
+    <div class="static-page-wrap push-down-xxxxxlarge">
+        {{#if currentUser}}
+            <h1 class="push-down">Your messages</h1>
+
+            {{#each chatSessions}}
+                <a href="{{pathFor 'chatWindow.user' username=determineChatSessionName}}">
+                    <div class="padded hoverable">
+                        <p class="push-down-small"><strong>{{determineChatSessionName}}</strong></p>
+                        <blockquote>
+                            Send {{determineChatSessionName}} a message...
+                            <!-- TODO: show the most recent message of the chat here. -->
+                        </blockquote>
+                    </div>
+                </a>
+                <hr>
+            {{else}}
+                <p>You don't have any chats yet.  Start by requesting a project from another Flipped Art member, and then you can send them a message.</p>
+            {{/each}}
+        {{else}}
+            {{> signup_call_to_action}}
+        {{/if}}
+    </div>
+</template>

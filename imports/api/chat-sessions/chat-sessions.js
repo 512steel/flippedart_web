@@ -44,6 +44,7 @@ ChatSessions.schema = new SimpleSchema({
         type: Date,
         denyUpdate: true,
     },
+    //TODO: add an "updatedAt" field for sorting the most recently-active chats
 });
 
 ChatSessions.attachSchema(ChatSessions.schema);

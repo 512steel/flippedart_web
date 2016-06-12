@@ -1,8 +1,11 @@
 <template name="item_edit">
     {{#if equals currentUser.username ownerName}}  <!--TODO: perform this check in a helper -->
-        <h3>Edit your project's details</h3>
+        <h3 class="clearfix">Edit your project's details</h3>
 
         <form class="main item-edit-form">
+
+
+            <!-- FIXME: the original owner should be able to edit photos when unlocked, and any subsequent owners should be able to add "addendum" photos -->
 
             <div class="row column small-12 medium-10 large-8 medium-centered large-centered">
                 <div class="small-12 medium-10 large-10 medium-offset-2 large-offset-2 columns">

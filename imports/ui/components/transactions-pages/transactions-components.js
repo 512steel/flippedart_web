@@ -20,6 +20,7 @@ import {
 import './transaction-card.html';
 import './user-transactions.html';
 import './single-transaction.html';
+import './transactions-info-card.html';
 
 Template.transaction_card.onCreated(function transactionCardOnCreated() {
 
@@ -63,6 +64,10 @@ Template.user_single_transaction.onCreated(function userSingleTransactionOnCreat
     this.transaction = () => Transactions.findOne({});
 });
 
+
+Template.transactions_info_card.onRendered(function() {
+    this.accordion = new Foundation.Accordion($('.accordion'));
+});
 
 Template.user_transactions.onRendered(function userTransactionsOnRendered() {
 
@@ -143,7 +148,6 @@ Template.transaction_card.helpers({
     transactionId: function() {
         return this._id;
     },
-
 });
 
 

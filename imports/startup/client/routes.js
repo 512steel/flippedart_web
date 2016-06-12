@@ -116,6 +116,12 @@ FlowRouter.route('/', {
     },
 });
 
+FlowRouter.route('/messages', {
+    name: 'chatSessions.list',
+    action() {
+        BlazeLayout.render('App_body', { main: 'chat_sessions_list_page' });
+    }
+});
 FlowRouter.route('/messages/:username/:messagesLimit?', {
     name: 'chatWindow.user',
     action() {

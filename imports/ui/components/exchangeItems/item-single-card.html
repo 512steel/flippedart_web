@@ -1,7 +1,5 @@
 <template name="project_single_card">
 
-    <!-- FIXME: tooltips on "locked" and "available" buttons -->
-
     <div class="row column">&nbsp;</div>
     <div class="row">
         <div class="column">
@@ -34,8 +32,8 @@
                     </div>
 
                     <div class="row column button-group expanded push-down-small">
-                        <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                        <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                        <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                        <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
                     </div>
 
                     {{#if location}}
@@ -97,8 +95,8 @@
                             </div>
 
                             <div class="row column button-group expanded push-down-small">
-                                <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                                <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                                <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                                <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailableYours}}{{else}}{{tooltipUnavailableYours}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
                             </div>
 
                             {{#if locked}}
@@ -160,8 +158,8 @@
                         </div>
 
                         <div class="row column button-group expanded push-down-small">
-                            <p class="button secondary" disabled>{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                            <p class="button secondary" disabled>{{#if available}}Available{{else}}Not available{{/if}}</p>
+                            <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
+                            <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
                         </div>
 
                         {{#if location}}

@@ -78,6 +78,12 @@ Template.registerHelper('cursorNotEmpty', function(cursor) {
     }
 });
 
+Template.registerHelper('reversed', function(cursor) {
+    if (cursor) {
+        return cursor.fetch().reverse();
+    }
+});
+
 
 /***  copy helpers  ***/
 firstMessageCopy = "test copy";
