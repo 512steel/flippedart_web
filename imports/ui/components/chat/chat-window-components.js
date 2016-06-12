@@ -147,6 +147,9 @@ Template.chat_window_card.helpers({
     },
 
     chatMessagesCount: function() {
+
+        //TODO: listen here for a change in the count.  If it's higher than the previous count, show in the UI that new messages have arrived.
+        //If the chat-window-messages-scrollable is scrolled to the bottom, remove the UI piece.
         return ChatMessages.find({}).count();
     },
 

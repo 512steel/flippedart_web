@@ -87,14 +87,6 @@ input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded, 
   @extend .pull-down-small, .push-down-small, .button, .secondary, .hollow;
 }
 
-/* "small" only */
-@media screen and (max-width: 39.9375em) {
-  .clearfix-small {
-    clear: both;
-  }
-}
-
-
 @keyframes anim-rotate {
   0% {
     transform: rotate(0deg);
@@ -179,6 +171,10 @@ footer {
   }
 }
 
+.text-small {
+  font-size: .8rem;
+}
+
 div.hoverable {
   background-color: $white;
   -o-transition:.25s;
@@ -194,4 +190,32 @@ div.hoverable:hover {
 
 #chat-window-messages-scrollable {
   overflow-y: scroll;
+  background-color: $light-gray;
+
+  .chat-message {
+    width: 40%;
+    margin: 0 1rem;
+    background-color: $white;
+  }
+  .chat-message-mine {
+    float: right;
+  }
+  .chat-message-not-mine {
+    float: left;
+  }
+}
+
+p.chat-message-delete:hover {
+  color: $medium-gray;
+}
+
+/* "small" only */
+@media screen and (max-width: 39.9375em) {
+  .clearfix-small {
+    clear: both;
+  }
+
+  #chat-window-messages-scrollable .chat-message {
+    width: 80%;
+  }
 }
