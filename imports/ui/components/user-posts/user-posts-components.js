@@ -462,6 +462,9 @@ Template.user_post_submit.events({
             }
         });
     },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 Template.user_post_single_page.events({

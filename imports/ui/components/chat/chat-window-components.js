@@ -261,7 +261,10 @@ Template.chat_message_submit.events({
         });
 
         //window.scrollTo(0,document.body.scrollHeight);
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 

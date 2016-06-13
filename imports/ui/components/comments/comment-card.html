@@ -15,7 +15,7 @@
         {{#if showCommentEdit}}
             {{> comment_edit }}
         {{else}}
-            <p class="author shift-down">
+            <p class="author shift-down text-small">
                 {{#unless ownComment}}
                     <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
                 {{else}}
@@ -26,7 +26,7 @@
 
             {{#unless inappropriate}}
                 <p class="push-down-sm">{{text}}</p>
-                <p><span class="date">{{dateTimeAgo createdAt}}</span></p>
+                <p><span class="date text-small">{{dateTimeAgo createdAt}}</span></p>
             {{else}}
                 <h3>[This comment has been flagged as inappropriate]</h3>
             {{/unless}}

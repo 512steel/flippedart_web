@@ -21,7 +21,7 @@
                         <span class="" aria-hidden="true">X</span>
                     </button>
 
-                    <ul class="vertical menu text-center">
+                    <ul class="vertical menu text-center font-oswald">
 
                         {{#if currentUser}}
                             {{# if hasUserAttributes}}
@@ -105,7 +105,7 @@
                 </div>
 
                 <!-- "wider" top-bar menu for 'medium' and up -->
-                <div id="widemenu" class="top-bar">
+                <div id="widemenu" class="top-bar font-oswald">
                     <div class="top-bar-left">
                         <ul class="menu">
                             <li><a href="{{pathFor 'static.home'}}">[logo]</a></li>
@@ -139,7 +139,7 @@
                                         <ul class="dropdown menu" data-dropdown-menu>
                                             <li class="has-submenu">
                                                 <a href="{{pathFor 'notifications.page'}}"><span class="circle-background-text">{{userNotificationsCount}}</span></a>
-                                                <ul class="submenu menu vertical" data-submenu>
+                                                <ul class="submenu menu vertical" style="max-height: 500px; overflow-y: scroll;" data-submenu>
                                                     {{#each userNotifications}}
                                                         <li class="padded">
                                                             {{> notification_card}}

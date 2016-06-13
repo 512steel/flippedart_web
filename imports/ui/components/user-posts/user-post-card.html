@@ -3,7 +3,7 @@
         <p class="float-right">{{dateTimeAgo createdAt}}</p>
         <p><strong><a href="{{pathFor 'profile.page' username=author}}">{{author}}</a></strong></p>
         {{#unless inappropriate}}
-            <h4 class="user-post-body">{{text}}</h4>
+            <h4 class="user-post-body">{{{text}}}</h4>
 
             <!-- TODO: a proper orbit/lightbox with Motion-UI -->
             <div class="post-images-list row column horizontal-scroll-row push-down">

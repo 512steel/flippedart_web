@@ -209,6 +209,9 @@ Template.comment_submit.events({
                 $text.val('');
             }
         });
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 

@@ -605,7 +605,10 @@ Template.single_item_submit.events({
         var arr = Session.get('itemsToSubmit');
         arr.splice(arr.indexOf(parseInt(this)), 1);
         Session.set('itemsToSubmit', arr);
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 
