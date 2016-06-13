@@ -21,22 +21,31 @@
                         <h2>Messages with {{otherUsername}}<hr></h2>
                     </div>
 
-                    <div class="push-down" id="chat-window-messages-scrollable">
-                        {{#if hasMoreChatMessages}}
-                            <p><a class="js-load-more-chat-messages button secondary">Load more messages</a></p>
-                        {{/if}}
 
-                        {{#each reversed chatMessages}}
-                            <div class="row column push-down">
-                                {{> chat_message_card}}
+                    <div id="chat-window-messages-scrollable-wrap">
+                        <div class="push-down" id="chat-window-messages-scrollable">
+                            <div class="has-new-messages-indicator">
+                                <!--{{{hasNewChatMessagesIcon}}}-->
+                                <i class="fi-arrow-down"></i>
                             </div>
 
-                        {{else}}
-                            <div class="text-centered pull-down-xlarge push-down-xlarge">
-                                <p>Send a message to {{otherUsername}} to start your conversation.</p>
-                            </div>
-                        {{/each}}
+                            {{#if hasMoreChatMessages}}
+                                <p class="padded text-centered"><a class="js-load-more-chat-messages button secondary">Load more messages</a></p>
+                            {{/if}}
+
+                            {{#each reversed chatMessages}}
+                                <div class="row column push-down">
+                                    {{> chat_message_card}}
+                                </div>
+
+                            {{else}}
+                                <div class="text-centered pull-down-xlarge push-down-xlarge">
+                                    <p>Send a message to {{otherUsername}} to start your conversation.</p>
+                                </div>
+                            {{/each}}
+                        </div>
                     </div>
+
 
                     <div id="chat-message-submit-wrap-outer" class="push-down">
                         <div class="chat-message-submit-wrap-inner">

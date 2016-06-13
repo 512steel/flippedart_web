@@ -34,6 +34,9 @@
                                 <li class="{{isActiveRoute 'exchanges.user'}}">
                                     <a href="{{pathFor 'exchanges.user' username=currentUsername}}" data-close>My exchanges</a>
                                 </li>
+                                <li class="{{isActiveRoute 'chatSessions.list'}}">
+                                    <a href="{{pathFor 'chatSessions.list'}}" data-close>My messages</a>
+                                </li>
                             {{/if}}
                         {{else}}
                             <div class="menu button-group expanded">
@@ -171,6 +174,9 @@
                                                     </li>
                                                     <li>
                                                         <a href="{{pathFor 'exchanges.user' username=currentUsername}}">My exchanges</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{pathFor 'chatSessions.list'}}">My messages</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{pathFor 'static.donate'}}">{{_ 'Donate'}}</a>

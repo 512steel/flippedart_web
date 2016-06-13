@@ -51,7 +51,6 @@ Template.chat_window_card.onCreated(function chatWindowCardOnCreated() {
         if (messagesElementHeight > 0) {
             $('#chat-window-messages-scrollable').css('height', messagesElementHeight + "px");
         }
-
     }, 100);
     $(window).resize(resizeCardElements);
 });
@@ -97,12 +96,26 @@ Template.chat_window_card.onRendered(function chatWindowCardOnRendered() {
     Meteor.setTimeout(function(){
         $(window).resize();
 
-        var el = document.getElementById('chat-window-messages-scrollable');
+        const el = document.getElementById('chat-window-messages-scrollable');
         el.scrollTop = el.scrollHeight;
     }, 200);
     Meteor.setTimeout(function(){
-
+        var wrap = $("#chat-window-messages-scrollable");
+        wrap.on("scroll", function(e) {
+            showNewMessages(this);
+        });
     }, 500);
+
+
+    const showNewMessages = _.throttle(function(that) {
+        const pad = 20;
+        if (that.scrollTop + $(that).height() < that.scrollHeight - pad) {
+            $(that).addClass('has-new-messages');
+        }
+        else {
+            $(that).removeClass('has-new-messages');
+        }
+    }, 200);
 });
 
 Template.chat_message_card.onRendered(function chatMessageCardOnRendered() {
@@ -162,6 +175,11 @@ Template.chat_window_card.helpers({
 
         return sub.loaded() < Counts.get('chatMessages.session.count') &&
             sub.loaded() == sub.limit();
+    },
+
+    hasNewChatMessagesIcon: function() {
+        //FIXME
+        return '<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"/></svg>';
     }
 });
 
@@ -199,6 +217,12 @@ Template.chat_window_card.events({
 
         Template.instance().chatMessagesSubscription.loadNextPage();
     },
+    'click .has-new-messages-indicator': function(e) {
+        e.preventDefault();
+
+        var el = document.getElementById('chat-window-messages-scrollable');
+        $('#chat-window-messages-scrollable').animate({scrollTop: el.scrollHeight}, 600);
+    }
 });
 
 Template.chat_message_card.events({
@@ -229,7 +253,7 @@ Template.chat_message_submit.events({
             imageLink: " ".trim()  //TODO - get the actual link from cloudinary API here (once "hiding" is in place)
         }, (err, res) => {
             if (err) {
-                throwError(error.reason);
+                throwError(err.reason);
             }
             else {
                 $messageText.val('');

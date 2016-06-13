@@ -188,6 +188,9 @@ div.hoverable:hover {
   background-color: $super-light-gray;
 }
 
+#chat-window-messages-scrollable-wrap {
+  position: relative;
+}
 #chat-window-messages-scrollable {
   overflow-y: scroll;
   background-color: $light-gray;
@@ -202,6 +205,26 @@ div.hoverable:hover {
   }
   .chat-message-not-mine {
     float: left;
+  }
+
+  .has-new-messages-indicator {
+    display: none;
+  }
+}
+#chat-window-messages-scrollable.has-new-messages {
+  .has-new-messages-indicator {
+    /* TODO: fade in */
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 2.5rem;
+    @extend .padded, .text-centered;
+
+    :hover {
+      color: $dark-gray;
+    }
   }
 }
 

@@ -3,7 +3,8 @@
     <form name="chatMessage" class="chat-message-form form main pull-left">
         <div class="form-group">
             <div class="controls">
-                <textarea name="text" class="form-control" placeholder="Send a message" rows="3" maxlength="1000"></textarea>
+                <!-- TODO: remove the "required" field here after adding the option for sending images -->
+                <textarea required name="text" class="form-control" placeholder="Send a message" rows="3" maxlength="1000"></textarea>
             </div>
         </div>
         <button type="submit" class="button primary float-right">Send</button>
