@@ -1,8 +1,53 @@
 <template name="howto_page">
-    <div class="static-page-wrap">
+    <div class="static-page-wrap push-down">
         <h1>How to use this site</h1>
         <p>
+            This website is the online hub for Des Moines' local creative community.  Below are
+            some tips for using it.  Don't hesitate to ask questions of other community members!
+        </p>
 
+        <h5 class="pull-down">Sharing</h5>
+        <p>
+            Communities work best when the members share and grow with each other.  If somebody
+            else in the area could put a creative project you've made to good use, make it available on
+            here so that others can request it.
+        </p>
+        <p>
+            Add any projects you've been working on or have completed
+            <a href="{{pathFor 'projects.add'}}">here</a>.
+            Be sure to keep the "available" checkbox checked.  Once somebody requests your project,
+            you will receive a notification and can open a chatroom between yourself and that user.
+            Use this chatroom to discuss your locations, what they'll use the project for, or anything
+            else.  Set the wheels in motion by going to
+            {{#if currentUser}}
+                <a href="{{pathFor 'exchanges.user' username=currentUsername}}">your exchanges</a>
+            {{else}}
+                <a href="{{pathFor 'signin'}}">your profile</a>
+            {{/if}}
+            and clicking the "approve" button.
+        </p>
+        <p>
+            Use the chatroom to discuss the logistics of where and when you'll meet to exchange your
+            project with the person who requested it.  Once you've met in-person and the project has
+            physically changed hands, click the "complete" button.
+        </p>
+        <p>
+            That's it!  You've successfully shared your project with another community member.
+            <strong>Here's the catch:</strong> exchanges work so that the person who requested the
+            project will become that project's new official owner.  If you request and receive
+            a project from somebody else, it's up to you to pay it forward in the future.
+        </p>
+
+        <h5 class="pull-down">Posting</h5>
+        <p>
+            If you're working on something cool, meeting up with other local artists, or know about
+            somebody else's awesome creative project, let people know!  You can post updates from
+            {{#if currentUser}}
+                <a href="{{pathFor 'profile.page' username=currentUsername}}">your profile</a>
+            {{else}}
+                <a href="{{pathFor 'signin'}}">your profile</a>
+            {{/if}}
+            and comment on other people's posts.
         </p>
     </div>
 </template>

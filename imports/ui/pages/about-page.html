@@ -1,39 +1,55 @@
 <template name="about_page">
-    <div class="static-page-wrap">
-        <h1>About page</h1>
+    <div class="static-page-wrap push-down">
+        <h1>About us</h1>
 
+        <h4>Who we are</h4>
+        <p>
+            Flipped Art is a maker community reaching across Des Moines.  It was started by
+            <a href="{{pathFor 'profile.page' username='alex'}}">Alex</a> and
+            <a href="{{pathFor 'profile.page' username='whitney'}}">Whitney</a>,
+            who both want to make the world a little weirder.
+        </p>
 
-        <div class="info-page-hero">
-            <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447325467/chalk-down-hero_qnsrrc.jpg"/>
-        </div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <h1 class="row">About</h1>
-            <div class="row push-down info-page-content">
-                <p>What started as a side project, setting up chalkboards on a college
-                    campus with no motivation other than to elicit some interesting responses,
-                    has become the basis of this site.  A library system to extend the life of
-                    public art projects beyond their initial offerings.</p>
+        <h4>We need your help</h4>
+        <p>
+            Yes, you.  For the creative community to work we need to engage the whole
+            community – not just the Artists with a capital ‘A’.  If you’re a living
+            human being then you have a story to share and a bridge to build.  We can help
+            you make that happen.
+        </p>
+        <p>
+            Flipped Art is an experiment in our collective capacity to make and share
+            new experiences, made by and for the Des Moines community.  Breaking down the
+            barriers of the art scene will only happen when everyone is involved,
+            not just a select few.
+        </p>
 
-                <h4 class="push-down">How it works</h4>
+        <h4>How we work</h4>
+        <p>
+            Makers work better together.  Learn something new, give feedback to others,
+            share your own work
+            {{#if currentUser}}
+                <a href="{{pathFor 'profile.page' username=currentUsername}}">right here</a>
+            {{else}}
+                <a href="{{pathFor 'signin'}}">right here</a>
+            {{/if}}.
+            It’s free to start an account, and
+            <a href="{{pathFor 'static.howto'}}">sharing is easy</a>.  We also have a mobile makerspace
+            in the works for the local Des Moines community.  Stay tuned for more details, or
+            <a href="https://www.facebook.com/flippedartexchange" target="_blank">
+                like our facebook page
+            </a>
+            to be the first to know about it.
+        </p>
 
-                <p>Signing up is easy, and once you’ve created an account you are free to
-                    post updates on the success of your latest project and upload items or
-                    materials that you’ve used in the past and would like to make available
-                    to others.  You can browse anyone’s <a href="{{pathFor 'userInventoryPage' username='Alex'}}">items</a>
-                    and request them by clicking
-                    on the link from their profile page.  Once you’ve requested something,
-                    you’re taken to a private chat window with the owner to discuss further
-                    logistical details with them.  If they approve your request, you will
-                    become the proud owner of their materials!</p>
-
-                <p>After you’ve finished a public art project of your own, pay it forward by
-                    uploading your materials here to let others use them in their own communities.</p>
-            </div>
-            <div class="row push-down info-page-content">
-                <img src="http://res.cloudinary.com/dwgim6or9/image/upload/v1447351387/die-1_u61zcn.jpg">
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
+        <h4>A bit more background</h4>
+        <p>
+            Behold our mission statement: Flipped Art is a Des Moines-based maker community,
+            online sharing space, and mobile studio.For established artists, there are lots of
+            great opportunities for sharing work in the local community.  But for people without
+            a designated studio, hobbyists, and underprivileged groups, the options are much
+            slimmer.  Des Moines may not be boring, but there is a lot more to be done to reach
+            the whole creative city.  Wannabes are welcome here.
+        </p>
     </div>
 </template>

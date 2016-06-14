@@ -47,3 +47,16 @@ Meteor.publish('userPosts.single', function(userPostId) {
         }
     );
 });
+
+Meteor.publish('userPosts.popular', function(limit) {
+    check(limit, Number);
+
+    return UserPosts.find(
+        {},
+        {
+            sort: {rank: -1},
+            limit: limit,
+            fields: UserPosts.publicFields,
+        }
+    );
+});

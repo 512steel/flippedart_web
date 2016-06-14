@@ -18,6 +18,7 @@ import '../../ui/pages/policies-page.js';
 import '../../ui/pages/feedback-page.js';
 import '../../ui/pages/feedback-thanks-page.js';
 import '../../ui/pages/howto-page.js';
+import '../../ui/pages/newsletter-page.js';
 
 // Dynamic page imports
 import '../../ui/components/transactions-pages/transactions-components.js';
@@ -107,6 +108,12 @@ FlowRouter.route('/howto', {
     name: 'static.howto',
     action() {
         BlazeLayout.render('App_body', { main: 'howto_page' });
+    }
+});
+FlowRouter.route('/newsletter', {
+    name: 'static.newsletter',
+    action() {
+        BlazeLayout.render('App_body', { main: 'newsletter_page' });
     }
 });
 FlowRouter.route('/', {

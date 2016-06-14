@@ -49,3 +49,16 @@ Meteor.publish('exchangeItems.single', function(exchangeItemId) {
             fields: ExchangeItems.publicFields,
         });
 });
+
+Meteor.publish('exchangeItems.popular', function (limit) {  //TODO: pass in "options" object for sorting/limit, and query these
+    check(limit, Number);
+
+    return ExchangeItems.find(
+        {},
+        {
+            sort: {rank: -1},
+            limit: limit,
+            fields: ExchangeItems.publicFields,
+        }
+    );
+});
