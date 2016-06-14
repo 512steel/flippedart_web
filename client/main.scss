@@ -1,6 +1,40 @@
 @import './settings';
 @import '{zurb:foundation-sites}/scss/foundation';
-@include foundation-everything;
+@include foundation-global-styles;
+@include foundation-grid;
+@include foundation-typography;
+@include foundation-button;
+@include foundation-forms;
+@include foundation-visibility-classes;
+@include foundation-float-classes;
+@include foundation-accordion;
+@include foundation-accordion-menu;
+@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-callout;
+@include foundation-close-button;
+@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+@include foundation-flex-video;
+@include foundation-label;
+@include foundation-media-object;
+@include foundation-menu;
+@include foundation-off-canvas;
+@include foundation-orbit;
+@include foundation-pagination;
+@include foundation-progress-bar;
+@include foundation-slider;
+@include foundation-sticky;
+@include foundation-reveal;
+@include foundation-switch;
+@include foundation-table;
+@include foundation-tabs;
+@include foundation-thumbnail;
+@include foundation-title-bar;
+@include foundation-tooltip;
+@include foundation-top-bar;
 
 .horizontal-scroll-row {
   white-space:nowrap;
@@ -74,8 +108,32 @@
   margin-left: 3rem;
 }
 
-input.padded, textarea.padded, button.padded, span.padded, p.padded, li.padded, div.padded {
+.padded {
   padding: .5rem
+}
+.padded-large {
+  padding: 1rem
+}
+.padded-xlarge {
+  padding: 2rem
+}
+.padded-xxlarge {
+  padding: 4rem
+}
+.left-padded {
+  padding-left: 1rem;
+}
+.left-padded-large {
+  padding-left: 2rem;
+}
+.left-padded-xlarge {
+  padding-left: 4rem;
+}
+.bordered-light {
+  border: 2px solid $light-gray;
+}
+.no-margin {
+  margin: 0;
 }
 
 .clearfix {
@@ -174,6 +232,9 @@ footer {
 .text-small {
   font-size: .8rem;
 }
+.text-large {
+  font-size: 1.2rem;
+}
 
 div.hoverable {
   background-color: $white;
@@ -239,6 +300,15 @@ p.chat-message-delete:hover {
   font-family: $body-font-family-special;
   /*text-transform: lowercase;*/
 }
+
+h1, h2, h3, h4, h5, h6 {
+  @extend .font-oswald;
+}
+
+.left-border-light {
+  border-left: solid .25rem $light-gray;
+}
+
 
 /* "small" only */
 @media screen and (max-width: 39.9375em) {

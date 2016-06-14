@@ -1,9 +1,9 @@
 <template name="user_post_card">
     <div class="post row column">
-        <p class="float-right">{{dateTimeAgo createdAt}}</p>
-        <p><strong><a href="{{pathFor 'profile.page' username=author}}">{{author}}</a></strong></p>
+        <p class="float-right text-small">{{dateTimeAgo createdAt}}</p>
+        <p class="text-small"><strong><a href="{{pathFor 'profile.page' username=author}}">{{author}}</a></strong></p>
         {{#unless inappropriate}}
-            <h4 class="user-post-body">{{{text}}}</h4>
+            <p class="user-post-body text-large">{{{text}}}</p>
 
             <!-- TODO: a proper orbit/lightbox with Motion-UI -->
             <div class="post-images-list row column horizontal-scroll-row push-down">
@@ -15,7 +15,7 @@
             </div>
 
         {{else}}
-            <h3>[This post has been flagged as inappropriate]</h3>
+            <p class="text-large">[This post has been flagged as inappropriate]</p>
         {{/unless}}
 
         <!--<p class="push-down-sm">location: {{location}}</p>-->

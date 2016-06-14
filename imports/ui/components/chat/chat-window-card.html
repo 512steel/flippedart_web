@@ -9,7 +9,7 @@
                     {{#if isOwnPageUsername}}
                         {{> App_notAuthorized}}
                     {{else}}
-                        <p>
+                        <p class="pull-down-xxxlarge push-down-xxxlarge">
                             You don't have a chat started with {{otherUsername}}.<br>
                             <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
                         </p>
@@ -61,7 +61,7 @@
                 {{/unless}}
 
             {{else}}
-                {{> App_notAuthorized}}
+                {{> signup_call_to_action}}
             {{/if}}
         </div>
     </div>
