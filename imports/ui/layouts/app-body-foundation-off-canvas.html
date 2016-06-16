@@ -7,10 +7,15 @@
                 <!-- off-canvas title bar for 'small' screen -->
                 <div class="title-bar" data-responsive-toggle="widemenu" data-hide-for="medium">
                     <div class="title-bar-left">
-                        <a href="{{pathFor 'static.home'}}"><span class="title-bar-title">[logo]</span></a>
+                        <a href="{{pathFor 'static.home'}}">
+                            <a href="{{pathFor 'static.home' query='explore=true'}}"
+                               style="padding-top:.2rem;padding-bottom:.2rem;">
+                                <img src="/flippedart_white_smaller.png"/>
+                            </a>
+                        </a>
                     </div>
                     <div class="title-bar-right">
-                        <button class="menu-icon" type="button" data-open="offCanvasRight"></button>
+                        <button class="menu-icon" type="button" data-open="offCanvasRight" style="transform:translateY(50%);"></button>
                     </div>
                 </div>
 
@@ -119,7 +124,12 @@
                 <div id="widemenu" class="top-bar font-truenorth">
                     <div class="top-bar-left">
                         <ul class="menu">
-                            <li><a href="{{pathFor 'static.home' query='explore=true'}}">[logo]</a></li>
+                            <li class="menu-logo-image">
+                                <a href="{{pathFor 'static.home' query='explore=true'}}"
+                                   style="padding-top:.2rem;padding-bottom:.2rem;">
+                                    <img src="/flippedart_white_small.png"/>
+                                </a>
+                            </li>
                             {{#if currentUser}}
                                 {{#unless hasUserAttributes}}
 
@@ -150,6 +160,10 @@
                                 <a class="js-logout btn-secondary">Logout ({{currentUsername}})</a>
                             {{else}}
                                 <ul class="menu">
+                                    <li class="logo-height invisible">
+                                        <!-- This needs to be the height of the logo in order to vertically align the other menu items -->
+                                    </li>
+
                                     <li>
                                         <ul class="dropdown menu" data-dropdown-menu>
                                             <li class="has-submenu">
@@ -212,19 +226,26 @@
                                 </ul>
                             {{/unless}}
                         {{else}}
-                            <div class="menu button-group">
-                                <a href="{{pathFor 'signin'}}" class="button secondary hollow">
-                                    <span>
-                                        {{_ 'Sign In'}}
-                                    </span>
-                                </a>
+                            <ul class="menu button-group">
+                                <li class="logo-height invisible">
+                                    <!-- This needs to be the height of the logo in order to vertically align the other menu items -->
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'signin'}}" class="button-light">
+                                        <span>
+                                            {{_ 'Sign In'}}
+                                        </span>
+                                    </a>
+                                </li>
 
-                                <a href="{{pathFor 'join'}}" class="button secondary hollow">
-                                    <span>
-                                        {{_ 'Join'}}
-                                    </span>
-                                </a>
-                            </div>
+                                <li>
+                                    <a href="{{pathFor 'join'}}" class="button-light">
+                                        <span>
+                                            {{_ 'Join'}}
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
                         {{/if}}
 
                     </div>

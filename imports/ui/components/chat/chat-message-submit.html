@@ -1,12 +1,8 @@
 <template name="chat_message_submit">
 
     <form name="chatMessage" class="chat-message-form form main pull-left">
-        <div class="form-group">
-            <div class="controls">
-                <!-- TODO: remove the "required" field here after adding the option for sending images -->
-                <textarea required name="text" type="text" placeholder="Send a message" rows="3" maxlength="1000"></textarea>
-            </div>
-        </div>
+        <!-- TODO: remove the "required" field here after adding the option for sending images -->
+        <textarea required autofocus name="text" type="text" placeholder="Send a message" rows="1" maxlength="1000"></textarea>
         <button type="submit" class="button primary float-right">Send</button>
     </form>
 

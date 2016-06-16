@@ -6,7 +6,7 @@
             {{#each chatSessions}}
                 <a href="{{pathFor 'chatWindow.user' username=determineChatSessionName}}">
                     <div class="padded hoverable">
-                        <p class="push-down-small"><strong>{{determineChatSessionName}}</strong></p>
+                        <h6 class="push-down-small">{{determineChatSessionName}}</h6>
                         <blockquote>
                             Send {{determineChatSessionName}} a message...
                             <!-- TODO: show the most recent message of the chat here. -->
