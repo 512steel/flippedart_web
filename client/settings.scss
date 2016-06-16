@@ -65,7 +65,7 @@ $body-background: $white;
 $body-font-color: $black;
 $body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 $body-font-family-special: 'Oswald', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
-$body-font-family-handwriting: 'Shadows Into Light', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+//$body-font-family-handwriting: 'Shadows Into Light', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -77,6 +77,18 @@ $global-flexbox: false;
 $print-transparent-backgrounds: true;
 
 @include add-foundation-colors;
+
+@font-face {
+        font-family: 'true_northregular';
+        src: url('/font/truenorth-regular-webfont.eot');
+        src: url('/font/truenorth-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('/font/truenorth-regular-webfont.woff2') format('woff2'),
+        url('/font/truenorth-regular-webfont.woff') format('woff'),
+        url('/font/truenorth-regular-webfont.ttf') format('truetype'),
+        url('/font/truenorth-regular-webfont.svg#true_northregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+}
 
 // 2. Breakpoints
 // --------------

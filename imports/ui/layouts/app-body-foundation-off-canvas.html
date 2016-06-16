@@ -21,18 +21,21 @@
                         <span class="" aria-hidden="true">X</span>
                     </button>
 
-                    <ul class="vertical menu text-center font-oswald">
+                    <ul class="vertical menu text-center font-truenorth">
 
                         {{#if currentUser}}
                             {{# if hasUserAttributes}}
                                 <li class="{{isActiveRoute 'profile.page'}}">
-                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class="" data-close>{{currentUsername}}</a>
+                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class=""
+                                       data-close>{{currentUsername}}</a>
                                 </li>
                                 <li class="{{isActiveRoute 'profile.projects'}}">
-                                    <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My projects</a>
+                                    <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My
+                                        projects</a>
                                 </li>
                                 <li class="{{isActiveRoute 'exchanges.user'}}">
-                                    <a href="{{pathFor 'exchanges.user' username=currentUsername}}" data-close>My exchanges</a>
+                                    <a href="{{pathFor 'exchanges.user' username=currentUsername}}" data-close>My
+                                        exchanges</a>
                                 </li>
                                 <li class="{{isActiveRoute 'chatSessions.list'}}">
                                     <a href="{{pathFor 'chatSessions.list'}}" data-close>My messages</a>
@@ -41,10 +44,12 @@
                         {{else}}
                             <div class="menu button-group expanded">
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="button primary hollow" data-close>{{_ 'Sign In'}}</a>
+                                    <a href="{{pathFor 'signin'}}" class="button primary hollow"
+                                       data-close>{{_ 'Sign In'}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="button primary hollow" data-close>{{_ 'Join'}}</a>
+                                    <a href="{{pathFor 'join'}}" class="button primary hollow"
+                                       data-close>{{_ 'Join'}}</a>
                                 </li>
                             </div>
                         {{/if}}
@@ -71,7 +76,7 @@
                                                     <hr>
                                                 {{/each}}
 
-                                                {{#if userHasNotifications}}
+                                    {{#if userHasNotifications}}
                                                     <li class="notifications-clear-all padded"><a>Clear all notifications</a></li>
                                                 {{else}}
                                                     <li class="padded">You don't have any notifications</li>
@@ -80,20 +85,26 @@
                                         </li>
                                     </ul>
                                 </li>-->
-<!--
+                                <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
-                                <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}" data-close><a
+                                        href="{{pathFor 'static.make'}}">Make art</a></li>
+                                <li class="{{isActiveRoute 'static.about'}}" data-close><a
+                                        href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.donate'}}" data-close><a
+                                        href="{{pathFor 'static.donate'}}">Donate</a></li>
                             {{/if}}
                         {{else}}
-<!--
+                            <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}" data-close><a href="{{pathFor 'static.about'}}">About</a></li>
-                                <li class="{{isActiveRoute 'static.donate'}}" data-close><a href="{{pathFor 'static.donate'}}">Donate</a></li>
+                            <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make
+                                art</a></li>
+                            <li class="{{isActiveRoute 'static.about'}}" data-close><a
+                                    href="{{pathFor 'static.about'}}">About</a></li>
+                            <li class="{{isActiveRoute 'static.donate'}}" data-close><a
+                                    href="{{pathFor 'static.donate'}}">Donate</a></li>
                         {{/if}}
 
 
@@ -105,7 +116,7 @@
                 </div>
 
                 <!-- "wider" top-bar menu for 'medium' and up -->
-                <div id="widemenu" class="top-bar font-oswald">
+                <div id="widemenu" class="top-bar font-truenorth">
                     <div class="top-bar-left">
                         <ul class="menu">
                             <li><a href="{{pathFor 'static.home' query='explore=true'}}">[logo]</a></li>
@@ -113,18 +124,22 @@
                                 {{#unless hasUserAttributes}}
 
                                 {{else}}
-<!--
+                                    <!--
                                     <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                    <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                                    <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
+                                    <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make
+                                        art</a></li>
+                                    <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a>
+                                    </li>
                                 {{/unless}}
                             {{else}}
-<!--
+                                <!--
                                 <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make art</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make
+                                    art</a></li>
+                                <li class="{{isActiveRoute 'static.about'}}"><a
+                                        href="{{pathFor 'static.about'}}">About</a></li>
                             {{/if}}
 
                         </ul>
@@ -138,8 +153,10 @@
                                     <li>
                                         <ul class="dropdown menu" data-dropdown-menu>
                                             <li class="has-submenu">
-                                                <a href="{{pathFor 'notifications.page'}}"><span class="circle-background-text">{{userNotificationsCount}}</span></a>
-                                                <ul class="submenu menu vertical" style="max-height: 500px; overflow-y: scroll;" data-submenu>
+                                                <a href="{{pathFor 'notifications.page'}}"><span
+                                                        class="circle-background-text">{{userNotificationsCount}}</span></a>
+                                                <ul class="submenu menu vertical"
+                                                    style="max-height: 500px; overflow-y: scroll;" data-submenu>
                                                     {{#each userNotifications}}
                                                         <li class="padded">
                                                             {{> notification_card}}
@@ -148,7 +165,8 @@
                                                     {{/each}}
 
                                                     {{#if userHasNotifications}}
-                                                        <li class="notifications-clear-all padded"><a>Clear all notifications</a></li>
+                                                        <li class="notifications-clear-all padded"><a>Clear all
+                                                            notifications</a></li>
                                                     {{else}}
                                                         <li class="padded">You don't have any notifications</li>
                                                     {{/if}}
@@ -160,7 +178,8 @@
                                     <li>
                                         <ul class="dropdown menu push-left" data-dropdown-menu>
                                             <li class="has-submenu">
-                                                <a href="{{pathFor 'profile.page' username=currentUsername}}" class="js-user-menu btn-secondary">
+                                                <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                                                   class="js-user-menu btn-secondary">
                                                     {{currentUsername}}
                                                 </a>
 
@@ -170,10 +189,12 @@
                                                    class="btn-secondary">{{_ 'My profile'}}</a>
                                             </li>-->
                                                     <li>
-                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My projects</a>
+                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My
+                                                            projects</a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{pathFor 'exchanges.user' username=currentUsername}}">My exchanges</a>
+                                                        <a href="{{pathFor 'exchanges.user' username=currentUsername}}">My
+                                                            exchanges</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{pathFor 'chatSessions.list'}}">My messages</a>
@@ -192,12 +213,17 @@
                             {{/unless}}
                         {{else}}
                             <div class="menu button-group">
-                                <li>
-                                    <a href="{{pathFor 'signin'}}" class="button secondary hollow">{{_ 'Sign In'}}</a>
-                                </li>
-                                <li>
-                                    <a href="{{pathFor 'join'}}" class="button secondary hollow">{{_ 'Join'}}</a>
-                                </li>
+                                <a href="{{pathFor 'signin'}}" class="button secondary hollow">
+                                    <span>
+                                        {{_ 'Sign In'}}
+                                    </span>
+                                </a>
+
+                                <a href="{{pathFor 'join'}}" class="button secondary hollow">
+                                    <span>
+                                        {{_ 'Join'}}
+                                    </span>
+                                </a>
                             </div>
                         {{/if}}
 
