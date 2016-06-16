@@ -10,6 +10,16 @@ import { sanitizeHtml as sanitizeHtmlClient } from 'meteor/djedi:sanitize-html-c
 */
 export const sanitizeHtml = (text) => {
     if (Meteor.isClient) {
+        //text = escape(text).replace(/(?:\r\n|\r|\n|%0A|%0a)/g, '<br />');
+        return sanitizeHtmlClient(text.trim());
+    }
+    else if (Meteor.isServer) {
+        text = unescape(escape(text.trim()).replace(/(?:\r\n|\r|\n|%0A|%0a)/g, '<br />'));
+        return sanitizeHtmlServer(text.trim());
+    }
+};
+export const sanitizeHtmlNoReturns = (text) => {
+    if (Meteor.isClient) {
         return sanitizeHtmlClient(text.trim());
     }
     else if (Meteor.isServer) {

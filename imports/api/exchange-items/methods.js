@@ -3,7 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
-import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
+import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
 import { ExchangeItems } from './exchange-items.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
@@ -52,9 +52,9 @@ export const insert = (title, description, imageLinks, available, tag, userId) =
         userId: userId,
     }, insertFunctionSchema);
 
-    title = sanitizeHtml(title);
+    title = sanitizeHtmlNoReturns(title);
     description = sanitizeHtml(description);
-    tag = sanitizeHtml(tag);
+    tag = sanitizeHtmlNoReturns(tag);
 
     if (Meteor.isServer) {
         var userAttributes = UserAttributes.findOne({userId: userId});
@@ -166,10 +166,10 @@ export const edit = new ValidatedMethod({
         if (this.userId) {
             console.log('in method exchangeItems.insert');
 
-            title = title ? sanitizeHtml(title) : title;
+            title = title ? sanitizeHtmlNoReturns(title) : title;
             description = description ? sanitizeHtml(description) : description;
-            location = location ? sanitizeHtml(location) : location;
-            tag = tag ? sanitizeHtml(tag) : tag;
+            location = location ? sanitizeHtmlNoReturns(location) : location;
+            tag = tag ? sanitizeHtmlNoReturns(tag) : tag;
 
             //truncate the imageLinks array
             if (imageLinks)

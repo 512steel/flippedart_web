@@ -29,9 +29,12 @@
                     {{else}}
 
                         <div class="row column clearfix-small">
-                            <p>{{userAttributes.bio}}</p>
+                            <p>{{{userAttributes.bio}}}</p>
                         </div>
-                        <div class="row column">
+
+                        <hr class="half-width float-left">
+
+                        <div class="row column clearfix">
                             <p>Location: {{userAttributes.location}}</p>
                         </div>
 
@@ -46,9 +49,12 @@
                     </div>
                 {{else}}
                     <div class="row column">
-                        <p>{{userAttributes.bio}}</p>
+                        <p>{{{userAttributes.bio}}}</p>
                     </div>
-                    <div class="row column">
+
+                    <hr class="half-width float-left">
+
+                    <div class="row column clearfix">
                         <p>Location: {{userAttributes.location}}</p>
                     </div>
                 {{/unless}}

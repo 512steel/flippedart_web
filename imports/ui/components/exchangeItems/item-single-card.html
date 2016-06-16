@@ -5,6 +5,11 @@
         <div class="column">
             {{#unless currentUser}}
                 <div class="inventory-single-item">
+
+                    <p class="text-large float-right">
+                        <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
+                    </p>
+
                     <h4>{{title}}</h4>
 
                     <div class="row column push-down-small">
@@ -17,7 +22,9 @@
                     </div>
 
                     <div class="row column push-down-small">
-                        <p>{{description}}</p>
+                        <p>
+                            {{{description}}}
+                        </p>
                     </div>
 
                     <!-- TODO: a proper orbit/lightbox with Motion-UI -->
@@ -57,9 +64,6 @@
                         {{/each}}
                     {{/if}}
 
-                    <p class="row column push-down-small">
-                        <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
-                    </p>
                 </div>
             {{else}}
                 {{#if isItemOwner}}
@@ -71,6 +75,10 @@
                         {{else}}
                             <button class="button primary float-right push-left {{editClass}}"><i class="fi-pencil"></i></button>
 
+                            <p class="text-large float-right">
+                                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
+                            </p>
+
                             <h4>{{title}}</h4>
 
                             <p class="row column push-down-small">
@@ -79,7 +87,7 @@
 
                             <div class="row column push-down-small">
                                 <p>
-                                    {{description}}
+                                    {{{description}}}
                                 </p>
                             </div>
 
@@ -121,14 +129,14 @@
                                     <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
                                 {{/each}}
                             {{/if}}
-
-                            <p class="row column push-down-small">
-                                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
-                            </p>
                         {{/if}}
                     </div>
                 {{else}}
                     <div class="inventory-single-item">
+                        <p class="text-large float-right">
+                            <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
+                        </p>
+
                         <h4>{{title}}</h4>
 
                         <div class="row column push-down-small">
@@ -142,7 +150,7 @@
 
                         <div class="row column push-down-small">
                             <p>
-                                {{description}}
+                                {{{description}}}
                             </p>
                         </div>
 
@@ -182,10 +190,6 @@
                                 <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
                             {{/each}}
                         {{/if}}
-
-                        <p class="row column push-down-small">
-                            <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">permalink</a>
-                        </p>
                     </div>
                 {{/if}}
             {{/unless}}

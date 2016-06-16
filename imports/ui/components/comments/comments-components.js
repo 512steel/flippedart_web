@@ -69,6 +69,8 @@ Template.comment_edit.onRendered(function commentEditOnRendered() {
             // release renderHolds here
         }
     });
+
+    autosize($('textarea'));
 });
 
 Template.comment_submit.onRendered(function commentSubmitOnRendered() {
@@ -189,7 +191,10 @@ Template.comment_edit.events({
                 }
             });
         }
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 Template.comment_submit.events({

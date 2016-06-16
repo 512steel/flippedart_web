@@ -1,33 +1,32 @@
-if (Meteor.isServer) {
-    Meteor.methods({
-        //TODO: use Mailgun API here instead
-        sendFeedbackEmail: function(message) {
-            var user = "not signed in";
-            if (Meteor.user()) {
-                user = Meteor.user().username.toString();
-            }
-            //check(Meteor.userId(), String);
-            check(message, {
-                senderName: String,
-                senderEmail: String,
-                body: String
-            });
+import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
-            message.senderName = sanitizeString(message.senderName);
-            message.senderEmail = sanitizeString(message.senderEmail);
-            message.body = sanitizeStringLong(message.body);
+Meteor.methods({
+    sendFeedbackEmail: function (senderName, senderEmail, text) {
+        check(senderName, String);
+        check(senderEmail, String);
+        check(text, String);
 
-            var emailText =  "senderName: " + message.senderName +
-                " | senderEmail: " + message.senderEmail +
-                " | message body: " + message.body +
-                " | sent from " + user;
+        senderName = sanitizeHtml(senderName);
+        senderEmail = sanitizeHtml(senderEmail);
+        text = sanitizeHtml(text);
+        const signedInName = Meteor.user() ? Meteor.user().username : "Not signed in";
 
+        console.log('in sendFeedbackEmail');
+        console.log(senderName);
+        console.log(senderEmail);
+        console.log(text);
+        console.log(signedInName);
+
+        if (Meteor.isServer) {
             Email.send({
-                to: "flippedartexchange@gmail.com",
-                from: "feedback@smtp.mailgun.org",
-                subject: "[Site feedback]",
-                text: emailText
+                from: "hello@flippedart.org",
+                to: "hello@flippedart.org",
+                subject: "Website feedback",
+                text: "Feedback message from: " + senderName + " | " +
+                        " fromEmail: " + senderEmail +
+                        " (signed in as " + signedInName + ") " + " | " +
+                        " message: " + text
             });
         }
-    })
-}
+    }
+});

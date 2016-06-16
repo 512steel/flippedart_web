@@ -90,6 +90,8 @@ Template.user_attributes_edit.onRendered(function () {
             // release renderHolds here
         }
     });
+
+    autosize($('textarea'));
 });
 
 
@@ -300,5 +302,8 @@ Template.user_attributes_edit.events({
                 });
             }
         });
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
     },
 });

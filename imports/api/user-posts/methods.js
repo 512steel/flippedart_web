@@ -8,6 +8,8 @@ import { UserPosts } from './user-posts.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank } from '../user-attributes/methods.js';
 
+import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
+
 import {
     POINTS_SYSTEM,
     UPLOAD_LIMITS } from '../../ui/lib/globals.js';
@@ -35,7 +37,7 @@ export const insert = new ValidatedMethod({
         if (user) {
 
             text = sanitizeHtml(text);
-            tag = sanitizeHtml(tag);
+            tag = sanitizeHtmlNoReturns(tag);
 
             //truncate the imageLinks array
             imageLinks = imageLinks.slice(0, UPLOAD_LIMITS.images);
@@ -94,7 +96,7 @@ export const edit = new ValidatedMethod({
         console.log('in method userPosts.edit');
 
         text = sanitizeHtml(text);
-        tag = sanitizeHtml(tag);
+        tag = sanitizeHtmlNoReturns(tag);
 
         const userPost = UserPosts.findOne(userPostId);
 

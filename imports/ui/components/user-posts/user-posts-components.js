@@ -127,6 +127,8 @@ Template.user_post_edit.onRendered(function userPostEditOnRendered() {
             // release renderHolds here
         }
     });
+
+    autosize($('textarea'));
 });
 
 Template.user_post_submit.onRendered(function userPostSubmitOnRendered() {
@@ -370,7 +372,10 @@ Template.user_post_edit.events({
                 }
             });
         }
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 Template.user_post_submit.events({

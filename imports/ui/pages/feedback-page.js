@@ -1,28 +1,31 @@
+import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+
+
+import { throwError } from '../../ui/lib/temporary-alerts.js';
+
 import './feedback-page.html';
+
 
 Template.feedback_page.events({
     'submit form.feedback-form': function(e) {
         e.preventDefault();
+        e.preventDefault();
 
-        var yourName = $(e.target).find('[name=your-name]').val();
-        var yourEmail = $(e.target).find('[name=your-email]').val();
-        var body = $(e.target).find('[name=body]').val();
-        var emailMessage = {
-            senderName: yourName,
-            senderEmail: yourEmail,
-            body: body
-        };
+        const yourName = $(e.target).find('[name=your-name]').val();
+        const yourEmail = $(e.target).find('[name=your-email]').val();
+        const body = $(e.target).find('[name=body]').val();
 
-        if (!emailMessage.body) {
+        if (!body) {
             throwError("Please enter some text in the message body");
         }
         else {
-            Meteor.call('sendFeedbackEmail', emailMessage, function(error, result) {
+            Meteor.call('sendFeedbackEmail', yourName, yourEmail, body, function(error, result) {
                 if (error) {
                     throwError(error.reason);
                 }
                 else {
-                    Router.go('feedbackThanks');
+                    FlowRouter.go('static.feedback.thanks');
                 }
             })
         }

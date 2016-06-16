@@ -1,47 +1,50 @@
 <template name="project_single_page">
     <div class="row">
+
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
-            {{#with exchangeItem}}
-                {{> project_single_card}}
-            {{/with}}
-
-
-            {{#unless currentUser}}
-                <p>
-                    <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
-                        See the rest of {{exchangeItem.ownerName}}'s projects
-                    </a>
-                </p>
-            {{else}}
-                {{#if isItemOwner}}
-
-                    {{> item_submit}}
-
-                    <p>
-                        <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
-                            See the rest of your projects
-                        </a>
-                    </p>
-                {{else}}
-                    {{#if isExchangeItemAvailable}}
-                        <form>
-                            <div class="row column">
-                                <input class="single-item-request-form-button button primary" type="submit" value="Request this project"/>
-                                <span class="invisible inventory-single-item-id">{{exchangeItem._id}}</span>
-                            </div>
-                        </form>
+            <div class="row column">
+                <a class="button-go-back" href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                    {{#if isItemOwner}}
+                        See the rest of your projects
                     {{else}}
-                        <!--FIXME: in UI areas like this, if the exchangeItem is a part of a transaction that
-                            the currentUser is involved in, then display the state of the transaction here
-                            rather than this general "unavailable" message. -->
+                        See the rest of {{exchangeItem.ownerName}}'s projects
                     {{/if}}
+                </a>
+            </div>
+
+            <div class="row column">
+                {{#with exchangeItem}}
+                    {{> project_single_card}}
+                {{/with}}
+
+
+                {{#unless currentUser}}
                     <p>
                         <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
                             See the rest of {{exchangeItem.ownerName}}'s projects
                         </a>
                     </p>
-                {{/if}}
-            {{/unless}}
+                {{else}}
+                    {{#if isItemOwner}}
+
+                        <!--{{> item_submit}}-->
+
+                    {{else}}
+                        {{#if isExchangeItemAvailable}}
+                            <form>
+                                <div class="row column">
+                                    <input class="single-item-request-form-button button primary" type="submit" value="Request this project"/>
+                                    <span class="invisible inventory-single-item-id">{{exchangeItem._id}}</span>
+                                </div>
+                            </form>
+                        {{else}}
+                            <!--FIXME: in UI areas like this, if the exchangeItem is a part of a transaction that
+                                the currentUser is involved in, then display the state of the transaction here
+                                rather than this general "unavailable" message. -->
+                        {{/if}}
+                    {{/if}}
+                {{/unless}}
+            </div>
         </div>
     </div>
 </template>

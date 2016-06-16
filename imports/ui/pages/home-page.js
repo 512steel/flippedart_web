@@ -10,7 +10,7 @@ import './home-page.html';
 Template.home_page.onCreated(function() {// Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.popular', 5);
-        this.subscribe('exchangeItems.popular', 6);
+        this.subscribe('exchangeItems.popular',3);
     });
 });
 

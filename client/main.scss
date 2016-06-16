@@ -235,6 +235,9 @@ footer {
 .text-large {
   font-size: 1.2rem;
 }
+.half-width {
+  width: 50%;
+}
 
 div.hoverable {
   background-color: $white;
@@ -309,6 +312,17 @@ h1, h2, h3, h4, h5, h6 {
   border-left: solid .25rem $light-gray;
 }
 
+.pattern-diagonal {
+  background:
+          url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+DQogIDxyZWN0IHdpZHRoPScyMCcgaGVpZ2h0PScyMCcgZmlsbD0nd2hpdGUnLz4NCiAgPHBhdGggZD0nTS0xLDEgbDIsLTINCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMA0KICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjNDU2ZDljJyBvcGFjaXR5PSc1MCUnIHN0cm9rZS13aWR0aD0nMScvPg0KPC9zdmc+")
+          repeat;
+
+  .pop-out-text {
+    background-color: $white;
+    padding: .5rem;
+  }
+}
+
 
 /* "small" only */
 @media screen and (max-width: 39.9375em) {
@@ -318,5 +332,13 @@ h1, h2, h3, h4, h5, h6 {
 
   #chat-window-messages-scrollable .chat-message {
     width: 80%;
+  }
+
+  .pattern-diagonal .pop-out-text {
+      padding: .75rem;
+  }
+
+  .small-push-down {
+    margin-bottom: 1rem;
   }
 }

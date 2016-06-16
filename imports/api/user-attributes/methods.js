@@ -4,7 +4,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
-import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
+import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
 import { UserAttributes } from './user-attributes.js';
 
@@ -20,8 +20,8 @@ export const insert = new ValidatedMethod({
         if (this.userId) {
 
             bio = sanitizeHtml(bio);
-            location = sanitizeHtml(location);
-            profilePhotoLink = sanitizeHtml(profilePhotoLink);
+            location = sanitizeHtmlNoReturns(location);
+            profilePhotoLink = sanitizeHtmlNoReturns(profilePhotoLink);
 
             const user = Meteor.users.findOne(this.userId);
 
@@ -75,8 +75,8 @@ export const edit = new ValidatedMethod({
         if (this.userId) {
 
             bio = sanitizeHtml(bio);
-            location = sanitizeHtml(location);
-            profilePhotoLink = sanitizeHtml(profilePhotoLink);
+            location = sanitizeHtmlNoReturns(location);
+            profilePhotoLink = sanitizeHtmlNoReturns(profilePhotoLink);
 
             const userAttributes = UserAttributes.findOne({userId: this.userId});
 
@@ -185,7 +185,7 @@ export const updateRank = (userAttributesId, amount) => {
 export const updateRankByName = (userAttributesName, amount) => {
     console.log('in method userAttributes.updateRankByName');
 
-    userAttributesName = sanitizeHtml(userAttributesName);
+    userAttributesName = sanitizeHtmlNoReturns(userAttributesName);
 
     const updateRankByNameFunctionSchema = new SimpleSchema({
         userAttributesName: {

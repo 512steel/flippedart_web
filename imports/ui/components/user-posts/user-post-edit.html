@@ -5,15 +5,17 @@
                 <a class="button-go-back" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
             </div>
             {{#if ownPost}}
-                <form class="main form edit-post shift-down-sm">
-                    <div class="form-group">
-                        <h4>Edit post</h4>
-                        <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
-                    </div>
-                    <input type="submit" value="Save" class="button primary submit float-left"/>
-                </form>
+                <div class="row column pull-down-xlarge push-down-xxxxlarge">
+                    <form class="main form edit-post">
+                        <div class="form-group">
+                            <h4>Edit your post</h4>
+                            <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
+                        </div>
+                        <input type="submit" value="Save" class="button primary submit float-left"/>
+                    </form>
 
-                <a class="button alert delete-user-post float-right" href="#">Delete post</a>
+                    <a class="button alert delete-user-post float-right" href="#">Delete post</a>
+                </div>
             {{else}}
                 {{> App_notAuthorized}}
             {{/if}}

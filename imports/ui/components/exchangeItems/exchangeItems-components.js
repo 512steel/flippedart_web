@@ -123,6 +123,8 @@ Template.item_edit.onRendered(function itemEditOnRendered() {
     });
 
     this.tooltip = new Foundation.Tooltip($('.has-tip-item-edit'));
+
+    autosize($('textarea'));
 });
 
 Template.item_submit.onRendered(function itemSubmitOnRendered() {
@@ -463,7 +465,10 @@ Template.item_edit.events({
                 }
             });
         }
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
 
 Template.item_submit.events({

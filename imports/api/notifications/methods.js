@@ -3,7 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { _ } from 'meteor/underscore';
-import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
+import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
 import { Notifications } from './notifications.js';
 import { UserPosts } from '../user-posts/user-posts.js';
@@ -128,7 +128,7 @@ export const createCommentNotification = (commentId, userPostId, commenterName) 
             commenterName: commenterName
         }, createCommentNotificationFunctionSchema);
 
-        commenterName = sanitizeHtml(commenterName);
+        commenterName = sanitizeHtmlNoReturns(commenterName);
 
         const userPost = UserPosts.findOne(userPostId);
 
@@ -231,7 +231,7 @@ export const createChatMessageNotification = (chatMessage) => {
         const text = sanitizeHtml(chatMessage.text);
         const imageLink = chatMessage.imageLink;
         const senderId = chatMessage.senderId;
-        const senderUserName = sanitizeHtml(chatMessage.senderUserName);
+        const senderUserName = sanitizeHtmlNoReturns(chatMessage.senderUserName);
         const createdAt = chatMessage.createdAt;
 
         const createChatMessageNotificationFunctionSchema = new SimpleSchema({

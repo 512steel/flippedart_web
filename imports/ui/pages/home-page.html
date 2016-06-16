@@ -2,11 +2,12 @@
 
     <div class="row medium-collapse expanded" data-equalizer data-equalize-on="medium" id="home-equalized-1">
         <div class="medium-4 columns">
-            <div class="padded-xlarge bordered-light callout no-margin" data-equalizer-watch>
-                <div class="column-centered-vertical">
-                    <h3 class="push-left">
-                        Flipped Art<br>
-                        is...
+            <div class="padded-xlarge bordered-light callout no-margin pattern-diagonal" style="min-height: 10rem;" data-equalizer-watch>
+                <div class="column-centered-vertical" style="width: 100%;background: white;margin-left: -2rem;text-align: center;">
+                    <h3 class="no-margin" style="line-height: 2em;">
+                        <span class="pop-out-text">Flipped Art is...</span>
+                        <!--<span class="pop-out-text">Flipped Art</span><br>
+                        <span class="pop-out-text">is...</span>-->
                     </h3>
                 </div>
             </div>
@@ -16,7 +17,7 @@
             <div class="padded-xlarge bordered-light pull-down" data-equalizer-watch>
                 <h5 class="push-down">
                     ...a maker community in Des Moines. We connect people at any level of ability with creative
-                    resources. Wannabes welcome.
+                    resources. Wannabes are welcome.
                 </h5>
                 <h5 class="push-down">
                     ...a free and open art studio. Construction is currently underway, and more details are coming soon.
@@ -27,7 +28,7 @@
                         We're glad you joined, {{currentUsername}}! Be sure to poke around and find out what other users
                         are up to.
                     {{else}}
-                        <a href="{{pathFor 'join'}}">Join</a> (for free!) to be part of something awesome.
+                        <a href="{{pathFor 'join'}}">Join (for free!)</a> to be part of something awesome.
                     {{/if}}
                 </h5>
             </div>
@@ -36,7 +37,7 @@
 
     <div class="row medium-collapse expanded" data-equalizer data-equalize-on="medium" id="home-equalized-2">
         <div class="medium-6 columns">
-            <div class="padded-xxlarge bordered-light callout" data-equalizer-watch>
+            <div class="padded-xxlarge bordered-light callout no-margin" data-equalizer-watch>
                 <div class="push-left">
                     <h4 class="push-down-small">
                         <a href="{{pathFor 'static.howto'}}">How to get started</a>
@@ -55,19 +56,19 @@
         </div>
 
         <div class="medium-6 columns">
-            <div class="padded-xlarge bordered-light pull-down" data-equalizer-watch>
-                skyline here, vertically centered
+            <div class="padded-xlarge bordered-light pull-down pattern-diagonal" style="min-height: 15rem; position:relative" data-equalizer-watch>
+                <span class="pop-out-text font-oswald" style="position: absolute;z-index:9999;bottom:1rem;right:2rem;">#makedsmweird</span>
             </div>
         </div>
     </div>
 
-    <div class="row pull-down push-down">
+    <div class="row pull-down push-down" id="home-page-explore">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered">
             <h2 class="text-centered">See what's happening</h2>
         </div>
     </div>
 
-    <div class="row" id="home-page-explore"></div>
+    <div class="row"></div>
 
     <div class="row push-down-large">
         <h4 class="columns small-12 push-down">Popular posts</h4>
@@ -76,12 +77,12 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-3">
                 {{#each topUserPosts}}
                     {{#if equals @index 0}}
-                        <div class="column small-12 medium-6 large-6 bordered-light padded-large" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-6 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 1}}
-                        <div class="column small-12 medium-6 large-6 bordered-light padded-large" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-6 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card}}
                         </div>
                     {{/if}}
@@ -94,17 +95,17 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-4">
                 {{#each topUserPosts}}
                     {{#if equals @index 2}}
-                        <div class="column small-12 medium-12 large-4 bordered-light padded-large" data-equalizer-watch>
+                        <div class="column small-12 medium-12 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column small-12 medium-6 large-4 bordered-light padded-large" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 4}}
-                        <div class="column small-12 medium-6 large-4 bordered-light padded-large" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card}}
                         </div>
                     {{/if}}
@@ -119,12 +120,12 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-5">
                 {{#each topProjects}}
                     {{#if equals @index 0}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 1}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
@@ -135,12 +136,12 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-6">
                 {{#each topProjects}}
                     {{#if equals @index 2}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
@@ -149,12 +150,12 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-7">
                 {{#each topProjects}}
                     {{#if equals @index 4}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
                     {{#if equals @index 5}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge" data-equalizer-watch>
+                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card}}
                         </div>
                     {{/if}}
@@ -163,7 +164,7 @@
         </div>
     </div>
 
-    <div class="row pull-down-xlarge push-down">
+    <div class="row pull-down push-down">
         <div class="column small-10 medium-6 large-4 small-centered text-centered">
             <hr>
             <p class="text-centered">You have something to add.</p>
