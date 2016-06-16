@@ -15,11 +15,8 @@
             <!--<a class="toggle-posts-sort">{{toggleSortText}}</a>-->
 
             {{#each userPosts}}
-                <a href="{{pathFor 'profile.post' username=this.author userPostId=this._id}}">
-                    {{> user_post_card}}
-                </a>
+                {{> user_post_card}}
                 <hr>
-
             {{else}}
                 <p>{{#if isProfileOwner}}You haven't{{else}}{{pageUsername}} hasn't{{/if}} posted anything yet.</p>
             {{/each}}

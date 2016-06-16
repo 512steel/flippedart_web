@@ -39,6 +39,10 @@
                     <a href="{{pathFor 'profile.post.edit' username=author userPostId=_id}}" class="button primary"><i class="fi-pencil"></i></a>
                 {{/unless}}
             {{/if}}
+
+            <a class="button primary hollow no-border" href="{{pathFor 'profile.post' username=author userPostId=_id}}">
+                <i class="fi-link"></i>
+            </a>
         </div>
     </div>
 </template>

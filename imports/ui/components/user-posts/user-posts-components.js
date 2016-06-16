@@ -32,6 +32,7 @@ import './user-post-edit.html';
 import './user-post-submit.html';
 import './user-post-single-page.html';
 import './user-posts-all.html';
+import './user-posts-all-page.html';
 
 import './../comments/comment-card.html';
 import './../comments/comment_edit.html';

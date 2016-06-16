@@ -29,7 +29,7 @@ Template.home_page.onRendered(function() {
     }, 200);
     Meteor.setTimeout(function(){
         if (FlowRouter.getQueryParam("explore")) {
-            $('body, html').animate({scrollTop: $('#home-page-explore').offset().top}, 600);
+            $('body, html').animate({scrollTop: $('#home-page-explore').offset().top}, 500);
         }
     }, 750);
 });

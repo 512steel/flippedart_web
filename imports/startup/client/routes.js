@@ -198,19 +198,19 @@ FlowRouter.route('/:username', {
 FlowRouter.route('/:username/posts', {
     name: 'profile.posts',
     action() {
-        BlazeLayout.render('App_body', {main: 'user_posts_all'});
+        BlazeLayout.render('App_body', {main: 'user_posts_all_page'});
     },
 });
 FlowRouter.route('/:username/posts/new', {
     name: 'profile.posts.new',
     action() {
-        BlazeLayout.render('App_body', {main: 'user_posts_all'});
+        BlazeLayout.render('App_body', {main: 'user_posts_all_page'});
     },
 });
 FlowRouter.route('/:username/posts/top', {
     name: 'profile.posts.top',
     action() {
-        BlazeLayout.render('App_body', {main: 'user_posts_all'});
+        BlazeLayout.render('App_body', {main: 'user_posts_all_page'});
     },
 });
 
