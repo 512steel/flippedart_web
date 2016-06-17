@@ -404,7 +404,7 @@ Template.user_post_submit.events({
 
                 var fileIndex = 0;
                 Cloudinary.upload(files, {
-                    folder: "secret"  //FIXME: change this folder to "flippedart"
+                    folder: "flippedart"  //FIXME: change this folder to "flippedart"
                 }, function(error, result) {
                     if (error) {
                         throwError(error.reason);

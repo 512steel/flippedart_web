@@ -184,7 +184,7 @@ Template.user_attributes_edit.events({
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
-                        folder: "secret"  //FIXME: change to 'flippedart' folder
+                        folder: "flippedart"  //FIXME: change to 'flippedart' folder
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError.reason);
@@ -258,7 +258,7 @@ Template.user_attributes_edit.events({
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
-                        folder: "secret"  //FIXME: change to 'flippedart' folder
+                        folder: "flippedart"  //FIXME: change to 'flippedart' folder
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError.reason);
