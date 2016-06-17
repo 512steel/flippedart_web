@@ -39,8 +39,14 @@ export const UPLOAD_LIMITS = {
 
 
 export const PROJECT_TAGS = [
+    'Painting',
+    'Drawing',
+    'Sculpture',
     'Chalkboard',
-    'Chalkboard stand',
+    'Book',
+    'Plant',
+    'Frame',
+    'Stand',
     'Other',
 ];
 
