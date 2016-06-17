@@ -20,8 +20,6 @@ export const clearAllNotifications = new ValidatedMethod({
         //...
     }).validator(),
     run({ }) {
-        console.log('in method notifications.clear.all');
-
         if (this.userId) {
 
             /*
@@ -73,8 +71,6 @@ export const clearSingleNotification = new ValidatedMethod({
         }
     }).validator(),
     run({ notificationId }) {
-        console.log('in method notifications.clear.single');
-
         if (this.userId) {
             const notification = Notifications.findOne(notificationId);
 
@@ -105,8 +101,6 @@ export const clearSingleNotification = new ValidatedMethod({
         -createItemRequest / itemApprove / itemComplete / itemDecline / itemCancel
 */
 export const createCommentNotification = (commentId, userPostId, commenterName) => {
-    console.log('in server method createCommentNotification');
-
     if (Meteor.isServer) {
 
         const createCommentNotificationFunctionSchema = new SimpleSchema({
@@ -147,8 +141,6 @@ export const createCommentNotification = (commentId, userPostId, commenterName) 
 };
 
 export const createTransactionStateNotification = (transactionId) => {
-    console.log('in server method createTransactionStateNotification');
-
     if (Meteor.isServer) {
 
         const createTransactionStateNotificationFunctionSchema = new SimpleSchema({
@@ -219,8 +211,6 @@ export const createTransactionStateNotification = (transactionId) => {
 
 //TODO: add notification functions for new chatMessages/chatSessions
 export const createChatMessageNotification = (chatMessage) => {
-    console.log('in server method createChatMessageNotification');
-
     if (Meteor.isServer) {
 
         /*

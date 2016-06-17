@@ -3,14 +3,14 @@
 import { Meteor } from 'meteor/meteor';
 import { ChatSessions } from '../chat-sessions.js';
 
-Meteor.publish('chatSessions.all', function () {  //FIXME: these are for testing purposes only - remove
+/*Meteor.publish('chatSessions.all', function () {  //NOTE: these are for testing purposes only - remove on production
     return ChatSessions.find(
         {},
         {
             fields: ChatSessions.publicFields,
         }
     );
-});
+});*/
 
 Meteor.publish('chatSessions.user', function() {
     return ChatSessions.find(

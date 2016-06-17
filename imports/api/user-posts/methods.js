@@ -30,7 +30,6 @@ export const insert = new ValidatedMethod({
         },
     }).validator(),
     run({ text, tag, imageLinks }) {
-        console.log('in method userPosts.insert');
         // using Meteor.user() seems untrustworthy.  This alternative isn't pretty but it's at least safe:
         var user = Meteor.users.findOne(this.userId);
 
@@ -64,8 +63,6 @@ export const insert = new ValidatedMethod({
 
             //points system:
             if (userAttributes) {
-                console.log('calling updateRank from userposts insert');
-
                 //Call the server-only method updateRank on UserAttributes
                 updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.post);
             }
@@ -93,8 +90,6 @@ export const edit = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId, text, tag, imageLinks }) {
-        console.log('in method userPosts.edit');
-
         text = sanitizeHtml(text);
         tag = sanitizeHtmlNoReturns(tag);
 
@@ -134,8 +129,6 @@ export const upvote = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.upvote');
-
         if (this.userId) {
             const voterName = Meteor.users.findOne(this.userId).username;
 
@@ -164,8 +157,6 @@ export const unUpvote = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.unUpvote');
-
         if (this.userId) {
             const voterName = Meteor.users.findOne(this.userId).username;
 
@@ -194,8 +185,6 @@ export const flag = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.flag');
-
         if (this.userId) {
             const flaggerName = Meteor.users.findOne(this.userId).username;
 
@@ -230,8 +219,6 @@ export const unflag = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.unflag');
-
         if (this.userId) {
             const flaggerName = Meteor.users.findOne(this.userId).username;
 
@@ -267,8 +254,6 @@ export const deletePost = new ValidatedMethod({
         },
     }).validator(),
     run({ userPostId }) {
-        console.log('in method userPosts.deletePost');
-
         const userPost = UserPosts.findOne(userPostId);
 
         if (!userPost || !userPost.editableBy(this.userId)) {
@@ -311,8 +296,6 @@ export const decrementComments = (userPostId) => {
 
 
     if (Meteor.isServer) {
-        console.log('in server-only method userPosts.decrementComments');
-
         var affected = UserPosts.update(
             {
                 _id: userPostId,

@@ -184,7 +184,6 @@ Template.App_body.helpers({
 
 Template.App_body.events({
   'click .notifications-clear-all': function () {
-    console.log(' in notifications-clear test');
     clearAllNotifications.call({ });
   },
 

@@ -14,8 +14,6 @@ import { POINTS_SYSTEM, UPLOAD_LIMITS } from '../../ui/lib/globals.js';
 
 //NOTE: insert() is a server-only method, so that only insertMany() can be called from the client (for DDP rate limiting)
 export const insert = (title, description, imageLinks, available, tag, userId) => {
-    console.log('in server method insert.');
-
     const insertFunctionSchema = new SimpleSchema({
         title: {
             type: String
@@ -164,8 +162,6 @@ export const edit = new ValidatedMethod({
     }).validator(),
     run({ exchangeItemId, title, description, location, imageLinks, available, tag }) {
         if (this.userId) {
-            console.log('in method exchangeItems.insert');
-
             title = title ? sanitizeHtmlNoReturns(title) : title;
             description = description ? sanitizeHtml(description) : description;
             location = location ? sanitizeHtmlNoReturns(location) : location;
@@ -186,7 +182,6 @@ export const edit = new ValidatedMethod({
                  supposed to.
                  */
 
-                console.log(exchangeItem);
                 throw new Meteor.Error('exchangeItems.edit.accessDenied',
                     'You don\'t have permission to edit this item.');
             }
@@ -255,8 +250,6 @@ export const deleteItem = new ValidatedMethod({
         },
     }).validator(),
     run({ exchangeItemId }) {
-        console.log('in method exchangeItems.deleteItem');
-
         if (this.userId) {
 
             //TODO: think about whether it's appropriate to let a user to delete a locked item that they own (since it's in transit)
@@ -301,8 +294,6 @@ export const deleteItem = new ValidatedMethod({
 */
 
 export const lock = (itemIds) => {
-    console.log('in server method exchangeItems.lock');
-
     const lockFunctionSchema = new SimpleSchema({
         itemIds: {
             type: [String],
@@ -339,8 +330,6 @@ export const lock = (itemIds) => {
 };
 
 export const unlock = (itemIds) => {
-    console.log('in server method exchangeItems.unlock');
-
     const unlockFunctionSchema = new SimpleSchema({
         itemIds: {
             type: [String],
@@ -377,8 +366,6 @@ export const unlock = (itemIds) => {
 };
 
 export const transfer = (itemIds, oldOwnerId, newOwnerId) => {
-    console.log('in server method exchangeItems.transfer');
-
     const transferFunctionSchema = new SimpleSchema({
         itemIds: {
             type: [String],
@@ -401,14 +388,10 @@ export const transfer = (itemIds, oldOwnerId, newOwnerId) => {
     }, transferFunctionSchema);
 
     if (Meteor.isServer) {
-        console.log('in isServer check');
-
         const oldOwner = Meteor.users.findOne(oldOwnerId);
         const newOwner = Meteor.users.findOne(newOwnerId);
 
         if (oldOwner && newOwner) {
-            console.log('is oldOwner and newOwner:');
-
             //TODO: remove this for-loop and use a single update() with 'multi: true'
             for (var i = 0; i < itemIds.length; i++) {
                 const item = ExchangeItems.findOne(itemIds[i]);
@@ -442,8 +425,6 @@ export const transfer = (itemIds, oldOwnerId, newOwnerId) => {
 
 //TODO: it'd be cleaner in other methods.js files to have this accept an array of itemIds
 export const updateRank = (itemId, amount) => {
-    console.log('in method exchangeItems.updateRank');
-
     const updateRankFunctionSchema = new SimpleSchema({
         itemId: {
             type: String,

@@ -16,7 +16,6 @@ export const insert = new ValidatedMethod({
         profilePhotoLink: { type: String },
     }).validator(),
     run({ bio, location, profilePhotoLink }) {
-        console.log('in method userAttributes.insert');
         if (this.userId) {
 
             bio = sanitizeHtml(bio);
@@ -71,7 +70,6 @@ export const edit = new ValidatedMethod({
         profilePhotoLink: { type: String },
     }).validator(),
     run({ bio, location, profilePhotoLink }) {
-        console.log('in method userAttributes.edit');
         if (this.userId) {
 
             bio = sanitizeHtml(bio);
@@ -153,8 +151,6 @@ const defaultTexts = (username) => {
 
 //NOTE: This function will only work when called from the server, limiting the chance of fraudulent points.
 export const updateRank = (userAttributesId, amount) => {
-    console.log('in method userAttributes.updateRank');
-
     const updateRankFunctionSchema = new SimpleSchema({
         userAttributesId: {
             type: String,
@@ -183,8 +179,6 @@ export const updateRank = (userAttributesId, amount) => {
 };
 //TODO: clean up this convenience method and the one above it
 export const updateRankByName = (userAttributesName, amount) => {
-    console.log('in method userAttributes.updateRankByName');
-
     userAttributesName = sanitizeHtmlNoReturns(userAttributesName);
 
     const updateRankByNameFunctionSchema = new SimpleSchema({

@@ -11,12 +11,6 @@ Meteor.methods({
         text = sanitizeHtml(text);
         const signedInName = Meteor.user() ? Meteor.user().username : "Not signed in";
 
-        console.log('in sendFeedbackEmail');
-        console.log(senderName);
-        console.log(senderEmail);
-        console.log(text);
-        console.log(signedInName);
-
         if (Meteor.isServer) {
             Email.send({
                 from: "hello@flippedart.org",

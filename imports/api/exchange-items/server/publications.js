@@ -4,12 +4,11 @@ import { Meteor } from 'meteor/meteor';
 import { ExchangeItems } from '../exchange-items.js';
 
 
-//FIXME: remove these ".all" publications
-Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
-    /*check(options, {
+/*Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
+    /!*check(options, {
      sort: Object,
      limit: Number
-     });*/
+     });*!/
 
     return ExchangeItems.find(
         {},
@@ -17,7 +16,7 @@ Meteor.publish('exchangeItems.all', function () {  //TODO: pass in "options" obj
             fields: ExchangeItems.publicFields,
         }
     );
-});
+});*/
 
 Meteor.publish('exchangeItems.user', function(username, options, limit) {
     check(username, String);

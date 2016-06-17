@@ -2,15 +2,15 @@ import { Meteor } from 'meteor/meteor';
 import { UserAttributes } from '../user-attributes.js';
 
 
-//TODO: delete this publication after done testing with it
-Meteor.publish('userAttributes.all', function() {
+//NOTE: for testing purposes only, not for production
+/*Meteor.publish('userAttributes.all', function() {
     return UserAttributes.find(
         {},
         {
             fields: UserAttributes.publicFields,
         }
     );
-});
+});*/
 
 Meteor.publish('userAttributes.byId', function(userId) {
     if (userId) {

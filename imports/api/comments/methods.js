@@ -33,8 +33,6 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ userPostId, text }) {
         if (this.userId) {
-            console.log('in method comments.insert');
-
             text = sanitizeHtml(text);
 
             const user = Meteor.user();  //TODO: is this any more or less secure, server-side, than querying by this.userId?
@@ -95,8 +93,6 @@ export const edit = new ValidatedMethod({
         text: { type: String },
     }).validator(),
     run({ commentId, text }) {
-        console.log('in method comments.edit');
-
         text = sanitizeHtml(text);
 
         const comment = Comments.findOne(commentId);
@@ -132,8 +128,6 @@ export const flag = new ValidatedMethod({
         },
     }).validator(),
     run({ commentId }) {
-        console.log('in method comments.flag');
-
         if (this.userId) {
             const flaggerName = Meteor.users.findOne(this.userId).username;
 
@@ -168,8 +162,6 @@ export const unflag = new ValidatedMethod({
         },
     }).validator(),
     run({ commentId }) {
-        console.log('in method comments.unflag');
-
         if (this.userId) {
             const flaggerName = Meteor.users.findOne(this.userId).username;
 
@@ -206,8 +198,6 @@ export const deleteComment = new ValidatedMethod({
         },
     }).validator(),
     run({ commentId }) {
-        console.log('in method comments.delete');
-
         const comment = Comments.findOne(commentId);
 
         if (!comment || !comment.editableBy(this.userId)) {

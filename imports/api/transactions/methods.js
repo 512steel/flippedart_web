@@ -47,8 +47,6 @@ export const requestTransaction = new ValidatedMethod({
         },
     }).validator(),
     run({ requesteeName, itemIds }) {
-        console.log('in method transaction.request');
-
         if (this.userId) {
             const requester = Meteor.users.findOne(this.userId);
             let requestee = Meteor.users.findOne({username: requesteeName});

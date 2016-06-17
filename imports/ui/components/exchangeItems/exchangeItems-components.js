@@ -361,8 +361,6 @@ Template.project_single_page.events({
 
 Template.projects_user_all.events({
     'change .request-checkout-checkbox': function (e, template) {
-        console.log('in change .request-checkout-checkbox event');
-
         var isOneChecked = $(".item-request-form input[type='checkbox']:checked").length > 0;
 
         var nameArr = Template.instance().requestedProjectNames.get();

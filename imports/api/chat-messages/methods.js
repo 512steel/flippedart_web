@@ -31,8 +31,6 @@ export const insert = new ValidatedMethod({
         }
     }).validator(),
     run({ chatSessionId, text, imageLink }) {
-        console.log('in method chatMessage.insert');
-
         if (this.userId) {
 
             text = sanitizeHtml(text);
@@ -93,8 +91,6 @@ export const deleteChatMessage = new ValidatedMethod({
         },
     }).validator(),
     run({ chatMessageId }) {
-        console.log('in method chatMessage.deleteChatMessage');
-
         const chatMessage = ChatMessages.findOne(chatMessageId);
 
         if (chatMessage && Meteor.isServer) {  //NOTE: since chatMessage.senderId isn't exposed as a publicField, this will fail on client.

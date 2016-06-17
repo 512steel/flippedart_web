@@ -5,12 +5,12 @@ import { Transactions } from '../transactions.js';
 import { ExchangeItems } from '../../exchange-items/exchange-items.js';
 
 
-//FIXME: remove these ".all" publications
-Meteor.publish('transactions.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
-    /*check(options, {
+//NOTE: testing purposes only, this is not for production
+/*Meteor.publish('transactions.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
+    /!*check(options, {
      sort: Object,
      limit: Number
-     });*/
+     });*!/
 
     return Transactions.find(
         {},
@@ -18,7 +18,7 @@ Meteor.publish('transactions.all', function () {  //TODO: pass in "options" obje
             fields: Transactions.publicFields,
         }
     );
-});
+});*/
 
 
 Meteor.publish('transactions.user', function(options) {

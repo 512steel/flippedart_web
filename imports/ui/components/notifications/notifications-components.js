@@ -126,7 +126,6 @@ Template.notification_card.events({
 
 Template.notifications_page.events({
     'click .notifications-clear-all': function () {
-        console.log(' in notifications-clear test');
         clearAllNotifications.call({ });
     },
 });

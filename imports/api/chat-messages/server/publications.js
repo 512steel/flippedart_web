@@ -4,14 +4,14 @@ import { Meteor } from 'meteor/meteor';
 import { ChatMessages } from '../chat-messages.js';
 import { ChatSessions } from '../../chat-sessions/chat-sessions.js';
 
-Meteor.publish('chatMessages.all', function () {  //FIXME: this is for testing purposes only - remove
+/*Meteor.publish('chatMessages.all', function () {  //NOTE: this is for testing purposes only - remove on production
     return ChatMessages.find(
         {},
         {
             fields: ChatMessages.publicFields,
         }
     );
-});
+});*/
 
 // "username" here refers to the username in the _route_ of the chatwindow, i.e. who the current user is chatting _with_
 Meteor.publish('chatMessages.session', function(otherUsername, options, limit) {

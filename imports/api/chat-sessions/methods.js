@@ -9,8 +9,6 @@ import { ChatSessions } from './chat-sessions.js';
 
 // Server-only function to insert a new ChatSession
 export const insert = (requesterId, requesteeId) => {
-    console.log('in server method chatSessions.insert');
-
     if (Meteor.isServer) {
         const insertFunctionSchema = new SimpleSchema({
             requesterId: {

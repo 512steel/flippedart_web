@@ -3,11 +3,12 @@
 import { Meteor } from 'meteor/meteor';
 import { UserPosts } from '../user-posts.js';
 
-Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
-    /*check(options, {
+//NOTE: testing purposes only, not for production
+/*Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
+    /!*check(options, {
         sort: Object,
         limit: Number
-    });*/
+    });*!/
 
     return UserPosts.find(
         {},
@@ -15,7 +16,7 @@ Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object 
             fields: UserPosts.publicFields,
         }
     );
-});
+});*/
 
 Meteor.publish('userPosts.user', function(username, options, limit) {
     check(username, String);
