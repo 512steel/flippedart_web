@@ -4,8 +4,12 @@
             <textarea required name="user-post-submit-text" type="text" class="form-control" placeholder="Post an update" maxlength="5000"></textarea>
         </div>
 
-        <label for="postFileUpload" class="button secondary hollow expanded">Upload photos (up to {{maxPhotoUploadCount}})</label>
-        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" multiple/>
+        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />
+        <label for="postFileUpload" class="button secondary hollow expanded">
+            <span>
+                Upload photos (up to {{maxPhotoUploadCount}})
+            </span>
+        </label>
 
         {{#if isUploading}}
             <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>

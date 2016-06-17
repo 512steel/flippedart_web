@@ -312,4 +312,30 @@ Template.user_attributes_edit.events({
     'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
         autosize($('textarea'));
     },
+    'change input#profilePhotoFileUpload'(e) {
+        e.preventDefault();
+
+        /*
+          Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+        */
+        var $input = $('input#profilePhotoFileUpload');
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if( this.files && this.files.length > 1 ) {
+            fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+        }
+        else if( e.target.value ) {
+            fileName = e.target.value.split( '\\' ).pop();
+            console.log(fileName);
+        }
+
+        if( fileName ) {
+            $label.find( 'span' ).html( fileName );
+        }
+        else {
+            $label.html( labelVal );
+        }
+    }
 });

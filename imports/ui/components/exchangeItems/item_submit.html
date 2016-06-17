@@ -76,8 +76,12 @@
             <textarea class="single-item-description padded" type="text" placeholder="Add a description" maxlength="5000" required></textarea>
         </div>
 
-        <label for="projectPhotoUpload" class="button secondary hollow expanded">Upload photos (up to {{maxPhotoUploadCount}})</label>
-        <input id="projectPhotoUpload" class="show-for-sr" type="file" accept="image/*" multiple required/>
+        <input id="projectPhotoUpload" class="show-for-sr" type="file" accept="image/*" multiple required data-multiple-caption="{count} files selected" />
+        <label for="projectPhotoUpload" class="button secondary hollow expanded">
+            <span>
+                Upload photos (up to {{maxPhotoUploadCount}})
+            </span>
+        </label>
 
         <div class="input-group row column">
             <select class="single-item-tag small-12 medium-12 large-7">

@@ -614,6 +614,33 @@ Template.single_item_submit.events({
     'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
         autosize($('textarea'));
     },
+    'change input#projectPhotoUpload'(e) {
+        e.preventDefault();
+
+        //FIXME: this alters all input boxes (in case the user is adding more than one item at a time).  Select by class instead of ID, and pass in unique classnames to {{> single_item_submit}}
+
+        /*
+         Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+         */
+        var $input = $('input#projectPhotoUpload');
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if( e.target.files && e.target.files.length > 1 ) {
+            fileName = ( e.target.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+        }
+        else if( e.target.value ) {
+            fileName = e.target.value.split( '\\' ).pop();
+        }
+
+        if( fileName ) {
+            $label.find( 'span' ).html( fileName );
+        }
+        else {
+            $label.html( labelVal );
+        }
+    }
 });
 
 

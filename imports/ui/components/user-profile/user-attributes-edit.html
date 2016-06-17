@@ -11,10 +11,13 @@
                 <input required name="location" type="text" placeholder="Add your general location"
                        value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
 
-                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update
-                    your{{else}}Add a{{/if}} profile photo</label>
-                <input required name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
-                       accept="image/*"/>
+                <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
+                       accept="image/*" data-multiple-caption="{count} files selected" />
+                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">
+                    <span>
+                        {{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo
+                    </span>
+                </label>
 
             {{else}}
 
@@ -24,10 +27,13 @@
                 <input name="location" type="text" placeholder="Add your general location"
                        value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
 
-                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update
-                    your{{else}}Add a{{/if}} profile photo</label>
                 <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
-                       accept="image/*"/>
+                       accept="image/*" data-multiple-caption="{count} files selected" />
+                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">
+                    <span>
+                        {{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo
+                    </span>
+                </label>
 
             {{/if}}
 
