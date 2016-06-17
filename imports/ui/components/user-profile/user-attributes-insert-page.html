@@ -1,12 +1,21 @@
 <template name="user_attributes_insert_page">
-    <h3>Introduce yourself</h3>
-    <p>You're one step away from joining the Flipped Art online community!  Tell the community a little bit about yourself.</p>
+    <div class="row">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered">
 
-    <hr>
+            <div class="row column">
+                <h1>Introduce yourself</h1>
+            </div>
+            <div class="row column">
+                <p>You're one step away from joining the Flipped Art online community!
+                    Tell the community a little bit about yourself.</p>
+            </div>
 
-    <div class="row pull-down">
-        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
-            {{>user_attributes_edit}}
+            <hr>
+
+            <div class="row column pull-down">
+
+                {{>user_attributes_edit required="true"}}
+            </div>
         </div>
     </div>
 </template>

@@ -247,6 +247,18 @@ footer {
 .text-centered {
   text-align: center;
 }
+.text-white {
+  color: $white;
+}
+.text-red {
+  color: $alert-color;
+}
+.background-dark {
+  background-color: $darker-gray;
+}
+.background-red {
+  background-color: $alert-color;
+}
 
 .static-page-wrap {
   @extend .row, .column, .small-12, .medium-10, .large-8, .small-centered, .medium-centered, .large-centered, .pull-down;
@@ -268,6 +280,12 @@ footer {
 }
 .text-large {
   font-size: 1.2rem;
+}
+.text-xlarge {
+  font-size: 1.5rem;
+}
+.text-xxlarge {
+  font-size: 1.8rem;
 }
 .half-width {
   width: 50%;
@@ -389,6 +407,10 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
   border-left: solid .25rem $light-gray;
 }
 
+.pop-out-text {
+  background-color: $white;
+  padding: .5rem;
+}
 .pattern-diagonal {
   /* defalut blue */
   background:
@@ -405,11 +427,6 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
           5PSc1MCUnIHN0cm9rZS13aWR0aD0nMS
           cvPg0KPC9zdmc+")
           repeat;
-
-  .pop-out-text {
-    background-color: $white;
-    padding: .5rem;
-  }
 }
 .pattern-diagonal-blue {
   background:
@@ -460,6 +477,12 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
           repeat;
 }
 
+.skyline-image {
+  position: relative;
+  top: 50%;
+  transform: translateY(-60%);
+}
+
 
 /* "small" only */
 @media screen and (max-width: 39.9375em) {
@@ -477,5 +500,9 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 
   .small-push-down {
     margin-bottom: 1rem;
+  }
+
+  .skyline-image {
+    transform: translateY(-10%);
   }
 }

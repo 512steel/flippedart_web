@@ -10,7 +10,7 @@ import './home-page.html';
 Template.home_page.onCreated(function() {// Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.popular', 5);
-        this.subscribe('exchangeItems.popular',3);
+        this.subscribe('exchangeItems.popular',6);
     });
 });
 
@@ -29,7 +29,8 @@ Template.home_page.onRendered(function() {
     }, 200);
     Meteor.setTimeout(function(){
         if (FlowRouter.getQueryParam("explore")) {
-            $('body, html').animate({scrollTop: $('#home-page-explore').offset().top}, 500);
+            //TODO: re-activate this once there is more activity on the site.
+            //$('body, html').animate({scrollTop: $('#home-page-explore').offset().top}, 500);
         }
     }, 750);
 });

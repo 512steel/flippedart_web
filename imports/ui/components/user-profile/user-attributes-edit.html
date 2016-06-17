@@ -3,13 +3,33 @@
     <div class="row column clearfix-small">
         <form class="main form userAttributes-{{#if userAttributes}}edit{{else}}insert{{/if}}-form">
 
-            <textarea name="bio" type="text" placeholder="Add a brief bio" class="" maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
+            {{#if fieldsRequired}}
 
-            <input name="location" type="text" placeholder="Add your general location"
-                   value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}" />
+                <textarea required name="bio" type="text" placeholder="Add a brief bio" class=""
+                          maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
 
-            <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo</label>
-            <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file" accept="image/*"/>
+                <input required name="location" type="text" placeholder="Add your general location"
+                       value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
+
+                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update
+                    your{{else}}Add a{{/if}} profile photo</label>
+                <input required name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
+                       accept="image/*"/>
+
+            {{else}}
+
+                <textarea name="bio" type="text" placeholder="Add a brief bio" class=""
+                          maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
+
+                <input name="location" type="text" placeholder="Add your general location"
+                       value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
+
+                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">{{#if userAttributes}}Update
+                    your{{else}}Add a{{/if}} profile photo</label>
+                <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
+                       accept="image/*"/>
+
+            {{/if}}
 
             {{#if isUploadingProfilePicture}}
                 <input class="button primary float-right submit" type="submit" value="Saving..." disabled/>

@@ -52,6 +52,8 @@ Template.user_attributes_edit.onCreated(function () {
 
     });
 
+    this.fieldsRequired = () => this.data.required ? this.data.required : false;
+
     this.userAttributes = () => UserAttributes.findOne({});
     Session.set('isProfilePictureUploading', false);
 });
@@ -139,6 +141,10 @@ Template.user_attributes_edit.helpers({
     isUploadingProfilePicture: function() {
         return Session.get('isProfilePictureUploading');
     },
+
+    fieldsRequired: function() {
+        return Template.instance().fieldsRequired();
+    }
 });
 
 
