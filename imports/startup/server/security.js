@@ -38,3 +38,8 @@ if (Meteor.isServer) {
     connectionId() { return true; },
   }, 2, 5000);
 }
+
+BrowserPolicy.content.allowDataUrlForAll();
+BrowserPolicy.content.allowOriginForAll( 'fonts.googleapis.com' );
+BrowserPolicy.content.allowOriginForAll( 'fonts.gstatic.com' );
+BrowserPolicy.content.allowOriginForAll( '*.cloudinary.com' );
