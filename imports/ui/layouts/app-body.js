@@ -74,10 +74,10 @@ Template.App_body.onRendered(function() {
 
     //FIXME: also call this on user signin/signout ( as well as re-initialize foundation() )
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
-  }, 50);
+  }, 100);
   Meteor.setTimeout(function(){
     $(document).foundation();
-  }, 200);
+  }, 500);
 
   this.autorun(() => {
     //TODO: sticky footer?
