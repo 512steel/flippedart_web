@@ -68,7 +68,8 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 Template.App_body.onRendered(function() {
   $(document).foundation();
 
-  //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).  The easy solution is to set these short timeouts.
+  //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).
+  // The easy solution is to set these short timeouts, although it makes the console super cluttered.  (is there a GC issue to worry about?)
   Meteor.setTimeout(function(){
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
     $(document).foundation();
@@ -78,10 +79,22 @@ Template.App_body.onRendered(function() {
     $(document).foundation();
   }, 1000);
   Meteor.setTimeout(function(){
+    $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
+    $(document).foundation();
+  }, 2000);
+  Meteor.setTimeout(function(){
+    $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
+    $(document).foundation();
+  }, 4500);
+  Meteor.setTimeout(function(){
+    $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
+    $(document).foundation();
+  }, 7000);
+  Meteor.setTimeout(function(){
     //FIXME: also call this on user signin/signout ( as well as re-initialize foundation() )
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
     $(document).foundation();
-  }, 1750);
+  }, 10000);
 
   this.autorun(() => {
     //TODO: sticky footer?
