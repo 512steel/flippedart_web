@@ -47,7 +47,7 @@ Template.projects_user_all.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.projectsSubscription = Meteor.subscribeWithPagination('exchangeItems.user', this.getPageUsername(), {sort: {createdAt: -1}}, 3);
+        this.projectsSubscription = Meteor.subscribeWithPagination('exchangeItems.user', this.getPageUsername(), {sort: {createdAt: -1}}, 5);
     });
 });
 

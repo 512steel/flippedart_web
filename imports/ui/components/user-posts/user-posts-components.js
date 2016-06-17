@@ -79,7 +79,7 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
     this.autorun(() => {
         this.subscribe('userPosts.single', this.getUserPostId());
         //this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
-        this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 3);
+        this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 15);
     });
 });
 
@@ -93,7 +93,7 @@ Template.user_posts_all.onCreated(function userPostsAllOnCreated() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.userPostsSubscription = Meteor.subscribeWithPagination('userPosts.user', this.getUsername(), {sort: {createdAt: -1}}, 3);
+        this.userPostsSubscription = Meteor.subscribeWithPagination('userPosts.user', this.getUsername(), {sort: {createdAt: -1}}, 10);
 
         //FIXME: how to sort posts inside of the profile page?
         switch (FlowRouter.getRouteName()) {

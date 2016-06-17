@@ -72,7 +72,7 @@ Template.App_body.onRendered(function() {
   Meteor.setTimeout(function(){
     $(document).foundation();
 
-    //FIXME: also call this on user signin/signout
+    //FIXME: also call this on user signin/signout ( as well as re-initialize foundation() )
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
   }, 50);
   Meteor.setTimeout(function(){
