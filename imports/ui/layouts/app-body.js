@@ -77,7 +77,7 @@ Template.App_body.onRendered(function() {
   }, 100);
   Meteor.setTimeout(function(){
     $(document).foundation();
-  }, 500);
+  }, 800);
 
   this.autorun(() => {
     //TODO: sticky footer?
