@@ -145,7 +145,7 @@ const defaultTexts = (username) => {
     return {
         bio:  username + ' hasn\'t entered their bio yet.',
         location: username + ' hasn\'t entered their location yet.',
-        profilePhotoLink: 'https://res.cloudinary.com/dwgim6or9/image/upload/v1447227436/anonymous-user_aw4wxr.png',
+        profilePhotoLink: 'http://res.cloudinary.com/dwgim6or9/image/upload/v1466305702/anonymous-user_1_dlslwr.png',
     }
 };
 
