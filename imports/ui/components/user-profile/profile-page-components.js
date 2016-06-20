@@ -41,7 +41,19 @@ Template.user_attributes_card.onCreated(function () {
     this.autorun(() => {
     });
 
-    this.userAttributes = () => UserAttributes.findOne({username: this.getUsername()});
+    this.userAttributes = () => {
+
+        //Query on denormalized data (should work the majority of the time)
+        const attributes = UserAttributes.findOne({usernameLower: this.getUsername().toLowerCase()});
+        if (attributes) {
+            return attributes;
+        }
+
+        //Case-insensitve (but inefficient) query in case the denormalized usernameLower attribute hasn't been set.
+        //TODO: manually migrate those users over
+        const userAttributesRegex = new RegExp(["^", this.getUsername(), "$"].join(""), "i");
+        return UserAttributes.findOne({username: userAttributesRegex});
+    };
 });
 
 Template.user_attributes_edit.onCreated(function () {
@@ -199,10 +211,21 @@ Template.user_attributes_edit.events({
                             profilePhotoLink: uploadResult.public_id,
                         }, (err, res) => {
                             if (err) {
+                                console.log('erroring');
+                                console.log(err);
                                 throwError(err.reason);
                             }
                             else {
                                 throwSuccess('Yay!  You\'ve successfully updated your profile.  Be sure to explore what others are doing.');
+
+                                //FIXME: UI-hack to re-initialize Foundation's JS (dropdowns, etc)
+                                $(document).foundation();
+                                Meteor.setTimeout(function(){
+                                    $(document).foundation();
+                                }, 500);
+                                Meteor.setTimeout(function(){
+                                    $(document).foundation();
+                                }, 1500);
 
                                 if (Meteor.user()) {
                                     FlowRouter.go('profile.page', {username: Meteor.user().username})
@@ -226,6 +249,15 @@ Template.user_attributes_edit.events({
                     }
                     else {
                         throwSuccess('Yay!  You\'ve successfully updated your profile.  Be sure to explore what others are doing.');
+
+                        //FIXME: UI-hack to re-initialize Foundation's JS (dropdowns, etc)
+                        $(document).foundation();
+                        Meteor.setTimeout(function(){
+                            $(document).foundation();
+                        }, 500);
+                        Meteor.setTimeout(function(){
+                            $(document).foundation();
+                        }, 1500);
 
                         if (Meteor.user()) {
                             FlowRouter.go('profile.page', {username: Meteor.user().username})

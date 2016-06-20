@@ -345,7 +345,7 @@ Template.user_post_card.events({
 Template.user_post_edit.events({
     'submit form.edit-post': function(e) {
         e.preventDefault();
-        
+
         const userPostId = Template.instance().getUserPostId();
         const username = Template.instance().getUsername();
 

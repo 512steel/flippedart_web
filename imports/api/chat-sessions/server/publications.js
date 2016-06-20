@@ -32,6 +32,11 @@ Meteor.publish('chatSession.single', function(otherUsername) {
 
     if (this.userId) {
 
+        const otherUser = Accounts.findUserByUsername(otherUsername);
+        if (otherUser) {
+            otherUsername = otherUser.username;
+        }
+
         const currentUsername = Meteor.users.findOne(this.userId).username;
 
         if (currentUsername) {

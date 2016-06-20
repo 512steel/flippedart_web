@@ -30,6 +30,9 @@ UserAttributes.schema = new SimpleSchema({
     username: {
         type: String,
     },
+    usernameLower: {  //NOTE: denormalized for client-side querying
+        type: String,
+    },
     location: {
         type: String,
         max: 100,
@@ -65,6 +68,7 @@ UserAttributes.attachSchema(UserAttributes.schema);
 UserAttributes.publicFields = {
     //userId: 1,
     username: 1,
+    usernameLower: 1,
     location: 1,
     bio: 1,
     profilePhotoLink: 1,

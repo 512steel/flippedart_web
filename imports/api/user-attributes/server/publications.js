@@ -25,6 +25,11 @@ Meteor.publish('userAttributes.byId', function(userId) {
 Meteor.publish('userAttributes.byUsername', function (username) {
     check(username, String);
 
+    const user = Accounts.findUserByUsername(username);
+    if (user) {
+        username = user.username;
+    }
+
     return UserAttributes.find(
         {
             username : username

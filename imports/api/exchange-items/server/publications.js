@@ -25,6 +25,11 @@ Meteor.publish('exchangeItems.user', function(username, options, limit) {
     });
     check(limit, Number);
 
+    const user = Accounts.findUserByUsername(username);
+    if (user) {
+        username = user.username;
+    }
+
     Counts.publish(this, 'exchangeItems.user.count', ExchangeItems.find({ownerName: username}), { noReady: true });
 
     return ExchangeItems.find(

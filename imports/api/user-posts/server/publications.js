@@ -25,6 +25,11 @@ Meteor.publish('userPosts.user', function(username, options, limit) {
     });
     check(limit, Number);
 
+    const user = Accounts.findUserByUsername(username);
+    if (user) {
+        username = user.username;
+    }
+
     Counts.publish(this, 'userPosts.user.count', UserPosts.find({author: username}), { noReady: true });
 
     return UserPosts.find(

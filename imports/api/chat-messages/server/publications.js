@@ -23,6 +23,11 @@ Meteor.publish('chatMessages.session', function(otherUsername, options, limit) {
 
     if (this.userId) {
 
+        const otherUser = Accounts.findUserByUsername(otherUsername);
+        if (otherUser) {
+            otherUsername = otherUser.username;
+        }
+
         const currentUsername = Meteor.users.findOne(this.userId).username;
 
         // this query is borrowed from the chatSessions.insert() function

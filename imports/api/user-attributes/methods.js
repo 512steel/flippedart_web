@@ -30,6 +30,7 @@ export const insert = new ValidatedMethod({
                 const userAttributes = {
                     userId: user._id,
                     username: user.username,
+                    usernameLower: user.username.toLowerCase(),
                     bio: bio.trim() ? bio : defaults.bio,
                     location: location.trim() ? location : defaults.location,
                     profilePhotoLink: profilePhotoLink.trim() ? profilePhotoLink : defaults.profilePhotoLink,

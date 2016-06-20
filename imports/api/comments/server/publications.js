@@ -44,6 +44,12 @@ Meteor.publish('comments.user', function(username, options) {
         sort: Object,
         limit: Number
     });
+
+    const user = Accounts.findUserByUsername(username);
+    if (user) {
+        username = user.username;
+    }
+
     return Comments.find(
         {
             author : username
