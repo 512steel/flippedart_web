@@ -108,6 +108,11 @@ export const edit = new ValidatedMethod({
                 'You don\'t have permission to edit this post.');
         }
 
+        if (imageLinks.length > 0 && imageLinks[0] == "none") {
+            //If the client passed in "none" for image links, then keep the posts' previous images
+            imageLinks = userPost.imageLinks;
+        }
+
         UserPosts.update(userPostId,
             {
                 //TODO: refer to exchangeItems.edit for allowing these fields to be optional.

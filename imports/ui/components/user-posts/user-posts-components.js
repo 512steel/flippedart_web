@@ -51,6 +51,8 @@ Template.user_post_card.onCreated(function userPostCardOnCreated() {
 });
 
 Template.user_post_edit.onCreated(function userPostEditOnCreated() {
+    Session.set('isPostEditUploading', false);
+
     this.getUsername = () => FlowRouter.getParam('username');
     this.getUserPostId = () => FlowRouter.getParam('userPostId');
 
@@ -215,6 +217,16 @@ Template.user_post_edit.helpers({
         }
         else return false;
     },
+
+    isUploading: function() {
+        return Session.get('isPostEditUploading');
+    },
+    uploadingCopy: function() {
+        return "Saving...";
+    },
+    maxPhotoUploadCount: function() {
+        return UPLOAD_LIMITS.images;
+    }
 });
 
 Template.user_post_submit.helpers({
@@ -333,25 +345,83 @@ Template.user_post_card.events({
 Template.user_post_edit.events({
     'submit form.edit-post': function(e) {
         e.preventDefault();
-
-        //FIXME: include the ability to edit the "imageLinks"
-
+        
         const userPostId = Template.instance().getUserPostId();
         const username = Template.instance().getUsername();
 
-        edit.call({
-            userPostId: userPostId,
-            text: $(e.target).find('[name=user-post-edit-text]').val(),
+        var imageLinks = [];
 
-            //TODO: collect actual info on the rest of these fields:
-            tag: '',
-            imageLinks: [],
-        }, (err, res) => {
-            if (err) {
-                throwError(err.reason);
+        $(".edit-post input[type='file']").each(function() {
+            var files = this.files;
+
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].size > 2000000) {
+                    throwError("Sorry, one of your images is bigger than the 2MB upload limit");
+                    return;
+                }
+            }
+
+            if (files.length > UPLOAD_LIMITS.images) {
+                throwError("Sorry, you are trying to upload " + files.length.toString() + " images.  The maximum you can upload is " + UPLOAD_LIMITS.images + ".");
+            }
+            else if (files.length > 0) {
+                //user is uploading an image
+                Session.set('isPostEditUploading', true);
+
+                var fileIndex = 0;
+                Cloudinary.upload(files, {
+                    folder: "flippedart"
+                }, function(error, result) {
+                    if (error) {
+                        throwError(error.reason);
+                    }
+
+                    //FIXME - since Cloudinary.upload() is asynchronous there's no way to check if there's an error before submitting the userPost and it will likely hang on `null.public_id`
+
+                    imageLinks.push(result.public_id);
+
+                    fileIndex++;  //hack to only insert the post after all photos are uploaded
+
+                    if (fileIndex >= files.length) {
+                        edit.call({
+                            userPostId: userPostId,
+                            text: $(e.target).find('[name=user-post-edit-text]').val(),
+
+                            //TODO: collect actual info on the rest of these fields:
+                            tag: '',
+                            imageLinks: imageLinks,  // hack to tell the server method to keep previous imageLinks
+                        }, (err, res) => {
+                            if (err) {
+                                Session.set('isPostEditUploading', false);
+                                throwError(err.reason);
+                            }
+                            else {
+                                Session.set('isPostEditUploading', false);
+                                FlowRouter.go('profile.post', {username: username, userPostId: userPostId});
+                            }
+                        });
+                    }
+                });
             }
             else {
-                FlowRouter.go('profile.post', {username: username, userPostId: userPostId});
+                //no images
+
+                edit.call({
+                    userPostId: userPostId,
+                    text: $(e.target).find('[name=user-post-edit-text]').val(),
+
+                    //TODO: collect actual info on the rest of these fields:
+                    tag: '',
+                    imageLinks: ["none"],  // hack to tell the server method to keep previous imageLinks
+                }, (err, res) => {
+                    if (err) {
+                        throwError(err.reason);
+                    }
+                    else {
+                        Session.set('isPostEditUploading', false);
+                        FlowRouter.go('profile.post', {username: username, userPostId: userPostId});
+                    }
+                });
             }
         });
     },
@@ -377,6 +447,31 @@ Template.user_post_edit.events({
     'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
         autosize($('textarea'));
     },
+    'change input#postEditFileUpload'(e) {
+        e.preventDefault();
+
+        /*
+         Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+         */
+        var $input = $('input#postEditFileUpload');
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if( e.target.files && e.target.files.length > 1 ) {
+            fileName = ( e.target.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+        }
+        else if( e.target.value ) {
+            fileName = e.target.value.split( '\\' ).pop();
+        }
+
+        if( fileName ) {
+            $label.find( 'span' ).html( fileName );
+        }
+        else {
+            $label.html( labelVal );
+        }
+    }
 });
 
 Template.user_post_submit.events({
@@ -473,8 +568,6 @@ Template.user_post_submit.events({
     },
     'change input#postFileUpload'(e) {
         e.preventDefault();
-
-        //FIXME: this alters all input boxes (in case the user is adding more than one item at a time).  Select by class instead of ID, and pass in unique classnames to {{> single_item_submit}}
 
         /*
          Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/

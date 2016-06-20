@@ -2,16 +2,31 @@
     <div class="row">
         <div class="column small-12 medium-8 large-8 medium-centered large-centered">
             <div>
-                <a class="button-go-back" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
+                <a class="button-go-back"
+                   href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
             </div>
             {{#if ownPost}}
                 <div class="row column pull-down-xlarge push-down-xxxxlarge">
                     <form class="main form edit-post">
-                        <div class="form-group">
+                        <div class="">
                             <h4>Edit your post</h4>
-                            <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}" placeholder="Edit your post" class="form-control" maxlength="5000"></textarea>
+                            <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}"
+                                      placeholder="Edit your post" class="" maxlength="5000"></textarea>
                         </div>
-                        <input type="submit" value="Save" class="button primary submit float-left"/>
+
+                        <input id="postEditFileUpload" class="show-for-sr" type="file" accept="image/*" multiple
+                               data-multiple-caption="{count} files selected"/>
+                        <label for="postEditFileUpload" class="button secondary hollow expanded">
+                            <span>
+                                Replace photos (up to {{maxPhotoUploadCount}})
+                            </span>
+                        </label>
+
+                        {{#if isUploading}}
+                            <input type="submit" value="{{uploadingCopy}}" class="button primary float-left" disabled/>
+                        {{else}}
+                            <input type="submit" value="Save" class="button primary float-left"/>
+                        {{/if}}
                     </form>
 
                     <a class="button alert delete-user-post float-right" href="#">Delete post</a>
