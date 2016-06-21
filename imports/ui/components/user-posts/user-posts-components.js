@@ -204,6 +204,10 @@ Template.user_post_card.helpers({
         }
     },
 
+    currentPost: function () {
+        return Template.instance().userPost();
+    }
+
     //TODO: hasImageLinks helper for UI
 });
 
