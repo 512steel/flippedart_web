@@ -8,7 +8,7 @@ import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
 import './home-page.html';
 
 
-Template.home_page.onCreated(function() {// Subscriptions go in here
+Template.home_page.onCreated(function() { // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.popular', 5);
         this.subscribe('exchangeItems.popular', 6);
@@ -53,6 +53,7 @@ Template.home_page.helpers({
         return ExchangeItems.find({});
     },
     topUserAttributes: function() {
-        return UserAttributes.find({});
+        //FIXME: this is giving odd results on the client.
+        return UserAttributes.find({rank:{$gt:0}},{sort:{rank:-1}});
     }
 });
