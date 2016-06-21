@@ -5,7 +5,6 @@
         {{#unless inappropriate}}
             <p class="user-post-body text-large">{{{text}}}</p>
 
-            <!-- TODO: a proper orbit/lightbox with Motion-UI -->
             <div class="post-images-list row column horizontal-scroll-row push-down">
                 {{#each imageLinks}}
                     <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">

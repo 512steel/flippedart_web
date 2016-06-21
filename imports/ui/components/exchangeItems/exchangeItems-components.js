@@ -242,7 +242,7 @@ Template.project_single_card.helpers({
         }
         else return "invisible";
     },
-    
+
     //FIXME: more personal language here
     tooltipLocked: function() {
         return "This project is already a part of an exchange, so it can't be requested at this time.";
