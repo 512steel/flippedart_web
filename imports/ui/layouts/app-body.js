@@ -68,12 +68,6 @@ Template.App_body.onCreated(function appBodyOnCreated() {
 Template.App_body.onRendered(function() {
   $(document).foundation();
 
-  console.log(lightbox);
-  lightbox.option({
-    'resizeDuration': 200,
-    'wrapAround': true
-  });
-
   //FIXME: foundation's JS was only getting initialized intermittently, since the DOM doesn't actually get rendered when onRendered() is called (sigh...).
   // The easy solution is to set these short timeouts, although it makes the console super cluttered.  (is there a GC issue to worry about?)
   Meteor.setTimeout(function(){

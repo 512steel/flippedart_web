@@ -30,7 +30,7 @@
                     <!-- TODO: a proper orbit/lightbox with Motion-UI -->
                     <div class="project-images-list row column horizontal-scroll-row push-down">
                         {{#each imageLinks}}
-                            <a class="thumbnail" href="{{c.url this secure=true}}">
+                            <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
                                 <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                             </a>
                         {{else}}
@@ -94,7 +94,7 @@
                             <!-- TODO: a proper orbit/lightbox with Motion-UI -->
                             <div class="project-images-list row column horizontal-scroll-row push-down">
                                 {{#each imageLinks}}
-                                    <a class="thumbnail" href="{{c.url this secure=true}}">
+                                    <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
                                         <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                                     </a>
                                 {{else}}
@@ -157,7 +157,7 @@
                         <!-- TODO: a proper orbit/lightbox with Motion-UI -->
                         <div class="project-images-list row column horizontal-scroll-row push-down">
                             {{#each imageLinks}}
-                                <a class="thumbnail" href="{{c.url this secure=true}}">
+                                <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
                                     <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                                 </a>
                             {{else}}
