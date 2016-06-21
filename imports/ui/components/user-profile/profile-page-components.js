@@ -14,6 +14,7 @@ import { ChatSessions } from '../../../api/chat-sessions/chat-sessions.js';
 
 import './profile-page-card.html';
 import './user-attributes-card.html';
+import './user-attributes-card-small.html';
 import './user-attributes-edit.html';
 import './user-attributes-insert-page.html';
 
@@ -144,6 +145,12 @@ Template.user_attributes_card.helpers({
     showUserAttributesEdit: function() {
         return Session.get('showUserAttributesEdit');
     },
+});
+
+Template.user_attributes_card_small.helpers({
+    userAttributes: function() {
+        return this;
+    }
 });
 
 Template.user_attributes_edit.helpers({

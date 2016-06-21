@@ -1,0 +1,23 @@
+<template name="user_attributes_card_small">
+    <div class="">
+        <a href="{{pathFor 'profile.page' username=userAttributes.username}}" style="color:inherit;">
+            <div class="row">
+                <div class="small-10 medium-5 large-4 small-centered medium-uncentered column">
+                    <!-- FIXME: make this a general link that defaults to the blank photo -->
+                    {{#if userAttributes.profilePhotoLink}}
+                        <!-- TODO: specify width/height -->
+                        <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
+                    {{/if}}
+                </div>
+                <div class="small-12 medium-7 large-8 column">
+                    <div class="row column">
+                        <strong>{{userAttributes.username}}</strong>
+                    </div>
+                    <div class="row column">
+                        {{userAttributes.location}}
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</template>

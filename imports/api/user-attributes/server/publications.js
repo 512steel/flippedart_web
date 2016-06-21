@@ -39,3 +39,16 @@ Meteor.publish('userAttributes.byUsername', function (username) {
         }
     );
 });
+
+Meteor.publish('userAttributes.popular', function(limit) {
+    check(limit, Number);
+
+    return UserAttributes.find(
+        {},
+        {
+            sort: {rank: -1},
+            limit: limit,
+            fields: UserAttributes.publicFields,
+        }
+    );
+});
