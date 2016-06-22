@@ -5,3 +5,5 @@ Meteor.Spinner.options = {
 $.cloudinary.config({
     cloud_name: "dwgim6or9"
 });
+
+RouterAutoscroll.animationDuration = 0;

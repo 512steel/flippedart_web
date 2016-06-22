@@ -4,7 +4,7 @@
         <div class="small-12 medium-5 large-4 column">
             <!-- FIXME: make this a general link that defaults to the blank photo -->
             {{#if userAttributes.profilePhotoLink}}
-                <a href="{{c.url userAttributes.profilePhotoLink secure=true}}">
+                <a data-lightbox="user-attributes-card-photo" href="{{c.url userAttributes.profilePhotoLink secure=true}}">
                     <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
                 </a>
             {{/if}}
