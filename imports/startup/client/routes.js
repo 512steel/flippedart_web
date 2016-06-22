@@ -104,6 +104,12 @@ FlowRouter.route('/donate', {
         BlazeLayout.render('App_body', { main: 'donate_page' });
     },
 });
+FlowRouter.route('/support', {
+    name: 'static.donate',
+    action() {
+        BlazeLayout.render('App_body', { main: 'donate_page' });
+    },
+});
 FlowRouter.route('/howto', {
     name: 'static.howto',
     action() {
