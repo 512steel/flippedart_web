@@ -5,12 +5,8 @@
         {{#unless inappropriate}}
             <p class="user-post-body text-large">{{{text}}}</p>
 
-            <div class="post-images-list row column horizontal-scroll-row push-down">
-                {{#each imageLinks}}
-                    <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
-                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                    </a>
-                {{/each}}
+            <div class="row column push-down">
+                {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
             </div>
 
         {{else}}

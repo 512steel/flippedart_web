@@ -1,6 +1,6 @@
 <template name="user_post_single_page">
     <div class="row">
-        <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered">
             <a class="button-go-back" href="{{pathFor 'profile.page' username=userPost.author}}">
                 back to
                 {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
@@ -20,7 +20,7 @@
             <ul class="comments">
                 {{#each comments}}
                     <div class="row">
-                        <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                        <div class="small-10 medium-6 large-6 small-centered medium-centered large-centered columns">
                             {{> comment_card }}
                         </div>
                     </div>

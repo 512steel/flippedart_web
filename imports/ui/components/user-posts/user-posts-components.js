@@ -34,6 +34,8 @@ import './user-post-single-page.html';
 import './user-posts-all.html';
 import './user-posts-all-page.html';
 
+import './../photoTiles/photo-tiles-components.js';
+
 import './../comments/comment-card.html';
 import './../comments/comment_edit.html';
 import './../comments/comment_submit.html';
@@ -118,7 +120,7 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
         if (this.subscriptionsReady()) {
             // release renderHolds here
 
-            this.myOrbitInstance = new Foundation.Orbit($('.orbit'));
+            //this.myOrbitInstance = new Foundation.Orbit($('.orbit'));
         }
     });
 });
