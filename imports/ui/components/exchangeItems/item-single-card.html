@@ -28,13 +28,8 @@
                     </div>
 
                     <div class="project-images-list row column horizontal-scroll-row push-down">
-                        {{#each imageLinks}}
-                            <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
-                                <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                            </a>
-                        {{else}}
-                            <p>No images provided for this project.</p>
-                        {{/each}}
+                        {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                        {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
                     </div>
 
                     <div class="row column button-group expanded push-down-small">
@@ -91,13 +86,8 @@
                             </div>
 
                             <div class="project-images-list row column horizontal-scroll-row push-down">
-                                {{#each imageLinks}}
-                                    <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
-                                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                                    </a>
-                                {{else}}
-                                    <p>No images provided for this project.</p>
-                                {{/each}}
+                                {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                                {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
                             </div>
 
                             <div class="row column button-group expanded push-down-small">
@@ -153,13 +143,8 @@
                         </div>
 
                         <div class="project-images-list row column horizontal-scroll-row push-down">
-                            {{#each imageLinks}}
-                                <a class="thumbnail" data-lightbox="{{../_id}}" href="{{c.url this secure=true}}">
-                                    <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
-                                </a>
-                            {{else}}
-                                <p>No images provided for this project.</p>
-                            {{/each}}
+                            {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                            {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
                         </div>
 
                         <div class="row column button-group expanded push-down-small">

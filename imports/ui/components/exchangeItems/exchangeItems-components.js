@@ -27,6 +27,9 @@ import './item_edit.html';
 import './item_submit.html';
 import './items-inventory-page.html';
 
+import './../photoTiles/photo-tiles-components.js';
+
+
 Template.project_single_page.onCreated(function() {
     this.getExchangeItemId = () => FlowRouter.getParam('exchangeItemId');
     this.getExchangeItem = () => ExchangeItems.findOne({});
