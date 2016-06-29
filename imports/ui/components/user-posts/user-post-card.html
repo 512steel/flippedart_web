@@ -5,9 +5,19 @@
         {{#unless inappropriate}}
             <p class="user-post-body text-large">{{{text}}}</p>
 
-            <div class="row column push-down">
-                {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
-            </div>
+            {{#if small_card}}
+                <div class="row column push-down horizontal-scroll-row">
+                    {{#each imageLinks}}
+                        <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
+                            <img src="{{c.url this secure=true height=300 crop='limit'}}">
+                        </a>
+                    {{/each}}
+                </div>
+            {{else}}
+                <div class="row column push-down">
+                    {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                </div>
+            {{/if}}
 
         {{else}}
             <p class="text-large">[This post has been flagged as inappropriate]</p>

@@ -42,4 +42,5 @@ if (Meteor.isServer) {
 BrowserPolicy.content.allowDataUrlForAll();
 BrowserPolicy.content.allowOriginForAll( 'fonts.googleapis.com' );
 BrowserPolicy.content.allowOriginForAll( 'fonts.gstatic.com' );
+BrowserPolicy.content.allowOriginForAll( 'www.google-analytics.com' );
 BrowserPolicy.content.allowOriginForAll( '*.cloudinary.com' );

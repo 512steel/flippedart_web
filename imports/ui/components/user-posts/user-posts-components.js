@@ -206,7 +206,7 @@ Template.user_post_card.helpers({
         }
     },
 
-    currentPost: function () {
+    currentPost: function() {
         return Template.instance().userPost();
     }
 

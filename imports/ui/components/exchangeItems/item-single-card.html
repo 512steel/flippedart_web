@@ -27,10 +27,20 @@
                         </p>
                     </div>
 
-                    <div class="project-images-list row column horizontal-scroll-row push-down">
-                        {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
-                        {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
-                    </div>
+                    {{#if small_card}}
+                        <div class="row column push-down horizontal-scroll-row">
+                            {{#each imageLinks}}
+                                <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
+                                    <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
+                                </a>
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <div class="row column push-down">
+                            {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                            {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+                        </div>
+                    {{/if}}
 
                     <div class="row column button-group expanded push-down-small">
                         <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
@@ -85,10 +95,20 @@
                                 </p>
                             </div>
 
-                            <div class="project-images-list row column horizontal-scroll-row push-down">
-                                {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
-                                {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
-                            </div>
+                            {{#if small_card}}
+                                <div class="row column push-down horizontal-scroll-row">
+                                    {{#each imageLinks}}
+                                        <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
+                                            <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
+                                        </a>
+                                    {{/each}}
+                                </div>
+                            {{else}}
+                                <div class="row column push-down">
+                                    {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                                    {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+                                </div>
+                            {{/if}}
 
                             <div class="row column button-group expanded push-down-small">
                                 <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
@@ -142,10 +162,20 @@
                             </p>
                         </div>
 
-                        <div class="project-images-list row column horizontal-scroll-row push-down">
-                            {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
-                            {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
-                        </div>
+                        {{#if small_card}}
+                            <div class="row column push-down horizontal-scroll-row">
+                                {{#each imageLinks}}
+                                    <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
+                                        <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
+                                    </a>
+                                {{/each}}
+                            </div>
+                        {{else}}
+                            <div class="row column push-down">
+                                {{> photo_tiles imageLinks=imageLinks currentPostId=currentPost._id}}
+                                {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+                            </div>
+                        {{/if}}
 
                         <div class="row column button-group expanded push-down-small">
                             <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>

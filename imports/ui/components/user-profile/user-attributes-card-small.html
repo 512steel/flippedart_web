@@ -6,7 +6,7 @@
                     <!-- FIXME: make this a general link that defaults to the blank photo -->
                     {{#if userAttributes.profilePhotoLink}}
                         <!-- TODO: specify width/height -->
-                        <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
+                        <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true height=200 crop='limit'}}"/>
                     {{/if}}
                 </div>
                 <div class="small-12 medium-7 large-8 column">
