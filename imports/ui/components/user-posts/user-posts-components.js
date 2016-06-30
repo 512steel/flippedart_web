@@ -44,7 +44,7 @@ import './../comments/comments-components.js';
 
 Template.user_post_card.onCreated(function userPostCardOnCreated() {
     //TODO: keep an eye on this in case more data is passed into the template.
-    this.userPost = () => this.data;
+    this.userPost = () => this.data.userPost;
 
     // Subscriptions go in here
     this.autorun(() => {
@@ -166,7 +166,7 @@ Template.user_posts_all.onRendered(function userPostsAllOnRendered() {
 
 Template.user_post_card.helpers({
     ownPost: function() {
-        if (Meteor.user() && Meteor.user().username === this.author) {
+        if (Meteor.user() && Meteor.user().username === this.userPost.author) {
             return true;
         }
         else return false;
@@ -176,7 +176,7 @@ Template.user_post_card.helpers({
             return 'disabled';
         }
 
-        if (!_.include(this.voters, Meteor.user().username)) {
+        if (!_.include(this.userPost.voters, Meteor.user().username)) {
             return 'upvotable';
         }
         else {
@@ -184,7 +184,7 @@ Template.user_post_card.helpers({
         }
     },
     flaggedClass: function() {
-        if (Meteor.user() && !_.include(this.flaggers, Meteor.user().username)) {
+        if (Meteor.user() && !_.include(this.userPost.flaggers, Meteor.user().username)) {
             return 'flaggable';
         }
         else {
@@ -192,13 +192,13 @@ Template.user_post_card.helpers({
         }
     },
     userHasFlagged: function() {
-        if (Meteor.user() && _.include(this.flaggers, Meteor.user().username)) {
+        if (Meteor.user() && _.include(this.userPost.flaggers, Meteor.user().username)) {
             return true;
         }
         else return false;
     },
     inappropriate: function() {
-        if (this.flags >= FLAG_THRESHOLD.post) {
+        if (this.userPost.flags >= FLAG_THRESHOLD.post) {
             return true;
         }
         else {
@@ -207,6 +207,7 @@ Template.user_post_card.helpers({
     },
 
     currentPost: function() {
+        //Note: this is more scope-independent and clearer to read in the template.
         return Template.instance().userPost();
     }
 
@@ -321,14 +322,14 @@ Template.user_post_card.events({
         e.preventDefault();
 
         upvote.call({
-            userPostId: this._id,
+            userPostId: this.userPost._id,
         });
     },
     'click .upvoted': function(e) {
         e.preventDefault();
 
         unUpvote.call({
-            userPostId: this._id,
+            userPostId: this.userPost._id,
         });
     },
 
@@ -336,14 +337,14 @@ Template.user_post_card.events({
         e.preventDefault();
 
         flag.call({
-            userPostId: this._id,
+            userPostId: this.userPost._id,
         });
     },
     'click .flag.unflag': function (e) {
         e.preventDefault();
 
         unflag.call({
-            userPostId: this._id,
+            userPostId: this.userPost._id,
         });
     }
 });

@@ -15,7 +15,7 @@
             <!--<a class="toggle-posts-sort">{{toggleSortText}}</a>-->
 
             {{#each userPosts}}
-                {{> user_post_card}}
+                {{> user_post_card userPost=this}}
                 <hr>
             {{else}}
                 <p>{{#if isProfileOwner}}You haven't{{else}}{{pageUsername}} hasn't{{/if}} posted anything yet.</p>
