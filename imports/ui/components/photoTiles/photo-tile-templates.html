@@ -1,225 +1,227 @@
 <template name="photo_tiles">
 
-    {{#if equals imageLinks.length 0}}
+    <div class="photo-tiles-wrap">
+        {{#if equals imageLinks.length 0}}
 
-    {{/if}}
+        {{/if}}
 
-    {{#if equals imageLinks.length 1}}
-        {{#each imageLinks}}
-            <div class="row">
-                <div class="column small-12">
-                    <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                        <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                    </a>
+        {{#if equals imageLinks.length 1}}
+            {{#each imageLinks}}
+                <div class="row">
+                    <div class="column small-12">
+                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                            <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                        </a>
+                    </div>
                 </div>
-            </div>
-        {{/each}}
-    {{/if}}
+            {{/each}}
+        {{/if}}
 
-    {{#if equals imageLinks.length 2}}
-        {{#each imageLinks}}
-            <div class="row">
-                <div class="column small-12">
-                    <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                        <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                    </a>
+        {{#if equals imageLinks.length 2}}
+            {{#each imageLinks}}
+                <div class="row">
+                    <div class="column small-12">
+                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                            <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                        </a>
+                    </div>
                 </div>
+            {{/each}}
+        {{/if}}
+
+        {{#if equals imageLinks.length 3}}
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 0}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
             </div>
-        {{/each}}
-    {{/if}}
 
-    {{#if equals imageLinks.length 3}}
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 0}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 1}}
+                        <div class="column small-12 medium-6 large-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 2}}
+                        <div class="column small-12 medium-6 large-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 1}}
-                    <div class="column small-12 medium-6 large-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 2}}
-                    <div class="column small-12 medium-6 large-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-    {{/if}}
+        {{#if equals imageLinks.length 4}}
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 0}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-    {{#if equals imageLinks.length 4}}
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 0}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 1}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 2}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 1}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 2}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 3}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fill'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 3}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-    {{/if}}
+        {{#if equals imageLinks.length 5}}
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 0}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-    {{#if equals imageLinks.length 5}}
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 0}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 1}}
+                        <div class="column small-12 medium-12 large-4">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 2}}
+                        <div class="column small-6 medium-6 large-4">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 3}}
+                        <div class="column small-6 medium-6 large-4">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 1}}
-                    <div class="column small-12 medium-12 large-4">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 2}}
-                    <div class="column small-6 medium-6 large-4">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 3}}
-                    <div class="column small-6 medium-6 large-4">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 4}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='fit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 4}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-    {{/if}}
+        {{#if equals imageLinks.length 6}}
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 0}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-    {{#if equals imageLinks.length 6}}
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 0}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 1}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 2}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 1}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 2}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 3}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if equals @index 4}}
+                        <div class="column small-6">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
 
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 3}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-                {{#if equals @index 4}}
-                    <div class="column small-6">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-
-        <div class="row">
-            {{#each imageLinks}}
-                {{#if equals @index 5}}
-                    <div class="column small-12">
-                        <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
-                            <img src="{{c.url this secure=true height=350 crop='limit'}}">
-                        </a>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-    {{/if}}
+            <div class="row">
+                {{#each imageLinks}}
+                    {{#if equals @index 5}}
+                        <div class="column small-12">
+                            <a class="thumbnail" data-lightbox="{{../currentPostId}}" href="{{c.url this secure=true}}">
+                                <img src="{{c.url this secure=true width=0.99 crop='limit'}}">
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
 
 </template>
