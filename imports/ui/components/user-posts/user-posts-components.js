@@ -362,8 +362,8 @@ Template.user_post_edit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 2000000) {
-                    throwError("Sorry, one of your images is bigger than the 2MB upload limit");
+                if (files[i].size > 5000000) {
+                    throwError("Sorry, one of your images is bigger than the 5MB upload limit");
                     return;
                 }
             }
@@ -377,7 +377,8 @@ Template.user_post_edit.events({
 
                 var fileIndex = 0;
                 Cloudinary.upload(files, {
-                    folder: "flippedart"
+                    folder: "flippedart",
+                    upload_preset: "limitsize"
                 }, function(error, result) {
                     if (error) {
                         throwError(error.reason);
@@ -491,8 +492,8 @@ Template.user_post_submit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 2000000) {
-                    throwError("Sorry, one of your images is bigger than the 2MB upload limit");
+                if (files[i].size > 5000000) {
+                    throwError("Sorry, one of your images is bigger than the 5MB upload limit");
                     return;
                 }
             }
@@ -506,7 +507,8 @@ Template.user_post_submit.events({
 
                 var fileIndex = 0;
                 Cloudinary.upload(files, {
-                    folder: "flippedart"  //FIXME: change this folder to "flippedart"
+                    folder: "flippedart",
+                    upload_preset: "limitsize"
                 }, function(error, result) {
                     if (error) {
                         throwError(error.reason);

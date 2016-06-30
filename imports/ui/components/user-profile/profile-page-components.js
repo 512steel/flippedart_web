@@ -188,8 +188,8 @@ Template.user_attributes_edit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 2000000) {
-                    throwError("Sorry, your image is bigger than the 2MB upload limit");
+                if (files[i].size > 5000000) {
+                    throwError("Sorry, your image is bigger than the 5MB upload limit");
                     return;
                 }
             }
@@ -203,7 +203,8 @@ Template.user_attributes_edit.events({
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
-                        folder: "flippedart"  //FIXME: change to 'flippedart' folder
+                        folder: "flippedart",
+                        upload_preset: "limitsize"
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError.reason);
@@ -218,7 +219,6 @@ Template.user_attributes_edit.events({
                             profilePhotoLink: uploadResult.public_id,
                         }, (err, res) => {
                             if (err) {
-                                console.log('erroring');
                                 console.log(err);
                                 throwError(err.reason);
                             }
@@ -282,8 +282,8 @@ Template.user_attributes_edit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 2000000) {
-                    throwError("Sorry, your image is bigger than the 2MB upload limit");
+                if (files[i].size > 5000000) {
+                    throwError("Sorry, your image is bigger than the 5MB upload limit");
                     return;
                 }
             }
@@ -297,7 +297,8 @@ Template.user_attributes_edit.events({
 
                 if (Meteor.user()) {
                     Cloudinary.upload(files, {
-                        folder: "flippedart"  //FIXME: change to 'flippedart' folder
+                        folder: "flippedart",
+                        upload_preset: "limitsize"
                     }, function(uploadError, uploadResult) {
                         if (uploadError) {
                             throwError(uploadError.reason);
@@ -367,7 +368,6 @@ Template.user_attributes_edit.events({
         }
         else if( e.target.value ) {
             fileName = e.target.value.split( '\\' ).pop();
-            console.log(fileName);
         }
 
         if( fileName ) {

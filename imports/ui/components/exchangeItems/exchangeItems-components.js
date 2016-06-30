@@ -515,8 +515,8 @@ Template.item_submit.events({
                     var imageLinks = [];
 
                     for (var i = 0; i < files.length; i++) {
-                        if (files[i].size > 2000000) {
-                            throwError("Sorry, one of your images is bigger than the 2MB upload limit.");
+                        if (files[i].size > 5000000) {
+                            throwError("Sorry, one of your images is bigger than the 5MB upload limit.");
                             Session.set('areItemsUploading', false);
                             return;
                         }
@@ -529,7 +529,8 @@ Template.item_submit.events({
                     else if (files.length > 0) {
                         var fileIndex = 0;
                         Cloudinary.upload(files, {
-                            folder: "flippedart"  //FIXME: change this folder to "flippedart"
+                            folder: "flippedart",
+                            upload_preset: "limitsize"
                         }, function(error, result) {
                             if (error) {
                                 throwError(error.reason);
