@@ -3,7 +3,7 @@
         <div class="column small-12 medium-10 large-10 medium-centered large-centered">
             <div class="row column">
                 <h3>Add your own projects here.</h3>
-                <p><a href="{{pathFor 'static.howto'}}">See an example</a></p>
+                {{> project_submit_explanation}}
             </div>
             <div class="row column pull-down">
                 {{> item_submit}}
@@ -12,32 +12,43 @@
     </div>
 </template>
 
+<template name="project_submit_explanation">
+    <p class="push-down">
+        Did you make something that other people could use?  Add it here to share it with
+        other community members. <a href="{{pathFor 'static.howto'}}">Learn more</a>.
+    </p>
+</template>
+
 <template name="item_submit">
     <div class="row column">
         {{#if currentUser}}
 
             <form class="item-submit-form">
 
-                <div class="small-12 medium-12 large-10 large-centered">
-                    <div class="small-12 medium-2 large-2 columns">
-                        <button class="item-submit-add-single-item button secondary float-left">
-                            <strong>+</strong>
-                        </button>
-                    </div>
-
+                <div class="small-12 medium-12 large-10 large-centered row">
                     <div class="small-12 medium-12 large-12 columns">
                         {{#each singleItems}}
-                            <div class="row column push-down">
+                            <div class="row column">
                                 {{> single_item_submit }}
                                 <hr>
                             </div>
                         {{/each}}
                     </div>
 
-                    <div class="small-offset-2 medium-offset-2 large-offset-2 column">
-                    <span class="float-right">
-                        {{> add_items_button}}
-                    </span>
+                    <!--  FIXME: there are problems with image upload, so I'm disabling this feature for now.
+                    <div class="small-12 column push-down">
+                        <button class="item-submit-add-single-item button secondary float-right">
+                            <strong>+</strong>
+                        </button>
+                    </div>
+                    -->
+
+                    <div class="row column">
+                        <div class="small-12 medium-12 large-8 large-centered column">
+                            <span class="">
+                                {{> add_items_button}}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -51,12 +62,12 @@
 
 <template name="add_items_button">
     {{#unless hasSingleItems}}
-        <input type="submit" value="Add projects" class="button primary" disabled/>
+        <input type="submit" value="Add projects" class="button primary expanded" disabled/>
     {{else}}
         {{#if isUploading}}
-            <input type="submit" value="{{uploadingCopy}}" class="button secondary" disabled/>
+            <input type="submit" value="{{uploadingCopy}}" class="button secondary expanded" disabled/>
         {{else}}
-            <input type="submit" value="{{addProjectCopy}}" class="button primary"/>
+            <input type="submit" value="{{addProjectCopy}}" class="button primary expanded"/>
         {{/if}}
     {{/unless}}
 </template>

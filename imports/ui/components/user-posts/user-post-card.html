@@ -27,7 +27,7 @@
 
         <div class="button-group">
             <a href="#" class="upvote button primary {{upvotedClass}}">
-                <i class="fi-star"></i>&nbsp;&nbsp;{{#if userPost.upvotes}}{{userPost.upvotes}}{{else}}0{{/if}}
+                <i class="fi-heart"></i>&nbsp;&nbsp;{{#if userPost.upvotes}}{{userPost.upvotes}}{{else}}0{{/if}}
             </a>
 
             <a href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}" class="discuss button">
