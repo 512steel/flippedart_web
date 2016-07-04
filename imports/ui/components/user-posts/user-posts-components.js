@@ -23,6 +23,7 @@ import {
 } from '../../../api/user-posts/methods.js';
 
 import { Comments } from '../../../api/comments/comments.js';
+import { UserAttributes } from '../../../api/user-attributes/user-attributes.js';
 
 // component used for the "user_post_edit" template
 import './../../components/app-not-authorized.js';
@@ -323,7 +324,7 @@ Template.user_post_submit.helpers({
             rules: [
                 {
                     token: '@',
-                    collection: Meteor.users,
+                    collection: UserAttributes,
                     field: "username",
                     template: Template.user_autocomplete_item,
                     noMatchTemplate: Template.user_autocomplete_item_empty

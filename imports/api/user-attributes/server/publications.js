@@ -60,7 +60,7 @@ Meteor.publish('usernames.all', function(limit) {
 
     check(limit, Number);
 
-    return Meteor.users.find(
+    return UserAttributes.find(
         {},
         {
             sort : {rank: -1},
