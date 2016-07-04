@@ -1,7 +1,7 @@
 <template name="user_post_submit">
     <form enctype="multipart/form-data" class="main form user-post-submit">
         <div class="form-group">
-            {{#textareaAutocomplete settings=settings name="user-post-submit-text" placeholder="Post an update" maxlength="5000" type="text"}}{{/textareaAutocomplete}}
+            {{#textareaAutocomplete required="true" settings=settings name="user-post-submit-text" placeholder="Post an update" maxlength="5000" type="text"}}{{/textareaAutocomplete}}
         </div>
 
         <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />

@@ -44,7 +44,7 @@ Template.comment_edit.onCreated(function commentEditOnCreated() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+        this.subscribe('usernames.all');
     });
 });
 
@@ -196,6 +196,22 @@ Template.comment_edit.helpers({
         }
         else return false;
     },
+
+    settings: function() {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+                {
+                    token: '@',
+                    collection: UserAttributes,
+                    field: "username",
+                    template: Template.user_autocomplete_item,
+                    noMatchTemplate: Template.user_autocomplete_item_empty
+                }
+            ]
+        };
+    }
 });
 
 Template.comment_submit.helpers({

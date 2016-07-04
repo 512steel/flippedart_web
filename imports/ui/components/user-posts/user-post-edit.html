@@ -10,8 +10,7 @@
                     <form class="main form edit-post">
                         <div class="">
                             <h4>Edit your post</h4>
-                            <textarea required name="user-post-edit-text" type="text" value="{{userPost.text}}"
-                                      placeholder="Edit your post" class="" maxlength="5000"></textarea>
+                            {{#textareaAutocomplete required="true" settings=settings value=userPost.text name="user-post-edit-text" placeholder="Edit your post" maxlength="5000" type="text"}}{{/textareaAutocomplete}}
                         </div>
 
                         <input id="postEditFileUpload" class="show-for-sr" type="file" accept="image/*" multiple

@@ -64,6 +64,7 @@ Template.user_post_edit.onCreated(function userPostEditOnCreated() {
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.single', this.getUserPostId());
+        this.subscribe('usernames.all');
     });
 });
 
@@ -303,6 +304,22 @@ Template.user_post_edit.helpers({
     },
     maxPhotoUploadCount: function() {
         return UPLOAD_LIMITS.images;
+    },
+
+    settings: function() {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+                {
+                    token: '@',
+                    collection: UserAttributes,
+                    field: "username",
+                    template: Template.user_autocomplete_item,
+                    noMatchTemplate: Template.user_autocomplete_item_empty
+                }
+            ]
+        };
     }
 });
 

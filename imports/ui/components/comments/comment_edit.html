@@ -3,7 +3,7 @@
         <form class="main form comment-edit-form">
             <div class="form-group">
                 <div class="controls">
-                    <textarea name="text" type="text" placeholder="Edit your comment" class="form-control" maxlength="5000">{{{text}}}</textarea>
+                    {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Edit your comment" maxlength="2500" type="text"}}{{{text}}}{{/textareaAutocomplete}}
                 </div>
             </div>
             <input type="submit" value="Save" class="button primary submit float-left"/>
