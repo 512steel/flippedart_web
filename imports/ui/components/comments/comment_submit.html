@@ -4,7 +4,8 @@
             <form name="comment" class="comment-submit-form form">
                 <div class="form-group">
                     <div class="controls">
-                        <textarea name="text" type="text" class="form-control" rows="3" placeholder="Comment on this post" maxlength="5000"></textarea>
+                        {{#textareaAutocomplete settings=settings name="text" placeholder="Comment on this post" maxlength="2500" type="text" rows="3"}}{{/textareaAutocomplete}}
+                        <!--<textarea name="text" type="text" class="form-control" rows="3" placeholder="Comment on this post" maxlength="5000"></textarea>-->
                     </div>
                 </div>
                 <button type="submit" class="button float-right">Add comment</button>

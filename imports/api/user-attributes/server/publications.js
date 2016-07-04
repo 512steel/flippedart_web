@@ -54,3 +54,18 @@ Meteor.publish('userAttributes.popular', function(limit) {
         }
     );
 });
+
+Meteor.publish('usernames.all', function(limit) {
+    limit = limit ? limit : 500;  //TODO: is it better to not have a limit at all?
+
+    check(limit, Number);
+
+    return Meteor.users.find(
+        {},
+        {
+            sort : {rank: -1},
+            limit: limit,
+            fields: {username: 1},
+        }
+    )
+});

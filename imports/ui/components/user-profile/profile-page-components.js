@@ -44,10 +44,12 @@ Template.user_attributes_card.onCreated(function () {
 
     this.userAttributes = () => {
 
-        //Query on denormalized data (should work the majority of the time)
-        const attributes = UserAttributes.findOne({usernameLower: this.getUsername().toLowerCase()});
-        if (attributes) {
-            return attributes;
+        if (this.getUsername()) {
+            //Query on denormalized data (should work the majority of the time)
+            const attributes = UserAttributes.findOne({usernameLower: this.getUsername().toLowerCase()});
+            if (attributes) {
+                return attributes;
+            }
         }
 
         //Case-insensitve (but inefficient) query in case the denormalized usernameLower attribute hasn't been set.
