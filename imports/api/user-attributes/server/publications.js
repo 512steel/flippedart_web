@@ -61,7 +61,9 @@ Meteor.publish('usernames.all', function(limit) {
     check(limit, Number);
 
     return UserAttributes.find(
-        {},
+        {
+            rank: {$gt: 0}
+        },
         {
             sort : {rank: -1},
             limit: limit,
