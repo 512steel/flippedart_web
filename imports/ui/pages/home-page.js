@@ -1,9 +1,12 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { DocHead } from 'meteor/kadira:dochead';
 
 import { UserPosts } from '../../api/user-posts/user-posts.js';
 import { ExchangeItems } from '../../api/exchange-items/exchange-items.js';
 import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
+
+import { HEAD_DEFAULTS } from '../lib/globals.js';
 
 import './home-page.html';
 
@@ -14,6 +17,8 @@ Template.home_page.onCreated(function() { // Subscriptions go in here
         this.subscribe('exchangeItems.popular', 6);
         this.subscribe('userAttributes.popular', 12);
     });
+
+    DocHead.setTitle(HEAD_DEFAULTS.title + " | Home");
 });
 
 Template.home_page.onRendered(function() {

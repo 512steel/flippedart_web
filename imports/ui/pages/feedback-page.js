@@ -1,11 +1,16 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { DocHead } from 'meteor/kadira:dochead';
 
-
+import { HEAD_DEFAULTS } from '../lib/globals.js';
 import { throwError } from '../../ui/lib/temporary-alerts.js';
 
 import './feedback-page.html';
 
+
+Template.feedback_page.onCreated(function() {
+    DocHead.setTitle(HEAD_DEFAULTS.title + " | Feedback");
+});
 
 Template.feedback_page.events({
     'submit form.feedback-form': function(e) {

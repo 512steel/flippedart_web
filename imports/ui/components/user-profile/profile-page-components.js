@@ -1,5 +1,8 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { DocHead } from 'meteor/kadira:dochead';
+
+import { HEAD_DEFAULTS } from '../../lib/globals.js';
 
 import { UserAttributes } from '../../../api/user-attributes/user-attributes.js';
 import {
@@ -33,6 +36,8 @@ Template.profile_page_card.onCreated(function () {
             this.subscribe('chatSession.single', this.getUsername());
         }
     });
+
+    DocHead.setTitle(this.getUsername() + "'s profile | " + HEAD_DEFAULTS.title_short);
 });
 
 Template.user_attributes_card.onCreated(function () {

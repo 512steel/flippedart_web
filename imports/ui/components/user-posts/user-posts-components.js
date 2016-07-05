@@ -2,10 +2,12 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/underscore';
 import { Cloudinary } from 'meteor/lepozepo:cloudinary';
+import { DocHead } from 'meteor/kadira:dochead';
 
 import {
     FLAG_THRESHOLD,
-    UPLOAD_LIMITS } from '../../lib/globals.js';
+    UPLOAD_LIMITS,
+    HEAD_DEFAULTS } from '../../lib/globals.js';
 
 import {
     throwError,
@@ -89,6 +91,15 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
         //this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
         this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 15);
     });
+
+    const userPost = UserPosts.findOne({});
+    var titleString = "";
+    if (userPost) {
+        titleString += userPost.text.substr(0, 25);
+        titleString += userPost.text.length > 25 ? "... - " : " - ";
+    }
+    titleString += this.getUsername() + " | " + HEAD_DEFAULTS.title_short;
+    DocHead.setTitle(titleString);
 });
 
 Template.user_posts_all.onCreated(function userPostsAllOnCreated() {

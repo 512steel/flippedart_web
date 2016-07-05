@@ -1,11 +1,15 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { pathFor } from 'meteor/arillo:flow-router-helpers';
+import { DocHead } from 'meteor/kadira:dochead';
+
 
 import { Notifications } from '../../../api/notifications/notifications.js';
 import {
     clearSingleNotification,
     clearAllNotifications } from '../../../api/notifications/methods.js';
+
+import { HEAD_DEFAULTS } from '../../lib/globals.js';
 
 import './notification-card.html';
 import './notifications-page.html';
@@ -17,6 +21,9 @@ Template.notification_card.onCreated(function () {
 
 Template.notifications_page.onCreated(function() {
     this.subscribe('notifications.user', {sort: {createdAt: -1}});
+
+    var titleString = "Notifications | " + HEAD_DEFAULTS.title_short;
+    DocHead.setTitle(titleString);
 });
 
 Template.notification_card.helpers({

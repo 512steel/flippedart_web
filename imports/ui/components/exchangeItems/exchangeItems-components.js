@@ -1,8 +1,7 @@
-//TODO: refactor these into separate js files
-
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Cloudinary } from 'meteor/lepozepo:cloudinary';
+import { DocHead } from 'meteor/kadira:dochead';
 
 import { ExchangeItems } from '../../../api/exchange-items/exchange-items.js';
 import {
@@ -13,8 +12,10 @@ import {
 
 import { requestTransaction } from '../../../api/transactions/methods.js';
 
-import { UPLOAD_LIMITS,
-         PROJECT_TAGS } from '../../lib/globals.js';
+import {
+    UPLOAD_LIMITS,
+    PROJECT_TAGS,
+    HEAD_DEFAULTS } from '../../lib/globals.js';
 
 import {
     throwError,
@@ -39,6 +40,14 @@ Template.project_single_page.onCreated(function() {
     this.autorun(() => {
         this.subscribe('exchangeItems.single', this.getExchangeItemId());
     });
+
+    var titleString = "";
+    if (this.getExchangeItem()) {
+        titleString += this.getExchangeItem().title.substr(0,25);
+        titleString += this.getExchangeItem().title.length > 25 ? "... - " : " - ";
+    }
+    titleString += this.getPageUsername() + "'s projects | " + HEAD_DEFAULTS.title_short;
+    DocHead.setTitle(titleString);
 });
 
 Template.projects_user_all.onCreated(function() {
@@ -62,6 +71,9 @@ Template.projects_user_all_page.onCreated(function() {
     this.autorun(() => {
 
     });
+
+    var titleString = this.getPageUsername() + "'s projects | " + HEAD_DEFAULTS.title_short;
+    DocHead.setTitle(titleString);
 });
 
 Template.project_single_card.onCreated(function() {

@@ -55,3 +55,10 @@ export const FLAG_THRESHOLD = {
     'post': 2,
     'comment': 2,
 };
+
+
+export const HEAD_DEFAULTS = {
+    'title': "Flipped Art - Maker community and mobile art studio in Des Moines",
+    'title_short': "Flipped Art",
+    'description': "Make things and share them for free.  Wannabes are welcome."
+};
