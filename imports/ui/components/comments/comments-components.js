@@ -36,7 +36,7 @@ Template.comment_card.onCreated(function commentCardOnCreated() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+        //...  NOTE: no need to subscribe to 'usernames.all' since comment cards exist alongside the post cards.
     });
 });
 
@@ -64,10 +64,14 @@ Template.comment_card.onRendered(function commentCardOnRendered() {
             // release renderHolds here
         }
 
+        //TODO: put this array into a global variable so it doesn't have to be re-run for every card?
+        const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
         var that = this;
+
         Meteor.setTimeout(function(){
             //Searches the post text and replaced @-tags with actual links
             //TODO: improve this (while watching for performance by first checking to make sure the username exists within the 'usernames.all' sub.
+                    // ^this will also prevent parentheses and other punctuation from getting in the way.
             //modified from here: http://stackoverflow.com/questions/884140/javascript-to-add-html-tags-around-content#answer-884424
             const text = that.data.text + ' ';  //HACK: the space is needed to include tags at the end of the string.
             var result = '';
@@ -98,13 +102,23 @@ Template.comment_card.onRendered(function commentCardOnRendered() {
                 } else {
                     if (isMatching) {
                         if ((csc == ' ' || csc == '@' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace
-                            //we've matched the whole word
-                            result += '<a href="/' + partialMatch + '">';
-                            result += '<strong class="username-tag">';
-                            result += partialMatch;
-                            result += '</strong>';
-                            result += '</a>';
-                            result += csc;
+                            //we've matched the whole word, so test to make sure this username exists.
+                            var found = false;
+                            for (var i = 0; i < possibleUsernames.length; i++) {
+                                if (possibleUsernames[i].username == partialMatch) {
+                                    result += '<a href="/' + partialMatch + '" class="username-tag">';
+                                    result += partialMatch;
+                                    result += '</a>';
+                                    result += csc;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found) {
+                                result += partialMatch;
+                            }
+
                             partialMatch = '';
                             isMatching = false;
                         }

@@ -489,8 +489,9 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 
 .username-tag {
   color: $black;
+  font-weight: bold;
 }
-.username-tag:hover { color: $darker-gray;  }
+.username-tag:hover { color: $darker-gray-2;  }
 
 
 

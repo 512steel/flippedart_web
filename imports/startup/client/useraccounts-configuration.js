@@ -27,13 +27,17 @@ AccountsTemplates.addFields([
     type: "text",
     displayName: "username",
     required: true,
-    minLength: 3,
+    trim: true,
 
     /*
-     TODO: this is the username blacklist, since routes are configured with '/:username' off the root.
+     NOTE: this is the username blacklist, since routes are configured with '/:username' off the root.
      Is there a cleaner way to configure this regex, pulling from a global USERNAME_BLACKLIST variable?
+     FIXME: it seems to be easy to get around this regex by inputting an invalid name, then a valid name, then back to the invalid one.
+     TODO: prevent including special characters in the username, including @, #, ?, &, ^, <, >, *, (, ), !, $, and possibly space
     */
-    re: /^((?!(\bsignin\b|\bjoin\b|\breset-password\b|\babout\b|\bmake\b|\bfeedback\b|\bbr\b|\bnewsletter\b|\bpolicies\b|\bdonate\b|\bsupport\b|\bmessages\b|\badd\b|\bexchanges\b|\btop\b|\bexplore\b|\baccount\b|\bthanks\b|\badmin\b|\bstart\b|\bnotifications\b|\bhow\b|\bhowto\b|\brobots\b|\bsitemap\b|\bfavicon\b|\brobots\.txt\b|\bsitemap\.xml\b|\bfavicon.png\b)).)*$/,
+    re: /^((?!(\bsignin\b|\bjoin\b|\breset-password\b|\babout\b|\bmake\b|\bfeedback\b|\bbr\b|\bdiv\b|\bspan\b|\btable\b|\bsection\b|\bframeset\b|\biframe\b|\bhead\b|\bheader\b|\baddress\b|\barticle\b|\bcanvas\b|\bbutton\b|\bcode\b|\bembed\b|\bform\b|\binput\b|\btextarea\b|\bscript\b|\bnewsletter\b|\bpolicies\b|\bdonate\b|\bsupport\b|\bmessages\b|\badd\b|\bexchanges\b|\btop\b|\bexplore\b|\baccount\b|\bthanks\b|\badmin\b|\bstart\b|\bnotifications\b|\bhow\b|\bhowto\b|\brobots\b|\bsitemap\b|\bfavicon\b|\brobots\.txt\b|\bsitemap\.xml\b|\bfavicon\.png\b)).)*$/,
+
+    //minLength: 3,
     errStr: 'Reserved username',
   },
   {
