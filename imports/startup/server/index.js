@@ -16,3 +16,6 @@ import './general-helpers.js';
 
 // Place secret config variables in here
 import './package-configurations.js';
+
+// Allow the server to access routes for FastRender
+import './../lib/server-routes.js';

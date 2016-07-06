@@ -58,7 +58,7 @@ export const FLAG_THRESHOLD = {
 
 
 export const HEAD_DEFAULTS = {
-    'title': "Flipped Art - Maker community and mobile art studio in Des Moines",
+    'title': "Flipped Art - Maker community and mobile art studio",
     'title_short': "Flipped Art",
-    'description': "Make things and share them for free.  Wannabes are welcome."
+    'description': "Make things and share them for free. Based in Des Moines. Wannabes are welcome here."
 };

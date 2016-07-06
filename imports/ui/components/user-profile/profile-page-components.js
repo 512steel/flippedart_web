@@ -37,7 +37,13 @@ Template.profile_page_card.onCreated(function () {
         }
     });
 
-    DocHead.setTitle(this.getUsername() + "'s profile | " + HEAD_DEFAULTS.title_short);
+    var titleString = this.getUsername() + "'s profile | " + HEAD_DEFAULTS.title_short;
+    DocHead.setTitle(titleString);
+    DocHead.addMeta({name: "og:title", content: titleString});
+    DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
+    DocHead.addMeta({name: "og:type", content: "article"});
+    DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername()});
+    DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
 });
 
 Template.user_attributes_card.onCreated(function () {

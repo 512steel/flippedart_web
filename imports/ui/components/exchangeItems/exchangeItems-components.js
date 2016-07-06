@@ -43,11 +43,29 @@ Template.project_single_page.onCreated(function() {
 
     var titleString = "";
     if (this.getExchangeItem()) {
-        titleString += this.getExchangeItem().title.substr(0,25);
-        titleString += this.getExchangeItem().title.length > 25 ? "... - " : " - ";
+        titleString += this.getExchangeItem().title.substr(0, 35);
+        titleString += this.getExchangeItem().title.length > 35 ? "... - " : " - ";
     }
     titleString += this.getPageUsername() + "'s projects | " + HEAD_DEFAULTS.title_short;
     DocHead.setTitle(titleString);
+    DocHead.addMeta({name: "og:title", content: titleString});
+    DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
+    DocHead.addMeta({name: "og:type", content: "article"});
+    if (this.getExchangeItem()) {
+        DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getPageUsername() + "/projects/" + this.getExchangeItem()._id});
+
+        if (this.getExchangeItem().imageLinks.length > 0) {
+            //TODO: customize the og:image here with the Cloudinary URL builder.
+            DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+        }
+        else {
+            DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+        }
+    }
+    else {
+        DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getPageUsername() + "/projects"});
+        DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+    }
 });
 
 Template.projects_user_all.onCreated(function() {
@@ -74,6 +92,11 @@ Template.projects_user_all_page.onCreated(function() {
 
     var titleString = this.getPageUsername() + "'s projects | " + HEAD_DEFAULTS.title_short;
     DocHead.setTitle(titleString);
+    DocHead.addMeta({name: "og:title", content: titleString});
+    DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
+    DocHead.addMeta({name: "og:type", content: "article"});
+    DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getPageUsername() + "/projects"});
+    DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
 });
 
 Template.project_single_card.onCreated(function() {

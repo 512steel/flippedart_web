@@ -1,6 +1,7 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { DocHead } from 'meteor/kadira:dochead';
 
 // Import to load these templates
 import '../../ui/layouts/app-body.js';
@@ -33,13 +34,20 @@ import '../../ui/accounts/accounts-templates.js';
 
 
 //FIXME: comment this out before deploying
-import '../../ui/model-tests/model-tests.js';
+/*import '../../ui/model-tests/model-tests.js';
 FlowRouter.route('/tests', {
     name: 'model.tests',
     action() {
         BlazeLayout.render('App_body', { main: 'model_tests_page' });
     },
-});
+});*/
+
+
+FlowRouter.triggers.enter([
+    function() {
+        DocHead.removeDocHeadAddedTags();
+    }
+]);
 
 
 // the App_notFound template is used for unknown routes and missing lists
@@ -123,7 +131,7 @@ FlowRouter.route('/newsletter', {
     }
 });
 FlowRouter.route('/', {
-    name: 'static.home',  //TODO: used to be "App.home"
+    name: 'static.home',
     action() {
         BlazeLayout.render('App_body', { main: 'home_page' });
     },
