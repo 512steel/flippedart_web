@@ -24,6 +24,8 @@ Template.home_page.onCreated(function() { // Subscriptions go in here
     DocHead.addMeta({name: "og:type", content: "website"});
     DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/about"});
     DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+    DocHead.addMeta({name: "og:image:width", content: "1200"});
+    DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
 Template.home_page.onRendered(function() {

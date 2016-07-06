@@ -92,7 +92,7 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
         this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 15);
     });
 
-    const userPost = UserPosts.findOne({});
+    const userPost = UserPosts.findOne(this.getUserPostId());
     var titleString = "";
     if (userPost) {
         titleString += userPost.text.substr(0, 35);
@@ -106,6 +106,8 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
     DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()});
     //TODO: custom og:image here (user profile image)
     DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+    DocHead.addMeta({name: "og:image:width", content: "1200"});
+    DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
 Template.user_posts_all.onCreated(function userPostsAllOnCreated() {
