@@ -479,7 +479,16 @@ Template.user_post_card.events({
         unflag.call({
             userPostId: this.userPost._id,
         });
-    }
+    },
+    'click .share-post-facebook': function(e) {
+        const instance = Template.instance();
+        const shareUrl = 'https://www.flippedart.org/' + instance.userPost().author + '/posts/' + instance.userPost()._id;
+        FB.ui({
+            method: 'share',
+            href: shareUrl,
+            mobile_iframe: true
+        }, function(response){});
+    },
 });
 
 Template.user_post_edit.events({

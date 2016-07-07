@@ -6,9 +6,16 @@
             {{#unless currentUser}}
                 <div class="inventory-single-item">
 
-                    <p class="text-large float-right">
-                        <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
-                    </p>
+                    <span class="float-right">
+                        <a class="button primary hollow no-border share-project-facebook text-large padded">
+                            <i class="fi-share"></i>
+                        </a>
+
+                        <a class="button primary hollow no-border text-large padded"
+                           href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">
+                            <i class="fi-link"></i>
+                        </a>
+                    </span>
 
                     <h4>{{title}}</h4>
 
@@ -43,8 +50,14 @@
                     {{/if}}
 
                     <div class="row column button-group expanded push-down-small">
-                        <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                        <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
+                        <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
+                           disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                           title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}
+                            Locked{{else}}Unlocked{{/if}}</p>
+                        <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
+                           disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                           title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}
+                            Available{{else}}Not available{{/if}}</p>
                     </div>
 
                     {{#if location}}
@@ -73,15 +86,25 @@
                 {{#if isItemOwner}}
                     <div class="inventory-single-item">
                         {{#if showItemEdit}}
-                            <button class="button primary float-right item-edit push-left">cancel editing</button>
+                            <button class="button primary hollow float-right item-edit push-left">cancel editing
+                            </button>
 
                             {{> item_edit}}
                         {{else}}
-                            <button class="button primary float-right push-left {{editClass}}"><i class="fi-pencil"></i></button>
+                            <span class="float-right">
+                                <button class="button primary hollow no-border {{editClass}} text-large padded">
+                                    <i class="fi-pencil"></i>
+                                </button>
 
-                            <p class="text-large float-right">
-                                <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
-                            </p>
+                                <a class="button primary hollow no-border share-project-facebook text-large padded">
+                                    <i class="fi-share"></i>
+                                </a>
+
+                                <a class="button primary hollow no-border text-large padded"
+                                   href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">
+                                    <i class="fi-link"></i>
+                                </a>
+                            </span>
 
                             <h4>{{title}}</h4>
 
@@ -98,7 +121,8 @@
                             {{#if small_card}}
                                 <div class="row column push-down horizontal-scroll-row">
                                     {{#each imageLinks}}
-                                        <a class="thumbnail" data-lightbox="{{this._id}}" href="{{c.url this secure=true}}">
+                                        <a class="thumbnail" data-lightbox="{{this._id}}"
+                                           href="{{c.url this secure=true}}">
                                             <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                                         </a>
                                     {{/each}}
@@ -111,12 +135,19 @@
                             {{/if}}
 
                             <div class="row column button-group expanded push-down-small">
-                                <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                                <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailableYours}}{{else}}{{tooltipUnavailableYours}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
+                                <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
+                                   disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                                   title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">{{#if locked}}
+                                    Locked{{else}}Unlocked{{/if}}</p>
+                                <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
+                                   disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                                   title="{{#if available}}{{tooltipAvailableYours}}{{else}}{{tooltipUnavailableYours}}{{/if}}">{{#if available}}
+                                    Available{{else}}Not available{{/if}}</p>
                             </div>
 
                             {{#if locked}}
-                                <p class="row column push-down-small">You cannot edit or delete this project because it is locked.</p>
+                                <p class="row column push-down-small">You cannot edit or delete this project because it
+                                    is locked.</p>
                             {{/if}}
 
                             {{#if location}}
@@ -141,9 +172,17 @@
                     </div>
                 {{else}}
                     <div class="inventory-single-item">
-                        <p class="text-large float-right">
-                            <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}"><i class="fi-link"></i></a>
-                        </p>
+
+                        <span class="float-right">
+                            <a class="button primary hollow no-border share-project-facebook text-large padded">
+                                <i class="fi-share"></i>
+                            </a>
+
+                            <a class="button primary hollow no-border text-large padded"
+                               href="{{pathFor 'projects.single' username=ownerName exchangeItemId=_id}}">
+                                <i class="fi-link"></i>
+                            </a>
+                        </span>
 
                         <h4>{{title}}</h4>
 
@@ -178,8 +217,14 @@
                         {{/if}}
 
                         <div class="row column button-group expanded push-down-small">
-                            <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}Locked{{else}}Unlocked{{/if}}</p>
-                            <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}" disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1" title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}Available{{else}}Not available{{/if}}</p>
+                            <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
+                               disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                               title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}
+                                Locked{{else}}Unlocked{{/if}}</p>
+                            <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
+                               disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
+                               title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}
+                                Available{{else}}Not available{{/if}}</p>
                         </div>
 
                         {{#if location}}

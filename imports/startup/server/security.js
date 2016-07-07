@@ -44,3 +44,5 @@ BrowserPolicy.content.allowOriginForAll( 'fonts.googleapis.com' );
 BrowserPolicy.content.allowOriginForAll( 'fonts.gstatic.com' );
 BrowserPolicy.content.allowOriginForAll( 'www.google-analytics.com' );
 BrowserPolicy.content.allowOriginForAll( '*.cloudinary.com' );
+BrowserPolicy.content.allowOriginForAll( 'connect.facebook.net' );
+BrowserPolicy.content.allowOriginForAll( '*.facebook.com' );

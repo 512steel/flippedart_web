@@ -45,9 +45,15 @@
                 {{/unless}}
             {{/if}}
 
-            <a class="button primary hollow no-border" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">
-                <i class="fi-link"></i>
-            </a>
+            <span class="float-right">
+                <a class="button primary hollow no-border share-post-facebook">
+                    <i class="fi-share"></i>
+                </a>
+
+                <a class="button primary hollow no-border" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">
+                    <i class="fi-link"></i>
+                </a>
+            </span>
         </div>
     </div>
 </template>

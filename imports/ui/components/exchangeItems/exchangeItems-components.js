@@ -461,6 +461,15 @@ Template.project_single_card.events({
 
         //toggle the "item edit" template
         template.showItemEdit.set(!template.showItemEdit.get());
+    },
+    'click .share-project-facebook': function(e) {
+        const instance = Template.instance();
+        const shareUrl = 'https://www.flippedart.org/' + instance.getExchangeItem().ownerName + '/projects/' + instance.getExchangeItem()._id;
+        FB.ui({
+            method: 'share',
+            href: shareUrl,
+            mobile_iframe: true
+        }, function(response){});
     }
 });
 
