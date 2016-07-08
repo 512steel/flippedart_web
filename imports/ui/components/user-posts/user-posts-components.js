@@ -150,7 +150,6 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
             // release renderHolds here
         }
 
-
         //TODO: put this array into a global variable so it doesn't have to be re-run for every card?
         const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
         var that = this;
@@ -227,8 +226,14 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
                     inTag = false;
                 }
             }
+
+            if (that.data.small_card) {
+                if (result.length > 120) {
+                    result = result.slice(0,120) + "...";
+                }
+            }
             that.find($('.user-post-body')).innerHTML = result;
-        }, 400);  //HACK: going back one page and then posting another update results in the two posts being temporarily concatenated, unless we set this timeout.
+        }, 500);  //HACK: going back one page and then posting another update results in the two posts being temporarily concatenated, unless we set this timeout.
     });
 });
 

@@ -84,6 +84,16 @@ Template.registerHelper('reversed', function(cursor) {
     }
 });
 
+Template.registerHelper('limitLength', function(str, len) {
+    check(str, String);
+    check(len, Number);
+
+    if (str.length > len) {
+        str = str.slice(0,len) + '...';
+    }
+    return str;
+});
+
 
 /***  copy helpers  ***/
 firstMessageCopy = "test copy";
