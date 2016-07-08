@@ -103,9 +103,15 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
     DocHead.addMeta({name: "og:title", content: titleString});
     DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
     DocHead.addMeta({name: "og:type", content: "article"});
-    DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()});
+    DocHead.addMeta({
+        name: "og:url",
+        content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()
+    });
     //TODO: custom og:image here (user profile image)
-    DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
+    DocHead.addMeta({
+        name: "og:image",
+        content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
+    });
     DocHead.addMeta({name: "og:image:width", content: "1200"});
     DocHead.addMeta({name: "og:image:height", content: "630"});
 });
@@ -149,7 +155,7 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
         const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
         var that = this;
 
-        Meteor.setTimeout(function(){
+        Meteor.setTimeout(function () {
             //Searches the post text and replaced @-tags with actual links.
             //Modified from here: http://stackoverflow.com/questions/884140/javascript-to-add-html-tags-around-content#answer-884424
             const text = that.data.userPost.text + ' ';  //HACK: the space is needed to include tags at the end of the string.
@@ -177,7 +183,7 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
                     wordPos = 0;
                 }
                 if (inTag) {
-                    result += csc ;
+                    result += csc;
                 } else {
                     if (isMatching) {
                         if ((csc == ' ' || csc == '@' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace
@@ -244,6 +250,42 @@ Template.user_post_submit.onRendered(function userPostSubmitOnRendered() {
             // release renderHolds here
         }
     });
+
+
+    /*  TODO: signed upload widget
+    var ops = {
+        cloud_name: 'dwgim6or9',
+        upload_preset: 'limitsize',
+        cropping: 'server',
+        folder: 'flippedart',
+    };
+    Meteor.call('c.sign.new', ops, function(error, result) {
+        if (error) {
+            console.log('error: ', error);
+        }
+        else {
+
+            document.getElementById("upload-widget-button").addEventListener("click", function () {
+
+                console.log(result);
+                cloudinary.openUploadWidget(
+                    {
+                        cloud_name: 'dwgim6or9',
+                        upload_preset: 'limitsize',
+                        cropping: 'server',
+                        folder: 'flippedart',
+                        upload_signature: result,
+                        api_key: 123123123123123
+
+                    },
+                    function (error, result) {
+                        console.log(error, result)
+                    });
+
+            }, false);
+        }
+    });*/
+
 });
 
 Template.user_post_single_page.onRendered(function userPostSinglePageOnRendered() {
@@ -266,13 +308,13 @@ Template.user_posts_all.onRendered(function userPostsAllOnRendered() {
 
 
 Template.user_post_card.helpers({
-    ownPost: function() {
+    ownPost: function () {
         if (Meteor.user() && Meteor.user().username === this.userPost.author) {
             return true;
         }
         else return false;
     },
-    upvotedClass: function() {
+    upvotedClass: function () {
         if (!Meteor.user()) {
             return 'disabled';
         }
@@ -284,7 +326,7 @@ Template.user_post_card.helpers({
             return 'hollow upvoted';
         }
     },
-    flaggedClass: function() {
+    flaggedClass: function () {
         if (Meteor.user() && !_.include(this.userPost.flaggers, Meteor.user().username)) {
             return 'flaggable';
         }
@@ -292,13 +334,13 @@ Template.user_post_card.helpers({
             return 'hollow unflag';
         }
     },
-    userHasFlagged: function() {
+    userHasFlagged: function () {
         if (Meteor.user() && _.include(this.userPost.flaggers, Meteor.user().username)) {
             return true;
         }
         else return false;
     },
-    inappropriate: function() {
+    inappropriate: function () {
         if (this.userPost.flags >= FLAG_THRESHOLD.post) {
             return true;
         }
@@ -307,7 +349,7 @@ Template.user_post_card.helpers({
         }
     },
 
-    currentPost: function() {
+    currentPost: function () {
         //Note: this is more scope-independent and clearer to read in the template.
         return Template.instance().userPost();
     }
@@ -316,27 +358,27 @@ Template.user_post_card.helpers({
 });
 
 Template.user_post_edit.helpers({
-    userPost: function() {
+    userPost: function () {
         return UserPosts.findOne({});
     },
-    ownPost: function() {
+    ownPost: function () {
         if (Meteor.user() && Meteor.user().username == Template.instance().getUsername()) {
             return true;
         }
         else return false;
     },
 
-    isUploading: function() {
+    isUploading: function () {
         return Session.get('isPostEditUploading');
     },
-    uploadingCopy: function() {
+    uploadingCopy: function () {
         return "Saving...";
     },
-    maxPhotoUploadCount: function() {
+    maxPhotoUploadCount: function () {
         return UPLOAD_LIMITS.images;
     },
 
-    settings: function() {
+    settings: function () {
         return {
             position: "top",
             limit: 5,
@@ -354,17 +396,17 @@ Template.user_post_edit.helpers({
 });
 
 Template.user_post_submit.helpers({
-    isUploading: function() {
+    isUploading: function () {
         return Session.get('isPostUploading');
     },
-    uploadingCopy: function() {
+    uploadingCopy: function () {
         return "Posting...";
     },
-    maxPhotoUploadCount: function() {
+    maxPhotoUploadCount: function () {
         return UPLOAD_LIMITS.images;
     },
 
-    settings: function() {
+    settings: function () {
         return {
             position: "top",
             limit: 5,
@@ -382,21 +424,21 @@ Template.user_post_submit.helpers({
 });
 
 Template.user_post_single_page.helpers({
-    userPost: function() {
+    userPost: function () {
         return UserPosts.findOne({});
     },
-    ownPost: function() {
+    ownPost: function () {
         if (Meteor.user() && Meteor.user().username == Template.instance().getUsername()) {
             return true;
         }
         else return false;
     },
 
-    comments: function() {
+    comments: function () {
         return Comments.find({userPostId: Template.instance().getUserPostId()});
     },
 
-    hasMoreComments: function() {
+    hasMoreComments: function () {
         const sub = Template.instance().commentsSubscription;
 
         return sub.loaded() < Counts.get('comments.userPost.count') &&
@@ -405,7 +447,7 @@ Template.user_post_single_page.helpers({
 });
 
 Template.user_posts_all.helpers({
-    userPosts: function() {
+    userPosts: function () {
         switch (FlowRouter.getRouteName()) {
             //FIXME: how to sort posts inside of the profile page?
             case 'profile.page':
@@ -426,23 +468,23 @@ Template.user_posts_all.helpers({
 
         //return UserPosts.find({});
     },
-    hasMorePosts: function() {
+    hasMorePosts: function () {
         const sub = Template.instance().userPostsSubscription;
 
         return sub.loaded() < Counts.get('userPosts.user.count') &&
             sub.loaded() == sub.limit();
     },
 
-    isProfileOwner: function() {
+    isProfileOwner: function () {
         if (Meteor.user() && Meteor.user().username == Template.instance().getUsername()) {
             return true;
         }
         else return false;
     },
-    pageUsername: function() {
+    pageUsername: function () {
         return Template.instance().getUsername();
     },
-    toggleSortText: function() {
+    toggleSortText: function () {
         return Template.instance().toggleSortText.get();
     }
 
@@ -451,14 +493,14 @@ Template.user_posts_all.helpers({
 
 
 Template.user_post_card.events({
-    'click .upvotable': function(e) {
+    'click .upvotable': function (e) {
         e.preventDefault();
 
         upvote.call({
             userPostId: this.userPost._id,
         });
     },
-    'click .upvoted': function(e) {
+    'click .upvoted': function (e) {
         e.preventDefault();
 
         unUpvote.call({
@@ -466,7 +508,7 @@ Template.user_post_card.events({
         });
     },
 
-    'click .flag.flaggable': function(e) {
+    'click .flag.flaggable': function (e) {
         e.preventDefault();
 
         flag.call({
@@ -480,19 +522,21 @@ Template.user_post_card.events({
             userPostId: this.userPost._id,
         });
     },
-    'click .share-post-facebook': function(e) {
+    'click .share-post-facebook': function (e) {
+        e.preventDefault();
         const instance = Template.instance();
         const shareUrl = 'https://www.flippedart.org/' + instance.userPost().author + '/posts/' + instance.userPost()._id;
         FB.ui({
             method: 'share',
             href: shareUrl,
             mobile_iframe: true
-        }, function(response){});
+        }, function (response) {
+        });
     },
 });
 
 Template.user_post_edit.events({
-    'submit form.edit-post': function(e) {
+    'submit form.edit-post': function (e) {
         e.preventDefault();
 
         const userPostId = Template.instance().getUserPostId();
@@ -500,7 +544,7 @@ Template.user_post_edit.events({
 
         var imageLinks = [];
 
-        $(".edit-post input[type='file']").each(function() {
+        $(".edit-post input[type='file']").each(function () {
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
@@ -521,7 +565,7 @@ Template.user_post_edit.events({
                 Cloudinary.upload(files, {
                     folder: "flippedart",
                     upload_preset: "limitsize"
-                }, function(error, result) {
+                }, function (error, result) {
                     if (error) {
                         throwError(error.reason);
                     }
@@ -575,7 +619,7 @@ Template.user_post_edit.events({
             }
         });
     },
-    'click .delete-user-post': function(e) {
+    'click .delete-user-post': function (e) {
         e.preventDefault();
 
         const userPostId = Template.instance().getUserPostId();
@@ -608,29 +652,29 @@ Template.user_post_edit.events({
         var labelVal = $label.html();
         var fileName = '';
 
-        if( e.target.files && e.target.files.length > 1 ) {
-            fileName = ( e.target.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+        if (e.target.files && e.target.files.length > 1) {
+            fileName = ( e.target.getAttribute('data-multiple-caption') || '' ).replace('{count}', e.target.files.length);
         }
-        else if( e.target.value ) {
-            fileName = e.target.value.split( '\\' ).pop();
+        else if (e.target.value) {
+            fileName = e.target.value.split('\\').pop();
         }
 
-        if( fileName ) {
-            $label.find( 'span' ).html( fileName );
+        if (fileName) {
+            $label.find('span').html(fileName);
         }
         else {
-            $label.html( labelVal );
+            $label.html(labelVal);
         }
     }
 });
 
 Template.user_post_submit.events({
-    'submit form.user-post-submit': function(e) {
+    'submit form.user-post-submit': function (e) {
         e.preventDefault();
 
         var imageLinks = [];
 
-        $(".user-post-submit input[type='file']").each(function() {
+        $(".user-post-submit input[type='file']").each(function () {
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
@@ -651,7 +695,7 @@ Template.user_post_submit.events({
                 Cloudinary.upload(files, {
                     folder: "flippedart",
                     upload_preset: "limitsize"
-                }, function(error, result) {
+                }, function (error, result) {
                     if (error) {
                         throwError(error.reason);
                     }
@@ -661,9 +705,9 @@ Template.user_post_submit.events({
                     imageLinks.push(result.public_id);
 
                     /*var errors = validateUserPost(userPost);
-                    if (errors.text) {
-                        return Session.set('userPostSubmitErrors', errors);
-                    }*/
+                     if (errors.text) {
+                     return Session.set('userPostSubmitErrors', errors);
+                     }*/
 
                     fileIndex++;  //hack to only insert the post after all photos are uploaded
 
@@ -728,24 +772,24 @@ Template.user_post_submit.events({
         var labelVal = $label.html();
         var fileName = '';
 
-        if( e.target.files && e.target.files.length > 1 ) {
-            fileName = ( e.target.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+        if (e.target.files && e.target.files.length > 1) {
+            fileName = ( e.target.getAttribute('data-multiple-caption') || '' ).replace('{count}', e.target.files.length);
         }
-        else if( e.target.value ) {
-            fileName = e.target.value.split( '\\' ).pop();
+        else if (e.target.value) {
+            fileName = e.target.value.split('\\').pop();
         }
 
-        if( fileName ) {
-            $label.find( 'span' ).html( fileName );
+        if (fileName) {
+            $label.find('span').html(fileName);
         }
         else {
-            $label.html( labelVal );
+            $label.html(labelVal);
         }
     }
 });
 
 Template.user_post_single_page.events({
-    'click .js-load-more-comments': function(e) {
+    'click .js-load-more-comments': function (e) {
         e.preventDefault();
 
         Template.instance().commentsSubscription.loadNextPage();
@@ -753,16 +797,16 @@ Template.user_post_single_page.events({
 });
 
 Template.user_posts_all.events({
-    'click .js-load-more-posts': function(e) {
+    'click .js-load-more-posts': function (e) {
         e.preventDefault();
 
         Template.instance().userPostsSubscription.loadNextPage();
     },
 
-    'click .toggle-posts-sort': function(e) {
+    'click .toggle-posts-sort': function (e) {
         e.preventDefault();
 
-        switch(Template.instance().toggleSortText.get()) {
+        switch (Template.instance().toggleSortText.get()) {
             case 'top':
                 Template.instance().toggleSortText.set('new');
                 FlowRouter.go('profile.posts.top', {username: FlowRouter.getParam('username')});

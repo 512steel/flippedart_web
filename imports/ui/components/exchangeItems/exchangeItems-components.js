@@ -463,6 +463,7 @@ Template.project_single_card.events({
         template.showItemEdit.set(!template.showItemEdit.get());
     },
     'click .share-project-facebook': function(e) {
+        e.preventDefault();
         const instance = Template.instance();
         const shareUrl = 'https://www.flippedart.org/' + instance.getExchangeItem().ownerName + '/projects/' + instance.getExchangeItem()._id;
         FB.ui({
