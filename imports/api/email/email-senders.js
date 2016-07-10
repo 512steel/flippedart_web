@@ -25,7 +25,7 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
             text = sanitizeHtml(text);
 
             var signedInUser = "User is not signed in.";
-            if (this.user && Meteor.user()) {
+            if (this.userId && Meteor.user()) {
                 signedInUser = "User is signed in as " + Meteor.user().username;
             }
 
