@@ -5,6 +5,8 @@ import { DocHead } from 'meteor/kadira:dochead';
 import { HEAD_DEFAULTS } from '../lib/globals.js';
 import { throwError } from '../../ui/lib/temporary-alerts.js';
 
+import { sendWebsiteFeedbackEmail } from '../../api/email/email-senders.js';
+
 import './feedback-page.html';
 
 
@@ -32,14 +34,27 @@ Template.feedback_page.events({
             throwError("Please enter some text in the message body");
         }
         else {
-            Meteor.call('sendFeedbackEmail', yourName, yourEmail, body, function(error, result) {
+            sendWebsiteFeedbackEmail.call({
+                senderName: yourName,
+                senderEmail: yourEmail,
+                text: body,
+            }, (err, res) => {
+                if (err) {
+                    throwError(err.reason);
+                }
+                else {
+                    FlowRouter.go('static.feedback.thanks');
+                }
+            });
+
+            /*Meteor.call('sendFeedbackEmail', yourName, yourEmail, body, function(error, result) {
                 if (error) {
                     throwError(error.reason);
                 }
                 else {
                     FlowRouter.go('static.feedback.thanks');
                 }
-            })
+            })*/
         }
     }
 });

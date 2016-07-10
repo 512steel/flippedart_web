@@ -34,10 +34,10 @@ Meteor.methods
 		signature = Cloudinary.uploader.direct_upload "",ops # This is better than utils.sign_request, it returns a POST url as well and properly manages optional parameters
 		console.log(signature);
 
-		signature = Cloudinary.utils.sign_request ops
+		signature = Cloudinary.utils.api_sign_request ops, 'myAPIsecret'
 		console.log(signature);
 
-		signature = Cloudinary.utils.api_sign_request ops, 'myAPIsecret'
+		signature = Cloudinary.utils.sign_request ops
 		console.log(signature);
 
 		return signature
