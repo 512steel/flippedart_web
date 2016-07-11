@@ -5,7 +5,7 @@
         {{/if}}
         {{#unless ownComment}}
             {{#if currentUser}}
-                <a href="#" class="flag button primary float-right {{flaggedClass}}">
+                <a href="#" class="flag button primary float-right {{flaggedClass}}" data-no-instant>
                     <!--{{#if userHasFlagged}}flagged{{else}}flag{{/if}}-->
                     <i class="fi-flag"></i>
                 </a>

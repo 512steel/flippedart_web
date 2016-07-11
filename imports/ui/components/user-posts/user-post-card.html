@@ -1,7 +1,14 @@
 <template name="user_post_card">
     <div class="post row column">
         <p class="float-right text-small">{{dateTimeAgo userPost.createdAt}}</p>
-        <p class="text-small"><strong><a href="{{pathFor 'profile.page' username=userPost.author}}">{{userPost.author}}</a></strong></p>
+        <p class="text-small">
+            <strong>
+                <a href="{{pathFor 'profile.page' username=userPost.author}}">
+                    {{userPost.author}}
+                </a>
+            </strong>
+        </p>
+
         {{#unless inappropriate}}
 
             {{#if small_card}}
@@ -29,7 +36,7 @@
         <!--<p class="push-down-sm">location: {{userPost.location}}</p>-->
 
         <div class="button-group">
-            <a href="#" class="upvote button primary {{upvotedClass}}">
+            <a href="#" class="upvote button primary {{upvotedClass}}" data-no-instant>
                 <i class="fi-heart"></i>&nbsp;&nbsp;{{#if userPost.upvotes}}{{userPost.upvotes}}{{else}}0{{/if}}
             </a>
 
@@ -39,7 +46,7 @@
 
             {{#if currentUser}}
                 {{#unless ownPost}}
-                    <a href="#" class="flag button primary {{flaggedClass}}">
+                    <a href="#" class="flag button primary {{flaggedClass}}" data-no-instant>
                         <!--{{#if userHasFlagged}}flagged{{else}}flag{{/if}}-->
                         <i class="fi-flag"></i>
                     </a>
@@ -49,7 +56,7 @@
             {{/if}}
 
             <span class="float-right">
-                <a class="button primary hollow no-border share-post-facebook">
+                <a class="button primary hollow no-border share-post-facebook" data-no-instant>
                     <i class="fi-share"></i>
                 </a>
 

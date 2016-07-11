@@ -43,7 +43,7 @@
                 {{/each}}
 
                 {{#if hasMoreExchangeItems}}
-                    <p><a class="js-load-more-projects button secondary">Load more of {{currentPageUsername}}'s
+                    <p><a class="js-load-more-projects button secondary" data-no-instant>Load more of {{currentPageUsername}}'s
                         projects</a></p>
                 {{/if}}
             {{else}}
@@ -79,7 +79,7 @@
                     {{/each}}
 
                     {{#if hasMoreExchangeItems}}
-                        <p><a class="js-load-more-projects button secondary">Load more of your projects</a></p>
+                        <p><a class="js-load-more-projects button secondary" data-no-instant>Load more of your projects</a></p>
                     {{/if}}
                 {{else}}
                     <p><strong>You don't have any projects at the moment.</strong> <a href="{{pathFor 'projects.add'}}">Add
@@ -118,7 +118,7 @@
 
                     {{#if hasMoreExchangeItems}}
                         <p>
-                            <a class="js-load-more-projects button secondary">
+                            <a class="js-load-more-projects button secondary" data-no-instant>
                                 Load more of {{currentPageUsername}}'s projects
                             </a>
                         </p>
