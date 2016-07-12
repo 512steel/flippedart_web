@@ -30,7 +30,7 @@ Template.atPwdForm.events({
 
             if (domain != newDomain || tld != newTld) {
                 $('.email-suggestion').remove();  //helps avoid flicker and duplicate suggestions
-                let helpStr = 'Did you mean <span class="suggestion">' + address.match(/(.+@)/)[1] + newDomain + '.' + newTld + '</span>?';
+                let helpStr = 'Did you mean <em><span class="suggestion">' + address.match(/(.+@)/)[1] + newDomain + '.' + newTld + '</span></em>?';
                 $(e.target).after('<div class="email-suggestion">' + helpStr + '</div>');
             }
             else {

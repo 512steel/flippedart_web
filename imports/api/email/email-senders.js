@@ -29,8 +29,6 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
                 signedInUser = "User is signed in as " + Meteor.user().username;
             }
 
-            //TODO: make an email autocorrector package & validate on user input.
-
             var request = sendgrid.emptyRequest();
             request.body = TRANSACTIONAL_EMAIL_SHELL;
 
