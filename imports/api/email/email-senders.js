@@ -57,3 +57,7 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
         }
     }
 });
+
+//TODO:
+// -"validate your email address" email on new user signup
+// -"sign up for newsletter"

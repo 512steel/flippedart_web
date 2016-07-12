@@ -1,6 +1,8 @@
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { EMAIL_REGEX } from './../../ui/lib/globals.js';
+
 AccountsTemplates.configure({
   showForgotPasswordLink: true,
   texts: {
@@ -47,7 +49,7 @@ AccountsTemplates.addFields([
     type: 'email',
     required: true,
     displayName: "email",
-    re: /.+@(.+){2,}\.(.+){2,}/,
+    re: EMAIL_REGEX,
     errStr: 'Invalid email',
   },
   pwd

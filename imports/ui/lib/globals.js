@@ -62,3 +62,31 @@ export const HEAD_DEFAULTS = {
     'title_short': "Flipped Art",
     'description': "Make things and share them for free. Based in Des Moines. Wannabes are welcome here."
 };
+
+
+export const EMAIL_WORD_BANK = [
+    'gmail',
+    'mail',
+    'aol',
+    'live',
+    'yahoo',
+    'hotmail',
+    'outlook',
+    'inbox',
+];
+
+export const TLD_WORD_BANK = [
+    'com',
+    'org',
+    'co',
+    'net',
+    'info',
+    'me',
+    'biz',
+    'xyz',
+    'io'
+];
+
+
+//TODO: make this regex more robust
+export const EMAIL_REGEX = /.+@(.+){2,}\.(.+){2,}/;

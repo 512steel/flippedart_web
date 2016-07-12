@@ -493,6 +493,14 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 }
 .username-tag:hover { color: $darker-gray-2;  }
 
+.email-suggestion {
+  @extend .padded-large;
+  color: $darker-gray-2;
+  background-color: beige;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
 
 
 /* "small" only */
