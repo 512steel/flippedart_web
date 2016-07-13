@@ -9,6 +9,8 @@ Accounts.emailTemplates.resetPassword = {
     return 'Reset your password on Flipped Art';
   },
   text(user, url) {
+    url = url.replace('#/', '');  // NOTE: including a hash in the reset-url is a bug:  http://stackoverflow.com/questions/24295400/meteor-reset-password-clicking-on-e-mail-link-doesnt-work
+
     return `Hello!
 
 Click the link below to reset your password on Flipped Art.
@@ -18,7 +20,7 @@ ${url}
 If you didn't request this email, please ignore it.
 
 Thanks,
-The Flipped Art Robot
+Flipped Art
 `;
   },
 //   html(user, url) {

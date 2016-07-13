@@ -74,6 +74,11 @@ AccountsTemplates.configureRoute('resetPwd', {
     path: '/reset-password',
 });
 
+AccountsTemplates.configureRoute('verifyEmail', {
+    name: 'verifyEmail',
+    path: '/verify-email',
+});
+
 
 /* Static pages */
 FlowRouter.route('/about', {

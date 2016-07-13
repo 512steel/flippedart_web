@@ -59,7 +59,6 @@ ddp-rate-limiter
 app-prod-security
 
 # rest apis
-simple:rest-accounts-password
 simple:rest
 
 # testing

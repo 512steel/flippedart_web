@@ -27,6 +27,7 @@ import '../exchangeItems/exchangeItems-components.js';
 
 Template.profile_page_card.onCreated(function () {
     this.getUsername = () => FlowRouter.getParam('username');
+    //TODO: check the "all usernames" sub to see if the current username actually exists.  If not, show a special message
 
     // Subscriptions go in here
     this.autorun(() => {

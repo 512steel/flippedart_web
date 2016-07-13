@@ -19,6 +19,7 @@ AccountsTemplates.configure({
   defaultLayout: 'App_body',
   defaultContentRegion: 'main',
   defaultLayoutRegions: {},
+  sendVerificationEmail: true,
 });
 
 var pwd = AccountsTemplates.removeField('password');
@@ -42,7 +43,7 @@ AccountsTemplates.addFields([
 
     minLength: 3,
     maxLength: 25,
-    errStr: 'Reserved or invalid username (no special characters)',
+    errStr: 'Reserved or invalid username (no special characters or spaces)',
   },
   {
     _id: 'email',
