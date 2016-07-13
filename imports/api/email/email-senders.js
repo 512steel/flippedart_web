@@ -56,6 +56,88 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
     }
 });
 
+
+//FIXME
+// NOTE: this is VERY slightly modified from Accounts.sendVerificationEmail in the accounts-password package, to account for a bug.
+/**
+ * @summary Send an email with a link the user can use verify their email address.
+ * @locus Server
+ * @param {String} userId The id of the user to send email to.
+ * @param {String} [email] Optional. Which address of the user's to send the email to. This address must be in the user's `emails` list. Defaults to the first unverified email in the list.
+ * @importFromPackage accounts-base
+ */
+Meteor.methods({
+    'sendVerificationEmailNew':function(userId, address) {
+        console.log('1');
+        if (Meteor.isServer) {
+                console.log('2');
+                // Make sure the user exists, and address is one of their addresses.
+                var user = Meteor.users.findOne(userId);
+                if (!user)
+                    throw new Error("Can't find user");
+                // pick the first unverified address if we weren't passed an address.
+                if (!address) {
+                    var email = _.find(user.emails || [],
+                        function (e) { return !e.verified; });
+                    address = (email || {}).address;
+
+                    if (!address) {
+                        throw new Error("That user has no unverified email addresses.");
+                    }
+                }
+                // make sure we have a valid address
+                if (!address || !_.contains(_.pluck(user.emails || [], 'address'), address))
+                    throw new Error("No such email address for user.");
+
+                console.log('3');
+                var tokenRecord = {
+                    token: Random.secret(),  //FIXME: Random isn't defined here.
+                    address: address,
+                    when: new Date()};
+                Meteor.users.update(
+                    {_id: userId},
+                    {$push: {'services.email.verificationTokens': tokenRecord}});
+
+                // before passing to template, update user object with new token
+                Meteor._ensure(user, 'services', 'email');
+                if (!user.services.email.verificationTokens) {
+                    user.services.email.verificationTokens = [];
+                }
+                user.services.email.verificationTokens.push(tokenRecord);
+
+                var verifyEmailUrl = Accounts.urls.verifyEmail(tokenRecord.token);
+
+                console.log('4');
+                console.log(verifyEmailUrl);
+
+                var options = {
+                    to: address,
+                    from: Accounts.emailTemplates.verifyEmail.from
+                        ? Accounts.emailTemplates.verifyEmail.from(user)
+                        : Accounts.emailTemplates.from,
+                    subject: Accounts.emailTemplates.verifyEmail.subject(user)
+                };
+
+                if (typeof Accounts.emailTemplates.verifyEmail.text === 'function') {
+                    options.text =
+                        Accounts.emailTemplates.verifyEmail.text(user, verifyEmailUrl);
+                }
+
+                if (typeof Accounts.emailTemplates.verifyEmail.html === 'function')
+                    options.html =
+                        Accounts.emailTemplates.verifyEmail.html(user, verifyEmailUrl);
+
+                if (typeof Accounts.emailTemplates.headers === 'object') {
+                    options.headers = Accounts.emailTemplates.headers;
+                }
+                console.log('5');
+                Email.send(options);
+        }
+    }
+});
+
+
+
 //TODO:
 // -"validate your email address" email on new user signup
 // -"sign up for newsletter"

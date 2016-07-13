@@ -12,7 +12,7 @@
         {{#unless inappropriate}}
 
             {{#if small_card}}
-                <p class="user-post-body text-large">{{{limitLength userPost.text 120}}}</p>
+                <p class="user-post-body text-large">{{{limitLength userPost.text 140}}}</p>
 
                 <div class="row column push-down horizontal-scroll-row">
                     {{#each userPost.imageLinks}}
@@ -22,7 +22,7 @@
                     {{/each}}
                 </div>
             {{else}}
-                <p class="user-post-body text-large">{{{limitLength userPost.text 80}}}</p>
+                <p class="user-post-body text-large">{{{userPost.text}}}</p>
 
                 <div class="row column push-down">
                     {{> photo_tiles imageLinks=userPost.imageLinks currentPostId=currentPost._id}}
