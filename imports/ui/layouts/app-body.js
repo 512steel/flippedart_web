@@ -65,10 +65,9 @@ Template.App_body.onCreated(function appBodyOnCreated() {
   });
 
   //potential fix for when flippedart.org is loaded into a new tab without "rendering" it
-  $(document).foundation();
   Meteor.setTimeout(function(){
     $(document).foundation();
-  }, 500);
+  }, 2500);
 });
 
 Template.App_body.onRendered(function() {
@@ -101,6 +100,7 @@ Template.App_body.onRendered(function() {
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
     $(document).foundation();
   }, 10000);
+  //TODO: put these in a while-loop?  how else to ensure that Foundation is consistenly loaded without hurting performance?
 
   this.autorun(() => {
     //TODO: sticky footer?
@@ -216,6 +216,11 @@ Template.App_body.events({
   'click .js-logout'() {
     //FIXME: this should be AccountsTemplates.logout() instead of Meteor.logout().
     Meteor.logout();
+
+    Meteor.setTimeout(function(){
+      $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
+      $(document).foundation();
+    }, 600);
 
     //TODO: FlowRouter.go(...)
   },
