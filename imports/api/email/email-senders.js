@@ -7,6 +7,9 @@ import { Random } from 'meteor/random';
 
 import './email-skeletons.js';
 import { TRANSACTIONAL_EMAIL_SHELL } from './email-skeletons.js';
+import {
+    WELCOME_EMAIL_TEXT,
+    FEEDBACK_EMAIL_TEXT } from './email-texts.js';
 
 export const sendWebsiteFeedbackEmail = new ValidatedMethod({
     name: 'emails.send.websiteFeedback',
@@ -34,12 +37,7 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
             request.body = TRANSACTIONAL_EMAIL_SHELL;
 
             request.body.categories[0] = "Website Feedback";
-            request.body.content[0].value =
-                "<html>" +
-                "<p>" + senderName + " (" + senderEmail + ") said:</p>" +
-                "<p>" + text + "</p>" +
-                "<p>" + signedInUser + "</p>" +
-                "</html>";
+            request.body.content[0].value = FEEDBACK_EMAIL_TEXT(senderName, senderEmail, signedInUser, text);
             request.body.personalizations[0].to[0].email = "hello@flippedart.org";
             request.body.personalizations[0].to[0].name = "Flipped Art";
             request.body.reply_to.email = senderEmail;
@@ -52,6 +50,44 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
             sendgrid.API(request, function (response) {
                 //TODO: return errors to the client
                 console.log("Feedback email response: ", response.statusCode);
+            });
+        }
+    }
+});
+
+
+export const sendWelcomeEmail = new ValidatedMethod({
+    name: 'emails.send.welcome',
+    validate: new SimpleSchema({
+        username: {type: String},
+        userEmail: {type: String, regEx: SimpleSchema.RegEx.Email}
+    }).validator(),
+    run({ username, userEmail }) {
+
+        if (Meteor.isServer) {
+            //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
+            const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
+
+            username = sanitizeHtml(username);
+            userEmail = sanitizeHtml(userEmail);
+
+            var request = sendgrid.emptyRequest();
+            request.body = TRANSACTIONAL_EMAIL_SHELL;
+
+            request.body.categories[0] = "Welcome";
+            request.body.content[0].value = WELCOME_EMAIL_TEXT(username);
+            request.body.personalizations[0].to[0].email = userEmail;
+            request.body.personalizations[0].to[0].name = username;
+            request.body.reply_to.email = "hello@flippedart.org";
+            request.body.reply_to.name = "Flipped Art";
+            request.body.subject = "Hi " + username + ", welcome to Flipped Art!";
+            request.body.template_id = "6b1c3b75-1e3c-4261-9b6b-770d97c1fc3f";  //Welcome template (FIXME: change to the actual template)
+
+            request.method = 'POST';
+            request.path = '/v3/mail/send';
+            sendgrid.API(request, function (response) {
+                //TODO: return errors to the client
+                console.log("Welcome email response for " + username + ": ", response.statusCode);
             });
         }
     }
@@ -133,6 +169,7 @@ Meteor.methods({
             //TODO: alter the "emailTemplates" here to include a welcome message.
 
             Email.send(options);
+            //FIXME: send this instead via the SendGrid API
         }
     }
 });
