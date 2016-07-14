@@ -63,6 +63,12 @@ Template.App_body.onCreated(function appBodyOnCreated() {
     menuOpen: false,
     userMenuOpen: false,
   });
+
+  //potential fix for when flippedart.org is loaded into a new tab without "rendering" it
+  $(document).foundation();
+  Meteor.setTimeout(function(){
+    $(document).foundation();
+  }, 500);
 });
 
 Template.App_body.onRendered(function() {

@@ -228,9 +228,6 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
             }
 
             if (that.data.small_card) {
-                console.log('truncating');
-                console.log(result);
-                console.log(result.length);
                 if (result.length > 200) {
                     result = result.slice(0,200) + "...";
                 }

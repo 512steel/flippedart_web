@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { check } from 'meteor/check';
 import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
+import { Random } from 'meteor/random';
 
 import './email-skeletons.js';
 import { TRANSACTIONAL_EMAIL_SHELL } from './email-skeletons.js';
@@ -10,15 +11,15 @@ import { TRANSACTIONAL_EMAIL_SHELL } from './email-skeletons.js';
 export const sendWebsiteFeedbackEmail = new ValidatedMethod({
     name: 'emails.send.websiteFeedback',
     validate: new SimpleSchema({
-        senderName: { type: String },
-        senderEmail: { type: String, regEx: SimpleSchema.RegEx.Email },
-        text: { type: String },
+        senderName: {type: String},
+        senderEmail: {type: String, regEx: SimpleSchema.RegEx.Email},
+        text: {type: String},
     }).validator(),
     run({ senderName, senderEmail, text }) {
 
         if (Meteor.isServer) {
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
-            const sendgrid = require( 'sendgrid' ).SendGrid( Meteor.settings.private.email.sendgrid.api_key );
+            const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
 
             senderName = sanitizeHtml(senderName);
             senderEmail = sanitizeHtml(senderEmail);
@@ -67,75 +68,74 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
  * @importFromPackage accounts-base
  */
 Meteor.methods({
-    'sendVerificationEmailNew':function(userId, address) {
-        console.log('1');
+    'sendVerificationEmailNew': function (userId, address) {
         if (Meteor.isServer) {
-                console.log('2');
-                // Make sure the user exists, and address is one of their addresses.
-                var user = Meteor.users.findOne(userId);
-                if (!user)
-                    throw new Error("Can't find user");
-                // pick the first unverified address if we weren't passed an address.
+            // Make sure the user exists, and address is one of their addresses.
+            var user = Meteor.users.findOne(userId);
+            if (!user)
+                throw new Error("Can't find user");
+            // pick the first unverified address if we weren't passed an address.
+            if (!address) {
+                var email = _.find(user.emails || [],
+                    function (e) {
+                        return !e.verified;
+                    });
+                address = (email || {}).address;
+
                 if (!address) {
-                    var email = _.find(user.emails || [],
-                        function (e) { return !e.verified; });
-                    address = (email || {}).address;
-
-                    if (!address) {
-                        throw new Error("That user has no unverified email addresses.");
-                    }
+                    throw new Error("That user has no unverified email addresses.");
                 }
-                // make sure we have a valid address
-                if (!address || !_.contains(_.pluck(user.emails || [], 'address'), address))
-                    throw new Error("No such email address for user.");
+            }
+            // make sure we have a valid address
+            if (!address || !_.contains(_.pluck(user.emails || [], 'address'), address))
+                throw new Error("No such email address for user.");
 
-                console.log('3');
-                var tokenRecord = {
-                    token: Random.secret(),  //FIXME: Random isn't defined here.
-                    address: address,
-                    when: new Date()};
-                Meteor.users.update(
-                    {_id: userId},
-                    {$push: {'services.email.verificationTokens': tokenRecord}});
+            var tokenRecord = {
+                token: Random.secret(),  //FIXME: Random isn't defined here.
+                address: address,
+                when: new Date()
+            };
+            Meteor.users.update(
+                {_id: userId},
+                {$push: {'services.email.verificationTokens': tokenRecord}});
 
-                // before passing to template, update user object with new token
-                Meteor._ensure(user, 'services', 'email');
-                if (!user.services.email.verificationTokens) {
-                    user.services.email.verificationTokens = [];
-                }
-                user.services.email.verificationTokens.push(tokenRecord);
+            // before passing to template, update user object with new token
+            Meteor._ensure(user, 'services', 'email');
+            if (!user.services.email.verificationTokens) {
+                user.services.email.verificationTokens = [];
+            }
+            user.services.email.verificationTokens.push(tokenRecord);
 
-                var verifyEmailUrl = Accounts.urls.verifyEmail(tokenRecord.token);
+            var verifyEmailUrl = Accounts.urls.verifyEmail(tokenRecord.token);
+            verifyEmailUrl = verifyEmailUrl.replace('#/', '');  // NOTE: including a hash in the reset-url is a bug:  http://stackoverflow.com/questions/24295400/meteor-reset-password-clicking-on-e-mail-link-doesnt-work
 
-                console.log('4');
-                console.log(verifyEmailUrl);
+            var options = {
+                to: address,
+                from: Accounts.emailTemplates.verifyEmail.from
+                    ? Accounts.emailTemplates.verifyEmail.from(user)
+                    : Accounts.emailTemplates.from,
+                subject: Accounts.emailTemplates.verifyEmail.subject(user)
+            };
 
-                var options = {
-                    to: address,
-                    from: Accounts.emailTemplates.verifyEmail.from
-                        ? Accounts.emailTemplates.verifyEmail.from(user)
-                        : Accounts.emailTemplates.from,
-                    subject: Accounts.emailTemplates.verifyEmail.subject(user)
-                };
+            if (typeof Accounts.emailTemplates.verifyEmail.text === 'function') {
+                options.text =
+                    Accounts.emailTemplates.verifyEmail.text(user, verifyEmailUrl);
+            }
 
-                if (typeof Accounts.emailTemplates.verifyEmail.text === 'function') {
-                    options.text =
-                        Accounts.emailTemplates.verifyEmail.text(user, verifyEmailUrl);
-                }
+            if (typeof Accounts.emailTemplates.verifyEmail.html === 'function')
+                options.html =
+                    Accounts.emailTemplates.verifyEmail.html(user, verifyEmailUrl);
 
-                if (typeof Accounts.emailTemplates.verifyEmail.html === 'function')
-                    options.html =
-                        Accounts.emailTemplates.verifyEmail.html(user, verifyEmailUrl);
+            if (typeof Accounts.emailTemplates.headers === 'object') {
+                options.headers = Accounts.emailTemplates.headers;
+            }
 
-                if (typeof Accounts.emailTemplates.headers === 'object') {
-                    options.headers = Accounts.emailTemplates.headers;
-                }
-                console.log('5');
-                Email.send(options);
+            //TODO: alter the "emailTemplates" here to include a welcome message.
+
+            Email.send(options);
         }
     }
 });
-
 
 
 //TODO:
