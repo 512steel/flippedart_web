@@ -81,7 +81,7 @@ export const sendWelcomeEmail = new ValidatedMethod({
             request.body.reply_to.email = "hello@flippedart.org";
             request.body.reply_to.name = "Flipped Art";
             request.body.subject = "Hi " + username + ", welcome to Flipped Art!";
-            request.body.template_id = "6b1c3b75-1e3c-4261-9b6b-770d97c1fc3f";  //Welcome template (FIXME: change to the actual template)
+            request.body.template_id = "955f781c-be48-4375-a2c7-4688a2ae76ba";  //Welcome template
 
             request.method = 'POST';
             request.path = '/v3/mail/send';
@@ -176,5 +176,9 @@ Meteor.methods({
 
 
 //TODO:
-// -"validate your email address" email on new user signup
-// -"sign up for newsletter"
+// -"sign up for newsletter" (using Contacts API, separate unsubscribe group)
+// -Transaction events (request, approve, complete, decline, cancel) - send to both users each time.
+// -someone commented on your post
+// -someone tagged you in a post
+// -"verify email" via sendgrid API instead of Email.send();
+

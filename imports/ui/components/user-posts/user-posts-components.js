@@ -85,35 +85,90 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
 
     this.commentsSubscription = null;
 
+    let userPost = UserPosts.findOne({});
+
+    DocHead.addMeta({name: "og:description", content: "BALL"});
+
+
+
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('userPosts.single', this.getUserPostId());
         //this.subscribe('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}, limit: 15});
         this.commentsSubscription = Meteor.subscribeWithPagination('comments.userPost', this.getUserPostId(), {sort: {createdAt: 1}}, 15);
+
+
+        // Re-run the DocHead calls after the userPost is ready.
+        userPost = UserPosts.findOne({});
+        if (userPost) {
+            DocHead.removeDocHeadAddedTags();
+
+            let titleString = "";
+            titleString += this.getUsername() + "'s posts | " + HEAD_DEFAULTS.title_short;
+            DocHead.setTitle(titleString);
+            DocHead.addMeta({name: "og:title", content: titleString});
+
+            console.log('changing description');
+            let descriptionString = "'" + userPost.text.substr(0, 35);
+            descriptionString += userPost.text.length > 35 ? "...' " : "' ";
+            descriptionString += " | " + HEAD_DEFAULTS.description;
+            DocHead.addMeta({name: "og:description", content: descriptionString});
+
+            //TODO: change "description" meta tag too?
+
+            DocHead.addMeta({name: "og:type", content: "article"});
+            DocHead.addMeta({
+                name: "og:url",
+                content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()
+            });
+
+            if (userPost.imageLinks.length > 0) {
+                console.log('changing image');
+                DocHead.addMeta({
+                    name: "og:image",
+                    content: Cloudinary._helpers.url(userPost.imageLinks[0], {'secure':true})
+                });
+            }
+            else {
+                console.log('defaulting image');
+                DocHead.addMeta({
+                    name: "og:image",
+                    content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
+                    //TODO: change to user profile picture?
+                });
+            }
+
+            DocHead.addMeta({name: "og:image:width", content: "1200"});
+            DocHead.addMeta({name: "og:image:height", content: "630"});
+        }
+
     });
 
-    const userPost = UserPosts.findOne(this.getUserPostId());
-    var titleString = "";
-    if (userPost) {
-        titleString += userPost.text.substr(0, 35);
-        titleString += userPost.text.length > 35 ? "... - " : " - ";
+    // Default docheads
+    {
+        console.log('in default docheads');
+        let titleString = "";
+        titleString += this.getUsername() + "'s posts | " + HEAD_DEFAULTS.title_short;
+        DocHead.setTitle(titleString);
+        DocHead.addMeta({name: "og:title", content: titleString});
+
+        console.log('defaulting description');
+        DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
+
+        DocHead.addMeta({name: "og:type", content: "article"});
+        DocHead.addMeta({
+            name: "og:url",
+            content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()
+        });
+
+        DocHead.addMeta({
+            name: "og:image",
+            content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
+        });
+
+        DocHead.addMeta({name: "og:image:width", content: "1200"});
+        DocHead.addMeta({name: "og:image:height", content: "630"});
     }
-    titleString += this.getUsername() + " | " + HEAD_DEFAULTS.title_short;
-    DocHead.setTitle(titleString);
-    DocHead.addMeta({name: "og:title", content: titleString});
-    DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
-    DocHead.addMeta({name: "og:type", content: "article"});
-    DocHead.addMeta({
-        name: "og:url",
-        content: "https://www.flippedart.org/" + this.getUsername() + "/posts/" + this.getUserPostId()
-    });
-    //TODO: custom og:image here (user profile image)
-    DocHead.addMeta({
-        name: "og:image",
-        content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
-    });
-    DocHead.addMeta({name: "og:image:width", content: "1200"});
-    DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
 Template.user_posts_all.onCreated(function userPostsAllOnCreated() {

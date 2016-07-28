@@ -64,6 +64,11 @@ export const HEAD_DEFAULTS = {
 };
 
 
+export const HEAD_DEFAULT_TAGS = {
+
+};
+
+
 export const EMAIL_WORD_BANK = [
     'gmail',
     'mail',
