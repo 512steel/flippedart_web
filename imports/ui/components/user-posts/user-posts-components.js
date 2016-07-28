@@ -108,7 +108,6 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
             DocHead.setTitle(titleString);
             DocHead.addMeta({name: "og:title", content: titleString});
 
-            console.log('changing description');
             let descriptionString = "'" + userPost.text.substr(0, 35);
             descriptionString += userPost.text.length > 35 ? "...' " : "' ";
             descriptionString += " | " + HEAD_DEFAULTS.description;
@@ -123,17 +122,15 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
             });
 
             if (userPost.imageLinks.length > 0) {
-                console.log('changing image');
                 DocHead.addMeta({
                     name: "og:image",
                     content: Cloudinary._helpers.url(userPost.imageLinks[0], {'secure':true})
                 });
             }
             else {
-                console.log('defaulting image');
                 DocHead.addMeta({
                     name: "og:image",
-                    content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
+                    content: HEAD_DEFAULTS.image
                     //TODO: change to user profile picture?
                 });
             }
@@ -146,13 +143,11 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
 
     // Default docheads
     {
-        console.log('in default docheads');
         let titleString = "";
         titleString += this.getUsername() + "'s posts | " + HEAD_DEFAULTS.title_short;
         DocHead.setTitle(titleString);
         DocHead.addMeta({name: "og:title", content: titleString});
 
-        console.log('defaulting description');
         DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
 
         DocHead.addMeta({name: "og:type", content: "article"});
@@ -163,7 +158,7 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
 
         DocHead.addMeta({
             name: "og:image",
-            content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"
+            content: HEAD_DEFAULTS.image
         });
 
         DocHead.addMeta({name: "og:image:width", content: "1200"});

@@ -6,6 +6,8 @@ import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
+import { BLANK_PROFILE_PHOTO_LINK } from '../../ui/lib/globals.js';
+
 import { UserAttributes } from './user-attributes.js';
 
 export const insert = new ValidatedMethod({
@@ -146,7 +148,7 @@ const defaultTexts = (username) => {
     return {
         bio:  username + ' hasn\'t entered their bio yet.',
         location: username + ' hasn\'t entered their location yet.',
-        profilePhotoLink: 'http://res.cloudinary.com/dwgim6or9/image/upload/v1466305702/anonymous-user_1_dlslwr.png',
+        profilePhotoLink: BLANK_PROFILE_PHOTO_LINK,
     }
 };
 

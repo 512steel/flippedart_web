@@ -41,7 +41,7 @@
             </a>
 
             <a href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}" class="discuss button">
-                {{userPost.commentsCount}} {{pluralize userPost.commentsCount "comment"}}
+                {{#if greaterThan userPost.commentsCount 1}}<i class="fi-comments"></i>{{else}}<i class="fi-comment"></i>{{/if}}&nbsp;&nbsp;{{userPost.commentsCount}}
             </a>
 
             {{#if currentUser}}

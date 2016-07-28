@@ -2,7 +2,9 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { DocHead } from 'meteor/kadira:dochead';
 
-import { HEAD_DEFAULTS } from '../../lib/globals.js';
+import {
+    HEAD_DEFAULTS,
+    BLANK_PROFILE_PHOTO_LINK } from '../../lib/globals.js';
 
 import { UserAttributes } from '../../../api/user-attributes/user-attributes.js';
 import {
@@ -36,19 +38,27 @@ Template.profile_page_card.onCreated(function () {
         if (Meteor.user()) {
             this.subscribe('chatSession.single', this.getUsername());
         }
+
+        DocHead.removeDocHeadAddedTags();
+        var titleString = this.getUsername() + "'s profile | " + HEAD_DEFAULTS.title_short;
+        DocHead.setTitle(titleString);
+        DocHead.addMeta({name: "og:title", content: titleString});
+        DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
+        DocHead.addMeta({name: "og:type", content: "article"});
+        DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername()});
+
+        let userAttributes = UserAttributes.findOne({username: this.getUsername()});
+        console.log(userAttributes);
+        if (userAttributes && userAttributes.profilePhotoLink && userAttributes.profilePhotoLink != BLANK_PROFILE_PHOTO_LINK) {
+            //sets the og:image to the current user's profile picture.
+            DocHead.addMeta({name: "og:image", content: Cloudinary._helpers.url(userAttributes.profilePhotoLink, {'secure':true})});
+        }
+        else {
+            DocHead.addMeta({name: "og:image", content: HEAD_DEFAULTS.image});
+        }
+        DocHead.addMeta({name: "og:image:width", content: "1200"});
+        DocHead.addMeta({name: "og:image:height", content: "630"});
     });
-
-    var titleString = this.getUsername() + "'s profile | " + HEAD_DEFAULTS.title_short;
-    DocHead.setTitle(titleString);
-    DocHead.addMeta({name: "og:title", content: titleString});
-    DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});
-    DocHead.addMeta({name: "og:type", content: "article"});
-    DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername()});
-
-    //TODO: make this the user's profile picture
-    DocHead.addMeta({name: "og:image", content: "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png"});
-    DocHead.addMeta({name: "og:image:width", content: "1200"});
-    DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
 Template.user_attributes_card.onCreated(function () {

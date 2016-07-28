@@ -60,7 +60,8 @@ export const FLAG_THRESHOLD = {
 export const HEAD_DEFAULTS = {
     'title': "Flipped Art - Maker community and mobile art studio",
     'title_short': "Flipped Art",
-    'description': "Make things and share them for free. Based in Des Moines. Wannabes are welcome here."
+    'description': "Make things and share them for free. Based in Des Moines. Wannabes are welcome here.",
+    'image': "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png",
 };
 
 
@@ -95,3 +96,7 @@ export const TLD_WORD_BANK = [
 
 //TODO: make this regex more robust
 export const EMAIL_REGEX = /.+@(.+){2,}\.(.+){2,}/;
+
+
+export const BLANK_PROFILE_PHOTO_LINK = "https://res.cloudinary.com/dwgim6or9/image/upload/v1466305702/anonymous-user_1_dlslwr.png";
+
