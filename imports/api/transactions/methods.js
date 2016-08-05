@@ -18,9 +18,13 @@ import { insert as chatSessionInsert } from '../chat-sessions/methods.js';
 
 import { createTransactionStateNotification } from '../notifications/methods.js';
 
-import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
+import {
+    POINTS_SYSTEM,
+    TRANSACTION_STATES } from '../../ui/lib/globals.js';
 
 import { throwError } from '../../ui/lib/temporary-alerts.js';
+
+import { sendTransactionEventEmail } from './../../api/email/email-senders.js';
 
 
 /***
@@ -103,6 +107,16 @@ export const requestTransaction = new ValidatedMethod({
                 chatSessionInsert(requester._id, requestee._id);
 
                 createTransactionStateNotification(newTransactionId);
+
+                sendTransactionEventEmail.call({
+                    requesterId: requester._id,
+                    requesterName: requester.username,
+                    requesteeId: requestee._id,
+                    requesteeName: requestee.username,
+                    state: TRANSACTION_STATES.requested
+                }, (res, err) => {
+                    //TODO: error handling here
+                });
 
                 return newTransactionId;  //NOTE: this return is used for redirecting the user to the transaction page via FlowRouter.
             }

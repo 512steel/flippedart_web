@@ -14,12 +14,17 @@ import { decrementComments as userPostDecrementComments }
 
 import { createCommentNotification } from '../notifications/methods.js';
 
-import { POINTS_SYSTEM } from '../../ui/lib/globals.js';
+import {
+    POINTS_SYSTEM,
+    COMMENT_EVENT_TYPES
+} from '../../ui/lib/globals.js';
 
 import {
     throwError,
     throwWarning,
     throwSuccess } from '../../ui/lib/temporary-alerts.js';
+
+import { sendCommentEventEmail } from './../email/email-senders.js';
 
 
 export const insert = new ValidatedMethod({
@@ -35,7 +40,7 @@ export const insert = new ValidatedMethod({
         if (this.userId) {
             text = sanitizeHtml(text);
 
-            const user = Meteor.user();  //TODO: is this any more or less secure, server-side, than querying by this.userId?
+            const user = Meteor.users.findOne(this.userId);
             const userPost = UserPosts.findOne(userPostId);
 
             if (!userPost) {
@@ -76,8 +81,48 @@ export const insert = new ValidatedMethod({
                 updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.comment);
             }
 
-            //TODO: create a Notification document for the post author, that someone commented on their post
             createCommentNotification(newCommentId, userPostId, user.username);
+
+            //Send email notifications to the user if their post has been commented on
+            if (user.username != userPost.author) {
+                if (userPost.commentsCount == 0) {
+                    // send initial comment email
+                    sendCommentEventEmail.call({
+                        commenterName: user.username,
+                        commenteeName: userPost.author,
+                        userPostId: userPostId,
+                        userPostText: userPost.text,
+                        commentEventType: COMMENT_EVENT_TYPES.single
+                    }, (err, res) => {
+                        if (err) {
+                            //TODO: error handling here
+                            console.log('error sending the comment event email');
+                            console.log(err);
+                        }
+                        else {
+                            //success!
+                        }
+                    });
+                }
+                else if (userPost.commentsCount == 2) {  //TODO: this is set at 3 arbitrarily.  Basically, just so that the user doesn't get innundated with emails for every single comment.  We can make this more sophisticated if we start storing a "commenters" array in the UserPost documents.
+                    // send multi-comments email
+                    sendCommentEventEmail.call({
+                        commenteeName: userPost.author,
+                        userPostId: userPostId,
+                        userPostText: userPost.text,
+                        commentEventType: COMMENT_EVENT_TYPES.multiple
+                    }, (err, res) => {
+                        if (err) {
+                            //TODO: error handling here
+                            console.log('error sending the comment event email');
+                            console.log(err);
+                        }
+                        else {
+                            //success!
+                        }
+                    });
+                }
+            }
         }
         else {
             throw new Meteor.Error('comments.insert.accessDenied',

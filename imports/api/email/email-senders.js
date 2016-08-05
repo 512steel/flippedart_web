@@ -5,11 +5,25 @@ import { check } from 'meteor/check';
 import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 import { Random } from 'meteor/random';
 
+import {
+    TRANSACTION_STATES,
+    COMMENT_EVENT_TYPES,
+} from './../../ui/lib/globals.js';
+
 import './email-skeletons.js';
 import { TRANSACTIONAL_EMAIL_SHELL } from './email-skeletons.js';
 import {
     WELCOME_EMAIL_TEXT,
-    FEEDBACK_EMAIL_TEXT } from './email-texts.js';
+    FEEDBACK_EMAIL_TEXT,
+
+    YOUR_PROJECT_HAS_BEEN_REQUESTED_TEXT,
+    YOU_HAVE_REQUESTED_A_PROJECT_TEXT,
+    YOUR_PROJECT_REQUEST_HAS_BEEN_APPROVED_TEXT,
+    YOU_HAVE_APPROVED_A_PROJECT_TRANSACTION_TEXT,
+
+    SOMEONE_HAS_COMMENTED_ON_YOUR_POST_TEXT,
+    MORE_PEOPLE_HAVE_COMMENTED_ON_YOUR_POST_TEXT,
+} from './email-texts.js';
 
 export const sendWebsiteFeedbackEmail = new ValidatedMethod({
     name: 'emails.send.websiteFeedback',
@@ -50,6 +64,9 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
             sendgrid.API(request, function (response) {
                 //TODO: return errors to the client
                 console.log("Feedback email response: ", response.statusCode);
+                if (response.statusCode >= 400) {
+                    console.log(response);
+                }
             });
         }
     }
@@ -88,7 +105,174 @@ export const sendWelcomeEmail = new ValidatedMethod({
             sendgrid.API(request, function (response) {
                 //TODO: return errors to the client
                 console.log("Welcome email response for " + username + ": ", response.statusCode);
+                if (response.statusCode >= 400) {
+                    console.log(response);
+                }
             });
+        }
+    }
+});
+
+
+export const sendTransactionEventEmail = new ValidatedMethod({
+    name: 'emails.send.transactionEvent',
+    validate: new SimpleSchema({
+        requesterId: {type: String, regEx: SimpleSchema.RegEx.Id},
+        requesterName: {type: String},
+        requesteeId: {type: String, regEx: SimpleSchema.RegEx.Id},
+        requesteeName: {type: String},
+        state: {type: String}
+    }).validator(),
+    run({ requesterId, requesterName, requesteeId, requesteeName, state }) {
+
+        if (Meteor.isServer) {
+            //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
+            const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
+
+            let requesterEmail = Meteor.users.findOne(requesterId).emails[0].address;
+            let requesteeEmail = Meteor.users.findOne(requesteeId).emails[0].address;
+
+            console.log('in sendTransactionEventEmail');
+            console.log(requesterId, requesterName, requesterEmail, requesteeId, requesteeName, requesteeEmail, state);
+
+            //Send email to requester
+            {
+                var requesterRequest = sendgrid.emptyRequest();
+                requesterRequest.body = TRANSACTIONAL_EMAIL_SHELL;
+
+                requesterRequest.body.categories[0] = "Transaction Event";
+
+                if (state == TRANSACTION_STATES.requested) {
+                    requesterRequest.body.content[0].value = YOU_HAVE_REQUESTED_A_PROJECT_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.approved) {
+                    requesterRequest.body.content[0].value = YOUR_PROJECT_REQUEST_HAS_BEEN_APPROVED_TEXT(requesteeName, requesterName);
+                }
+
+                requesterRequest.body.personalizations[0].to[0].email = requesterEmail;
+                requesterRequest.body.personalizations[0].to[0].name = requesterName;
+                requesterRequest.body.reply_to.email = "hello@flippedart.org";
+                requesterRequest.body.reply_to.name = "Flipped Art";
+
+                if (state == TRANSACTION_STATES.requested) {
+                    requesterRequest.body.subject = "You have requested a project from " + requesteeName;
+                }
+                else if (state == TRANSACTION_STATES.approved) {
+                    requesterRequest.body.subject = "Your request has been approved!";
+                }
+
+                requesterRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
+
+                requesterRequest.method = 'POST';
+                requesterRequest.path = '/v3/mail/send';
+                sendgrid.API(requesterRequest, function (response) {
+                    //TODO: return errors to the client
+                    console.log("Transaction Event email response for " + requesterName + ": ", response.statusCode);
+                    if (response.statusCode >= 400) {
+                        console.log(response);
+                    }
+                });
+            }
+
+            //Send email to requestee
+            {
+                var requesteeRequest = sendgrid.emptyRequest();
+                requesteeRequest.body = TRANSACTIONAL_EMAIL_SHELL;
+
+                requesteeRequest.body.categories[0] = "Transaction Event";
+
+                if (state == TRANSACTION_STATES.requested) {
+                    requesteeRequest.body.content[0].value = YOUR_PROJECT_HAS_BEEN_REQUESTED_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.approved) {
+                    requesteeRequest.body.content[0].value = YOU_HAVE_APPROVED_A_PROJECT_TRANSACTION_TEXT(requesteeName, requesterName);
+                }
+
+                requesteeRequest.body.personalizations[0].to[0].email = requesteeEmail;
+                requesteeRequest.body.personalizations[0].to[0].name = requesterName;
+                requesteeRequest.body.reply_to.email = "hello@flippedart.org";
+                requesteeRequest.body.reply_to.name = "Flipped Art";
+
+                if (state == TRANSACTION_STATES.requested) {
+                    requesteeRequest.body.subject = requesterName + "has  requested a project from you";
+                }
+                else if (state == TRANSACTION_STATES.approved) {
+                    requesteeRequest.body.subject = "You have approved " + requesterName + "'s request";
+                }
+
+                requesteeRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
+
+                requesteeRequest.method = 'POST';
+                requesteeRequest.path = '/v3/mail/send';
+                sendgrid.API(requesteeRequest, function (response) {
+                    //TODO: return errors to the client
+                    console.log("Transaction Event email response for " + requesteeName + ": ", response.statusCode);
+                    if (response.statusCode >= 400) {
+                        console.log(response);
+                    }
+                });
+            }
+
+        }
+    }
+});
+
+
+export const sendCommentEventEmail = new ValidatedMethod({
+    name: 'emails.send.commentEvent',
+    validate: new SimpleSchema({
+        commenterName: {type: String, optional: true},
+        commenteeName: {type: String},
+        userPostId: {type: String, regEx: SimpleSchema.RegEx.Id},
+        userPostText: {type: String},
+        commentEventType: {type: String},
+    }).validator(),
+    run({ commenterName, commenteeName, userPostId, userPostText, commentEventType }) {
+
+        if (Meteor.isServer) {
+            //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
+            const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
+
+            let commenteeEmail = Meteor.users.findOne({username: commenteeName}).emails[0].address;
+            let userPostTextFirstPart = userPostText.substring(0, 60);  // guesstimate length
+
+            if (commenteeEmail) {
+                var request = sendgrid.emptyRequest();
+                request.body = TRANSACTIONAL_EMAIL_SHELL;
+
+                request.body.categories[0] = "Comment Event";
+
+                if (commentEventType == COMMENT_EVENT_TYPES.single) {
+                    request.body.content[0].value = SOMEONE_HAS_COMMENTED_ON_YOUR_POST_TEXT(commenteeName, commenterName, userPostId, userPostTextFirstPart);
+                }
+                else if (commentEventType == COMMENT_EVENT_TYPES.multiple) {
+                    request.body.content[0].value = MORE_PEOPLE_HAVE_COMMENTED_ON_YOUR_POST_TEXT(commenteeName, userPostId, userPostTextFirstPart);
+                }
+
+                request.body.personalizations[0].to[0].email = commenteeEmail;
+                request.body.personalizations[0].to[0].name = commenteeName;
+                request.body.reply_to.email = "hello@flippedart.org";
+                request.body.reply_to.name = "Flipped Art";
+
+                if (commentEventType == COMMENT_EVENT_TYPES.single) {
+                    request.body.subject = commenterName + " has commented on your post";
+                }
+                else if (commentEventType == COMMENT_EVENT_TYPES.multiple) {
+                    request.body.subject = "Your post is getting popular!";
+                }
+
+                request.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
+
+                request.method = 'POST';
+                request.path = '/v3/mail/send';
+                sendgrid.API(request, function (response) {
+                    //TODO: return errors to the client
+                    console.log("Comment event email response for " + commenterName + " commenting on " + commenteeName + "'s post: ", response.statusCode);
+                    if (response.statusCode >= 400) {
+                        console.log(response);
+                    }
+                });
+            }
         }
     }
 });

@@ -33,9 +33,9 @@ Template.profile_page_card.onCreated(function () {
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('userAttributes.byUsername', this.getUsername());
 
         if (Meteor.user()) {
+            this.subscribe('userAttributes.byUsername', this.getUsername());
             this.subscribe('chatSession.single', this.getUsername());
         }
 
@@ -48,7 +48,7 @@ Template.profile_page_card.onCreated(function () {
         DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/" + this.getUsername()});
 
         let userAttributes = UserAttributes.findOne({username: this.getUsername()});
-        console.log(userAttributes);
+
         if (userAttributes && userAttributes.profilePhotoLink && userAttributes.profilePhotoLink != BLANK_PROFILE_PHOTO_LINK) {
             //sets the og:image to the current user's profile picture.
             DocHead.addMeta({name: "og:image", content: Cloudinary._helpers.url(userAttributes.profilePhotoLink, {'secure':true})});

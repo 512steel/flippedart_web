@@ -100,3 +100,17 @@ export const EMAIL_REGEX = /.+@(.+){2,}\.(.+){2,}/;
 
 export const BLANK_PROFILE_PHOTO_LINK = "https://res.cloudinary.com/dwgim6or9/image/upload/v1466305702/anonymous-user_1_dlslwr.png";
 
+
+export const TRANSACTION_STATES = {
+    'requested': 'requested',
+    'approved': 'approved',
+    'completed': 'completed,',
+    'declined': 'declined',
+    'cancelled': 'cancelled'
+};
+
+
+export const COMMENT_EVENT_TYPES = {
+    'single': "single",
+    'multiple': "multiple"
+};

@@ -16,11 +16,13 @@
             {{> comment_edit }}
         {{else}}
             <p class="author shift-down text-small">
-                {{#unless ownComment}}
-                    <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
-                {{else}}
-                    You
-                {{/unless}}
+                <strong>
+                    {{#unless ownComment}}
+                        <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
+                    {{else}}
+                        You
+                    {{/unless}}
+                </strong>
                 said:
             </p>
 
