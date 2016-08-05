@@ -101,7 +101,7 @@ Template.comment_card.onRendered(function commentCardOnRendered() {
                     result += csc ;
                 } else {
                     if (isMatching) {
-                        if ((csc == ' ' || csc == '@' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace
+                        if ((csc == ' ' || csc == '@' || csc == ',' || csc == '.' || csc == '/' || csc == '-' || csc == '&' || csc == '!' || csc == '?' || csc == ';' || csc == ':' || csc == '\'' || csc == '\"' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace and invalid name-characters
                             //we've matched the whole word, so test to make sure this username exists.
                             var found = false;
                             for (var i = 0; i < possibleUsernames.length; i++) {
