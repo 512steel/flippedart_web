@@ -34,8 +34,9 @@ Template.profile_page_card.onCreated(function () {
     // Subscriptions go in here
     this.autorun(() => {
 
+        this.subscribe('userAttributes.byUsername', this.getUsername());
+        
         if (Meteor.user()) {
-            this.subscribe('userAttributes.byUsername', this.getUsername());
             this.subscribe('chatSession.single', this.getUsername());
         }
 
@@ -66,6 +67,7 @@ Template.user_attributes_card.onCreated(function () {
 
     // Subscriptions go in here
     this.autorun(() => {
+
     });
 
     this.userAttributes = () => {
@@ -159,6 +161,8 @@ Template.profile_page_card.helpers({
 
 Template.user_attributes_card.helpers({
     userAttributes: function() {
+        console.log('in userAttributes() helper:');
+        console.log(Template.instance().userAttributes());
         return Template.instance().userAttributes();
     },
     isProfileOwner: function() {
