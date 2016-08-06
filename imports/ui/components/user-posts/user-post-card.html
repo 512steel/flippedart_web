@@ -1,6 +1,12 @@
 <template name="user_post_card">
     <div class="post row column">
-        <p class="float-right text-small">{{dateTimeAgo userPost.createdAt}}</p>
+        <p class="float-right text-small text-right">
+            posted {{dateTimeAgo userPost.createdAt}}
+            {{#if userPost.lastUpdated}}
+                <br>
+                edited {{dateTimeAgo userPost.lastUpdated}}
+            {{/if}}
+        </p>
         <p class="text-small">
             <strong>
                 <a href="{{pathFor 'profile.page' username=userPost.author}}">

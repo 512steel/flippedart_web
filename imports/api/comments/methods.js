@@ -158,7 +158,8 @@ export const edit = new ValidatedMethod({
         Comments.update(commentId,
             {
                 $set: {
-                    text: text
+                    text: text,
+                    lastUpdated: new Date()
                 }
             });
     }

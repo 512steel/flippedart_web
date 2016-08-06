@@ -51,6 +51,10 @@ Comments.schema = new SimpleSchema({
         type: Date,
         denyUpdate: true,
     },
+    lastUpdated: {
+        type: Date,
+        optional: true,
+    }
 });
 
 Comments.attachSchema(Comments.schema);
@@ -66,6 +70,7 @@ Comments.publicFields = {
     flaggers: 1,
     flags: 1,
     createdAt: 1,
+    lastUpdated: 1,
 };
 
 //TODO: build testing factory here

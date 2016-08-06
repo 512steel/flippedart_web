@@ -120,6 +120,7 @@ export const edit = new ValidatedMethod({
                     text: text,
                     tag: tag,
                     imageLinks: imageLinks,
+                    lastUpdated: new Date(),
                 }
             });
     },

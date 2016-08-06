@@ -76,6 +76,10 @@ UserPosts.schema = new SimpleSchema({
         type: Date,
         denyUpdate: true,
     },
+    lastUpdated: {
+        type: Date,
+        optional: true,
+    }
 });
 
 UserPosts.attachSchema(UserPosts.schema);
@@ -96,6 +100,7 @@ UserPosts.publicFields = {
     imageLinks: 1,
     tag: 1,
     createdAt: 1,
+    lastUpdated: 1,
     rank: 1
 };
 

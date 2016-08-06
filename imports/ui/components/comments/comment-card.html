@@ -28,7 +28,13 @@
 
             {{#unless inappropriate}}
                 <p class="push-down-sm comment-card-text">{{{text}}}</p>
-                <p><span class="date text-small">{{dateTimeAgo createdAt}}</span></p>
+                <p>
+                    <span class="date text-small">{{dateTimeAgo createdAt}}</span>
+                    {{#if lastUpdated}}
+                        <br>
+                        <span class="date text-small">edited {{dateTimeAgo lastUpdated}}</span>
+                    {{/if}}
+                </p>
             {{else}}
                 <h3>[This comment has been flagged as inappropriate]</h3>
             {{/unless}}
