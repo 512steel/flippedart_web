@@ -114,3 +114,12 @@ export const COMMENT_EVENT_TYPES = {
     'single': "single",
     'multiple': "multiple"
 };
+
+
+export const RECENT_ACTIVITY_TYPES = {
+    'like': 'like',
+    'comment': 'comment',
+    'newPost': 'newPost',
+    'newProject': 'newProject',
+    'transactionComplete': 'transactionComplete'
+};

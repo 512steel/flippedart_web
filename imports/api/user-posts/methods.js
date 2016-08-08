@@ -8,11 +8,15 @@ import { UserPosts } from './user-posts.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank } from '../user-attributes/methods.js';
 
+import { createRecentActivity } from './../recent-activity/methods.js';
+
 import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
 import {
     POINTS_SYSTEM,
-    UPLOAD_LIMITS } from '../../ui/lib/globals.js';
+    UPLOAD_LIMITS,
+    RECENT_ACTIVITY_TYPES
+} from '../../ui/lib/globals.js';
 
 import {
     throwError,
@@ -60,6 +64,9 @@ export const insert = new ValidatedMethod({
             };
 
             const result = UserPosts.insert(userPost);
+
+            const link = "https://www.flippedart.org/" + user.username + "/posts/" + result;
+            createRecentActivity(user.username, null, RECENT_ACTIVITY_TYPES.newPost, link);
 
             //points system:
             if (userAttributes) {
@@ -149,6 +156,14 @@ export const upvote = new ValidatedMethod({
 
             if (!affected) {
                 throw new Meteor.Error('invalid', "You weren't able to upvote that post.");
+            }
+            else {
+                const userPost = UserPosts.findOne(userPostId);
+
+                if (userPost) {
+                    const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
+                    createRecentActivity(voterName, userPost.author, RECENT_ACTIVITY_TYPES.like, link);
+                }
             }
         }
     },

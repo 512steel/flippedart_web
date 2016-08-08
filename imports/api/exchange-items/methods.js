@@ -9,7 +9,13 @@ import { ExchangeItems } from './exchange-items.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
 import { updateRank as userAttributesUpdateRank } from '../user-attributes/methods.js';
 
-import { POINTS_SYSTEM, UPLOAD_LIMITS } from '../../ui/lib/globals.js';
+import { createRecentActivity } from './../recent-activity/methods.js';
+
+import {
+    POINTS_SYSTEM,
+    UPLOAD_LIMITS,
+    RECENT_ACTIVITY_TYPES
+} from '../../ui/lib/globals.js';
 
 
 //NOTE: insert() is a server-only method, so that only insertMany() can be called from the client (for DDP rate limiting)
@@ -76,7 +82,10 @@ export const insert = (title, description, imageLinks, available, tag, userId) =
                 createdAt: new Date(),
             };
 
-            ExchangeItems.insert(exchangeItem);
+            const result = ExchangeItems.insert(exchangeItem);
+
+            const link = "https://www.flippedart.org/" + userAttributes.username + "/projects/" + result;
+            createRecentActivity(userAttributes.username, null, RECENT_ACTIVITY_TYPES.newProject, link);
 
             //points system:
             userAttributesUpdateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.exchangeItemAdd);

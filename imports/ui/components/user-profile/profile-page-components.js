@@ -161,8 +161,6 @@ Template.profile_page_card.helpers({
 
 Template.user_attributes_card.helpers({
     userAttributes: function() {
-        console.log('in userAttributes() helper:');
-        console.log(Template.instance().userAttributes());
         return Template.instance().userAttributes();
     },
     isProfileOwner: function() {

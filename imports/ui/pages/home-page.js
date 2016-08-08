@@ -5,6 +5,7 @@ import { DocHead } from 'meteor/kadira:dochead';
 import { UserPosts } from '../../api/user-posts/user-posts.js';
 import { ExchangeItems } from '../../api/exchange-items/exchange-items.js';
 import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
+import { RecentActivity } from '../../api/recent-activity/recent-activity.js';
 
 import { HEAD_DEFAULTS } from '../lib/globals.js';
 
@@ -16,6 +17,8 @@ Template.home_page.onCreated(function() { // Subscriptions go in here
         this.subscribe('userPosts.popular', 5);
         this.subscribe('exchangeItems.popular', 6);
         this.subscribe('userAttributes.popular', 12);
+
+        this.subscribe('recentActivity.feed');
     });
 
     DocHead.setTitle(HEAD_DEFAULTS.title + " | Home");
@@ -105,5 +108,8 @@ Template.home_page.helpers({
     topUserAttributes: function() {
         //FIXME: this is giving odd results on the client.
         return UserAttributes.find({rank:{$gt:0}},{sort:{rank:-1}});
+    },
+    recentActivityItems: function() {
+        return RecentActivity.find({}, {sort: {createdAt: -1}});
     }
 });

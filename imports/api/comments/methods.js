@@ -13,10 +13,12 @@ import { decrementComments as userPostDecrementComments }
     from '../user-posts/methods.js';
 
 import { createCommentNotification } from '../notifications/methods.js';
+import { createRecentActivity } from './../recent-activity/methods.js';
 
 import {
     POINTS_SYSTEM,
-    COMMENT_EVENT_TYPES
+    COMMENT_EVENT_TYPES,
+    RECENT_ACTIVITY_TYPES,
 } from '../../ui/lib/globals.js';
 
 import {
@@ -82,6 +84,11 @@ export const insert = new ValidatedMethod({
             }
 
             createCommentNotification(newCommentId, userPostId, user.username);
+
+            if (userPost) {
+                const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
+                createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link)
+            }
 
             //Send email notifications to the user if their post has been commented on
             if (user.username != userPost.author) {

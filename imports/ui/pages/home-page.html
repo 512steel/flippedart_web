@@ -242,6 +242,27 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="column small-10 medium-8 small-centered text-centered">
+            <h2 class="push-down">Recent activity</h2>
+            <div style="background: #fafafa;">
+                <hr>
+                {{#each recentActivityItems}}
+                    <a class="username-tag text-large" href="{{this.link}}">
+                        <div>
+                            <p>
+                                <strong>
+                                    {{this.actionText}}
+                                </strong>
+                           </p>
+                            <hr>
+                        </div>
+                    </a>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
     <div class="row pull-down push-down">
         <div class="column small-10 medium-6 large-4 small-centered text-centered">
             <hr>
