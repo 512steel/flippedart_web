@@ -30,17 +30,55 @@ Template.home_page.onCreated(function() { // Subscriptions go in here
 
 Template.home_page.onRendered(function() {
 
-    Meteor.setTimeout(function(){
-        const el1 = new Foundation.Equalizer($('#home-equalized-1'));
-        const el2 = new Foundation.Equalizer($('#home-equalized-2'));
-        const el3 = new Foundation.Equalizer($('#home-equalized-3'));
-        const el4 = new Foundation.Equalizer($('#home-equalized-4'));
-        const el5 = new Foundation.Equalizer($('#home-equalized-5'));
-        const el6 = new Foundation.Equalizer($('#home-equalized-6'));
-        const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+    this.autorun(() => {
+        if (this.subscriptionsReady()) {
+            Meteor.setTimeout(function(){
+                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
 
-        //const el8 = new Foundation.Reveal($('#newsletter-modal'));
-    }, 200);
+                //const el8 = new Foundation.Reveal($('#newsletter-modal'));
+            }, 50);
+            Meteor.setTimeout(function(){
+                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+
+                //const el8 = new Foundation.Reveal($('#newsletter-modal'));
+            }, 200);
+            Meteor.setTimeout(function(){
+                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+
+                //const el8 = new Foundation.Reveal($('#newsletter-modal'));
+            }, 1000);
+            Meteor.setInterval(function(){
+                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+
+                //const el8 = new Foundation.Reveal($('#newsletter-modal'));
+            }, 1500);
+        }
+    });
+
     Meteor.setTimeout(function(){
         if (FlowRouter.getQueryParam("explore")) {
             //TODO: re-activate this once there is more activity on the site.

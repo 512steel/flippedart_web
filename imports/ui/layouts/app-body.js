@@ -83,11 +83,15 @@ Template.App_body.onRendered(function() {
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
     $(document).foundation();
   }, 1000);
+  Meteor.setTimeout(function(){
+    $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
+    $(document).foundation();
+  }, 3000);
 
   Meteor.setInterval(function(){
     $('.logo-height').css('height', $('#widemenu .menu-logo-image').outerHeight());
     $(document).foundation();
-  }, 3000);
+  }, 15000);
   //FIXME: also call this on user signin/signout (in general, discrete events rather than on an indiscriminate loop)
 
   this.autorun(() => {
