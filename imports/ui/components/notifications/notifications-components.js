@@ -76,27 +76,27 @@ Template.notification_card.helpers({
         if (Meteor.user() && this) {
             switch (this.type) {
                 case 'comment':
-                    return FlowRouter.path('profile.post', {username: Meteor.user().username, userPostId: this.userPostId});;
+                    return FlowRouter.path('profile.post', {username: Meteor.user().username, userPostId: this.userPostId});
                     break;
 
                 case 'chatMessage':
-                    return FlowRouter.path('chatWindow.user', {username: this.chatMessageSenderName});;
+                    return FlowRouter.path('chatWindow.user', {username: this.chatMessageSenderName});
                     break;
 
                 case 'transactionRequested':
-                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});;
+                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});
                     break;
                 case 'transactionApproved':
-                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});;
+                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});
                     break;
                 case 'transactionCompleted':
-                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});;
+                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});
                     break;
                 case 'transactionDeclined':
-                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});;
+                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});
                     break;
                 case 'transactionCancelled':
-                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});;
+                    return FlowRouter.path('exchanges.user.single', {username: Meteor.user().username, exchangeId: this.transactionId});
                     break;
 
                 default:

@@ -158,6 +158,16 @@ export const approveTransaction = new ValidatedMethod({
 
                 //TODO: create a notification for the requester that their request has been approved
                 createTransactionStateNotification(transactionId);
+
+                sendTransactionEventEmail.call({
+                    requesterId: transaction.requesterId,
+                    requesterName: transaction.requesterName,
+                    requesteeId: transaction.requesteeId,
+                    requesteeName: transaction.requesteeName,
+                    state: TRANSACTION_STATES.approved
+                }, (res, err) => {
+                    //TODO: error handling here
+                });
             }
             else {
                 console.log('Invalid transaction state change.');
@@ -205,6 +215,16 @@ export const completeTransaction = new ValidatedMethod({
 
                 //TODO: create a Notification for the requester that their request has been completed and they're the new item owners
                 createTransactionStateNotification(transactionId);
+
+                sendTransactionEventEmail.call({
+                    requesterId: transaction.requesterId,
+                    requesterName: transaction.requesterName,
+                    requesteeId: transaction.requesteeId,
+                    requesteeName: transaction.requesteeName,
+                    state: TRANSACTION_STATES.completed
+                }, (res, err) => {
+                    //TODO: error handling here
+                });
             }
         }
         else {
@@ -237,6 +257,16 @@ export const declineTransaction = new ValidatedMethod({
 
                 //TODO: create a notification for the requester that their request has been declined
                 createTransactionStateNotification(transactionId);
+
+                sendTransactionEventEmail.call({
+                    requesterId: transaction.requesterId,
+                    requesterName: transaction.requesterName,
+                    requesteeId: transaction.requesteeId,
+                    requesteeName: transaction.requesteeName,
+                    state: TRANSACTION_STATES.declined
+                }, (res, err) => {
+                    //TODO: error handling here
+                });
             }
             else {
                 console.log('Invalid transaction state change.');
@@ -272,6 +302,16 @@ export const cancelTransaction = new ValidatedMethod({
 
                 //TODO: create a notification for the requester that their request has been cancelled
                 createTransactionStateNotification(transactionId);
+
+                sendTransactionEventEmail.call({
+                    requesterId: transaction.requesterId,
+                    requesterName: transaction.requesterName,
+                    requesteeId: transaction.requesteeId,
+                    requesteeName: transaction.requesteeName,
+                    state: TRANSACTION_STATES.cancelled
+                }, (res, err) => {
+                    //TODO: error handling here
+                });
             }
             else {
                 console.log('Invalid transaction state change.');

@@ -20,6 +20,12 @@ import {
     YOU_HAVE_REQUESTED_A_PROJECT_TEXT,
     YOUR_PROJECT_REQUEST_HAS_BEEN_APPROVED_TEXT,
     YOU_HAVE_APPROVED_A_PROJECT_TRANSACTION_TEXT,
+    YOUR_PROJECT_REQUEST_HAS_BEEN_COMPLETED_TEXT,
+    YOU_HAVE_COMPLETED_A_PROJECT_REQUEST_TEXT,
+    YOUR_PROJECT_REQUEST_HAS_BEEN_DECLINED_TEXT,
+    YOU_HAVE_DECLINED_A_PROJECT_REQUEST_TEXT,
+    YOU_HAVE_CANCELLED_A_PROJECT_REQUEST_TEXT,
+    SOMEONE_HAS_CANCELLED_YOUR_PROJECT_REQUEST_TEXT,
 
     SOMEONE_HAS_COMMENTED_ON_YOUR_POST_TEXT,
     MORE_PEOPLE_HAVE_COMMENTED_ON_YOUR_POST_TEXT,
@@ -148,6 +154,15 @@ export const sendTransactionEventEmail = new ValidatedMethod({
                 else if (state == TRANSACTION_STATES.approved) {
                     requesterRequest.body.content[0].value = YOUR_PROJECT_REQUEST_HAS_BEEN_APPROVED_TEXT(requesteeName, requesterName);
                 }
+                else if (state == TRANSACTION_STATES.completed) {
+                    requesterRequest.body.content[0].value = YOUR_PROJECT_REQUEST_HAS_BEEN_COMPLETED_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.declined) {
+                    requesterRequest.body.content[0].value = YOUR_PROJECT_REQUEST_HAS_BEEN_DECLINED_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.cancelled) {
+                    requesterRequest.body.content[0].value = YOU_HAVE_CANCELLED_A_PROJECT_REQUEST_TEXT(requesteeName, requesterName);
+                }
 
                 requesterRequest.body.personalizations[0].to[0].email = requesterEmail;
                 requesterRequest.body.personalizations[0].to[0].name = requesterName;
@@ -159,6 +174,15 @@ export const sendTransactionEventEmail = new ValidatedMethod({
                 }
                 else if (state == TRANSACTION_STATES.approved) {
                     requesterRequest.body.subject = "Your request has been approved!";
+                }
+                else if (state == TRANSACTION_STATES.completed) {
+                    requesterRequest.body.subject = "Congrats, " + requesteeName + " has completed your project request!";
+                }
+                else if (state == TRANSACTION_STATES.declined) {
+                    requesterRequest.body.subject = requesteeName + " has declined your request";
+                }
+                else if (state == TRANSACTION_STATES.cancelled) {
+                    requesterRequest.body.subject = "You have cancelled your request";
                 }
 
                 requesterRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
@@ -187,6 +211,15 @@ export const sendTransactionEventEmail = new ValidatedMethod({
                 else if (state == TRANSACTION_STATES.approved) {
                     requesteeRequest.body.content[0].value = YOU_HAVE_APPROVED_A_PROJECT_TRANSACTION_TEXT(requesteeName, requesterName);
                 }
+                else if (state == TRANSACTION_STATES.completed) {
+                    requesteeRequest.body.content[0].value = YOU_HAVE_COMPLETED_A_PROJECT_REQUEST_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.declined) {
+                    requesteeRequest.body.content[0].value = YOU_HAVE_DECLINED_A_PROJECT_REQUEST_TEXT(requesteeName, requesterName);
+                }
+                else if (state == TRANSACTION_STATES.cancelled) {
+                    requesteeRequest.body.content[0].value = SOMEONE_HAS_CANCELLED_YOUR_PROJECT_REQUEST_TEXT(requesteeName, requesterName);
+                }
 
                 requesteeRequest.body.personalizations[0].to[0].email = requesteeEmail;
                 requesteeRequest.body.personalizations[0].to[0].name = requesterName;
@@ -194,10 +227,19 @@ export const sendTransactionEventEmail = new ValidatedMethod({
                 requesteeRequest.body.reply_to.name = "Flipped Art";
 
                 if (state == TRANSACTION_STATES.requested) {
-                    requesteeRequest.body.subject = requesterName + "has  requested a project from you";
+                    requesteeRequest.body.subject = requesterName + " has requested a project from you";
                 }
                 else if (state == TRANSACTION_STATES.approved) {
                     requesteeRequest.body.subject = "You have approved " + requesterName + "'s request";
+                }
+                else if (state == TRANSACTION_STATES.completed) {
+                    requesteeRequest.body.subject = "Yay! You have completed " + requesterName + "'s project request";
+                }
+                else if (state == TRANSACTION_STATES.declined) {
+                    requesteeRequest.body.subject = "You have declined " + requesterName + "'s project request";
+                }
+                else if (state == TRANSACTION_STATES.cancelled) {
+                    requesteeRequest.body.subject = requesterName + " has cancelled their request";
                 }
 
                 requesteeRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
