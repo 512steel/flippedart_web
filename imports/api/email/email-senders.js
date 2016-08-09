@@ -39,6 +39,7 @@ export const sendWebsiteFeedbackEmail = new ValidatedMethod({
         text: {type: String},
     }).validator(),
     run({ senderName, senderEmail, text }) {
+        this.unblock();
 
         if (Meteor.isServer) {
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
@@ -86,6 +87,7 @@ export const sendWelcomeEmail = new ValidatedMethod({
         userEmail: {type: String, regEx: SimpleSchema.RegEx.Email}
     }).validator(),
     run({ username, userEmail }) {
+        this.unblock();
 
         if (Meteor.isServer) {
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
@@ -130,6 +132,7 @@ export const sendTransactionEventEmail = new ValidatedMethod({
         state: {type: String}
     }).validator(),
     run({ requesterId, requesterName, requesteeId, requesteeName, state }) {
+        this.unblock();
 
         if (Meteor.isServer) {
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
@@ -270,6 +273,7 @@ export const sendCommentEventEmail = new ValidatedMethod({
         commentEventType: {type: String},
     }).validator(),
     run({ commenterName, commenteeName, userPostId, userPostText, commentEventType }) {
+        this.unblock();
 
         if (Meteor.isServer) {
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
@@ -331,6 +335,8 @@ export const sendCommentEventEmail = new ValidatedMethod({
  */
 Meteor.methods({
     'sendVerificationEmailNew': function (userId, address) {
+        this.unblock();
+
         if (Meteor.isServer) {
             // Make sure the user exists, and address is one of their addresses.
             var user = Meteor.users.findOne(userId);

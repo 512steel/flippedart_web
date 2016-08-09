@@ -67,14 +67,6 @@ export const insert = new ValidatedMethod({
 
             const newCommentId = Comments.insert(comment);
 
-            UserPosts.update(userPostId,
-                {
-                    $inc: {
-                        commentsCount: 1,
-                        rank: POINTS_SYSTEM.UserPosts.comment,
-                    }
-                });
-
             //UserAttributes points system: do this after the fact
             const userAttributes = UserAttributes.findOne({userId: this.userId});
 
@@ -85,10 +77,8 @@ export const insert = new ValidatedMethod({
 
             createCommentNotification(newCommentId, userPostId, user.username);
 
-            if (userPost) {
-                const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
-                createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link)
-            }
+            const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
+            createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link)
 
             //Send email notifications to the user if their post has been commented on
             if (user.username != userPost.author) {
@@ -130,6 +120,14 @@ export const insert = new ValidatedMethod({
                     });
                 }
             }
+
+            UserPosts.update(userPostId,
+                {
+                    $inc: {
+                        commentsCount: 1,
+                        rank: POINTS_SYSTEM.UserPosts.comment,
+                    }
+                });
         }
         else {
             throw new Meteor.Error('comments.insert.accessDenied',

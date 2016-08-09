@@ -44,7 +44,7 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
                 actionText = actorName + " liked " + acteeName + "'s post";
             }
             else {
-                actionText = actorName + " liked their own post";
+                actionText = actorName + " liked a post";
             }
         }
         else if (actionType == RECENT_ACTIVITY_TYPES.comment) {
@@ -52,7 +52,7 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
                 actionText = actorName + " commented on " + acteeName + "'s post";
             }
             else {
-                actionText = actorName + " commented on their own post";
+                actionText = actorName + " commented on a post";
             }
         }
         else if (actionType == RECENT_ACTIVITY_TYPES.newPost) {
