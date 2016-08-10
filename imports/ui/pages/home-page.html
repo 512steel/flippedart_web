@@ -244,18 +244,18 @@
 
     <div class="row">
         <div class="column small-10 medium-8 small-centered text-centered">
-            <h2 class="push-down">Recent activity</h2>
+            <h2 class="push-down">Recent activity</h2>  <!-- TODO: refactor into _card template + inline CSS -->
             <div style="background: #fafafa;">
-                <hr>
+                <hr style="margin:0;">
                 {{#each recentActivityItems}}
                     <a class="username-tag text-large" href="{{this.link}}">
-                        <div>
+                        <div style="padding-top:1rem;">
                             <p>
                                 <strong>
                                     {{this.actionText}}
                                 </strong>
                            </p>
-                            <hr>
+                            <hr style="margin:0;">
                         </div>
                     </a>
                 {{/each}}
