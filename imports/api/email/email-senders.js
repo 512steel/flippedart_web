@@ -8,7 +8,10 @@ import { Random } from 'meteor/random';
 import {
     TRANSACTION_STATES,
     COMMENT_EVENT_TYPES,
+    RECENT_ACTIVITY_TYPES,
 } from './../../ui/lib/globals.js';
+
+import { createRecentActivity } from './../recent-activity/methods.js';
 
 import './email-skeletons.js';
 import { TRANSACTIONAL_EMAIL_SHELL } from './email-skeletons.js';
@@ -117,6 +120,9 @@ export const sendWelcomeEmail = new ValidatedMethod({
                     console.log(response);
                 }
             });
+
+            const link = "https://www.flippedart.org/" + username;
+            createRecentActivity(username, null, RECENT_ACTIVITY_TYPES.newUser, link);
         }
     }
 });

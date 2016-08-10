@@ -61,6 +61,9 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
         else if (actionType == RECENT_ACTIVITY_TYPES.newProject) {
             actionText = actorName + " added a new project";
         }
+        else if (actionType == RECENT_ACTIVITY_TYPES.newUser) {
+            actionText = actorName + " joined Flipped Art";
+        }
         else if (actionType == RECENT_ACTIVITY_TYPES.transactionComplete) {
             actionText = actorName + " exchanged their project with " + acteeName;
         }

@@ -121,5 +121,6 @@ export const RECENT_ACTIVITY_TYPES = {
     'comment': 'comment',
     'newPost': 'newPost',
     'newProject': 'newProject',
+    'newUser': 'newUser',
     'transactionComplete': 'transactionComplete'
 };

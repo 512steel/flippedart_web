@@ -78,7 +78,7 @@ export const insert = new ValidatedMethod({
             createCommentNotification(newCommentId, userPostId, user.username);
 
             const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
-            createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link)
+            createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link);
 
             //Send email notifications to the user if their post has been commented on
             if (user.username != userPost.author) {
