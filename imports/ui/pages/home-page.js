@@ -34,48 +34,55 @@ Template.home_page.onCreated(function() { // Subscriptions go in here
 Template.home_page.onRendered(function() {
 
     this.autorun(() => {
+        let el1 = new Foundation.Equalizer($('#home-equalized-1'));
+        let el2 = new Foundation.Equalizer($('#home-equalized-2'));
+        let el3 = new Foundation.Equalizer($('#home-equalized-3'));
+        let el4 = new Foundation.Equalizer($('#home-equalized-4'));
+        let el5 = new Foundation.Equalizer($('#home-equalized-5'));
+        let el6 = new Foundation.Equalizer($('#home-equalized-6'));
+        let el7 = new Foundation.Equalizer($('#home-equalized-7'));
         if (this.subscriptionsReady()) {
             Meteor.setTimeout(function(){
-                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
-                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
-                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
-                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
-                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
-                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
-                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+                el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                el7 = new Foundation.Equalizer($('#home-equalized-7'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 50);
             Meteor.setTimeout(function(){
-                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
-                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
-                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
-                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
-                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
-                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
-                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+                el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                el7 = new Foundation.Equalizer($('#home-equalized-7'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 200);
             Meteor.setTimeout(function(){
-                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
-                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
-                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
-                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
-                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
-                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
-                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+                el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                el7 = new Foundation.Equalizer($('#home-equalized-7'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 1000);
             Meteor.setInterval(function(){
-                const el1 = new Foundation.Equalizer($('#home-equalized-1'));
-                const el2 = new Foundation.Equalizer($('#home-equalized-2'));
-                const el3 = new Foundation.Equalizer($('#home-equalized-3'));
-                const el4 = new Foundation.Equalizer($('#home-equalized-4'));
-                const el5 = new Foundation.Equalizer($('#home-equalized-5'));
-                const el6 = new Foundation.Equalizer($('#home-equalized-6'));
-                const el7 = new Foundation.Equalizer($('#home-equalized-7'));
+                el1 = new Foundation.Equalizer($('#home-equalized-1'));
+                el2 = new Foundation.Equalizer($('#home-equalized-2'));
+                el3 = new Foundation.Equalizer($('#home-equalized-3'));
+                el4 = new Foundation.Equalizer($('#home-equalized-4'));
+                el5 = new Foundation.Equalizer($('#home-equalized-5'));
+                el6 = new Foundation.Equalizer($('#home-equalized-6'));
+                el7 = new Foundation.Equalizer($('#home-equalized-7'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 1500);
