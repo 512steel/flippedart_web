@@ -428,7 +428,7 @@ Template.user_post_submit.helpers({
             });
             tempPercentTotal = Math.round(tempPercentTotal/count);
 
-            return "Posting: " + tempPercentTotal + "%";
+            return Number.isNaN(tempPercentTotal) ? "Posting..." : "Posting: " + tempPercentTotal + "%";
         }
         else return "Posting...";
     },

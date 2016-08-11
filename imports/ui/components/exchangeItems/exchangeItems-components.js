@@ -370,7 +370,18 @@ Template.add_items_button.helpers({
         return Session.get('areItemsUploading');
     },
     uploadingCopy: function() {
-        return "Uploading...";
+        let tempPercentTotal = 0;
+        if (Cloudinary.collection.findOne()) {
+            let count = Cloudinary.collection.find().count();
+
+            Cloudinary.collection.find().forEach((file) => {
+                tempPercentTotal += file.percent_uploaded;
+            });
+            tempPercentTotal = Math.round(tempPercentTotal/count);
+
+            return Number.isNaN(tempPercentTotal) ? "Uploading..." : "Uploading: " + tempPercentTotal + "%";
+        }
+        else return "Uploading...";
     },
     addProjectCopy: function() {
         if (Session.get('itemsToSubmit').length > 1)
