@@ -53,11 +53,23 @@
             {{#if isProfileOwner}}
 
                 <div class="row column push-down">
-                    <h2 class="pull-down-small">Add a project</h2>
-                    {{> project_submit_explanation}}
-                    {{> item_submit}}
+                    {{#if hasExchangeItems}}
+                        <ul class="accordion" data-accordion data-allow-all-closed="true">
+                            <li class="accordion-item" data-accordion-item>
+                                <a href="#" class="accordion-title" data-no-instant>New project</a>
+                                <div class="accordion-content" data-tab-content>
+                                    <h2 class="pull-down-small">Add a project</h2>
+                                    {{> project_submit_explanation}}
+                                    {{> item_submit}}
+                                </div>
+                            </li>
+                        </ul>
+                    {{else}}
+                        <h2 class="pull-down-small">Add a project</h2>
+                        {{> project_submit_explanation}}
+                        {{> item_submit}}
+                    {{/if}}
                 </div>
-
 
                 {{#if hasExchangeItems}}
                     <div class="row column pull-down-small">

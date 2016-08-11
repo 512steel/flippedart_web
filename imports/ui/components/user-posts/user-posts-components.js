@@ -305,40 +305,6 @@ Template.user_post_submit.onRendered(function userPostSubmitOnRendered() {
             // release renderHolds here
         }
     });
-
-
-    //  TODO: signed upload widget
-    /*var ops = {
-        cloud_name: 'dwgim6or9',
-        cropping: 'server',
-        folder: 'flippedart',
-        upload_preset: 'limitsize',
-    };
-    Meteor.call('c.sign.new', ops, function(error, result) {
-        if (error) {
-            console.log('error: ', error);
-        }
-        else {
-            console.log(result);
-            document.getElementById("upload-widget-button").addEventListener("click", function () {
-
-                cloudinary.openUploadWidget(
-                    {
-                        api_key: 123123123123123,
-                        cloud_name: 'dwgim6or9',
-                        cropping: 'server',
-                        folder: 'flippedart',
-                        upload_preset: 'limitsize',
-                        upload_signature: result.signature
-                    },
-                    function (error, result) {
-                        console.log(error, result)
-                    });
-
-            }, false);
-        }
-    });*/
-
 });
 
 Template.user_post_single_page.onRendered(function userPostSinglePageOnRendered() {

@@ -155,6 +155,12 @@ Template.project_single_page.onRendered(function itemSinglePageOnRendered() {
     });
 });
 
+
+Template.projects_user_all.onRendered(function projectUserAllOnRendered() {
+    this.accordion = new Foundation.Accordion($('.accordion'));
+});
+
+
 Template.project_single_card.onRendered(function projectSingleCardOnRendered() {
     $('.has-tip-item-card-locked').each(function() {
         new Foundation.Tooltip($(this));
