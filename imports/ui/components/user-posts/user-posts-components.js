@@ -453,7 +453,18 @@ Template.user_post_submit.helpers({
         return Session.get('isPostUploading');
     },
     uploadingCopy: function () {
-        return "Posting...";
+        let tempPercentTotal = 0;
+        if (Cloudinary.collection.findOne()) {
+            let count = Cloudinary.collection.find().count();
+
+            Cloudinary.collection.find().forEach((file) => {
+                tempPercentTotal += file.percent_uploaded;
+            });
+            tempPercentTotal = Math.round(tempPercentTotal/count);
+
+            return "Posting: " + tempPercentTotal + "%";
+        }
+        else return "Posting...";
     },
     maxPhotoUploadCount: function () {
         return UPLOAD_LIMITS.images;
@@ -601,8 +612,8 @@ Template.user_post_edit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 5000000) {
-                    throwError("Sorry, one of your images is bigger than the 5MB upload limit");
+                if (files[i].size > 6000000) {
+                    throwError("Sorry, one of your images is bigger than the 6MB upload limit");
                     return;
                 }
             }
@@ -731,8 +742,8 @@ Template.user_post_submit.events({
             var files = this.files;
 
             for (var i = 0; i < files.length; i++) {
-                if (files[i].size > 5000000) {
-                    throwError("Sorry, one of your images is bigger than the 5MB upload limit");
+                if (files[i].size > 6000000) {
+                    throwError("Sorry, one of your images is bigger than the 6MB upload limit");
                     return;
                 }
             }
