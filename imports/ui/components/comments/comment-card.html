@@ -29,10 +29,10 @@
             {{#unless inappropriate}}
                 <p class="push-down-sm comment-card-text">{{{text}}}</p>
                 <p>
-                    <span class="date text-small">{{dateTimeAgo createdAt}}</span>
                     {{#if lastUpdated}}
-                        <br>
                         <span class="date text-small">edited {{dateTimeAgo lastUpdated}}</span>
+                    {{else}}
+                        <span class="date text-small">{{dateTimeAgo createdAt}}</span>
                     {{/if}}
                 </p>
             {{else}}

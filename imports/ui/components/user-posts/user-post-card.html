@@ -1,10 +1,10 @@
 <template name="user_post_card">
     <div class="post row column">
         <p class="float-right text-small text-right">
-            posted {{dateTimeAgo userPost.createdAt}}
             {{#if userPost.lastUpdated}}
-                <br>
                 edited {{dateTimeAgo userPost.lastUpdated}}
+            {{else}}
+                posted {{dateTimeAgo userPost.createdAt}}
             {{/if}}
         </p>
         <p class="text-small">

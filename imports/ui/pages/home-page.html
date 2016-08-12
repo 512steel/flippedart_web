@@ -100,17 +100,17 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-4">
                 {{#each topUserPosts}}
                     {{#if equals @index 2}}
-                        <div class="column small-12 medium-12 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
+                        <div class="column small-12 medium-12 large-12 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card userPost=this small_card=true}}
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column small-12 medium-6 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-6 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card userPost=this small_card=true}}
                         </div>
                     {{/if}}
                     {{#if equals @index 4}}
-                        <div class="column small-12 medium-6 large-4 bordered-light padded-large small-push-down" data-equalizer-watch>
+                        <div class="column small-12 medium-6 large-6 bordered-light padded-large small-push-down" data-equalizer-watch>
                             {{>user_post_card userPost=this small_card=true}}
                         </div>
                     {{/if}}
