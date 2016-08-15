@@ -27,6 +27,7 @@ import '../../ui/components/exchangeItems/exchangeItems-components.js';
 import '../../ui/components/user-posts/user-posts-components.js';
 import '../../ui/components/user-profile/profile-page-components.js';
 import '../../ui/components/chat/chat-window-components.js';
+import '../../ui/components/admin/admin-components.js';
 
 
 // Import to override accounts templates
@@ -77,6 +78,14 @@ AccountsTemplates.configureRoute('resetPwd', {
 AccountsTemplates.configureRoute('verifyEmail', {
     name: 'verifyEmail',
     path: '/verify-email',
+});
+
+
+FlowRouter.route('/admin', {
+    name: 'static.admin',
+    action() {
+        BlazeLayout.render('App_body', { main: 'admin_page' });
+    },
 });
 
 

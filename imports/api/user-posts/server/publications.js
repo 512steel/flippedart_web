@@ -2,21 +2,22 @@
 
 import { Meteor } from 'meteor/meteor';
 import { UserPosts } from '../user-posts.js';
+import { _ } from 'meteor/underscore';
 
 //NOTE: testing purposes only, not for production
-/*Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
-    /!*check(options, {
-        sort: Object,
-        limit: Number
-    });*!/
+Meteor.publish('userPosts.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
 
-    return UserPosts.find(
-        {},
-        {
-            fields: UserPosts.publicFields,
-        }
-    );
-});*/
+    if (!this.userId) {
+        return;
+    }
+
+    const adminUser = Meteor.users.findOne(this.userId);
+    if (!_.contains(adminUser.roles, 'admin')) {
+        return;
+    }
+
+    return UserPosts.find();
+});
 
 Meteor.publish('userPosts.user', function(username, options, limit) {
     check(username, String);

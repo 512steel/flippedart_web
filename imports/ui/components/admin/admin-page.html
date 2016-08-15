@@ -1,0 +1,60 @@
+<template name="admin_page">
+    <div class="row column pull-down">
+        <h1>Admin page</h1>
+
+        <div class="row">
+            <div class="small-12 medium-10 large-10 small-centered medium-centered large-centered columns">
+                <h2>UserPosts</h2>
+                {{#each userPosts}}
+                    {{> adminDoc}}
+                {{else}}
+                    <p>No user posts.</p>
+                {{/each}}
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+</template>
+
+
+<template name="adminDoc">
+    <p>
+        <strong>_id</strong>: {{_id}}
+        |
+        <strong>userId</strong>: {{userId}}
+        |
+        <strong>author</strong>: {{author}}
+        |
+        <strong>location</strong>: {{location}}
+        |
+        <strong>commentsCount</strong>: {{commentsCount}}
+        |
+        <strong>voters</strong>: {{voters}}
+        |
+        <strong>upvotes</strong>: {{upvotes}}
+        |
+        <strong>flaggers</strong>: {{flaggers}}
+        |
+        <strong>flags</strong>: {{flags}}
+        |
+        <strong>rank</strong>: {{rank}}
+        |
+        <strong>imageLinks</strong>: {{imageLinks}}
+        |
+        <strong>tag</strong>: {{tag}}
+        |
+        <strong>createdAt</strong>: {{createdAt}}
+        |
+        <strong>lastUpdated</strong>: {{lastUpdated}}
+
+        <br>
+
+        <strong>text</strong>: {{text}}
+
+        <br>
+
+        <button class="delete">Delete</button>
+    </p>
+</template>

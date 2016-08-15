@@ -25,6 +25,7 @@ const AUTH_METHODS = [
   'ATRemoveService',
   'ATCreateUserServer',
   'ATResendVerificationEmail',
+  'sendVerificationEmailNew'
 ];
 
 if (Meteor.isServer) {
