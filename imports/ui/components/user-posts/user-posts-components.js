@@ -87,7 +87,7 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
 
     let userPost = UserPosts.findOne({});
 
-    DocHead.addMeta({name: "og:description", content: "BALL"});
+    DocHead.addMeta({name: "og:description", content: " "});
 
 
 

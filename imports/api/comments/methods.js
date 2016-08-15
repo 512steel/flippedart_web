@@ -7,6 +7,7 @@ import { sanitizeHtml } from '../../ui/lib/general-helpers.js';
 
 import { Comments } from './comments.js';
 import { UserAttributes } from '../user-attributes/user-attributes.js';
+import { ExchangeItems } from '../exchange-items/exchange-items.js';
 import { updateRank } from '../user-attributes/methods.js';
 import { UserPosts } from '../user-posts/user-posts.js';
 import { decrementComments as userPostDecrementComments }
@@ -19,6 +20,7 @@ import {
     POINTS_SYSTEM,
     COMMENT_EVENT_TYPES,
     RECENT_ACTIVITY_TYPES,
+    COMMENTABLE_PAGE_NAMES,
 } from '../../ui/lib/globals.js';
 
 import {
@@ -34,29 +36,60 @@ export const insert = new ValidatedMethod({
     validate: new SimpleSchema({
         userPostId: {
             type: String,
-            regEx: SimpleSchema.RegEx.Id
+            regEx: SimpleSchema.RegEx.Id,
+            optional: true
+        },
+        projectId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id,
+            optional: true,
+        },
+        pageName: {
+            type: String,
+            optional: true,
         },
         text: { type: String },
     }).validator(),
-    run({ userPostId, text }) {
+    run({ userPostId, projectId, pageName, text }) {
         if (this.userId) {
             text = sanitizeHtml(text);
 
-            const user = Meteor.users.findOne(this.userId);
-            const userPost = UserPosts.findOne(userPostId);
-
-            if (!userPost) {
-                throw new Meteor.Error('comments.insert.invalid',
-                    'You must comment on a valid post.');
+            if (!userPostId && !projectId && !pageName) {
+                throw new Meteor.Error('comments.insert.accessDenied',
+                    'You must comment on a valid document.');
             }
+
+            const user = Meteor.users.findOne(this.userId);
             if (!user) {
                 throw new Meteor.Error('comments.insert.accessDenied',
                     'You must be signed in to do this.');
             }
 
+            const userPost = UserPosts.findOne(userPostId);
+            if (userPostId) {
+                if (!userPost) {
+                    throw new Meteor.Error('comments.insert.invalid',
+                        'You must comment on a valid post.');
+                }
+            }
+            const project = ExchangeItems.findOne(projectId);
+            if (projectId) {
+                if (!project) {
+                    throw new Meteor.Error('comments.insert.invalid',
+                        'You must comment on a valid project.');
+                }
+            }
+            if (pageName) {
+                if (!_.contains(COMMENTABLE_PAGE_NAMES, pageName)) {
+                    throw new Meteor.Error('comments.insert.invalid',
+                        'You must comment on a valid page.');
+                }
+            }
 
             const comment = {
                 userPostId: userPostId,
+                projectId: projectId,
+                pageName: pageName,
                 text: text,
                 userId: this.userId,
                 author: user.username,
@@ -69,65 +102,70 @@ export const insert = new ValidatedMethod({
 
             //UserAttributes points system: do this after the fact
             const userAttributes = UserAttributes.findOne({userId: this.userId});
-
             if (userAttributes) {
                 //Call the server-only method updateRank on UserAttributes, and remove points
                 updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.comment);
             }
 
-            createCommentNotification(newCommentId, userPostId, user.username);
+            //FIXME: create PROJECT comment notifications and RecentActivities too.
+            if (userPostId) {
+                createCommentNotification(newCommentId, userPostId, user.username);
 
-            const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
-            createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link);
+                const link = "https://www.flippedart.org/" + userPost.author + "/posts/" + userPostId;
+                createRecentActivity(user.username, userPost.author, RECENT_ACTIVITY_TYPES.comment, link);
 
-            //Send email notifications to the user if their post has been commented on
-            if (user.username != userPost.author) {
-                if (userPost.commentsCount == 0) {
-                    // send initial comment email
-                    sendCommentEventEmail.call({
-                        commenterName: user.username,
-                        commenteeName: userPost.author,
-                        userPostId: userPostId,
-                        userPostText: userPost.text,
-                        commentEventType: COMMENT_EVENT_TYPES.single
-                    }, (err, res) => {
-                        if (err) {
-                            //TODO: error handling here
-                            console.log('error sending the comment event email');
-                            console.log(err);
-                        }
-                        else {
-                            //success!
-                        }
-                    });
-                }
-                else if (userPost.commentsCount == 2) {  //TODO: this is set at 3 arbitrarily.  Basically, just so that the user doesn't get innundated with emails for every single comment.  We can make this more sophisticated if we start storing a "commenters" array in the UserPost documents.
-                    // send multi-comments email
-                    sendCommentEventEmail.call({
-                        commenteeName: userPost.author,
-                        userPostId: userPostId,
-                        userPostText: userPost.text,
-                        commentEventType: COMMENT_EVENT_TYPES.multiple
-                    }, (err, res) => {
-                        if (err) {
-                            //TODO: error handling here
-                            console.log('error sending the comment event email');
-                            console.log(err);
-                        }
-                        else {
-                            //success!
-                        }
-                    });
-                }
-            }
-
-            UserPosts.update(userPostId,
-                {
-                    $inc: {
-                        commentsCount: 1,
-                        rank: POINTS_SYSTEM.UserPosts.comment,
+                //Send email notifications to the user if their post has been commented on
+                if (user.username != userPost.author) {
+                    if (userPost.commentsCount == 0) {
+                        // send initial comment email
+                        sendCommentEventEmail.call({
+                            commenterName: user.username,
+                            commenteeName: userPost.author,
+                            userPostId: userPostId,
+                            userPostText: userPost.text,
+                            commentEventType: COMMENT_EVENT_TYPES.single
+                        }, (err, res) => {
+                            if (err) {
+                                //TODO: error handling here
+                                console.log('error sending the comment event email');
+                                console.log(err);
+                            }
+                            else {
+                                //success!
+                            }
+                        });
                     }
-                });
+                    else if (userPost.commentsCount == 2) {  //TODO: this is set at 3 arbitrarily.  Basically, just so that the user doesn't get innundated with emails for every single comment.  We can make this more sophisticated if we start storing a "commenters" array in the UserPost documents.
+                        // send multi-comments email
+                        sendCommentEventEmail.call({
+                            commenteeName: userPost.author,
+                            userPostId: userPostId,
+                            userPostText: userPost.text,
+                            commentEventType: COMMENT_EVENT_TYPES.multiple
+                        }, (err, res) => {
+                            if (err) {
+                                //TODO: error handling here
+                                console.log('error sending the comment event email');
+                                console.log(err);
+                            }
+                            else {
+                                //success!
+                            }
+                        });
+                    }
+                }
+
+                UserPosts.update(userPostId,
+                    {
+                        $inc: {
+                            commentsCount: 1,
+                            rank: POINTS_SYSTEM.UserPosts.comment,
+                        }
+                    });
+            }
+            else {
+                console.log(this.userId + " commented on something other than a UserPost.");
+            }
         }
         else {
             throw new Meteor.Error('comments.insert.accessDenied',

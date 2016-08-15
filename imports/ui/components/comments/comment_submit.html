@@ -1,14 +1,36 @@
 <template name="comment_submit">
     <div class="row">
         <div class="small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
-            <form name="comment" class="comment-submit-form form">
-                <div class="">
+            {{#if equals currentCommentType userPostCommentType}}
+                <form name="comment" class="comment-submit-form-userPost form">
                     <div class="">
-                        {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Comment on this post" maxlength="2500" type="text" rows="3"}}{{/textareaAutocomplete}}
+                        <div class="">
+                            {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Comment on this post" maxlength="2500" type="text" rows="3"}}{{/textareaAutocomplete}}
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="button float-right">Add comment</button>
-            </form>
+                    <button type="submit" class="button float-right">Add comment</button>
+                </form>
+            {{/if}}
+            {{#if equals currentCommentType projectCommentType}}
+                <form name="comment" class="comment-submit-form-project form">
+                    <div class="">
+                        <div class="">
+                            {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Comment on this project" maxlength="2500" type="text" rows="3"}}{{/textareaAutocomplete}}
+                        </div>
+                    </div>
+                    <button type="submit" class="button float-right">Add comment</button>
+                </form>
+            {{/if}}
+            {{#if equals currentCommentType pageCommentType}}
+                <form name="comment" class="comment-submit-form-page form">
+                    <div class="">
+                        <div class="">
+                            {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Comment on this page" maxlength="2500" type="text" rows="3"}}{{/textareaAutocomplete}}
+                        </div>
+                    </div>
+                    <button type="submit" class="button float-right">Add comment</button>
+                </form>
+            {{/if}}
         </div>
     </div>
 </template>

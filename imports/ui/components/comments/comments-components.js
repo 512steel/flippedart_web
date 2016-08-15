@@ -2,7 +2,10 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/underscore';
 
-import { FLAG_THRESHOLD } from '../../lib/globals.js';
+import {
+    FLAG_THRESHOLD,
+    COMMENT_TYPES,
+} from '../../lib/globals.js';
 
 import {
     throwError,
@@ -54,6 +57,13 @@ Template.comment_submit.onCreated(function commentSubmitOnCreated() {
     this.autorun(() => {
         this.subscribe('usernames.all');
     });
+
+    this.getCommentType = () => {
+        if (!this.data.commentType || this.data.commentType == COMMENT_TYPES.userPost) {
+            return COMMENT_TYPES.userPost;
+        }
+        else return this.data.commentType;
+    }
 });
 
 
@@ -230,7 +240,7 @@ Template.comment_edit.helpers({
 
 Template.comment_submit.helpers({
 
-    settings: function() {
+    settings: () => {
         return {
             position: "top",
             limit: 5,
@@ -244,7 +254,21 @@ Template.comment_submit.helpers({
                 }
             ]
         };
-    }
+    },
+
+    currentCommentType: () => {
+        return Template.instance().getCommentType();
+    },
+    userPostCommentType: () => {
+        return COMMENT_TYPES.userPost;
+    },
+    projectCommentType: () => {
+        return COMMENT_TYPES.project;
+    },
+    pageCommentType: () => {
+        return COMMENT_TYPES.commentablePage;
+    },
+
 });
 
 
@@ -314,12 +338,48 @@ Template.comment_edit.events({
 });
 
 Template.comment_submit.events({
-    'submit form.comment-submit-form': function(e) {
+    'submit form.comment-submit-form-userPost': function(e) {
         e.preventDefault();
 
         let $text = $(e.target).find('[name=text]');
         insert.call({
             userPostId: this._id,
+            text: $text.val(),
+        }, (err, res) => {
+            if (err) {
+                throwError(err.reason);
+            }
+            else {
+                // success!
+                $text.val('');
+            }
+        });
+    },
+    'submit form.comment-submit-form-project': function(e) {
+        e.preventDefault();
+
+        let $text = $(e.target).find('[name=text]');
+        insert.call({
+            projectId: this.document._id,
+            text: $text.val(),
+        }, (err, res) => {
+            if (err) {
+                throwError(err.reason);
+            }
+            else {
+                // success!
+                $text.val('');
+            }
+        });
+    },
+    'submit form.comment-submit-form-page': function(e) {
+        e.preventDefault();
+
+        console.log(this);
+
+        let $text = $(e.target).find('[name=text]');
+        insert.call({
+            pageName: this.pageName,  //fixme
             text: $text.val(),
         }, (err, res) => {
             if (err) {

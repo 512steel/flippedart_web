@@ -20,6 +20,7 @@ import '../../ui/pages/feedback-page.js';
 import '../../ui/pages/feedback-thanks-page.js';
 import '../../ui/pages/howto-page.js';
 import '../../ui/pages/newsletter-page.js';
+import '../../ui/pages/state-of-the-arts-page.js';
 
 // Dynamic page imports
 import '../../ui/components/transactions-pages/transactions-components.js';
@@ -161,6 +162,15 @@ FlowRouter.route('/messages/:username/:messagesLimit?', {
     name: 'chatWindow.user',
     action() {
         BlazeLayout.render('App_body', { main: 'chat_window_card'});
+    }
+});
+
+
+/* Commentable pages */
+FlowRouter.route('/state-of-the-arts', {
+    name: 'page.state-of-the-arts',
+    action() {
+        BlazeLayout.render('App_body', { main: 'state_of_the_arts_page' });
     }
 });
 

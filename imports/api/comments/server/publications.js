@@ -39,6 +39,49 @@ Meteor.publish('comments.userPost', function(userPostId, options, limit) {
     );
 });
 
+//TODO: test this out
+Meteor.publish('comments.project', function(projectId, options, limit) {
+    check(projectId, String);
+    check(options, {
+        sort: Object,
+    });
+    check(limit, Number);
+
+    Counts.publish(this, 'comments.project.count', Comments.find({projectId: projectId}), { noReady: true });
+
+    return Comments.find(
+        {
+            projectId: projectId
+        },
+        {
+            sort: options.sort,
+            limit: limit,
+            fields: Comments.publicFields,
+        }
+    );
+});
+
+Meteor.publish('comments.commentablePage', function(pageName, options, limit) {
+    check(pageName, String);
+    check(options, {
+        sort: Object,
+    });
+    check(limit, Number);
+
+    Counts.publish(this, 'comments.commentablePage.count', Comments.find({pageName: pageName}), { noReady: true });
+
+    return Comments.find(
+        {
+            pageName: pageName
+        },
+        {
+            sort: options.sort,
+            limit: limit,
+            fields: Comments.publicFields,
+        }
+    );
+});
+
 Meteor.publish('comments.user', function(username, options) {
     check(username, String);
     check(options, {

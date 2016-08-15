@@ -36,6 +36,16 @@ Comments.schema = new SimpleSchema({
     userPostId: {
         type: String,
         regEx: SimpleSchema.RegEx.Id,
+        optional: true,
+    },
+    projectId: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Id,
+        optional: true,
+    },
+    pageName: {
+        type: String,
+        optional: true,
     },
     text: {
         type: String,
@@ -67,6 +77,8 @@ Comments.publicFields = {
     author: 1,
     text: 1,
     userPostId: 1,
+    projectId: 1,
+    pageName: 1,
     flaggers: 1,
     flags: 1,
     createdAt: 1,
