@@ -1,15 +1,36 @@
 <template name="admin_page">
     <div class="row column pull-down">
-        <h1>Admin page</h1>
-
         <div class="row">
             <div class="small-12 medium-10 large-10 small-centered medium-centered large-centered columns">
-                <h2>UserPosts</h2>
-                {{#each userPosts}}
-                    {{> adminDoc}}
-                {{else}}
-                    <p>No user posts.</p>
-                {{/each}}
+                <h2>Admin page</h2>
+                <ul class="accordion" data-accordion data-allow-all-closed="true">
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title" data-no-instant>Users</a>
+                        <div class="accordion-content" data-tab-content>
+                            Users content...
+                        </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title" data-no-instant>UserAttributes</a>
+                        <div class="accordion-content" data-tab-content>
+                            {{#each userAttributes}}
+                                {{> userAttributesAdminDoc}}
+                            {{else}}
+                                <p>No user attributes.</p>
+                            {{/each}}
+                        </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title" data-no-instant>UserPosts</a>
+                        <div class="accordion-content" data-tab-content>
+                            {{#each userPosts}}
+                                {{> userPostsAdminDoc}}
+                            {{else}}
+                                <p>No user posts.</p>
+                            {{/each}}
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -19,7 +40,43 @@
 </template>
 
 
-<template name="adminDoc">
+<template name="userAttributesAdminDoc">
+    <p>
+        <stong>username</stong>: {{username}}
+
+        <br>
+
+        <strong>profilePhotoLink</strong>:
+        <a data-lightbox="{{_id}}" href="{{c.url profilePhotoLink secure=true}}">
+            <img class="display-block" src="{{c.url profilePhotoLink secure=true}}" />
+        </a>
+
+        <br>
+
+        <strong>_id</strong>: {{_id}}
+        |
+        <strong>userId</strong>: {{userId}}
+        |
+        <strong>usernameLower</strong>: {{usernameLower}}
+        |
+        <strong>location</strong>: {{location}}
+        |
+        <strong>bio</strong>: {{bio}}
+        |
+        <strong>itemsPreviouslyOwned</strong>: {{itemsPreviouslyOwned}}  <!-- TODO: link to items on admin panel -->
+        |
+        <strong>rank</strong>: {{rank}}
+        |
+        <strong>createdAt</strong>: {{timeToMinutes createdAt}}
+
+        <br>
+
+        <button class="button delete">Delete?</button>
+    </p>
+    <hr>
+</template>
+
+<template name="userPostsAdminDoc">
     <p>
         <strong>_id</strong>: {{_id}}
         |
@@ -41,13 +98,11 @@
         |
         <strong>rank</strong>: {{rank}}
         |
-        <strong>imageLinks</strong>: {{imageLinks}}
-        |
         <strong>tag</strong>: {{tag}}
         |
-        <strong>createdAt</strong>: {{createdAt}}
+        <strong>createdAt</strong>: {{timeToMinutes createdAt}}
         |
-        <strong>lastUpdated</strong>: {{lastUpdated}}
+        <strong>lastUpdated</strong>: {{timeToMinutes lastUpdated}}
 
         <br>
 
@@ -55,6 +110,50 @@
 
         <br>
 
-        <button class="delete">Delete</button>
+        <strong>imageLinks</strong>:
+        {{#each imageLinks}}
+            <a data-lightbox="{{this}}" href="{{c.url this secure=true}}">
+                {{this}}
+            </a>
+            <br>
+        {{else}}
+            no image links
+        {{/each}}
+
+        <br>
+
+        <strong>comments</strong>:
+        <span style="display: block; width: 80%; margin-left: 20%;">
+            {{#each comments}}
+                <strong>author</strong>: {{this.author}}
+                |
+                <strong>userPostId</strong>: {{this.userPostId}}
+                |
+                <strong>flaggers</strong>: {{this.flaggers}}
+                |
+                <strong>flags</strong>: {{this.flags}}
+                |
+                <strong>createdAt</strong>: {{timeToMinutes this.createdAt}}
+                |
+                <strong>lastUpdated</strong>: {{timeToMinutes this.lastUpdated}}
+
+                <br>
+
+                <strong>text</strong>: {{this.text}}
+
+                <br>
+
+                <button class="button delete-comment">Delete comment?</button>
+
+                <hr>
+            {{else}}
+                no comments
+            {{/each}}
+        </span>
+
+        <br>
+
+        <button class="button delete">Delete userPost?</button>
     </p>
+    <hr>
 </template>

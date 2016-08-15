@@ -3,19 +3,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Comments } from '../comments.js';
 
-/*Meteor.publish('comments.all', function () {  //TODO: pass in "options" object for sorting/limit, and query these
-    /!*check(options, {
-     sort: Object,
-     limit: Number
-     });*!/
 
-    return Comments.find(
-        {},
-        {
-            fields: Comments.publicFields,
-        }
-    );
-});*/
+Meteor.publish('comments.all', function () {
+
+    if (!this.userId) {
+        return;
+    }
+
+    const adminUser = Meteor.users.findOne(this.userId);
+    if (!_.contains(adminUser.roles, 'admin')) {
+        return;
+    }
+
+    return Comments.find();
+});
 
 Meteor.publish('comments.userPost', function(userPostId, options, limit) {
     check(userPostId, String);

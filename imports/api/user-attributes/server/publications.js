@@ -3,14 +3,19 @@ import { UserAttributes } from '../user-attributes.js';
 
 
 //NOTE: for testing purposes only, not for production
-/*Meteor.publish('userAttributes.all', function() {
-    return UserAttributes.find(
-        {},
-        {
-            fields: UserAttributes.publicFields,
-        }
-    );
-});*/
+Meteor.publish('userAttributes.all', function () {
+
+    if (!this.userId) {
+        return;
+    }
+
+    const adminUser = Meteor.users.findOne(this.userId);
+    if (!_.contains(adminUser.roles, 'admin')) {
+        return;
+    }
+
+    return UserAttributes.find();
+});
 
 Meteor.publish('userAttributes.byId', function(userId) {
     if (userId) {
