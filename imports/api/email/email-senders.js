@@ -32,6 +32,9 @@ import {
 
     SOMEONE_HAS_COMMENTED_ON_YOUR_POST_TEXT,
     MORE_PEOPLE_HAVE_COMMENTED_ON_YOUR_POST_TEXT,
+
+    BOOKING_REQUEST_EMAIL_TEXT,
+    BOOKING_REQUEST_CONFIRMATION_TEXT,
 } from './email-texts.js';
 
 export const sendWebsiteFeedbackEmail = new ValidatedMethod({
@@ -325,6 +328,87 @@ export const sendCommentEventEmail = new ValidatedMethod({
                     }
                 });
             }
+        }
+    }
+});
+
+
+export const sendBookingRequestEmail = new ValidatedMethod({
+    name: 'emails.send.bookingRequest',
+    validate: new SimpleSchema({
+        bookingRequestObject: {type: Object},
+        'bookingRequestObject.eventType': {type: String},
+        'bookingRequestObject.eventName': {type: String},
+        'bookingRequestObject.ageRange': {type: String},
+        'bookingRequestObject.contactEmail': {type: String, regEx: SimpleSchema.RegEx.Email},
+        'bookingRequestObject.additionalDetails': {type: String},
+    }).validator(),
+    run({ bookingRequestObject }) {
+        this.unblock();
+
+        if (Meteor.isServer) {
+            //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
+            const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
+
+            bookingRequestObject.eventType = sanitizeHtml(bookingRequestObject.eventType);
+            bookingRequestObject.eventName = sanitizeHtml(bookingRequestObject.eventName);
+            bookingRequestObject.ageRange = sanitizeHtml(bookingRequestObject.ageRange);
+            bookingRequestObject.contactEmail = sanitizeHtml(bookingRequestObject.contactEmail);
+            bookingRequestObject.additionalDetails = sanitizeHtml(bookingRequestObject.additionalDetails);
+
+
+            {
+                var signedInUser = "User is not signed in.";
+                if (this.userId && Meteor.user()) {
+                    signedInUser = "User is signed in as " + Meteor.user().username;
+                }
+
+                var bookingToFlippedArtRequest = sendgrid.emptyRequest();
+                bookingToFlippedArtRequest.body = TRANSACTIONAL_EMAIL_SHELL;
+
+                bookingToFlippedArtRequest.body.categories[0] = "Booking Request";
+                bookingToFlippedArtRequest.body.content[0].value = BOOKING_REQUEST_EMAIL_TEXT(bookingRequestObject, signedInUser);
+                bookingToFlippedArtRequest.body.personalizations[0].to[0].email = "hello@flippedart.org";
+                bookingToFlippedArtRequest.body.personalizations[0].to[0].name = "Flipped Art";
+                bookingToFlippedArtRequest.body.reply_to.email = bookingRequestObject.contactEmail;
+                bookingToFlippedArtRequest.body.reply_to.name = bookingRequestObject.contactEmail;
+                bookingToFlippedArtRequest.body.subject = "Booking Request";
+                bookingToFlippedArtRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
+
+                bookingToFlippedArtRequest.method = 'POST';
+                bookingToFlippedArtRequest.path = '/v3/mail/send';
+                sendgrid.API(bookingToFlippedArtRequest, function (response) {
+                    //TODO: return errors to the client
+                    console.log("Feedback email response: ", response.statusCode);
+                    if (response.statusCode >= 400) {
+                        console.log(response);
+                    }
+                });
+            }
+            {
+                var bookingToBookerRequest = sendgrid.emptyRequest();
+                bookingToBookerRequest.body = TRANSACTIONAL_EMAIL_SHELL;
+
+                bookingToBookerRequest.body.categories[0] = "Booking Request";
+                bookingToBookerRequest.body.content[0].value = BOOKING_REQUEST_CONFIRMATION_TEXT(bookingRequestObject);
+                bookingToBookerRequest.body.personalizations[0].to[0].email = bookingRequestObject.contactEmail;
+                bookingToBookerRequest.body.personalizations[0].to[0].name = bookingRequestObject.contactEmail;
+                bookingToBookerRequest.body.reply_to.email = "hello@flippedart.org";
+                bookingToBookerRequest.body.reply_to.name = "Flipped Art";
+                bookingToBookerRequest.body.subject = "Tiny Studio booking request confirmation";
+                bookingToBookerRequest.body.template_id = "3944972c-0a18-43ab-bb33-006fb0d5a3c7";  //Transaction event template
+
+                bookingToBookerRequest.method = 'POST';
+                bookingToBookerRequest.path = '/v3/mail/send';
+                sendgrid.API(bookingToBookerRequest, function (response) {
+                    //TODO: return errors to the client
+                    console.log("Feedback email response: ", response.statusCode);
+                    if (response.statusCode >= 400) {
+                        console.log(response);
+                    }
+                });
+            }
+
         }
     }
 });

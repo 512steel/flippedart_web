@@ -20,6 +20,7 @@ import '../../ui/pages/feedback-page.js';
 import '../../ui/pages/feedback-thanks-page.js';
 import '../../ui/pages/howto-page.js';
 import '../../ui/pages/newsletter-page.js';
+import '../../ui/pages/booking-page.js';
 import '../../ui/pages/state-of-the-arts-page.js';
 
 // Dynamic page imports
@@ -143,6 +144,18 @@ FlowRouter.route('/newsletter', {
     name: 'static.newsletter',
     action() {
         BlazeLayout.render('App_body', { main: 'newsletter_page' });
+    }
+});
+FlowRouter.route('/booking', {
+    name: 'static.booking',
+    action() {
+        BlazeLayout.render('App_body', { main: 'booking_page' });
+    }
+});
+FlowRouter.route('/booking/thanks', {
+    name: 'static.booking.thanks',
+    action() {
+        BlazeLayout.render('App_body', { main: 'booking_page_thanks' });
     }
 });
 FlowRouter.route('/', {

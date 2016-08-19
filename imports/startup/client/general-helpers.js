@@ -1,3 +1,5 @@
+import { EMAIL_REGEX } from './../../ui/lib/globals.js';
+
 /*** Blaze helpers ***/
 
 Template.registerHelper('pluralize', function(n, thing) {
@@ -92,6 +94,16 @@ Template.registerHelper('limitLength', function(str, len) {
         str = str.slice(0,len) + '...';
     }
     return str;
+});
+
+Template.registerHelper('toLowerCase', function(str) {
+    check(str, String);
+    return str.toLowerCase();
+});
+
+Template.registerHelper('matchesEmailRegex', function(str) {
+    check(str, String);
+    return str.match(EMAIL_REGEX);
 });
 
 

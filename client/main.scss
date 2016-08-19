@@ -98,6 +98,9 @@
 .pull-down-xxxxxlarge {
   padding-top: 20rem;
 }
+.shift-down {
+  margin-top: 2rem;
+}
 .push-left {
   margin-left: 2rem;
 }
@@ -411,71 +414,6 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
   background-color: $white;
   padding: .5rem;
 }
-.pattern-diagonal {
-  /* defalut blue */
-  background:
-          url("data:image/svg+xml;base64,
-          PHN2ZyB4bWxucz0naHR0cDovL3d3dy5
-          3My5vcmcvMjAwMC9zdmcnIHdpZHRoPS
-          cxMCcgaGVpZ2h0PScxMCc+DQogIDxyZ
-          WN0IHdpZHRoPScyMCcgaGVpZ2h0PScy
-          MCcgZmlsbD0nd2hpdGUnLz4NCiAgPHB
-          hdGggZD0nTS0xLDEgbDIsLTINCiAgIC
-          AgICAgICAgTTAsMTAgbDEwLC0xMA0KI
-          CAgICAgICAgICBNOSwxMSBsMiwtMicg
-          c3Ryb2tlPScjNDU2ZDljJyBvcGFjaXR
-          5PSc1MCUnIHN0cm9rZS13aWR0aD0nMS
-          cvPg0KPC9zdmc+")
-          repeat;
-}
-.pattern-diagonal-blue {
-  background:
-          url("data:image/svg+xml;base64,
-          PHN2ZyB4bWxucz0naHR0cDovL3d3dy5
-          3My5vcmcvMjAwMC9zdmcnIHdpZHRoPS
-          cxMCcgaGVpZ2h0PScxMCc+DQogIDxyZ
-          WN0IHdpZHRoPScyMCcgaGVpZ2h0PScy
-          MCcgZmlsbD0nd2hpdGUnLz4NCiAgPHB
-          hdGggZD0nTS0xLDEgbDIsLTINCiAgIC
-          AgICAgICAgTTAsMTAgbDEwLC0xMA0KI
-          CAgICAgICAgICBNOSwxMSBsMiwtMicg
-          c3Ryb2tlPScjNDU2ZDljJyBvcGFjaXR
-          5PSc1MCUnIHN0cm9rZS13aWR0aD0nMS
-          cvPg0KPC9zdmc+")
-          repeat;
-}
-.pattern-diagonal-red {
-  background:
-          url("data:image/svg+xml;base64,
-          PHN2ZyB4bWxucz0naHR0cDovL3d3dy5
-          3My5vcmcvMjAwMC9zdmcnIHdpZHRoPS
-          cxMCcgaGVpZ2h0PScxMCc+DQogIDxyZ
-          WN0IHdpZHRoPScyMCcgaGVpZ2h0PScy
-          MCcgZmlsbD0nd2hpdGUnLz4NCiAgPHB
-          hdGggZD0nTS0xLDEgbDIsLTINCiAgIC
-          AgICAgICAgTTAsMTAgbDEwLC0xMA0KI
-          CAgICAgICAgICBNOSwxMSBsMiwtMicg
-          c3Ryb2tlPScjRTUwMzBBJyBvcGFjaXR
-          5PSc1MCUnIHN0cm9rZS13aWR0aD0nMS
-          cvPg0KPC9zdmc+")
-          repeat;
-}
-.pattern-diagonal-red-dark {
-  background:
-          url("data:image/svg+xml;base64,
-          PHN2ZyB4bWxucz0naHR0cDovL3d3dy5
-          3My5vcmcvMjAwMC9zdmcnIHdpZHRoPS
-          cxMCcgaGVpZ2h0PScxMCc+DQogIDxyZ
-          WN0IHdpZHRoPScyMCcgaGVpZ2h0PScy
-          MCcgZmlsbD0nd2hpdGUnLz4NCiAgPHB
-          hdGggZD0nTS0xLDEgbDIsLTINCiAgIC
-          AgICAgICAgTTAsMTAgbDEwLC0xMA0KI
-          CAgICAgICAgICBNOSwxMSBsMiwtMicg
-          c3Ryb2tlPScjQUIwMjFFJyBvcGFjaXR
-          5PSc1MCUnIHN0cm9rZS13aWR0aD0nMS
-          cvPg0KPC9zdmc+")
-          repeat;
-}
 
 .skyline-image {
   position: relative;
@@ -503,6 +441,34 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 
 .display-block {
   display: block;
+}
+
+ul.select-box {
+  @extend .text-centered;
+  list-style-type: none;
+  border-top: 1px solid $medium-gray;
+  border-left: 1px solid $medium-gray;
+  border-right: 1px solid $medium-gray;
+
+  margin-left: 0;
+  margin-right: 0;
+
+  @extend .font-truenorth;
+
+  li {
+    padding: 1rem;
+    border-bottom: 1px solid $medium-gray;
+  }
+  li:hover {
+    background-color: $super-light-gray;
+  }
+  li.selected {
+    color: $white;
+    background-color: #5a97c4;  /* fixme: how to pull "primary" from settings.scss? */
+  }
+  li.selected:hover {
+    background-color: #5a97c4;
+  }
 }
 
 

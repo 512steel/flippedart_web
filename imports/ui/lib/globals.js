@@ -138,3 +138,10 @@ export const COMMENT_TYPES = {
     'project': 'project',
     'commentablePage': 'commentablePage',
 };
+
+
+export const EVENT_TYPES = {
+    'school': 'school',
+    'business': 'business',
+    'event': 'event'
+};

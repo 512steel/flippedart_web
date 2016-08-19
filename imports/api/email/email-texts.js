@@ -317,3 +317,50 @@ export const SOMEONE_HAS_CANCELLED_YOUR_PROJECT_REQUEST_TEXT = (requesteeName, r
 
     return emailText;
 };
+
+//TODO: add to this email text as the object grows
+export const BOOKING_REQUEST_EMAIL_TEXT = (bookingRequestObject, signedInUser) => {
+    const emailText = "<html>" +
+
+        "<p>" +
+        "A booking request has been submitted: " +
+        "</p>" +
+
+        "<p>" +
+        "Event type: <strong>" + bookingRequestObject.eventType + "</strong> <br>" +
+        "Event name: <strong>" + bookingRequestObject.eventName + "</strong> <br>" +
+        "Age range: <strong>" + bookingRequestObject.ageRange + "</strong> <br>" +
+        "Contact email: <strong>" + bookingRequestObject.contactEmail + "</strong> <br>" +
+        "Additional Details: <strong>" + bookingRequestObject.additionalDetails + "</strong> <br>" +
+        "</p>" +
+
+        "<p>" +
+        signedInUser +
+        "</p>" +
+
+        "</html>";
+
+    return emailText;
+};
+
+export const BOOKING_REQUEST_CONFIRMATION_TEXT = (bookingRequestObject) => {
+    const emailText = "<html>" +
+
+        "<p>" +
+        "Hello there! " +
+        "</p>" +
+
+        "<p>" +
+        "Thanks for putting in your booking request for the Tiny Studio.  We have a " +
+        "record of it, and are making sure that we can fit your schedule.  We'll get back " +
+        "to you shortly, but in the meantime feel free to get in touch by replying to this email." +
+        "</p>" +
+
+        "<p>" +
+        "Thanks! " +
+        "</p>" +
+
+        "</html>";
+
+    return emailText;
+};
