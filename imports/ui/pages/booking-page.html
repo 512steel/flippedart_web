@@ -31,9 +31,33 @@
                                 <p class="button secondary hollow back-to-step-1 float-left">Back</p>
                             </div>
 
-                            <p>STEP 2</p>
+                            <div class="row">
+                                <div class="small-12 medium-6 columns">
+                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
+                                        <span class="slider-fill" data-slider-fill></span>
+                                    </div>
+                                    <input type="number" class="text-centered" id="sliderOutput1" />
+                                </div>
+                                <div class="small-12 medium-6 columns">
+                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput2"></span>
+                                        <span class="slider-fill" data-slider-fill></span>
+                                    </div>
+                                    <input type="number" class="text-centered" id="sliderOutput2" />
+                                </div>
+                                <div class="small-12 columns">
+                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput3"></span>
+                                        <span class="slider-fill" data-slider-fill></span>
+                                    </div>
+                                    <input type="number" class="text-centered" id="sliderOutput3" />
+                                </div>
+                            </div>
 
-                            <p class="next-button button primary hollow expanded  next-to-step-3 float-right">Next</p>
+                            <div class="clearfix">
+                                <p class="next-button button primary hollow expanded next-to-step-3 float-right">Next</p>
+                            </div>
                         </div>
 
                         <div class="step-3 hidden">
@@ -41,8 +65,18 @@
                                 <p class="button secondary hollow back-to-step-2 float-left">Back</p>
                             </div>
 
-                            <label><strong>Name of the event:</strong></label>
-                            <input type="text" class="event-name" placeholder="Event name..." />
+                            {{#if equals currentEventType eventTypes.school}}
+                                <label><strong>Name of your school:</strong></label>
+                                <input type="text" class="event-name" placeholder="School name..." />
+                            {{/if}}
+                            {{#if equals currentEventType eventTypes.business}}
+                                <label><strong>Name of your business or organization:</strong></label>
+                                <input type="text" class="event-name" placeholder="Organization name..." />
+                            {{/if}}
+                            {{#if equals currentEventType eventTypes.event}}
+                                <label><strong>Name of the event:</strong></label>
+                                <input type="text" class="event-name" placeholder="Event name..." />
+                            {{/if}}
 
                             <label><strong>Date of the event (date picker here, attached to the Google Calendar API)</strong></label>
 
@@ -56,7 +90,6 @@
                                     <option value="High school (grades 9 - 12)">High school (9<sup>th</sup>&ndash;12<sup>th</sup> grade)</option>
                                     <option value="Teachers and administrators">Teachers and administrators</option>
                                 {{/if}}
-
                                 {{#if equals currentEventType eventTypes.business}}
                                     <option disabled selected>Select an age range</option>
                                     <option value="5 - 8">5 - 8</option>
@@ -66,7 +99,6 @@
                                     <option value="15 - 18">15 - 18</option>
                                     <option value="18 and up">18+</option>
                                 {{/if}}
-
                                 {{#if equals currentEventType eventTypes.event}}
                                     <option disabled selected>Select an age range</option>
                                     <option value="5 - 8">5 - 8</option>

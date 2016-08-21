@@ -35,6 +35,11 @@ Template.booking_page.onCreated(() => {
 
 Template.booking_page.onRendered(() => {
 
+    $('.slider').each((idx) => {
+        new Foundation.Slider(this);
+    });
+
+
     autosize($('textarea'));
 });
 
@@ -188,4 +193,13 @@ Template.booking_page.events({
             }
         });
     },
+
+    'moved.zf.slider .slider': (e, target) => {
+        e.preventDefault();
+
+        console.log($('#sliderOutput1').val());
+        console.log($('#sliderOutput2').val());
+        console.log($('#sliderOutput3').val());
+        console.log('########################');
+    }
 });
