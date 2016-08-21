@@ -11,6 +11,6 @@ Meteor.publish('recentActivity.feed', function () {
         {
             sort: {createdAt: -1},
             fields: RecentActivity.publicFields,
-            limit: 5,
+            limit: 6,
         });
 });

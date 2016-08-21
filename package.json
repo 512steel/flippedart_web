@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "autoprefixer": "^6.3.1",
+    "chart.js": "^2.2.1",
     "faker": "^3.0.1",
     "meteor-node-stubs": "^0.2.3",
     "sendgrid": "^3.0.7"

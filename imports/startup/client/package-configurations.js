@@ -8,7 +8,7 @@ $.cloudinary.config({
 
 RouterAutoscroll.animationDuration = 0;
 
-//Facebook SDK:
+/*//Facebook SDK:
 window.fbAsyncInit = function() {
     FB.init({
         appId      : '705291662943586',
@@ -22,4 +22,4 @@ window.fbAsyncInit = function() {
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+}(document, 'script', 'facebook-jssdk'));*/
