@@ -375,8 +375,6 @@ Template.comment_submit.events({
     'submit form.comment-submit-form-page': function(e) {
         e.preventDefault();
 
-        console.log(this);
-
         let $text = $(e.target).find('[name=text]');
         insert.call({
             pageName: this.pageName,  //fixme

@@ -80,7 +80,7 @@ export const insert = new ValidatedMethod({
                 }
             }
             if (pageName) {
-                if (!_.contains(COMMENTABLE_PAGE_NAMES, pageName)) {
+                if (!_.contains(Object.keys(COMMENTABLE_PAGE_NAMES), pageName)) {
                     throw new Meteor.Error('comments.insert.invalid',
                         'You must comment on a valid page.');
                 }
@@ -106,6 +106,8 @@ export const insert = new ValidatedMethod({
                 //Call the server-only method updateRank on UserAttributes, and remove points
                 updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.comment);
             }
+
+            //FIXME: add a commentsCount to projects and commentable pages as well as userPosts.
 
             //FIXME: create PROJECT comment notifications and RecentActivities too.
             if (userPostId) {
@@ -163,8 +165,15 @@ export const insert = new ValidatedMethod({
                         }
                     });
             }
+            else if (pageName) {
+                const link = "https://www.flippedart.org/" + pageName;
+                createRecentActivity(user.username, COMMENTABLE_PAGE_NAMES[pageName], RECENT_ACTIVITY_TYPES.comment_on_page, link);
+            }
+            else if (projectId) {
+                //TODO: add a createRecentActivity() method here.
+            }
             else {
-                console.log(this.userId + " commented on something other than a UserPost.");
+                //...
             }
         }
         else {

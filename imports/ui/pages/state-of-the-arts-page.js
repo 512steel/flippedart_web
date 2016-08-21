@@ -37,7 +37,6 @@ Template.state_of_the_arts_page.onCreated(function() {
 
 Template.state_of_the_arts_page.helpers({
     comments: () => {
-        console.log(Template.instance().getPageName());
         return Comments.find({pageName: Template.instance().getPageName()});
     },
     pageName: () => {

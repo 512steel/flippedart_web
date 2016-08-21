@@ -44,7 +44,7 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
                 actionText = actorName + " liked " + acteeName + "'s post";
             }
             else {
-                actionText = actorName + " liked a post";
+                actionText = actorName + " liked their post";
             }
         }
         else if (actionType == RECENT_ACTIVITY_TYPES.comment) {
@@ -52,7 +52,19 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
                 actionText = actorName + " commented on " + acteeName + "'s post";
             }
             else {
-                actionText = actorName + " commented on a post";
+                actionText = actorName + " commented on their project";
+            }
+        }
+        else if (actionType == RECENT_ACTIVITY_TYPES.comment_on_page) {
+            // e.g.  "Alex commented on State of the Arts"
+            actionText = actorName + " commented on " + acteeName;
+        }
+        else if (actionType == RECENT_ACTIVITY_TYPES.comment_on_project) {
+            if (actorName != acteeName) {
+                actionText = actorName + " commented on " + acteeName + "'s project";
+            }
+            else {
+                actionText = actorName + " commented on their project";
             }
         }
         else if (actionType == RECENT_ACTIVITY_TYPES.newPost) {

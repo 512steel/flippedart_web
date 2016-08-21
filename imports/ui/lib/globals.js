@@ -120,6 +120,8 @@ export const COMMENT_EVENT_TYPES = {
 export const RECENT_ACTIVITY_TYPES = {
     'like': 'like',
     'comment': 'comment',
+    'comment_on_page': 'comment_on_page',
+    'comment_on_project': 'comment_on_project',
     'newPost': 'newPost',
     'newProject': 'newProject',
     'newUser': 'newUser',
@@ -127,10 +129,10 @@ export const RECENT_ACTIVITY_TYPES = {
 };
 
 
-export const COMMENTABLE_PAGE_NAMES = [
-    'state-of-the-arts',
-    'make',
-];
+export const COMMENTABLE_PAGE_NAMES = {
+    'state-of-the-arts': "State of the Arts",
+    'make': "Make stuff",
+};
 
 
 export const COMMENT_TYPES = {
