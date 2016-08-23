@@ -147,3 +147,52 @@ export const EVENT_TYPES = {
     'business': 'business',
     'event': 'event'
 };
+
+
+//The sliderAmount depends a lot on the data- attributes in booking-page.html
+export const COMPUTE_INCOME_DISPLAY = (sliderAmount) => {
+    /*
+        Start: 10
+        End: 90
+        Step: 10
+    */
+
+    switch (sliderAmount) {
+        case 10:
+            return '$0 - 1,000';
+        case 20:
+            return '$1,000 - 5,000';
+        case 30:
+            return '$5,000 - 10,000';
+        case 40:
+            return '$10,000 - 50,000';
+        case 50:
+            return '$50,000 - 200,000';
+        case 60:
+            return '$200,000 - 500,000';
+        case 70:
+            return '$500,000 - 1 million';
+        case 80:
+            return '$1 million - 10 million';
+        case 90:
+            return'$10 million+'
+    }
+};
+export const COMPUTE_ATTENDANCE_DISPLAY = (sliderAmount) => {
+    /*
+        Start: 6
+        End: 96
+        Step: 2
+    */
+
+    return (sliderAmount - 6) / 2;
+};
+export const COMPUTE_TIME_DISPLAY = (sliderAmount) => {
+    /*
+        Start: 15
+        End: 95
+        Step: 5
+    */
+
+    return (sliderAmount - 15) / 10;
+};

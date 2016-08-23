@@ -31,31 +31,138 @@
                                 <p class="button secondary hollow back-to-step-1 float-left">Back</p>
                             </div>
 
-                            <div class="row">
+                            <div class="row pull-down push-down-large">
                                 <div class="small-12 medium-6 columns">
-                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
+
+                                    <h5>
+                                        <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
+                                              title="We operate on a sliding scale model for our pop-up events. Please provide a good-faith estimate of your organization's yearly income.">
+                                            {{#if equals currentEventType eventTypes.school}}
+                                                School's income
+                                            {{/if}}
+                                            {{#if equals currentEventType eventTypes.business}}
+                                                Organization's income
+                                            {{/if}}
+                                            {{#if equals currentEventType eventTypes.event}}
+                                                Event organization's income
+                                            {{/if}}
+                                        </span>
+                                    </h5>
+
+                                    <div class="income-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column" style="width:100%;">
+                                        <canvas id="incomeChartLeft"></canvas>
+                                        <canvas id="incomeChartLine"></canvas>
+                                        <canvas id="incomeChartRight"></canvas>
+                                    </div>
+
+                                    <div class="slider clearfix" id="income-slider" data-slider data-start="10" data-end="90" data-initial-start="30" data-step="10" data-changed-delay="0">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="incomeSliderOutput"></span>
                                         <span class="slider-fill" data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="text-centered" id="sliderOutput1" />
+                                    <input type="number" class="hidden" id="incomeSliderOutput" />
+
+                                    <p class="text-centered font-truenorth">
+                                        <span id="incomeSlider-output-computed"></span>
+                                        <br>
+                                        per year
+                                    </p>
                                 </div>
                                 <div class="small-12 medium-6 columns">
-                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput2"></span>
+
+                                    <h5>
+                                        <span id="attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
+                                              title="An estimated number of people you think will engage with our makerspace.  This helps us plan out how we stock the Tiny Studio prior to your event.">
+                                            Expected attendance
+                                        </span>
+                                    </h5>
+
+                                    <div class="attendance-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column" style="width:100%;">
+                                        <canvas id="attendanceChartLeft"></canvas>
+                                        <canvas id="attendanceChartLine"></canvas>
+                                        <canvas id="attendanceChartRight"></canvas>
+                                    </div>
+
+                                    <div class="slider clearfix" id="attendance-slider" data-slider data-start="6" data-end="96" data-initial-start="46" data-step="2" data-changed-delay="0">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="attendanceSliderOutput"></span>
                                         <span class="slider-fill" data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="text-centered" id="sliderOutput2" />
+                                    <input type="number" class="hidden" id="attendanceSliderOutput" />
+
+                                    <p class="text-centered font-truenorth">
+                                        <span id="attendanceSlider-output-computed" class="text-centered"></span>
+                                        <br>
+                                        makers
+                                    </p>
                                 </div>
+                            </div>
+                            <div class="row push-down">
                                 <div class="small-12 columns">
-                                    <div class="slider" data-slider data-initial-start="0" data-step="5">
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput3"></span>
+
+                                    <h5>
+                                        <span id="time-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
+                                              title="The amount of time you would like us to provide engaging activities for your event.  This does not include our own set-up/tear-down time.">
+                                            Length of the event
+                                        </span>
+                                    </h5>
+
+                                    <div class="time-chart-container clearfix push-down text-centered small-12 medium-12 large-12 column" style="width:100%;">
+                                        <canvas id="timeChartLeft"></canvas>
+                                        <canvas id="timeChartLine"></canvas>
+                                        <canvas id="timeChartRight"></canvas>
+                                    </div>
+
+                                    <div class="slider clearfix" id="time-slider" data-slider data-start="15" data-end="95" data-initial-start="35" data-step="5" data-changed-delay="0">
+                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="timeSliderOutput"></span>
                                         <span class="slider-fill" data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="text-centered" id="sliderOutput3" />
+                                    <input type="number" class="hidden" id="timeSliderOutput" />
+
+                                    <p class="text-centered font-truenorth">
+                                        <span id="timeSlider-output-computed"></span>
+                                        <br>
+                                        hours
+                                    </p>
                                 </div>
                             </div>
 
-                            <div class="clearfix">
+                            <div class="clearfix pull-down">
+                                <ul class="accordion" data-accordion data-allow-all-closed="true">
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a href="#" class="accordion-title" data-no-instant>Tell me more about the sliding scale</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <h6>The Sliding Scale model</h6>
+                                            <p>
+                                                Stuff about the sliding scale, plus the equation.
+                                            </p>
+
+                                        </div>
+                                    </li>
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a href="#" class="accordion-title" data-no-instant>How is "income" different than "budget"?</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <h6>Income vs. Budget</h6>
+                                            <p>
+                                                Stuff stuff stuff stuff stuff.
+                                            </p>
+
+                                        </div>
+                                    </li>
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a href="#" class="accordion-title" data-no-instant>How do you use this information?</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <h6>Privacy</h6>
+                                            <p>
+                                                The information you submit here is kept in full confidence, and will only
+                                                be used in order to compute a fair and customized price for bringing the
+                                                Tiny Studio to your event.
+                                            </p>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="clearfix pull-down">
                                 <p class="next-button button primary hollow expanded next-to-step-3 float-right">Next</p>
                             </div>
                         </div>
@@ -144,6 +251,24 @@
                             I want the
                             <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
                             for my <strong>{{bookingRequest.eventType}}</strong>
+                        </p>
+                    {{/if}}
+
+                    {{#if hasBeenToStep2}}
+                        <p>
+                            We make
+                            <strong>{{bookingRequest.incomeSliderComputed}}</strong>
+                            per year
+                        </p>
+                        <p>
+                            This event is for an estimated
+                            <strong>{{bookingRequest.attendanceSliderComputed}}</strong>
+                            makers
+                        </p>
+                        <p>
+                            The event lasts
+                            <strong>{{bookingRequest.timeSliderComputed}}</strong>
+                            hours
                         </p>
                     {{/if}}
 
