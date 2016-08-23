@@ -338,6 +338,12 @@ export const sendBookingRequestEmail = new ValidatedMethod({
     validate: new SimpleSchema({
         bookingRequestObject: {type: Object},
         'bookingRequestObject.eventType': {type: String},
+        'bookingRequestObject.incomeSlider': {type: Number},
+        'bookingRequestObject.attendanceSlider': {type: Number},
+        'bookingRequestObject.timeSlider': {type: Number},
+        'bookingRequestObject.incomeSliderComputed': {type: String, optional: true},
+        'bookingRequestObject.attendanceSliderComputed': {type: Number, optional: true},
+        'bookingRequestObject.timeSliderComputed': {type: Number, decimal: true, optional: true},
         'bookingRequestObject.eventName': {type: String},
         'bookingRequestObject.ageRange': {type: String},
         'bookingRequestObject.contactEmail': {type: String, regEx: SimpleSchema.RegEx.Email},
@@ -350,6 +356,7 @@ export const sendBookingRequestEmail = new ValidatedMethod({
             //FIXME: this breaks the client if it's defined at the top of the file, for some reason.
             const sendgrid = require('sendgrid').SendGrid(Meteor.settings.private.email.sendgrid.api_key);
 
+            //TODO: include additional items from bookingRequestObject
             bookingRequestObject.eventType = sanitizeHtml(bookingRequestObject.eventType);
             bookingRequestObject.eventName = sanitizeHtml(bookingRequestObject.eventName);
             bookingRequestObject.ageRange = sanitizeHtml(bookingRequestObject.ageRange);

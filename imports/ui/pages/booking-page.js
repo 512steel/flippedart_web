@@ -272,6 +272,7 @@ Template.booking_page.onRendered(() => {
         }
 
         //TIME chart
+        //FIXME: curve the top of this line to follow the equation Math.pow(x, 0.9)
         if (timeLeftCanvas.getContext){
             var timeLeftCtx = timeLeftCanvas.getContext('2d');
 
@@ -479,7 +480,7 @@ Template.booking_page.events({
     },
     'keyup #booking-form .contact-email': (e) => {
         let contactEmail = $('#booking-form .contact-email').val();
-        if (EMAIL_REGEX.test(contactEmail)) {
+        if (contactEmail.length < 50 && EMAIL_REGEX.test(contactEmail)) {
             let domain = contactEmail.match(/@((.+){2,})\./)[1];
             let tld = contactEmail.match(/\.((.+){2,})/)[1];
 
