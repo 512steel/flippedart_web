@@ -477,6 +477,26 @@ ul.select-box {
 }
 
 
+/* Pikaday extra stuff (hacky...) */
+.pika-single {
+  width: 400px;
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+.pika-prev {
+  float: left;
+  margin-bottom: 1rem;
+}
+.pika-next {
+  float: right;
+  margin-bottom: 1rem;
+}
+.pika-table {
+  width: 390px;
+  text-align: left;
+}
+
+
 /* "small" only */
 @media screen and (max-width: 39.9375em) {
   .clearfix-small {

@@ -22,7 +22,7 @@ Template.atPwdForm.events({
     'keyup #at-field-email': function (e) {
         //TODO: debounce this
         let address = e.target.value;
-        if (address.length < 50 && EMAIL_REGEX.test(address)) {
+        if (address.length < 40 && EMAIL_REGEX.test(address)) {
             let domain = address.match(/@((.+){2,})\./)[1];
             let tld = address.match(/\.((.+){2,})/)[1];
 

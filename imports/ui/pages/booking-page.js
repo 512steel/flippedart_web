@@ -368,6 +368,11 @@ Template.booking_page.onRendered(() => {
     });
 
     this.accordion = new Foundation.Accordion($('.accordion'));
+    this.accordion2 = new Foundation.Accordion($('.accordion-2'));
+
+    var Pikaday = require('pikaday');
+    var picker = new Pikaday({ field: document.getElementById('datepicker') });
+
     autosize($('textarea'));
 });
 
@@ -413,6 +418,8 @@ Template.booking_page.events({
         e.preventDefault();
 
         $('#booking-form .step-2').fadeOut(() => {
+            //TODO: more elegant scrolling
+            //window.scrollTo(0, 0);  //TODO: keep a progress bar outside of the ".step-" elements so this jump doesn't look as jarring.
             $('#booking-form .step-3').fadeIn();
         });
     },
@@ -480,7 +487,7 @@ Template.booking_page.events({
     },
     'keyup #booking-form .contact-email': (e) => {
         let contactEmail = $('#booking-form .contact-email').val();
-        if (contactEmail.length < 50 && EMAIL_REGEX.test(contactEmail)) {
+        if (contactEmail.length < 40 && EMAIL_REGEX.test(contactEmail)) {
             let domain = contactEmail.match(/@((.+){2,})\./)[1];
             let tld = contactEmail.match(/\.((.+){2,})/)[1];
 
@@ -564,5 +571,10 @@ Template.booking_page.events({
         this.bookingRequest.set(bookingRequestObj);
 
         this.drawCharts(bookingRequestObj);
-    }
+    },
+    'blur #datepicker': (e, target) => {
+        let bookingRequestObj = this.bookingRequest.get();
+        bookingRequestObj['eventDate'] = $('#datepicker').val();
+        this.bookingRequest.set(bookingRequestObj);
+    },
 });

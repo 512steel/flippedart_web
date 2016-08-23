@@ -35,18 +35,30 @@
                                 <div class="small-12 medium-6 columns">
 
                                     <h5>
-                                        <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
-                                              title="We operate on a sliding scale model for our pop-up events. Please provide a good-faith estimate of your organization's yearly income.">
-                                            {{#if equals currentEventType eventTypes.school}}
-                                                School's income
-                                            {{/if}}
-                                            {{#if equals currentEventType eventTypes.business}}
-                                                Organization's income
-                                            {{/if}}
-                                            {{#if equals currentEventType eventTypes.event}}
+                                        {{#if equals currentEventType eventTypes.school}}
+                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                                  title="We operate on a sliding scale model
+                                              for our pop-up events. Please provide a good-faith
+                                              estimate of your school's yearly endowment.">
+                                                School's endowment
+                                            </span>
+                                        {{/if}}
+                                        {{#if equals currentEventType eventTypes.business}}
+                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                                  title="We operate on a sliding scale model
+                                              for our pop-up events. Please provide a good-faith
+                                              estimate of your organization's yearly income.">
+                                                Organizations's income
+                                            </span>
+                                        {{/if}}
+                                        {{#if equals currentEventType eventTypes.event}}
+                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                                  title="We operate on a sliding scale model
+                                                  for our pop-up events. Please provide a good-faith
+                                                  estimate of your organization's yearly income.">
                                                 Event organization's income
-                                            {{/if}}
-                                        </span>
+                                            </span>
+                                        {{/if}}
                                     </h5>
 
                                     <div class="income-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column" style="width:100%;">
@@ -70,8 +82,10 @@
                                 <div class="small-12 medium-6 columns">
 
                                     <h5>
-                                        <span id="attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
-                                              title="An estimated number of people you think will engage with our makerspace.  This helps us plan out how we stock the Tiny Studio prior to your event.">
+                                        <span id="attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                              title="An estimated number of people you think will engage
+                                              with our makerspace.  This helps us plan out how we stock
+                                              the Tiny Studio prior to your event.">
                                             Expected attendance
                                         </span>
                                     </h5>
@@ -99,8 +113,10 @@
                                 <div class="small-12 columns">
 
                                     <h5>
-                                        <span id="time-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" tabindex="2"
-                                              title="The amount of time you would like us to provide engaging activities for your event.  This does not include our own set-up/tear-down time.">
+                                        <span id="time-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                              title="The amount of time you would like us to provide
+                                              engaging activities for your event.  This does not
+                                              include our own set-up/tear-down time.">
                                             Length of the event
                                         </span>
                                     </h5>
@@ -132,17 +148,70 @@
                                         <div class="accordion-content" data-tab-content>
                                             <h6>The Sliding Scale model</h6>
                                             <p>
-                                                Stuff about the sliding scale, plus the equation.
+                                                We operate on a sliding scale pricing model for one important reason.  If we want
+                                                central Iowa's maker community to grow, thrive, and self-sustain, resources
+                                                like what we provide with the Tiny Studio have to be equally accessible to everyone.
+                                                When cost barriers are removed, we get a better community.
                                             </p>
+                                            <p>
+                                                That's why we ask for a good-faith estimate of how much your school or organization
+                                                makes in a given year.  Organizations with a lot of money pay more, organizations
+                                                with less money pay less, and it evens out to a level that allows Flipped Art to continue
+                                                providing accessible maker resources to the whole community.  The final price for booking
+                                                the Tiny Studio is a function of your organization's income, the event's expected
+                                                attendance, and the length of the event.
+                                            </p>
+
+                                            <ul class="accordion-2" data-accordion data-allow-all-closed="true">
+                                                <li class="accordion-item" data-accordion-item style="list-style-type: none;">
+                                                    <a href="#" class="accordion-title" data-no-instant>Show me the formula!</a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p class="text-large font-truenorth pull-down-small">
+                                                            <!--<em>-->
+                                                                price =
+                                                                (<span id="equation-income-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                      title="We operate on a sliding scale model, so your organization's
+                                                                      income factors into how much we charge.  This allows us to be just
+                                                                      as accessible to large and small groups.">
+                                                                    income
+                                                                </span>
+                                                                +
+                                                                <span id="equation-attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                      title="The materials that we provide in the Tiny Studio cost
+                                                                      us roughly $10 per person, so we factor this into the fee.">
+                                                                    attendance
+                                                                </span>)
+                                                                <i class="fi-x"></i>
+                                                                <span id="equation-time-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                      title="We multiply the sliding price by the length of the
+                                                                      event, in hours.">
+                                                                    time
+                                                                </span>
+                                                                <sup>
+                                                                    <span id="equation-time-exponent-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal; padding-bottom: .5rem;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                          title="This exponent gives the 'Time' multiplier a
+                                                                          slight downward curve, so you get a better deal the
+                                                                          longer the Tiny Studio is booked.">
+                                                                        0.9
+                                                                    </span>
+                                                                </sup>
+                                                            <!--</em>-->
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
 
                                         </div>
                                     </li>
                                     <li class="accordion-item" data-accordion-item>
-                                        <a href="#" class="accordion-title" data-no-instant>How is "income" different than "budget"?</a>
+                                        <a href="#" class="accordion-title" data-no-instant>What's a ballpark price?</a>
                                         <div class="accordion-content" data-tab-content>
-                                            <h6>Income vs. Budget</h6>
                                             <p>
-                                                Stuff stuff stuff stuff stuff.
+                                                While the Tiny Studio is Iowa's first mobile makerspace, other parts of the country
+                                                have maker trucks which can charge up to
+                                                <a href="http://www.steamtruck.org/interested/">$1,000 - 1,500 per day</a>
+                                                of activties.  Depending on the scale of the event, a mid-sized company may
+                                                book the Tiny Studio for $100 - 500 for a day of activities.
                                             </p>
 
                                         </div>
@@ -185,7 +254,8 @@
                                 <input type="text" class="event-name" placeholder="Event name..." />
                             {{/if}}
 
-                            <label><strong>Date of the event (date picker here, attached to the Google Calendar API)</strong></label>
+                            <label><strong>Date of the event:</strong></label>
+                            <input type="text" id="datepicker" />
 
                             <label><strong>Age range:</strong></label>
                             <select class="select-age-range" required>
@@ -275,6 +345,13 @@
                     {{#if bookingRequest.eventName}}
                         <p>
                             Event name: <strong>{{bookingRequest.eventName}}</strong>
+                        </p>
+                    {{else}}
+                    {{/if}}
+
+                    {{#if bookingRequest.eventDate}}
+                        <p>
+                            Date of the event: <strong>{{bookingRequest.eventDate}}</strong>
                         </p>
                     {{else}}
                     {{/if}}
