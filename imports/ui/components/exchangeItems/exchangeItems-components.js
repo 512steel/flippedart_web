@@ -120,7 +120,8 @@ Template.projects_user_all_page.onCreated(function() {
 Template.project_single_card.onCreated(function() {
     this.showItemEdit = new ReactiveVar(false);
 
-    this.getExchangeItem = () => ExchangeItems.findOne({});
+    let thisProjectId = this.data._id;  //TODO: keep an eye on "this"
+    this.getExchangeItem = () => ExchangeItems.findOne(thisProjectId);
 
     // Subscriptions go in here
     this.autorun(() => {
@@ -271,6 +272,10 @@ Template.project_single_card.helpers({
     isItemOwner: function() {
         const exchangeItem = Template.instance().getExchangeItem();
         const currentUser = Meteor.user();
+
+        console.log('in isItemOwner');
+        console.log(exchangeItem);
+        console.log(currentUser);
 
         if (exchangeItem && currentUser) {
             return exchangeItem.ownerName == currentUser.username;
