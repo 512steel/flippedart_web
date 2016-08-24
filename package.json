@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "autoprefixer": "^6.3.1",
+    "bcrypt": "^0.8.7",
     "chart.js": "^2.2.1",
     "faker": "^3.0.1",
+    "foundation-sites": "^6.2.3",
     "meteor-node-stubs": "^0.2.3",
     "sendgrid": "^3.0.7"
   },
