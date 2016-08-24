@@ -359,17 +359,18 @@ export const sendBookingRequestEmail = new ValidatedMethod({
 
             bookingRequestObject.eventType = sanitizeHtml(bookingRequestObject.eventType);
             bookingRequestObject.eventDate = sanitizeHtml(bookingRequestObject.eventDate);
-            bookingRequestObject.incomeSlider = sanitizeHtml(bookingRequestObject.incomeSlider);
-            bookingRequestObject.attendanceSlider = sanitizeHtml(bookingRequestObject.attendanceSlider);
-            bookingRequestObject.timeSlider = sanitizeHtml(bookingRequestObject.timeSlider);
-            bookingRequestObject.incomeSliderComputed = sanitizeHtml(bookingRequestObject.incomeSliderComputed);
-            bookingRequestObject.attendanceSliderComputed = sanitizeHtml(bookingRequestObject.attendanceSliderComputed);
-            bookingRequestObject.timeSliderComputed = sanitizeHtml(bookingRequestObject.timeSliderComputed);
+            bookingRequestObject.incomeSlider = sanitizeHtml((bookingRequestObject.incomeSlider).toString());
+            bookingRequestObject.attendanceSlider = sanitizeHtml((bookingRequestObject.attendanceSlider).toString());
+            bookingRequestObject.timeSlider = sanitizeHtml((bookingRequestObject.timeSlider).toString());
+            bookingRequestObject.incomeSliderComputed = sanitizeHtml((bookingRequestObject.incomeSliderComputed).toString());
+            bookingRequestObject.attendanceSliderComputed = sanitizeHtml((bookingRequestObject.attendanceSliderComputed).toString());
+            bookingRequestObject.timeSliderComputed = sanitizeHtml((bookingRequestObject.timeSliderComputed).toString());
             bookingRequestObject.eventName = sanitizeHtml(bookingRequestObject.eventName);
             bookingRequestObject.ageRange = sanitizeHtml(bookingRequestObject.ageRange);
             bookingRequestObject.contactEmail = sanitizeHtml(bookingRequestObject.contactEmail);
             bookingRequestObject.additionalDetails = sanitizeHtml(bookingRequestObject.additionalDetails);
 
+            //TODO: re-compute the raw slider values with the global COMPUTE_... functions, for verification.
 
             {
                 var signedInUser = "User is not signed in.";

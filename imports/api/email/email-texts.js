@@ -329,9 +329,17 @@ export const BOOKING_REQUEST_EMAIL_TEXT = (bookingRequestObject, signedInUser) =
         "<p>" +
         "Event type: <strong>" + bookingRequestObject.eventType + "</strong> <br>" +
         "Event name: <strong>" + bookingRequestObject.eventName + "</strong> <br>" +
+        "Event date: <strong>" + bookingRequestObject.eventDate + "</strong> <br>" +
         "Age range: <strong>" + bookingRequestObject.ageRange + "</strong> <br>" +
         "Contact email: <strong>" + bookingRequestObject.contactEmail + "</strong> <br>" +
         "Additional Details: <strong>" + bookingRequestObject.additionalDetails + "</strong> <br>" +
+        "<br>" +
+        "Income slider: <strong>" + bookingRequestObject.incomeSlider + "</strong> <br>" +
+        "Income slider computed: <strong>" + bookingRequestObject.incomeSliderComputed + "</strong> <br>" +
+        "Attendance slider: <strong>" + bookingRequestObject.attendanceSlider + "</strong> <br>" +
+        "Attendance slider computed: <strong>" + bookingRequestObject.attendanceSliderComputed + "</strong> <br>" +
+        "Time slider: <strong>" + bookingRequestObject.timeSlider + "</strong> <br>" +
+        "Time slider computed: <strong>" + bookingRequestObject.timeSliderComputed + "</strong> <br>" +
         "</p>" +
 
         "<p>" +
