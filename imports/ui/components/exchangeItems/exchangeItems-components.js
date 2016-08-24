@@ -273,10 +273,6 @@ Template.project_single_card.helpers({
         const exchangeItem = Template.instance().getExchangeItem();
         const currentUser = Meteor.user();
 
-        console.log('in isItemOwner');
-        console.log(exchangeItem);
-        console.log(currentUser);
-
         if (exchangeItem && currentUser) {
             return exchangeItem.ownerName == currentUser.username;
         }

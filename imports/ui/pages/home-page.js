@@ -95,6 +95,11 @@ Template.home_page.onRendered(function() {
             //$('body, html').animate({scrollTop: $('#home-page-explore').offset().top}, 500);
         }
     }, 750);
+
+    $(window).resize(_.debounce(() => {
+        //...
+    }, 100));
+    $(window).resize();
 });
 
 Template.home_page.onDestroyed(function() {
@@ -118,5 +123,5 @@ Template.home_page.helpers({
     },
     recentActivityItems: function() {
         return RecentActivity.find({}, {sort: {createdAt: -1}});
-    }
+    },
 });

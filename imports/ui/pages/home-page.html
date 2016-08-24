@@ -125,13 +125,28 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-5">
                 {{#each topProjects}}
                     {{#if equals @index 0}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                            <div class="homepage-project-box">
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=500 height=500 crop='fill'}}">
+                                </a>
+                                <p class="homepage-project-title">
+                                    {{this.title}}
+                                </p>
+
+                            </div>
                         </div>
                     {{/if}}
                     {{#if equals @index 1}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                            <div class="homepage-project-box">
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=500 height=500 crop='fill'}}">
+                                </a>
+                                <p class="homepage-project-title">
+                                    {{this.title}}
+                                </p>
+                            </div>
                         </div>
                     {{/if}}
                 {{else}}
@@ -141,13 +156,23 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-6">
                 {{#each topProjects}}
                     {{#if equals @index 2}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                            <div class="homepage-project-box">
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='fill'}}">
+                                </a>
+                                <p class="homepage-project-title">
+                                    {{this.title}}
+                                </p>
+                            </div>
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                            <div class="homepage-project-box">
+                                {{this.imageLinks.[0]}}
+                                {{this.title}}
+                            </div>
                         </div>
                     {{/if}}
                 {{/each}}
@@ -155,12 +180,12 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-7">
                 {{#each topProjects}}
                     {{#if equals @index 4}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card this}}
                         </div>
                     {{/if}}
                     {{#if equals @index 5}}
-                        <div class="column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             {{> project_single_card this}}
                         </div>
                     {{/if}}
