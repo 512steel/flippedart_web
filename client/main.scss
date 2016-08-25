@@ -290,6 +290,24 @@ footer {
 .text-xxlarge {
   font-size: 1.8rem;
 }
+.text-xxxlarge {
+  font-size: 2.25rem;
+}
+.text-xxxxlarge {
+  font-size: 2.5rem;
+}
+.text-xxxxxlarge {
+  font-size: 3rem;
+}
+.text-xxxxxxlarge {
+  font-size: 3.5rem;
+}
+.text-xxxxxxxlarge {
+  font-size: 4rem;
+}
+.text-xxxxxxxxlarge {
+  font-size: 5rem;
+}
 .half-width {
   width: 50%;
 }
@@ -496,33 +514,60 @@ ul.select-box {
   text-align: left;
 }
 
+/* Homepage project boxes */
 .homepage-projects-column {
   background-color: $white;
   position: relative;
   overflow: hidden;
+  padding: 0;
+
+  transition: background-color 250ms ease;
   img {
     filter: brightness(1);
+    transition: filter 250ms ease;
   }
 }
-
 .homepage-project-title {
-  @extend .font-truenorth, .text-centered, .text-large;
+  @extend .font-truenorth, .text-centered, .text-xxxxxxxlarge;
   color: white;
   position:absolute;
-  text-align:center;
+  line-height:1em;
+  width: 100%;
+  padding: .5em;
+  left: 0;
   opacity:0;
-  -webkit-transition: opacity 500ms ease;
-  -moz-transition: opacity 500ms ease;
+  -webkit-transition: opacity 250ms ease;
+  -moz-transition: opacity 250ms ease;
+  transition: opacity 250ms ease;
+}
+.homepage-project-title.normal-text {
+  text-align: center;
+  //text-overflow: ellipsis;  //not working for some reason (probably because the container doesn't have its width specified in pixels)
+}
+.homepage-project-title.spill-text {
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+  // Non standard for webkit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+
+  top:0;
+  text-align: left;
 }
 .homepage-projects-column:hover .homepage-project-title {
   opacity:1;
+  transition: opacity 250ms ease;
 }
 .homepage-projects-column:hover {
-  background-color: #CCCCCC;
-  transition: 500ms ease;
+  background-color: #aaaaaa;
+  transition: background-color 250ms ease;
   img {
-    filter: brightness(.65);
-    transition : 500ms ease;
+    filter: brightness(.4);
+    transition: filter 250ms ease;
   }
 }
 
@@ -555,5 +600,32 @@ ul.select-box {
     img {
       max-height: 150px;
     }
+  }
+
+  .homepage-project-title {
+    font-size:3.5rem;
+  }
+  .homepage-project-title.spill-text {
+    top: 10%;
+  }
+  /* don't force hover on mobile to see the project title text */
+  .homepage-projects-column .homepage-project-title {
+    opacity:1;
+  }
+  .homepage-projects-column {
+    background-color: #aaaaaa;
+    img {
+      filter: brightness(.5);
+      transition: filter 250ms ease;
+    }
+    transition: background-color 250ms ease;
+  }
+  .homepage-projects-column:hover {
+    background-color: #999999;
+    img {
+      filter: brightness(.3);
+      transition: filter 250ms ease;
+    }
+    transition: background-color 250ms ease;
   }
 }

@@ -128,12 +128,12 @@
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
-                                    <img src="{{c.url this.imageLinks.[0] secure=true width=500 height=500 crop='fill'}}">
-                                </a>
-                                <p class="homepage-project-title">
-                                    {{this.title}}
-                                </p>
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
 
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     {{/if}}
@@ -141,11 +141,12 @@
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
-                                    <img src="{{c.url this.imageLinks.[0] secure=true width=500 height=500 crop='fill'}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
+
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
                                 </a>
-                                <p class="homepage-project-title">
-                                    {{this.title}}
-                                </p>
                             </div>
                         </div>
                     {{/if}}
@@ -159,19 +160,25 @@
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
-                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='fill'}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
+
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
                                 </a>
-                                <p class="homepage-project-title">
-                                    {{this.title}}
-                                </p>
                             </div>
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
                             <div class="homepage-project-box">
-                                {{this.imageLinks.[0]}}
-                                {{this.title}}
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
+
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     {{/if}}
@@ -181,12 +188,28 @@
                 {{#each topProjects}}
                     {{#if equals @index 4}}
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                            <div class="homepage-project-box">
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
+
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
+                                </a>
+                            </div>
                         </div>
                     {{/if}}
                     {{#if equals @index 5}}
                         <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
-                            {{> project_single_card this}}
+                            <div class="homepage-project-box">
+                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                    <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
+
+                                    <p class="homepage-project-title spill-text">
+                                        {{this.title}}
+                                    </p>
+                                </a>
+                            </div>
                         </div>
                     {{/if}}
                 {{/each}}
