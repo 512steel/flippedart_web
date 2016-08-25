@@ -41,7 +41,7 @@ Template.booking_page.onRendered(() => {
 
     Session.set('hasBeenToStep2', false);
 
-    this.drawCharts = _.debounce((bookinRequestObj) => {
+    this.drawCharts = _.throttle((bookinRequestObj) => {
         //console.log(bookinRequestObj);
 
         let incomeLeftCanvas = document.getElementById('incomeChartLeft');
@@ -360,8 +360,33 @@ Template.booking_page.onRendered(() => {
             timeRightCtx.fillStyle = chartRightFillStyle;
             timeRightCtx.fill();
         }
-    }, 5);  //TODO: play around with the performance of shortening this debounce
+    }, 5);  //TODO: play around with the performance of shortening this throttle
     this.drawCharts(this.bookingRequest.get());
+
+    this.setSliderValuesThrottled = _.throttle(() => {
+        let incomeSliderOutput = parseInt($('#incomeSliderOutput').val());
+        let attendanceSliderOutput = parseInt($('#attendanceSliderOutput').val());
+        let timeSliderOutput = parseInt($('#timeSliderOutput').val());
+
+        let incomeSliderOutputComputed = COMPUTE_INCOME_DISPLAY(incomeSliderOutput);
+        let attendanceSliderOutputComputed =  COMPUTE_ATTENDANCE_DISPLAY(attendanceSliderOutput);
+        let timeSliderOutputComputed = COMPUTE_TIME_DISPLAY(timeSliderOutput);
+
+        $('#incomeSlider-output-computed')[0].innerText = incomeSliderOutputComputed;
+        $('#attendanceSlider-output-computed')[0].innerText = attendanceSliderOutputComputed;
+        $('#timeSlider-output-computed')[0].innerText = timeSliderOutputComputed;
+
+        let bookingRequestObj = this.bookingRequest.get();
+        bookingRequestObj['incomeSlider'] = incomeSliderOutput;
+        bookingRequestObj['attendanceSlider'] = attendanceSliderOutput;
+        bookingRequestObj['timeSlider'] = timeSliderOutput;
+        bookingRequestObj['incomeSliderComputed'] = incomeSliderOutputComputed;
+        bookingRequestObj['attendanceSliderComputed'] = attendanceSliderOutputComputed;
+        bookingRequestObj['timeSliderComputed'] = timeSliderOutputComputed;
+        this.bookingRequest.set(bookingRequestObj);
+
+        this.drawCharts(bookingRequestObj);
+    }, 20);
 
     $(window).resize(() => {
         this.drawCharts(this.bookingRequest.get());
@@ -546,31 +571,10 @@ Template.booking_page.events({
         });
     },
 
-    'changed.zf.slider .slider': (e, target) => {
+    'moved.zf.slider .slider': (e) => {  //FIXME: 'changed.zf.slider' stopped firing after updating to Meteor 1.4.1 and downgrading to v6.2.0 of the foundation-sites package.  Quick fix is to debounce/throttle everything inside this event.
         e.preventDefault();
 
-        let incomeSliderOutput = parseInt($('#incomeSliderOutput').val());
-        let attendanceSliderOutput = parseInt($('#attendanceSliderOutput').val());
-        let timeSliderOutput = parseInt($('#timeSliderOutput').val());
-
-        let incomeSliderOutputComputed = COMPUTE_INCOME_DISPLAY(incomeSliderOutput);
-        let attendanceSliderOutputComputed =  COMPUTE_ATTENDANCE_DISPLAY(attendanceSliderOutput);
-        let timeSliderOutputComputed = COMPUTE_TIME_DISPLAY(timeSliderOutput);
-
-        $('#incomeSlider-output-computed')[0].innerText = incomeSliderOutputComputed;
-        $('#attendanceSlider-output-computed')[0].innerText = attendanceSliderOutputComputed;
-        $('#timeSlider-output-computed')[0].innerText = timeSliderOutputComputed;
-
-        let bookingRequestObj = this.bookingRequest.get();
-        bookingRequestObj['incomeSlider'] = incomeSliderOutput;
-        bookingRequestObj['attendanceSlider'] = attendanceSliderOutput;
-        bookingRequestObj['timeSlider'] = timeSliderOutput;
-        bookingRequestObj['incomeSliderComputed'] = incomeSliderOutputComputed;
-        bookingRequestObj['attendanceSliderComputed'] = attendanceSliderOutputComputed;
-        bookingRequestObj['timeSliderComputed'] = timeSliderOutputComputed;
-        this.bookingRequest.set(bookingRequestObj);
-
-        this.drawCharts(bookingRequestObj);
+        this.setSliderValuesThrottled();
     },
     'blur #datepicker': (e, target) => {
         let bookingRequestObj = this.bookingRequest.get();
