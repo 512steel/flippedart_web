@@ -385,6 +385,8 @@ Template.booking_page.onRendered(() => {
         bookingRequestObj['timeSliderComputed'] = timeSliderOutputComputed;
         this.bookingRequest.set(bookingRequestObj);
 
+        //console.log(bookingRequestObj);
+
         this.drawCharts(bookingRequestObj);
     }, 20);
 
