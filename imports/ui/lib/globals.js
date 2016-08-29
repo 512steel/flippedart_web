@@ -61,6 +61,7 @@ export const HEAD_DEFAULTS = {
     'title': "Flipped Art - Maker community and mobile art studio",
     'title_short': "Flipped Art",
     'description': "Make things and share them for free. Based in Des Moines. Wannabes are welcome here.",
+    'description_sans_des_moines': "Make things and share them for free. Wannabes are welcome here.",
     'image': "http://res.cloudinary.com/dwgim6or9/image/upload/v1467765602/flippedart_og_image_3_qtkwew.png",
     'skyline_image': "https://res.cloudinary.com/dwgim6or9/image/upload/v1/flippedart/mi80vpjnuaho6dcqubhl",
 };
