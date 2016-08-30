@@ -50,11 +50,11 @@
                         {{else}}
                             <div class="menu button-group expanded">
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="button primary hollow"
+                                    <a href="{{pathFor 'signin'}}" class="button primary hollow expanded"
                                        data-close>{{_ 'Sign In'}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="button primary hollow"
+                                    <a href="{{pathFor 'join'}}" class="button primary hollow expanded"
                                        data-close>{{_ 'Join'}}</a>
                                 </li>
                             </div>
@@ -98,6 +98,8 @@
                                         href="{{pathFor 'static.make'}}">Make</a></li>
                                 <li class="{{isActiveRoute 'static.about'}}" data-close><a
                                         href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
+                                        href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
                                 <li class="{{isActiveRoute 'static.support'}}" data-close><a
                                         href="{{pathFor 'static.support'}}">Donate</a></li>
                             {{/if}}
@@ -105,9 +107,12 @@
                             <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                            <li class="{{isActiveRoute 'static.make'}}" data-close><a href="{{pathFor 'static.make'}}">Make</a></li>
+                            <li class="{{isActiveRoute 'static.make'}}" data-close><a
+                                    href="{{pathFor 'static.make'}}">Make</a></li>
                             <li class="{{isActiveRoute 'static.about'}}" data-close><a
                                     href="{{pathFor 'static.about'}}">About</a></li>
+                            <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
+                                    href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
                             <li class="{{isActiveRoute 'static.support'}}" data-close><a
                                     href="{{pathFor 'static.support'}}">Donate</a></li>
                         {{/if}}
@@ -138,17 +143,29 @@
                                     <!--
                                     <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                    <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make</a></li>
-                                    <li class="{{isActiveRoute 'static.about'}}"><a href="{{pathFor 'static.about'}}">About</a>
+                                    <li class="{{isActiveRoute 'static.make'}}">
+                                        <a href="{{pathFor 'static.make'}}">Make</a>
+                                    </li>
+                                    <li class="{{isActiveRoute 'static.about'}}">
+                                        <a href="{{pathFor 'static.about'}}">About</a>
+                                    </li>
+                                    <li class="{{isActiveRoute 'static.tinyStudio'}}">
+                                        <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
                                     </li>
                                 {{/unless}}
                             {{else}}
                                 <!--
                                 <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <li class="{{isActiveRoute 'static.make'}}"><a href="{{pathFor 'static.make'}}">Make</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}"><a
-                                        href="{{pathFor 'static.about'}}">About</a></li>
+                                <li class="{{isActiveRoute 'static.make'}}">
+                                    <a href="{{pathFor 'static.make'}}">Make</a>
+                                </li>
+                                <li class="{{isActiveRoute 'static.about'}}">
+                                    <a href="{{pathFor 'static.about'}}">About</a>
+                                </li>
+                                <li class="{{isActiveRoute 'static.tinyStudio'}}">
+                                    <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
+                                </li>
                             {{/if}}
 
                         </ul>
