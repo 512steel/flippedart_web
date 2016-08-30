@@ -8,8 +8,8 @@ import './tiny-studio-page.html';
 
 
 Template.tiny_studio_page.onCreated(() => {
-    DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Tiny Studio");
-    DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Tiny Studio"});
+    DocHead.setTitle(HEAD_DEFAULTS.title_short + "'s Tiny Studio");
+    DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + "'s Tiny Studio"});
     DocHead.addMeta({name: "og:description", content: "The coolest mobile makerspace in town. " + HEAD_DEFAULTS.description_sans_des_moines});  //TODO: custom description here.
     DocHead.addMeta({name: "og:type", content: "article"});
     DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/tiny-studio"});
