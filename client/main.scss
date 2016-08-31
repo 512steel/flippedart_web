@@ -113,6 +113,15 @@
 .push-left-large {
   margin-left: 3rem;
 }
+.push-right {
+  margin-right: 2rem;
+}
+.push-right-small {
+  margin-right: 1rem;
+}
+.push-right-large {
+  margin-right: 3rem;
+}
 
 .padded {
   padding: .5rem
@@ -586,6 +595,27 @@ ul.select-box {
 figcaption {
   font-weight:bold;
   @extend .text-small;
+}
+
+
+.press-page-row {
+  a {
+    color: $black;
+    transition: color 250ms ease;
+  }
+  img {
+    transition: opacity 250ms ease;
+  }
+}
+.press-page-row:hover {
+  a {
+    color: $darker-gray-2;
+    transition: color 250ms ease;
+  }
+  img {
+    opacity:.85;
+    transition: opacity 250ms ease;
+  }
 }
 
 

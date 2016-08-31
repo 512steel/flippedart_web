@@ -75,6 +75,15 @@
         <loc>https://www.flippedart.org/booking</loc>
         <changefreq>monthly</changefreq>
         <lastmod>2016-08-29</lastmod>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+
+        <loc>https://www.flippedart.org/press</loc>
+        <changefreq>monthly</changefreq>
+        <lastmod>2016-08-31</lastmod>
         <priority>0.7</priority>
 
     </url>
