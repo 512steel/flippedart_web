@@ -20,16 +20,27 @@
 
         {{#unless currentUser}}
             {{#if hasExchangeItems}}
-                <div class="row column">
+                <div class="row column push-down">
                     <h2 class="">
                         {{currentPageUsername}}'s projects
                     </h2>
                 </div>
 
                 {{#each item in exchangeItems}}
-                    <div class="inventory-single-item">
+                    <div class="row inventory-single-item">
                         {{#with item}}
-                            {{> project_single_card }}
+                            <!--{{> project_single_card }}-->
+                            <div class="column homepage-projects-column small-12 bordered-light padded-xlarge push-down-small shift-down-small">
+                                <div class="homepage-project-box">
+                                    <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                        <img src="{{c.url this.imageLinks.[0] secure=true width=700 height=700 crop='fill'}}">
+
+                                        <p class="homepage-project-title spill-text">
+                                            {{this.title}}
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
                         {{/with}}
 
                         <!--{{#if isExchangeItemAvailable (item)}}
@@ -78,7 +89,18 @@
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item row column">
                             {{#with item}}
-                                {{> project_single_card }}
+                                <!--{{> project_single_card }}-->
+                                <div class="column homepage-projects-column small-12 bordered-light padded-xlarge push-down-small shift-down-small">
+                                    <div class="homepage-project-box">
+                                        <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                            <img src="{{c.url this.imageLinks.[0] secure=true width=700 height=700 crop='fill'}}">
+
+                                            <p class="homepage-project-title spill-text">
+                                                {{this.title}}
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
                             {{/with}}
 
                             <!--{{#if isExchangeItemAvailable (item)}}
@@ -111,15 +133,26 @@
                                 <div class="inventory-single-item">
                                     {{#with item}}
                                         <span class="invisible inventory-single-item-id">{{_id}}</span>
-                                        {{> project_single_card }}
+                                        <!--{{> project_single_card }}-->
 
-                                        {{#if isExchangeItemAvailable (item)}}
+                                        <!--{{#if isExchangeItemAvailable (item)}}
                                             <label class="control-label">Request for checkout:</label>
                                             <input class="request-checkout-checkbox form-control form-control-checkbox-left"
                                                    type="checkbox"/>
                                         {{else}}
                                             <p>This project can't be requested for checkout.</p>
-                                        {{/if}}
+                                        {{/if}}-->
+                                        <div class="column homepage-projects-column small-12 bordered-light padded-xlarge push-down-small shift-down-small">
+                                            <div class="homepage-project-box">
+                                                <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
+                                                    <img src="{{c.url this.imageLinks.[0] secure=true width=700 height=700 crop='fill'}}">
+
+                                                    <p class="homepage-project-title spill-text">
+                                                        {{this.title}}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        </div>
                                     {{/with}}
 
                                 </div>
