@@ -619,6 +619,7 @@ figcaption {
 }
 
 
+//FIXME: use scss breakpoints instead of hard numbers
 /* "large" only */
 @media screen and (min-width: 1200px) {
   .hero-img-container {
