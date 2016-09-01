@@ -195,7 +195,6 @@ Template.user_attributes_edit.helpers({
         if (Cloudinary.collection.findOne()) {
             let count = Cloudinary.collection.find().count();  //should be 1
 
-            console.log("COUNT: ", count);
             Cloudinary.collection.find().forEach((file) => {
                 tempPercentTotal += file.percent_uploaded;
             });
@@ -226,6 +225,7 @@ Template.user_attributes_card.events({
 });
 
 Template.user_attributes_edit.events({
+    //FIXME: only the userAttributes-edit-form is actually used in the template
     'submit form.userAttributes-insert-form': function(e, template) {
         e.preventDefault();
 
@@ -374,6 +374,8 @@ Template.user_attributes_edit.events({
             }
             else {
                 //user is not uploading a profile photo
+
+                //FIXME: before making this method call, check to see if any of the fields have changed first (or perhaps disable the "save" button until a keyup event)
 
                 userAttributesEdit.call({
                     /* NOTE: leaving any of these fields blank ought to make it default to the previous stored values. */

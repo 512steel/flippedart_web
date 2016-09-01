@@ -1,5 +1,5 @@
 <template name="project_single_page">
-    <div class="row">
+    <div class="row push-down">
 
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
             <div class="row column">
@@ -19,11 +19,7 @@
 
 
                 {{#unless currentUser}}
-                    <p>
-                        <a href="{{pathFor 'profile.page' username=exchangeItem.ownerName}}">
-                            See the rest of {{exchangeItem.ownerName}}'s projects
-                        </a>
-                    </p>
+                    <!-- ...  -->
                 {{else}}
                     {{#if isItemOwner}}
 

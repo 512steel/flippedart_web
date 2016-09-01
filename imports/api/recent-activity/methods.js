@@ -79,6 +79,9 @@ export const createRecentActivity = (actorName, acteeName, actionType, link) => 
         else if (actionType == RECENT_ACTIVITY_TYPES.transactionComplete) {
             actionText = actorName + " exchanged their project with " + acteeName;
         }
+        else if (actionType == RECENT_ACTIVITY_TYPES.changed_profile_picture) {
+            actionText = actorName + " changed their profile picture";
+        }
 
         if (acteeName) {
             RecentActivity.insert({

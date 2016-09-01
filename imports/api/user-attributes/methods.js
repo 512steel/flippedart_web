@@ -6,7 +6,12 @@ import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import { sanitizeHtml, sanitizeHtmlNoReturns } from '../../ui/lib/general-helpers.js';
 
-import { BLANK_PROFILE_PHOTO_LINK } from '../../ui/lib/globals.js';
+import {
+    BLANK_PROFILE_PHOTO_LINK,
+    RECENT_ACTIVITY_TYPES
+} from '../../ui/lib/globals.js';
+
+import { createRecentActivity } from './../recent-activity/methods.js';
 
 import { UserAttributes } from './user-attributes.js';
 
@@ -106,8 +111,13 @@ export const edit = new ValidatedMethod({
                             profilePhotoLink: profilePhotoLink.trim() ? profilePhotoLink : userAttributes.profilePhotoLink,
                         }
                     },
-                    { upsert: true }
+                    { upsert: true }  //FIXME: due to this upsert, the "insert" method above never needs to be used.
                 );
+
+                if (userAttributes.profilePhotoLink && profilePhotoLink && userAttributes.profilePhotoLink != profilePhotoLink) {
+                    const link = "https://www.flippedart.org/" + userAttributes.username;
+                    createRecentActivity(userAttributes.username, null, RECENT_ACTIVITY_TYPES.changed_profile_picture, link);
+                }
             }
         }
     }

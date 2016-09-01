@@ -126,7 +126,8 @@ export const RECENT_ACTIVITY_TYPES = {
     'newPost': 'newPost',
     'newProject': 'newProject',
     'newUser': 'newUser',
-    'transactionComplete': 'transactionComplete'
+    'transactionComplete': 'transactionComplete',
+    'changed_profile_picture': 'changed_profile_picture',
 };
 
 
