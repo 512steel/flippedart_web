@@ -7,7 +7,7 @@ import { HEAD_DEFAULTS } from './../lib/globals.js';
 import './press-page.html';
 
 
-Template.tiny_studio_page.onCreated(() => {
+Template.press_page.onCreated(() => {
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Press");
     DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Press"});
     DocHead.addMeta({name: "og:description", content:  HEAD_DEFAULTS.description});
@@ -19,11 +19,11 @@ Template.tiny_studio_page.onCreated(() => {
 });
 
 
-Template.tiny_studio_page.onRendered(() => {
+Template.press_page.onRendered(() => {
 
 });
 
 
-Template.tiny_studio_page.helpers({
+Template.press_page.helpers({
 
 });
