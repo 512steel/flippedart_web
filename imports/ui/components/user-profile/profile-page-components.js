@@ -190,6 +190,21 @@ Template.user_attributes_edit.helpers({
     isUploadingProfilePicture: function() {
         return Session.get('isProfilePictureUploading');
     },
+    uploadingProfilePictureCopy: function() {
+        let tempPercentTotal = 0;
+        if (Cloudinary.collection.findOne()) {
+            let count = Cloudinary.collection.find().count();  //should be 1
+
+            console.log("COUNT: ", count);
+            Cloudinary.collection.find().forEach((file) => {
+                tempPercentTotal += file.percent_uploaded;
+            });
+            tempPercentTotal = Math.round(tempPercentTotal/count);
+
+            return Number.isNaN(tempPercentTotal) ? "Saving..." : "Saving: " + tempPercentTotal + "%";
+        }
+        else return "Saving...";
+    },
 
     fieldsRequired: function() {
         return Template.instance().fieldsRequired();
