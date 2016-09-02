@@ -34,10 +34,12 @@ Template.profile_page_card.onCreated(function () {
     // Subscriptions go in here
     this.autorun(() => {
 
-        this.subscribe('userAttributes.byUsername', this.getUsername());
-        
-        if (Meteor.user()) {
-            this.subscribe('chatSession.single', this.getUsername());
+        if (this.getUsername()) {  //NOTE: autorun runs twice in a row, once before FlowRouter.getParam can return anything.  Wrapping these subs fixes the server logs that occur every time a new post is made.
+            this.subscribe('userAttributes.byUsername', this.getUsername());
+
+            if (Meteor.user()) {
+                this.subscribe('chatSession.single', this.getUsername());
+            }
         }
 
         DocHead.removeDocHeadAddedTags();
