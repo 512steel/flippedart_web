@@ -42,6 +42,7 @@ Template.home_page.onRendered(function() {
         let el6 = new Foundation.Equalizer($('#home-equalized-6'));
         let el7 = new Foundation.Equalizer($('#home-equalized-7'));
         let el8 = new Foundation.Equalizer($('#home-equalized-8'));
+        let el9 = new Foundation.Equalizer($('#home-equalized-9'));
         if (this.subscriptionsReady()) {
             Meteor.setTimeout(function(){
                 el1 = new Foundation.Equalizer($('#home-equalized-1'));
@@ -52,6 +53,7 @@ Template.home_page.onRendered(function() {
                 el6 = new Foundation.Equalizer($('#home-equalized-6'));
                 el7 = new Foundation.Equalizer($('#home-equalized-7'));
                 el8 = new Foundation.Equalizer($('#home-equalized-8'));
+                el9 = new Foundation.Equalizer($('#home-equalized-9'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 50);
@@ -64,6 +66,7 @@ Template.home_page.onRendered(function() {
                 el6 = new Foundation.Equalizer($('#home-equalized-6'));
                 el7 = new Foundation.Equalizer($('#home-equalized-7'));
                 el8 = new Foundation.Equalizer($('#home-equalized-8'));
+                el9 = new Foundation.Equalizer($('#home-equalized-9'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 200);
@@ -76,6 +79,7 @@ Template.home_page.onRendered(function() {
                 el6 = new Foundation.Equalizer($('#home-equalized-6'));
                 el7 = new Foundation.Equalizer($('#home-equalized-7'));
                 el8 = new Foundation.Equalizer($('#home-equalized-8'));
+                el9 = new Foundation.Equalizer($('#home-equalized-9'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 1000);
@@ -88,6 +92,7 @@ Template.home_page.onRendered(function() {
                 el6 = new Foundation.Equalizer($('#home-equalized-6'));
                 el7 = new Foundation.Equalizer($('#home-equalized-7'));
                 el8 = new Foundation.Equalizer($('#home-equalized-8'));
+                el9 = new Foundation.Equalizer($('#home-equalized-9'));
 
                 //const el8 = new Foundation.Reveal($('#newsletter-modal'));
             }, 1500);
