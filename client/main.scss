@@ -619,6 +619,11 @@ figcaption {
 }
 
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
+
 //FIXME: use scss breakpoints instead of hard numbers
 /* "large" only */
 @media screen and (min-width: 1200px) {

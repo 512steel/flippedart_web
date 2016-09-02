@@ -49,15 +49,25 @@
                         </div>
                     {{/if}}
 
-                    <div class="row column button-group expanded push-down-small">
-                        <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
-                           disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                           title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}
-                            Locked{{else}}Unlocked{{/if}}</p>
-                        <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
-                           disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                           title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}
-                            Available{{else}}Not available{{/if}}</p>
+                    <div class="row column button-group expanded push-down-small overflow-hidden">
+                        <p data-tooltip aria-haspopup="true" class="has-tip top button secondary"
+                           data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                           title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">
+                            {{#if locked}}
+                                Locked
+                            {{else}}
+                                Unlocked
+                            {{/if}}
+                        </p>
+                        <p data-tooltip aria-haspopup="true" class="has-tip top button secondary"
+                           data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                           title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">
+                            {{#if available}}
+                                Available
+                            {{else}}
+                                Not available
+                            {{/if}}
+                        </p>
                     </div>
 
                     {{#if location}}
