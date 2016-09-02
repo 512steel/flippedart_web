@@ -391,7 +391,18 @@ Template.user_post_edit.helpers({
         return Session.get('isPostEditUploading');
     },
     uploadingCopy: function () {
-        return "Saving...";
+        let tempPercentTotal = 0;
+        if (Cloudinary.collection.findOne()) {
+            let count = Cloudinary.collection.find().count();
+
+            Cloudinary.collection.find().forEach((file) => {
+                tempPercentTotal += file.percent_uploaded;
+            });
+            tempPercentTotal = Math.round(tempPercentTotal/count);
+
+            return Number.isNaN(tempPercentTotal) ? "Saving..." : "Saving: " + tempPercentTotal + "%";
+        }
+        else return "Saving...";
     },
     maxPhotoUploadCount: function () {
         return UPLOAD_LIMITS.images;
