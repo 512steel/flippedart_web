@@ -108,8 +108,8 @@ Template.user_post_single_page.onCreated(function userPostSinglePageOnCreated() 
             DocHead.setTitle(titleString);
             DocHead.addMeta({name: "og:title", content: titleString});
 
-            let descriptionString = "'" + userPost.text.substr(0, 35);
-            descriptionString += userPost.text.length > 35 ? "...' " : "' ";
+            let descriptionString = "'" + userPost.text.substr(0, 80);
+            descriptionString += userPost.text.length > 80 ? "...' " : "' ";
             descriptionString += " | " + HEAD_DEFAULTS.description;
             DocHead.addMeta({name: "og:description", content: descriptionString});
 

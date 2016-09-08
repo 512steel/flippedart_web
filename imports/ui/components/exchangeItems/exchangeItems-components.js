@@ -44,8 +44,8 @@ Template.project_single_page.onCreated(function() {
             DocHead.removeDocHeadAddedTags();
 
             let titleString = "";
-            titleString += this.getExchangeItem().title.substr(0, 35);
-            titleString += this.getExchangeItem().title.length > 35 ? "... - " : " - ";
+            titleString += this.getExchangeItem().title.substr(0, 80);
+            titleString += this.getExchangeItem().title.length > 80 ? "... - " : " - ";
             titleString += this.getPageUsername() + "'s projects | " + HEAD_DEFAULTS.title_short;
             DocHead.setTitle(titleString);
             DocHead.addMeta({name: "og:title", content: titleString});
