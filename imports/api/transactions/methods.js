@@ -39,7 +39,8 @@ import { sendTransactionEventEmail } from './../../api/email/email-senders.js';
  *      "cancelled" - requester has "cancelled"
  */
 
-//"requesting" is tantamount to "inserting" a new transaction
+//NOTE: "requesting" is tantamount to "inserting" a new transaction
+//TODO: change itemIds to itemId - single item instead of array of items, which deprecates a wonky middleware feature.
 export const requestTransaction = new ValidatedMethod({
     name: 'transaction.request',
     validate: new SimpleSchema({
@@ -48,6 +49,7 @@ export const requestTransaction = new ValidatedMethod({
             type: [String],
             regEx: SimpleSchema.RegEx.Id,
             minCount: 1,
+            maxCount: 1,
         },
     }).validator(),
     run({ requesteeName, itemIds }) {
