@@ -32,6 +32,7 @@ import '../../ui/components/user-posts/user-posts-components.js';
 import '../../ui/components/user-profile/profile-page-components.js';
 import '../../ui/components/chat/chat-window-components.js';
 import '../../ui/components/admin/admin-components.js';
+import '../../ui/components/eventCalendar/event-calendar-components.js';
 
 
 // Import to override accounts templates
@@ -236,6 +237,14 @@ FlowRouter.route('/account', {
         BlazeLayout.render('App_body', { main: 'user_account_page' });
     },
 });
+
+FlowRouter.route('/calendar', {
+    name: 'eventCalendar.page',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_page' });
+    }
+});
+//TODO: single event pages
 
 
 FlowRouter.route('/:username/exchanges', {
