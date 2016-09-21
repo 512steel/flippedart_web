@@ -244,7 +244,18 @@ FlowRouter.route('/calendar', {
         BlazeLayout.render('App_body', { main: 'event_calendar_page' });
     }
 });
-//TODO: single event pages
+FlowRouter.route('/calendar/:MMDDYY', {
+    name: 'eventCalendar.singleDate',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_single_date_page' });
+    }
+});
+FlowRouter.route('/calendar/:MMDDYY/:eventName', {
+    name: 'eventCalendar.singleEvent',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_single_event_page' });
+    }
+});
 
 
 FlowRouter.route('/:username/exchanges', {
