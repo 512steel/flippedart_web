@@ -256,6 +256,12 @@ FlowRouter.route('/calendar/:MMDDYY/:eventName/:nameSlug', {
         BlazeLayout.render('App_body', { main: 'event_calendar_single_event_page' });
     }
 });
+FlowRouter.route('/calendar/:MMDDYY/:eventName/:nameSlug/edit', {
+    name: 'eventCalendar.singleEvent.edit',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_single_event_edit' });
+    }
+});
 
 
 FlowRouter.route('/:username/exchanges', {

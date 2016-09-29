@@ -120,8 +120,9 @@ CalendarEvents.helpers({
         if (Meteor.isClient && Meteor.user()) {
             return true;
         }
-        else if (Meteor.isServer && this.userId) {
-            return this.userId === userId;
+        else if (Meteor.isServer && this.authorId) {
+            //NOTE: "this" refers to the document, NOT to the current signed-in user.  Hence "this.authorId" instead of "this.userId"
+            return this.authorId === userId;
         }
         else {
             return false;

@@ -4,6 +4,7 @@
 
             <h1>{{eventName}}</h1>
             <p>
+                {{event._id}} |
                 {{event.eventName}} |
                 {{event.eventDate}} |
                 {{event.startTime}} |
@@ -12,6 +13,10 @@
                 {{event.location}} |
             </p>
             <p>Event calendar single event placeholder</p>
+
+            {{#if ownEvent}}
+                <a href="{{pathFor 'eventCalendar.singleEvent.edit' MMDDYY=event.eventDate eventName=event.eventName nameSlug=event.nameSlug}}">EDIT</a>
+            {{/if}}
         </div>
     </div>
 </template>

@@ -665,11 +665,11 @@ figcaption {
           color: $black;
           font-weight: bold;
           padding-bottom: .2rem;
-          border-bottom: 1px solid rgba(210, 210, 210, 0);
+          border-bottom: 1px solid rgba(150, 150, 150, 0);
           transition: border 200ms ease;
         }
         .calendar-box-single-listing:hover {
-          border-bottom: 1px solid rgba(210, 210, 210, 1);
+          border-bottom: 1px solid rgba(150, 150, 150, 1);
         }
       }
     }

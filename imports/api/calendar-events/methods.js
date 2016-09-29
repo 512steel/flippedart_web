@@ -79,13 +79,16 @@ export const insert = new ValidatedMethod({
                 throw new Meteor.Error('calendarEvents.insert.accessDenied', '[Invalid date]');
             }
 
+            //TODO: validate startTime and endTime here.
+
+
             let isAdmin = false;
             const adminUser = Meteor.users.findOne(this.userId);
             if (_.contains(adminUser.roles, 'admin')) {
                 isAdmin = true;
             }
 
-            //TODO: search for calendarEvents on the same date with the same name, and auto-increment nameSlug
+            //NOTE: searches for calendarEvents on the same date with the same name, and auto-increment nameSlug
             let conflictingEvent = CalendarEvents.find(
                 {
                     eventDate: eventDate,
@@ -142,15 +145,67 @@ export const insert = new ValidatedMethod({
 export const edit = new ValidatedMethod({
     name: 'calendarEvents.edit',
     validate: new SimpleSchema({
-        commentId: { type: String, regEx: SimpleSchema.RegEx.Id },
-        text: { type: String },
+        eventId: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id
+        },
+        eventName: {
+            type: String,
+            max: 500,
+        },
+        eventDate: {
+            type: String,
+            max: 10
+        },
+        startTime: {
+            type: String,
+            max: 20,
+        },
+        endTime: {
+            type: String,
+            max: 20,
+        },
+        description: {
+            type: String,
+            max: 5000,
+        },
+        location: {
+            type: String,
+            max: 200,
+        },
+        imageLink: {
+            type: String,
+            max: 200,
+            optional: true
+        },
     }).validator(),
-    run({ commentId, text }) {
-        text = sanitizeHtml(text);
+    run({ eventId, eventName, eventDate, startTime, endTime, description, location, imageLink}) {
 
-        const comment = Comments.findOne(commentId);
+        eventId = sanitizeHtml(eventId);
+        eventName = sanitizeHtml(eventName);
+        eventDate = sanitizeHtml(eventDate);
+        startTime = sanitizeHtml(startTime);
+        endTime = sanitizeHtml(endTime);
+        description = sanitizeHtml(description);
+        location = sanitizeHtml(location);
+        imageLink = imageLink.trim() ? sanitizeHtml(imageLink) : imageLink;
 
-        if (!comment || !comment.editableBy(this.userId)) {
+        if (eventDate.trim()) {
+            // validate that the date is in the proper MMDDYY or MM-DD-YY format here, if a new one is provided
+            const newDate = eventDate.replace(/\-+/g, '');
+            let validDate = /^\d{6}$/.test(newDate);
+
+            if (!validDate) {
+                throw new Meteor.Error('calendarEvents.insert.accessDenied', '[Invalid date]');
+            }
+        }
+
+        //TODO: validate startTime and endTime here.
+
+
+        const calendarEvent = CalendarEvents.findOne(eventId);
+
+        if (!calendarEvent || !calendarEvent.editableBy(this.userId)) {
             /*
              NOTE: throwing a Meteor.Error will fail the client-side
              simulation, preventing the server-side Method from ever being run.
@@ -159,17 +214,58 @@ export const edit = new ValidatedMethod({
              supposed to.
              */
 
-            throw new Meteor.Error('comments.edit.accessDenied',
-                'You don\'t have permission to edit this comment.');
+            throw new Meteor.Error('calendarEvents.edit.accessDenied',
+                'You don\'t have permission to edit this event.');
         }
 
-        Comments.update(commentId,
+        //NOTE: searches for calendarEvents on the same date with the same name, and auto-increment nameSlug
+        let conflictingEvent = CalendarEvents.find(
+            {
+                _id: {
+                    $ne: eventId
+                },
+
+                eventDate: eventDate,
+                eventName: eventName
+            },
+            {
+                sort: { nameSlug: -1 },
+                limit: 1
+            }).fetch();
+
+        if (conflictingEvent.length) {
+            currentSlug = Number(conflictingEvent[0].nameSlug);
+            var nameSlug = isNaN(currentSlug) ? 1 : Number(conflictingEvent[0].nameSlug) + 1;
+        }
+
+
+        //NOTE: these are computed BEFORE the update() method so that we can also include them in the return object.
+        let newName = eventName.trim() ? eventName : calendarEvent.eventName;
+        let newDate = eventDate.trim() ? eventDate : calendarEvent.eventDate;
+        let newSlug = nameSlug ? nameSlug : calendarEvent.nameSlug;
+
+        CalendarEvents.update(eventId,
             {
                 $set: {
-                    text: text,
+                    eventName: newName,
+                    eventDate: newDate,
+                    startTime: startTime.trim() ? startTime : calendarEvent.startTime,
+                    endTime: endTime.trim() ? endTime : calendarEvent.endTime,
+                    description: description.trim() ? description : calendarEvent.description,
+                    location: location.trim() ? location : calendarEvent.location,
+                    imageLink: imageLink.trim() ? imageLink : calendarEvent.imageLink,
+                    nameSlug: newSlug,
+
                     lastUpdated: new Date()
                 }
             });
+
+        //return the proper values to be used for linking to the new event.
+        return {
+            newName: newName,
+            newDate: newDate,
+            newSlug: newSlug
+        };
     }
 });
 
@@ -177,15 +273,15 @@ export const edit = new ValidatedMethod({
 export const deleteCalendarEvent = new ValidatedMethod({
     name: 'calendarEvents.delete',
     validate: new SimpleSchema({
-        commentId: {
+        eventId: {
             type: String,
             regEx: SimpleSchema.RegEx.Id
         },
     }).validator(),
-    run({ commentId }) {
-        const comment = Comments.findOne(commentId);
+    run({ eventId }) {
+        const calendarEvent = CalendarEvents.findOne(eventId);
 
-        if (!comment || !comment.editableBy(this.userId)) {
+        if (!calendarEvent || !calendarEvent.editableBy(this.userId)) {
             /*
              NOTE: throwing a Meteor.Error will fail the client-side
              simulation, preventing the server-side Method from ever being run.
@@ -194,19 +290,17 @@ export const deleteCalendarEvent = new ValidatedMethod({
              supposed to.
              */
 
-            throw new Meteor.Error('comments.delete.accessDenied',
-                'You don\'t have permission to delete this comment.');
+            throw new Meteor.Error('calendarEvents.delete.accessDenied',
+                'You don\'t have permission to delete this event.');
         }
 
-        Comments.remove(comment);
-
-        userPostDecrementComments(comment.userPostId);
+        CalendarEvents.remove(calendarEvent);
 
         //points system:
         const userAttributes = UserAttributes.findOne({userId: this.userId});
         if (userAttributes) {
             //Call the server-only method updateRank on UserAttributes, and remove points
-            updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.comment * -1);
+            updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.calendarEventAdd * -1);
         }
     }
 });
@@ -220,7 +314,7 @@ const COMMENTS_METHODS = _.pluck([
 ], 'name');
 
 if (Meteor.isServer) {
-    // Only allow 1 comment operations per connection per second
+    // Only allow 1 calendarEvent operations per connection per second
     DDPRateLimiter.addRule({
         name(name) {
             return _.contains(COMMENTS_METHODS, name);
