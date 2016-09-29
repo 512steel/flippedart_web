@@ -28,6 +28,21 @@ Template.registerHelper('and', function(a, b) {
 Template.registerHelper('or', function(a, b) {
     return a || b;
 });
+Template.registerHelper('times', function(n) {  //thanks SO: http://stackoverflow.com/questions/11924452/iterating-over-basic-for-loop-using-handlebars-js/11924998#11924998
+    let accum = [];
+    for(var i = 0; i < n; ++i)
+        accum.push(i);
+    return accum;
+});
+Template.registerHelper('timesOneIndexed', function(n) {  //thanks SO: http://stackoverflow.com/questions/11924452/iterating-over-basic-for-loop-using-handlebars-js/11924998#11924998
+    let accum = [];
+    for(var i = 1; i < n+1; ++i)
+        accum.push(i);
+    return accum;
+});
+Template.registerHelper('increment', function(n) {
+    return n+1;
+});
 
 Template.registerHelper('truthy', function(a) {
     if (typeof a === "string") {

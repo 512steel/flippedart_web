@@ -1,0 +1,31 @@
+<template name="event_calendar_submit">
+    <p>Event calendar submit template</p>
+
+    <form enctype="multipart/form-data" class="main form calendar-event-submit">
+
+        <input type="text" placeholder="Event name" name="calendarEventName" required />
+
+        <input type="text" placeholder="Location" name="calendarEventLocation" required />
+
+        <!-- FIXME: date pickers and time pickers -->
+        <input type="text" name="calendarEventDate" required />
+        <input type="text" name="calendarEventStartTime" required />
+        <input type="text" name="calendarEventEndTime" required />
+
+        <textarea placeholder="Event description" name="calendarEventDescription" cols="4" required></textarea>
+
+        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" />
+        <label for="postFileUpload" class="button secondary hollow expanded">
+            <span>
+                Upload an event photo
+            </span>
+        </label>
+
+        {{#if isUploading}}
+            <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
+        {{else}}
+            <input type="submit" value="Submit" class="button primary float-right"/>
+        {{/if}}
+    </form>
+
+</template>

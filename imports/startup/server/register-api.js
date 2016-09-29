@@ -1,3 +1,5 @@
+import '../../api/calendar-events/methods.js';
+import '../../api/calendar-events/server/publications.js';
 import '../../api/chat-messages/methods.js';
 import '../../api/chat-messages/server/publications.js';
 import '../../api/chat-sessions/methods.js';

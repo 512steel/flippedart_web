@@ -250,7 +250,7 @@ FlowRouter.route('/calendar/:MMDDYY', {
         BlazeLayout.render('App_body', { main: 'event_calendar_single_date_page' });
     }
 });
-FlowRouter.route('/calendar/:MMDDYY/:eventName', {
+FlowRouter.route('/calendar/:MMDDYY/:eventName/:nameSlug', {
     name: 'eventCalendar.singleEvent',
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_single_event_page' });

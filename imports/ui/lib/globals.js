@@ -24,6 +24,7 @@ export const POINTS_SYSTEM = {
         'post': 2,
         'exchangeItemAdd': 3,
         'exchangeItemGive': 4,
+        'calendarEventAdd': 2,
     },
     'ExchangeItems': {
         'requested': 1,

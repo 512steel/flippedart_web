@@ -1,15 +1,96 @@
-<template name="event_calendar">
-    <h1 class="push-down">EVENT CALENDAR</h1>
-
-    <div>
-        [Calendar placeholder]
-    </div>
-</template>
-
 <template name="event_calendar_page">
     <div class="row pull-down push-down">
-        <div class="column small-12 medium-10 large-10 medium-centered large-centered">
-            {{> event_calendar}}
+        <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+            <h1 class="push-down">EVENT CALENDAR</h1>
+
+            <div>
+                <h3>
+                    Events for {{selectedMonthName}}, {{selectedYear}}
+                </h3>
+                <p>
+                    Number of days this month: {{numberOfDaysInMonth}}
+                </p>
+                <p>
+                    <span class="js-event-calendar-prev-month">Previous month</span>
+                    |
+                    <span class="js-event-calendar-next-month">Next month</span>
+                </p>
+
+                <hr>
+
+                CALENDAR PLACEHOLDER:
+
+                <hr>
+
+                <div class="event-calendar-container">
+                    {{#each times numberOfPrependedDays}}
+                        <div class="calendar-box calendar-gray-box">
+                            <span>
+
+                            </span>
+                        </div>
+                    {{/each}}
+                    {{#each timesOneIndexed numberOfDaysInMonth}}
+                        <a
+                                href="{{pathFor 'eventCalendar.singleDate' MMDDYY=(dayToMMDDYY this)}}"
+                                class="calendar-box-link">
+
+                            <div class="calendar-box calendar-date-box">
+                                <span class="upper-number">
+                                    {{this}}
+                                </span>
+                                <span class="content">
+                                    {{#each calendarEvents}}  <!-- FIXME: would it be better to loop through the events once and the dates multiple times, rather than vice versa? -->
+                                        {{#if equalsDate this.eventDate ..}}  <!-- syntax is unclear here, but the ".." refers to the number being looped through in the outer each-loop -->
+                                            <p class="truncate-event-name">
+                                                <a
+                                                        href="{{
+                                                        pathFor 'eventCalendar.singleEvent'
+                                                        MMDDYY=this.eventDate
+                                                        eventName=this.eventName
+                                                        nameSlug=this.nameSlug
+                                                        }}"
+                                                        class="calendar-box-single-listing">
+                                                    {{this.eventName}}
+                                                </a>
+                                            </p>
+                                        {{else}}
+                                        {{/if}}
+                                    {{else}}
+                                    {{/each}}
+                                </span>
+                                <span class="more-events-button">
+                                    All events
+                                </span>
+                            </div>
+                        </a>
+                    {{/each}}
+                    {{#each times numberOfAppendedDays}}
+                        <div class="calendar-box calendar-gray-box">
+                            <span>
+
+                            </span>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <hr>
+                {{#each calendarEvents}}
+                    <p>
+                        {{this.eventName}} | {{this.nameSlug}} | {{this.eventDate}} | by {{this.authorName}}
+                    </p>
+                {{else}}
+                    There are no calendar events for this month.
+                {{/each}}
+            </div>
+        </div>
+
+        <div>
+            CALENDAR SUBMIT:
+            {{#if currentUser}}
+                {{> event_calendar_submit}}
+            {{else}}
+            {{/if}}
         </div>
     </div>
 </template>
