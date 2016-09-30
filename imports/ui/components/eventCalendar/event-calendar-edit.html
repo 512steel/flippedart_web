@@ -1,43 +1,54 @@
 <template name="event_calendar_single_event_edit">
 
-    <a href="{{pathFor 'eventCalendar.singleEvent'
+    <div class="row pull-down push-down">
+        <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+
+            <a href="{{pathFor 'eventCalendar.singleEvent'
                 MMDDYY=event.eventDate
                 eventName=event.eventName
-                nameSlug=event.nameSlug}}">
-        Back to event
-    </a>
+                nameSlug=event.nameSlug}}"
+                class="push-down button secondary hollow">
+                Go back
+            </a>
 
-    {{#if ownEvent}}
-        <form enctype="multipart/form-data" class="main form calendar-event-edit">
+            {{#if ownEvent}}
 
-            <input type="text" value="{{event.eventName}}" placeholder="Event name" name="calendarEventName" required />
+                <h2>Edit your event</h2>
 
-            <input type="text" value="{{event.location}}" placeholder="Location" name="calendarEventLocation" required />
+                <form enctype="multipart/form-data" class="main form calendar-event-edit">
 
-            <!-- FIXME: date pickers and time pickers -->
-            <input type="text" value="{{event.eventDate}}" name="calendarEventDate" required />
-            <input type="text" value="{{event.startTime}}" name="calendarEventStartTime" required />
-            <input type="text" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                    <input type="text" value="{{event.eventName}}" placeholder="Event name" name="calendarEventName" required />
 
-            <textarea type="text" placeholder="Event description" name="calendarEventDescription" cols="4" required>{{event.description}}</textarea>
+                    <input type="text" value="{{event.location}}" placeholder="Location" name="calendarEventLocation" required />
 
-            <input value="{{event.imageLink}}" id="postFileUpload" class="show-for-sr" type="file" accept="image/*" />
-            <label for="postFileUpload" class="button secondary hollow expanded">
-            <span>
-                Upload an event photo
-            </span>
-            </label>
+                    <!-- FIXME: date pickers and time pickers -->
+                    <input type="text" value="{{event.eventDate}}" name="calendarEventDate" required />
+                    <input type="text" value="{{event.startTime}}" name="calendarEventStartTime" required />
+                    <input type="text" value="{{event.endTime}}" name="calendarEventEndTime" required />
 
-            {{#if isUploading}}
-                <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
+                    <textarea type="text" placeholder="Event description" name="calendarEventDescription" cols="4" required>{{event.description}}</textarea>
+
+                    <input id="eventFileUpload" class="show-for-sr" type="file" accept="image/*" />
+                    <label for="eventFileUpload" class="button secondary hollow expanded">
+                        <span>
+                            Change the event photo
+                        </span>
+                    </label>
+
+                    {{#if isUploading}}
+                        <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
+                    {{else}}
+                        <input type="submit" value="Edit event" class="button primary float-right"/>
+                    {{/if}}
+                </form>
+
+                <p class="pull-down clearfix text-small">*Note: changing your event's name or date may cause problems with old links</p>
             {{else}}
-                <input type="submit" value="Edit your event" class="button primary float-right"/>
+                <p>
+                    Sorry, you don't have permission to edit this event.
+                </p>
             {{/if}}
-        </form>
-    {{else}}
-        <p>
-            Sorry, you don't have permission to edit this event.
-        </p>
-    {{/if}}
+        </div>
+    </div>
 
 </template>

@@ -619,6 +619,10 @@ figcaption {
 }
 
 
+.month-selector-wrap {
+  float: right;
+}
+
 .event-calendar-container {
   .calendar-box-link {
     color: $black;
@@ -705,13 +709,16 @@ figcaption {
 
       opacity: 1.0;
       transition: opacity 200ms ease;
-      transition-delay: 850ms;
+      transition-delay: 750ms;
     }
     .more-events-button:hover {
       color: #395777;  /* NOTE: this is just a darker version of our primar color */
       transition: color 200ms ease;
     }
   }
+}
+.event-calendar-container-small {
+  display: none;
 }
 
 
@@ -792,6 +799,44 @@ figcaption {
     max-height: 400px;
     img {
       margin-top: 0px;
+    }
+  }
+
+  .month-selector-wrap {
+    float: none;
+  }
+  .event-calendar-container {
+    display: none;
+  }
+  .event-calendar-container-small {
+    display: block;
+
+    .date-box {
+      padding: .75rem;
+      background-color: #5a97c4;
+      color: $white;
+      font-weight: bold;
+      margin: .5rem 0;
+      font-size: 1.2rem;
+
+      transition: background-color 200ms ease;
+    }
+    .date-box:hover {
+      background-color: #395777;  /* NOTE: this is just a darker version of our primar color */
+      transition: background-color 200ms ease;
+    }
+
+    .content {
+      .calendar-small-single-listing {
+        color: $black;
+        font-weight: bold;
+        padding-bottom: .2rem;
+        border-bottom: 1px solid rgba(150, 150, 150, 0);
+        transition: border 200ms ease;
+      }
+      .calendar-small-single-listing:hover {
+        border-bottom: 1px solid rgba(150, 150, 150, 1);
+      }
     }
   }
 }

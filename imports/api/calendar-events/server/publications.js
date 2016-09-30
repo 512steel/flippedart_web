@@ -42,16 +42,28 @@ Meteor.publish('calendarEvents.byMonth', function(month, year) {
         {
             sort: {
                 eventDate: 1
-                //TODO: sort by start times secondarily
+
+                //FIXME: sort by start times secondarily
             },
             fields: CalendarEvents.publicFields
         }
     )
 });
 
-Meteor.publish('calendarEvents.date', function(/*...*/) {
+Meteor.publish('calendarEvents.date', function(eventDate) {
+    check(eventDate, String);
 
-    //...
+    //FIXME: query with a regex on eventDate to include results with and without hypens
+    return CalendarEvents.find(
+        {
+            eventDate: eventDate
+        },
+        {
+            //FIXME: sort by startTime
+
+            fields: CalendarEvents.publicFields
+        }
+    )
 
 });
 
@@ -62,7 +74,7 @@ Meteor.publish('calendarEvents.user', function(username, options) {
         limit: Number
     });
 
-    //unnecessary at this point
+    //TODO: query to list on user's profile
 
 });
 
@@ -71,6 +83,8 @@ Meteor.publish('calendarEvents.single', function(eventDate, eventName, nameSlug)
     check(eventName, String);
     check(nameSlug, String);
 
+
+    //FIXME: query with a regex on eventDate to include results with and without hypens
     return CalendarEvents.find(
         {
             eventDate: eventDate,

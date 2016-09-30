@@ -199,3 +199,8 @@ export const COMPUTE_TIME_DISPLAY = (sliderAmount) => {
 
     return (sliderAmount - 15) / 10;
 };
+
+
+export const TIME_PICKER_VALUES = {
+
+};

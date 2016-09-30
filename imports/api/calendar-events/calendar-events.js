@@ -40,6 +40,8 @@ CalendarEvents.schema = new SimpleSchema({
         type: String,
         max: 500,
     },
+
+    //FIXME: there should be a "startDate" and "endDate", for events that go past midnight.  Design etc. needed for multi-day events, UI to support inserting/editing, etc.
     eventDate: {
         type: String,
         max: 10,

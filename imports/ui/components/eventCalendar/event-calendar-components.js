@@ -46,6 +46,10 @@ Template.event_calendar_page.onCreated(function() {
         this.subscribe('calendarEvents.byMonth', Session.get('currentCalendarMonth'), Session.get('currentCalendarYear'));
     });
 
+    this.getMonthlyCalendarEvents = () => {
+        return CalendarEvents.find({});
+    };
+
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Calendar");
     DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Calendar"});
     DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
@@ -62,8 +66,12 @@ Template.event_calendar_single_date_page.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+        this.subscribe('calendarEvents.date', this.getCalendarDate());
     });
+
+    this.getDailyCalendarEvents = () => {
+        return CalendarEvents.find({});
+    };
 
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Events for " + this.getCalendarDateString());
     DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Events for " + this.getCalendarDateString()});
@@ -165,10 +173,14 @@ Template.event_calendar_single_event_page.onRendered(function() {
 
 });
 
+Template.event_calendar_submit.onRendered(function() {
+    this.accordion = new Foundation.Accordion($('.accordion'));
+});
+
 
 Template.event_calendar_page.helpers({
     calendarEvents: () => {
-        return CalendarEvents.find({});
+        return Template.instance().getMonthlyCalendarEvents();
     },
     selectedMonthName: () => {
         return moment(Session.get('currentCalendarMonth'), "MM").format("MMMM");
@@ -197,6 +209,21 @@ Template.event_calendar_page.helpers({
             return dd == newDate.slice(2,4);
         }
     },
+    hasDateInEventsList: (dd) => {
+        let events = Template.instance().getMonthlyCalendarEvents();
+        let hasEvent = false;
+        events.forEach((event) => {
+            if (dd == event.eventDate.slice(2,4)) {
+                hasEvent = true;
+            }
+        });
+        return hasEvent;
+    },
+    hasAnyEventsThisMonth: () => {
+        let events = Template.instance().getMonthlyCalendarEvents();
+
+        return events.count();
+    },
     dayToMMDDYY: (day) => {
         //NOTE: this is for linking to individual days given the day of the month (design needed to see if this is even necessary)
         day = day < 10 ? '0' + day : day.toString();
@@ -214,23 +241,44 @@ Template.event_calendar_page.helpers({
 Template.event_calendar_single_date_page.helpers({
     eventDateString: () => {
         return Template.instance().getCalendarDateString();
-    }
-    //TODO: return subbed event objects
+    },
+    events: () => {
+        return Template.instance().getDailyCalendarEvents();
+    },
 });
 
 Template.event_calendar_single_event_page.helpers({
     eventName: () => {
         return Template.instance().getEventName();
     },
+    eventDateString: () => {
+        return Template.instance().getCalendarDateString();
+    },
     event: () => {
         return Template.instance().getCurrentEvent();
     },
     ownEvent: function () {
-        if (Meteor.user() && Meteor.user().username == Template.instance().getCurrentEvent().authorName) {
+        let currentEvent = Template.instance().getCurrentEvent();
+
+        if (Meteor.user() && currentEvent && Meteor.user().username == Template.instance().getCurrentEvent().authorName) {
             return true;
         }
         else return false;
     },
+    relativeTimeCopy: function(mmddyy) {
+        if (mmddyy) {
+            let newDate = mmddyy.toString().replace(/\-+/g, '');
+            let validDate = /^\d{6}$/.test(newDate);
+            if (validDate) {
+                let eventMomentDate = moment(newDate, "MMDDYY");
+                let currentDate = moment();
+                let diff = eventMomentDate.diff(currentDate, 'days');
+                let from = eventMomentDate.from(currentDate);
+
+                //FIXME: get smart about copy: "this event happened" vs. "this event is happening", etc.
+            }
+        }
+    }
 });
 
 Template.event_calendar_single_event_edit.helpers({
@@ -238,7 +286,9 @@ Template.event_calendar_single_event_edit.helpers({
         return Template.instance().getCurrentEvent();
     },
     ownEvent: function () {
-        if (Meteor.user() && Meteor.user().username == Template.instance().getCurrentEvent().authorName) {
+        let currentEvent = Template.instance().getCurrentEvent();
+
+        if (Meteor.user() && currentEvent && Meteor.user().username == Template.instance().getCurrentEvent().authorName) {
             return true;
         }
         else return false;
@@ -346,8 +396,6 @@ Template.event_calendar_single_event_edit.events({
     'submit form.calendar-event-edit': function(e) {
         e.preventDefault();
 
-        console.log('1');
-
         if (!Meteor.user()) {
             throwError("You must be signed in to edit an event.");
         }
@@ -356,8 +404,6 @@ Template.event_calendar_single_event_edit.events({
 
         if (currentEvent) {
             var imageLinks = [];
-
-            console.log('2');
 
             $(".calendar-event-edit input[type='file']").each(function () {
                 var files = this.files;
@@ -416,6 +462,13 @@ Template.event_calendar_single_event_edit.events({
                                     FlowRouter.go('eventCalendar.singleEvent',
                                         {MMDDYY: res.newDate, eventName: res.newName, nameSlug: res.newSlug}
                                     );
+
+                                    //FIXME: this currently doesn't work, i.e. accomplish the goal of being able to click the back button after changing the event name or date and go to the new event's URL's edit page.
+                                    /*
+                                    FlowRouter.withReplaceState(function() {
+                                        FlowRouter.setParams({MMDDYY: res.newDate, eventName: res.newName, nameSlug: res.newSlug});
+                                    });
+                                    */
                                 }
                             });
                         }
@@ -423,8 +476,6 @@ Template.event_calendar_single_event_edit.events({
                 }
                 else {
                     //no images
-
-                    console.log('3');
 
                     let eventName = $(e.target).find('[name=calendarEventName]').val();
                     let eventDate = $(e.target).find('[name=calendarEventDate]').val();
@@ -446,12 +497,16 @@ Template.event_calendar_single_event_edit.events({
                         else {
                             Session.set('isEventUploading', false);
 
-                            console.log('4');
-                            console.log(res);
-
                             FlowRouter.go('eventCalendar.singleEvent',
                                 {MMDDYY: res.newDate, eventName: res.newName, nameSlug: res.newSlug}
                             );
+
+                            //FIXME: this currently doesn't work, i.e. accomplish the goal of being able to click the back button after changing the event name or date and go to the new event's URL's edit page.
+                            /*
+                            FlowRouter.withReplaceState(function() {
+                                FlowRouter.setParams({MMDDYY: res.newDate, eventName: res.newName, nameSlug: res.newSlug});
+                            });
+                            */
                         }
                     });
                 }
@@ -461,6 +516,31 @@ Template.event_calendar_single_event_edit.events({
     'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
         autosize($('textarea'));
     },
+    'change input#eventFileUpload'(e) {
+        e.preventDefault();
+
+        /*
+         Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+         */
+        var $input = $('input#eventFileUpload');
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if (e.target.files && e.target.files.length > 1) {
+            fileName = ( e.target.getAttribute('data-multiple-caption') || '' ).replace('{count}', e.target.files.length);
+        }
+        else if (e.target.value) {
+            fileName = e.target.value.split('\\').pop();
+        }
+
+        if (fileName) {
+            $label.find('span').html(fileName);
+        }
+        else {
+            $label.html(labelVal);
+        }
+    }
 });
 
 Template.event_calendar_submit.events({
@@ -573,4 +653,29 @@ Template.event_calendar_submit.events({
     'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
         autosize($('textarea'));
     },
+    'change input#eventFileUpload'(e) {
+        e.preventDefault();
+
+        /*
+         Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+         */
+        var $input = $('input#eventFileUpload');
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if (e.target.files && e.target.files.length > 1) {
+            fileName = ( e.target.getAttribute('data-multiple-caption') || '' ).replace('{count}', e.target.files.length);
+        }
+        else if (e.target.value) {
+            fileName = e.target.value.split('\\').pop();
+        }
+
+        if (fileName) {
+            $label.find('span').html(fileName);
+        }
+        else {
+            $label.html(labelVal);
+        }
+    }
 });

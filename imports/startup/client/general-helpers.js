@@ -46,7 +46,7 @@ Template.registerHelper('increment', function(n) {
 
 Template.registerHelper('truthy', function(a) {
     if (typeof a === "string") {
-        a = a.toLowerCase();
+        a = a.toLowerCase().trim();
         if (a != "" && a != "no" && a != "0" && a != "false") {
             return true;
         }
@@ -58,7 +58,7 @@ Template.registerHelper('truthy', function(a) {
 });
 Template.registerHelper('falsy', function(a) {
     if (typeof a === "string") {
-        a = a.toLowerCase();
+        a = a.toLowerCase().trim();
         if (a == "no" || a == "none" || a == "false" || a == "0" || a == "") {
             return true;
         }

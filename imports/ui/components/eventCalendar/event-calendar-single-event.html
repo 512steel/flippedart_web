@@ -1,21 +1,44 @@
 <template name="event_calendar_single_event_page">
     <div class="row pull-down push-down">
-        <div class="column small-12 medium-10 large-10 medium-centered large-centered">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down-xlarge push-down-xxxlarge">
 
-            <h1>{{eventName}}</h1>
+            <h1 class="push-down">
+                {{eventName}}
+            </h1>
+
             <p>
-                {{event._id}} |
-                {{event.eventName}} |
-                {{event.eventDate}} |
-                {{event.startTime}} |
-                {{event.endTime}} |
-                {{event.description}} |
-                {{event.location}} |
+                Where: {{event.location}}
             </p>
-            <p>Event calendar single event placeholder</p>
+            <p>
+                From {{event.startTime}} &ndash; {{event.endTime}}, on {{eventDateString}}
+            </p>
+            <p>
+                {{relativeTimeCopy event.eventDate}}
+            </p>
+
+            <p class="pull-down-small push-down">
+                {{event.description}}
+            </p>
+
+            {{#if truthy event.imageLink}}
+                <p>
+                    <a class="thumbnail" data-lightbox="event-lightbox" href="{{c.url event.imageLink secure=true}}">
+                        <img src="{{c.url event.imageLink secure=true}}">
+                    </a>
+                </p>
+            {{else}}
+            {{/if}}
 
             {{#if ownEvent}}
-                <a href="{{pathFor 'eventCalendar.singleEvent.edit' MMDDYY=event.eventDate eventName=event.eventName nameSlug=event.nameSlug}}">EDIT</a>
+                <p class="shift-down-small">
+                    <a href="{{
+                                pathFor 'eventCalendar.singleEvent.edit'
+                                MMDDYY=event.eventDate
+                                eventName=event.eventName
+                                nameSlug=event.nameSlug}}">
+                        <i class="button primary fi-pencil"></i>
+                    </a>
+                </p>
             {{/if}}
         </div>
     </div>

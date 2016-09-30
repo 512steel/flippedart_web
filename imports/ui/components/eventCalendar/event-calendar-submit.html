@@ -1,31 +1,34 @@
 <template name="event_calendar_submit">
-    <p>Event calendar submit template</p>
 
     <form enctype="multipart/form-data" class="main form calendar-event-submit">
 
-        <input type="text" placeholder="Event name" name="calendarEventName" required />
+        <div class="row column">
+            <input type="text" class="column small-12" placeholder="Event name" name="calendarEventName" required />
 
-        <input type="text" placeholder="Location" name="calendarEventLocation" required />
+            <input type="text" class="column small-12" placeholder="Location" name="calendarEventLocation" required />
 
-        <!-- FIXME: date pickers and time pickers -->
-        <input type="text" name="calendarEventDate" required />
-        <input type="text" name="calendarEventStartTime" required />
-        <input type="text" name="calendarEventEndTime" required />
+            <!-- FIXME: date pickers and time pickers -->
+            <input type="text" class="column small-12" name="calendarEventDate" required />
+            <input type="text" class="column small-12" name="calendarEventStartTime" required />
+            <input type="text" class="column small-12" name="calendarEventEndTime" required />
 
-        <textarea placeholder="Event description" name="calendarEventDescription" cols="4" required></textarea>
+            <textarea class="column small-12" placeholder="Event description" name="calendarEventDescription" cols="4" required></textarea>
 
-        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" />
-        <label for="postFileUpload" class="button secondary hollow expanded">
+            <input id="eventFileUpload" class="show-for-sr column small-12" type="file" accept="image/*" />
+            <label for="eventFileUpload" class="column small-12 button secondary hollow expanded">
             <span>
                 Upload an event photo
             </span>
-        </label>
+            </label>
 
-        {{#if isUploading}}
-            <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
-        {{else}}
-            <input type="submit" value="Create your event" class="button primary float-right"/>
-        {{/if}}
+            {{#if isUploading}}
+                <input type="submit" value="{{uploadingCopy}}" class="column small-12 medium-4 button primary float-right" disabled/>
+            {{else}}
+                <input type="submit" value="Create your event" class="column small-12 medium-4 button primary float-right"/>
+            {{/if}}
+
+            <div class="clearfix"></div>
+        </div>
     </form>
 
 </template>

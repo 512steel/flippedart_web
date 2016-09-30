@@ -1,28 +1,29 @@
 <template name="event_calendar_page">
     <div class="row pull-down push-down">
         <div class="column small-12 medium-12 large-10 medium-centered large-centered">
-            <h1 class="push-down">EVENT CALENDAR</h1>
+            <h1 class="row column push-down">EVENT CALENDAR</h1>
 
-            <div>
-                <h3>
+            <div class="row column pull-down">
+                <h4 class="column small-12 medium-6">
                     Events for {{selectedMonthName}}, {{selectedYear}}
-                </h3>
-                <p>
-                    Number of days this month: {{numberOfDaysInMonth}}
-                </p>
-                <p>
-                    <span class="js-event-calendar-prev-month">Previous month</span>
-                    |
-                    <span class="js-event-calendar-next-month">Next month</span>
+                </h4>
+
+                <p class="button-group column small-12 medium-6">
+                    <span class="month-selector-wrap">
+                        <span class="js-event-calendar-prev-month button hollow secondary">
+                            <i class="fi-arrow-left"></i>
+                            Previous month
+                        </span>
+                        <span class="js-event-calendar-next-month button hollow secondary">
+                            Next month
+                            <i class="fi-arrow-right"></i>
+                        </span>
+                    </span>
                 </p>
 
                 <hr>
 
-                CALENDAR PLACEHOLDER:
-
-                <hr>
-
-                <div class="event-calendar-container">
+                <div class="event-calendar-container column small-12 clearfix">
                     {{#each times numberOfPrependedDays}}
                         <div class="calendar-box calendar-gray-box">
                             <span>
@@ -74,23 +75,69 @@
                     {{/each}}
                 </div>
 
-                <hr>
-                {{#each calendarEvents}}
-                    <p>
-                        {{this.eventName}} | {{this.nameSlug}} | {{this.eventDate}} | by {{this.authorName}}
-                    </p>
-                {{else}}
-                    There are no calendar events for this month.
-                {{/each}}
-            </div>
-        </div>
+                <div class="event-calendar-container-small column small-12">
+                    {{#each timesOneIndexed numberOfDaysInMonth}}
+                        {{#if hasDateInEventsList this}}
+                            <a
+                                    href="{{pathFor 'eventCalendar.singleDate' MMDDYY=(dayToMMDDYY this)}}"
+                                    class="calendar-box-link">
+                                <div class="pull-down push-down">
+                                    <span class="date-box">
+                                        DATE {{this}}
+                                    </span>
+                                </div>
+                            </a>
 
-        <div>
-            CALENDAR SUBMIT:
-            {{#if currentUser}}
-                {{> event_calendar_submit}}
-            {{else}}
-            {{/if}}
+                            <span class="content">
+                                {{#each calendarEvents}}
+                                    {{#if equalsDate this.eventDate ..}}  <!-- syntax is unclear here, but the ".." refers to the number being looped through in the outer each-loop -->
+                                        <p>
+                                            <a href="{{
+                                                pathFor 'eventCalendar.singleEvent'
+                                                MMDDYY=this.eventDate
+                                                eventName=this.eventName
+                                                nameSlug=this.nameSlug
+                                            }}"
+                                            class="calendar-small-single-listing">
+                                                {{this.eventName}}
+                                            </a>
+                                        </p>
+                                    {{else}}
+                                    {{/if}}
+                                {{else}}
+                                {{/each}}
+                            </span>
+                        {{else}}
+                        {{/if}}
+                    {{/each}}
+
+                    {{#unless hasAnyEventsThisMonth}}
+                        <p class="text-large text-centered">
+                            There are no events scheduled in {{selectedMonthName}}.
+                        </p>
+                    {{/unless}}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="column small-12 medium-10 large-8 medium-centered large-centered">
+                &nbsp;  <!-- there's an odd display bug with the Foundation accordion if there is no explicit space or text here. -->
+                {{#if currentUser}}
+                    <ul class="accordion" data-accordion data-allow-all-closed="true">
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title" data-no-instant>Add your own event</a>
+                            <div class="accordion-content" data-tab-content>
+                                <h2 class="pull-down-small">Add an event</h2>
+                                {{> event_calendar_submit}}
+                            </div>
+                        </li>
+                    </ul>
+                {{else}}
+                {{/if}}
+            </div>
+
+            <div class="column"><!-- closing column due to Foundation bug--></div>
         </div>
     </div>
 </template>
