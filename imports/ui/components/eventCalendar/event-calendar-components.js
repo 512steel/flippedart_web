@@ -88,22 +88,37 @@ Template.event_calendar_single_event_page.onCreated(function() {
     this.getCalendarDateString = () => moment(this.getCalendarDate(), "MM-DD-YY").format("MMM Do, YYYY");
     this.getEventName = () => FlowRouter.getParam('eventName');
     this.getNameSlug = () => FlowRouter.getParam('nameSlug');
-
-    // Subscriptions go in here
-    this.autorun(() => {
-        this.subscribe('calendarEvents.single', this.getCalendarDate(), this.getEventName(), this.getNameSlug())
-    });
-
     this.getCurrentEvent = () => {
         return CalendarEvents.findOne({});
     };
+
+    
+    // Subscriptions go in here
+    this.autorun(() => {
+        this.subscribe('calendarEvents.single', this.getCalendarDate(), this.getEventName(), this.getNameSlug())
+
+        //Re-run DocHead call after the event is loaded
+        let currentEvent = this.getCurrentEvent();
+        if (currentEvent) {
+            DocHead.removeDocHeadAddedTags();
+
+            DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events");
+            DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events"});
+            DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
+            DocHead.addMeta({name: "og:type", content: "article"});
+            DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/calendar/" + this.getCalendarDate() + "/" + this.getEventName() + "/" + this.getNameSlug()});
+            DocHead.addMeta({name: "og:image", content: currentEvent.imageLink ? Cloudinary._helpers.url(currentEvent.imageLink, {'secure':true}) : HEAD_DEFAULTS.image});  //NOTE: this is the only major change in DocHead
+            DocHead.addMeta({name: "og:image:width", content: "1200"});
+            DocHead.addMeta({name: "og:image:height", content: "630"});
+        }
+    });
 
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events");
     DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events"});
     DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
     DocHead.addMeta({name: "og:type", content: "article"});
     DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/calendar/" + this.getCalendarDate() + "/" + this.getEventName() + "/" + this.getNameSlug()});
-    DocHead.addMeta({name: "og:image", content: HEAD_DEFAULTS.image});  //FIXME: change this to the event cover image, if there is one.
+    DocHead.addMeta({name: "og:image", content: HEAD_DEFAULTS.image});
     DocHead.addMeta({name: "og:image:width", content: "1200"});
     DocHead.addMeta({name: "og:image:height", content: "630"});
 });
@@ -470,6 +485,21 @@ Template.event_calendar_page.events({
 
 Template.event_calendar_single_date_page.events({
 
+});
+
+Template.event_calendar_single_event_page.events({
+    'click .share-event-facebook': function (e) {
+        e.preventDefault();
+        const currentEvent = Template.instance().getCurrentEvent();
+        const shareUrl = 'https://www.flippedart.org/calendar/' + currentEvent.eventDate + '/' + currentEvent.eventName + '/' + currentEvent.nameSlug;
+
+        FB.ui({
+            method: 'share',
+            href: shareUrl,
+            mobile_iframe: true
+        }, function (response) {
+        });
+    },
 });
 
 Template.event_calendar_single_event_edit.events({
