@@ -277,7 +277,9 @@ Template.event_calendar_page.helpers({
         let events = Template.instance().getMonthlyCalendarEvents();
         let hasEvent = false;
         events.forEach((event) => {
-            if (dd == event.eventDate.slice(2,4)) {
+            //NOTE: take into account dates formatted as MMDDYY *and* MM-DD-YY
+            let newDate = event.eventDate.toString().replace(/\-+/g, '');
+            if (dd == newDate.slice(2,4)) {
                 hasEvent = true;
             }
         });
@@ -329,17 +331,31 @@ Template.event_calendar_single_event_page.helpers({
         }
         else return false;
     },
-    relativeTimeCopy: function(mmddyy) {
-        if (mmddyy) {
-            let newDate = mmddyy.toString().replace(/\-+/g, '');
+    relativeTimeCopy: function(event) {
+        if (event) {
+            let newDate = event.eventDate.toString().replace(/\-+/g, '');
             let validDate = /^\d{6}$/.test(newDate);
             if (validDate) {
-                let eventMomentDate = moment(newDate, "MMDDYY");
-                let currentDate = moment();
-                let diff = eventMomentDate.diff(currentDate, 'days');
-                let from = eventMomentDate.from(currentDate);
+                //TODO: also validate startTime/endTime with regex?
 
-                //FIXME: get smart about copy: "this event happened" vs. "this event is happening", etc.
+                let eventMomentStart = moment(newDate + " " + event.startTime, "MMDDYY hh:mm a");
+                let eventMomentEnd = moment(newDate + " " + event.endTime, "MMDDYY hh:mm a");
+                let nowMoment = moment();
+
+                let startDiff = nowMoment.diff(eventMomentStart);
+                let endDiff = nowMoment.diff(eventMomentEnd);
+                if (startDiff <= 0) {
+                    //happening soon
+                    return 'This event is happening ' + eventMomentStart.from(nowMoment) + '.';
+                }
+                else if (startDiff > 0 && endDiff < 0) {
+                    //happening now
+                    return 'This event is happening now.';
+                }
+                else if (endDiff >= 0) {
+                    //already happened
+                    return 'This event happened ' + eventMomentStart.from(nowMoment) + '.';
+                }
             }
         }
     }

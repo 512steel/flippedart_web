@@ -24,9 +24,8 @@ Meteor.publish('calendarEvents.all', function () {
 });
 
 Meteor.publish('calendarEvents.byMonth', function(month, year) {
-    //NOTE: this is a specific query that could probably be a lot more efficient/cleaner...
-    // it takes a date in the format of MMDDYY
 
+    //NOTE: this takes a date in the format of MMDDYY *or* MM-DD-YY
     check(month, Number);
     check(year, Number);
 
@@ -55,6 +54,7 @@ Meteor.publish('calendarEvents.date', function(eventDate) {
 
     let newDate = eventDate.toString().replace(/\-+/g, '');
     let validDate = /^\d{6}$/.test(newDate);
+
     if (validDate) {
         let mm = newDate.slice(0,2);
         let dd = newDate.slice(2,4);
