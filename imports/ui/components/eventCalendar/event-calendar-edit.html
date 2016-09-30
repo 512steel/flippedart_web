@@ -1,7 +1,7 @@
 <template name="event_calendar_single_event_edit">
 
     <div class="row pull-down push-down">
-        <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered">
 
             <a href="{{pathFor 'eventCalendar.singleEvent'
                 MMDDYY=event.eventDate
@@ -17,16 +17,29 @@
 
                 <form enctype="multipart/form-data" class="main form calendar-event-edit">
 
-                    <input type="text" value="{{event.eventName}}" placeholder="Event name" name="calendarEventName" required />
+                    <label><strong>Name of your event</strong></label>
+                    <input type="text" value="{{event.eventName}}" placeholder="Name of the event" name="calendarEventName" required />
 
-                    <input type="text" value="{{event.location}}" placeholder="Location" name="calendarEventLocation" required />
+                    <label><strong>Event location</strong></label>
+                    <input type="text" value="{{event.location}}" placeholder="Event location" name="calendarEventLocation" required />
 
                     <!-- FIXME: date pickers and time pickers -->
-                    <input type="text" value="{{event.eventDate}}" name="calendarEventDate" required />
-                    <input type="text" value="{{event.startTime}}" name="calendarEventStartTime" required />
-                    <input type="text" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                    <label><strong>Date of the event</strong></label>
+                    <input type="text" class="column small-12" id="datepicker-edit-event" value="{{event.eventDate}}" name="calendarEventDate" required />
 
-                    <textarea type="text" placeholder="Event description" name="calendarEventDescription" cols="4" required>{{event.description}}</textarea>
+                    <div class="row">
+                        <div class="column small-12 medium-6">
+                            <label><strong>Start time</strong></label>
+                            <input type="text" id="startTime" value="{{event.startTime}}" name="calendarEventStartTime" required />
+                        </div>
+                        <div class="column small-12 medium-6">
+                            <label><strong>End time</strong></label>
+                            <input type="text" id="endTime" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                        </div>
+                    </div>
+
+                    <label><strong>Event description</strong></label>
+                    <textarea type="text" placeholder="Let people know what's going to happen at your event!" name="calendarEventDescription" cols="4" required>{{event.description}}</textarea>
 
                     <input id="eventFileUpload" class="show-for-sr" type="file" accept="image/*" />
                     <label for="eventFileUpload" class="button secondary hollow expanded">

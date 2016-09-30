@@ -173,8 +173,72 @@ Template.event_calendar_single_event_page.onRendered(function() {
 
 });
 
+Template.event_calendar_single_event_edit.onRendered(function() {
+    var Pikaday = require('pikaday');
+    var picker = new Pikaday({
+        field: document.getElementById('datepicker-edit-event'),
+        format: 'MM-DD-YY'
+    });
+
+    Meteor.setTimeout(function() {  //DOM doesn't render immediately.  This whole jquery plugin workflow is unintuitive...
+        var timepicker = require('./../../../../node_modules/jquery-timepicker/jquery.timepicker.js');  // wtf.
+        $('#startTime').timepicker({
+            timeFormat: 'hh:mm p',
+            interval: 30,
+            minTime: '12:00am',  //FIXME: times loop around to the back when a new one is selected
+            maxTime: '11:30pm',
+            dropdown: true,
+            scrollbar: true,
+            change: function(time) {
+                //...
+            }
+        });
+        $('#endTime').timepicker({
+            timeFormat: 'hh:mm p',
+            interval: 30,
+            minTime: '12:00am',  //FIXME: times loop around to the back when a new one is selected
+            maxTime: '11:30pm',
+            dropdown: true,
+            scrollbar: true,
+            change: function(time) {
+                //...
+            }
+        });
+    }, 500);
+});
+
 Template.event_calendar_submit.onRendered(function() {
     this.accordion = new Foundation.Accordion($('.accordion'));
+
+    var Pikaday = require('pikaday');
+    var picker = new Pikaday({
+        field: document.getElementById('datepicker'),
+        format: 'MM-DD-YY'
+    });
+
+    Meteor.setTimeout(function() {  //DOM doesn't render immediately.  This whole jquery plugin workflow is unintuitive...
+        var timepicker = require('./../../../../node_modules/jquery-timepicker/jquery.timepicker.js');  // wtf.
+        $('#startTime').timepicker({
+            timeFormat: 'hh:mm p',
+            interval: 30,  //FIXME: times loop around to the back when a new one is selected
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true,
+            change: function(time) {
+                //...
+            }
+        });
+        $('#endTime').timepicker({
+            timeFormat: 'hh:mm p',
+            interval: 30,  //FIXME: times loop around to the back when a new one is selected
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true,
+            change: function(time) {
+                //...
+            }
+        });
+    }, 500);
 });
 
 
@@ -540,7 +604,10 @@ Template.event_calendar_single_event_edit.events({
         else {
             $label.html(labelVal);
         }
-    }
+    },
+    'blur #datepicker-edit-event': (e, target) => {
+        //
+    },
 });
 
 Template.event_calendar_submit.events({
@@ -677,5 +744,8 @@ Template.event_calendar_submit.events({
         else {
             $label.html(labelVal);
         }
-    }
+    },
+    'blur #datepicker': (e, target) => {
+        //
+    },
 });

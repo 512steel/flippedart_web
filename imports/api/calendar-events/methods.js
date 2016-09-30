@@ -72,14 +72,39 @@ export const insert = new ValidatedMethod({
             imageLink = imageLink.trim() ? sanitizeHtml(imageLink) : imageLink;
 
             // validate that the date is in the proper MMDDYY or MM-DD-YY format here
-            const newDate = eventDate.replace(/\-+/g, '');
-            let validDate = /^\d{6}$/.test(newDate);
+            {
+                const newDate = eventDate.replace(/\-+/g, '');
+                let validDate = /^\d{6}$/.test(newDate);
 
-            if (!validDate) {
-                throw new Meteor.Error('calendarEvents.insert.accessDenied', '[Invalid date]');
+                if (!validDate) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid date - Your date should be in the format MM-DD-YY');
+                }
             }
 
-            //TODO: validate startTime and endTime here.
+            // validate that the startTime and endTime are in the proper hh:mm format (although they may have "AM"/"PM" appended)
+            {
+                const newStartTime = startTime.slice(0,5);
+                const newEndTime = endTime.slice(0,5);
+                let validStartTime = /^\d{2}\:\d{2}$/.test(newStartTime);
+                let validEndTime = /^\d{2}\:\d{2}$/.test(newEndTime);
+
+                if (!validStartTime || !validEndTime) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your start and end times should be in the format HH:MM');
+                }
+
+                // also make sure endTime comes AFTER startTime.
+                let startMoment = moment(startTime, 'hh:mm a');
+                let endMoment = moment(endTime, 'hh:mm a');
+
+                //TODO: this will need a more complicated moment() calculation after we introduce startDate and endDate, for events lasting more than one calendar day
+                let timeDiff = startMoment.diff(endMoment);
+                if (isNaN(timeDiff)) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your start and end times should be in the format HH:MM');
+                }
+                else if (timeDiff >= 0){
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your end time should come after the start time.');
+                }
+            }
 
 
             let isAdmin = false;
@@ -192,15 +217,45 @@ export const edit = new ValidatedMethod({
 
         if (eventDate.trim()) {
             // validate that the date is in the proper MMDDYY or MM-DD-YY format here, if a new one is provided
-            const newDate = eventDate.replace(/\-+/g, '');
-            let validDate = /^\d{6}$/.test(newDate);
+            {
+                const newDate = eventDate.replace(/\-+/g, '');
+                let validDate = /^\d{6}$/.test(newDate);
 
-            if (!validDate) {
-                throw new Meteor.Error('calendarEvents.insert.accessDenied', '[Invalid date]');
+                if (!validDate) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid date - Your date should be in the format MM-DD-YY');
+                }
+            }
+
+            // validate that the startTime and endTime are in the proper hh:mm format (although they may have "AM"/"PM" appended)
+            {
+                const newStartTime = startTime.slice(0,5);
+                const newEndTime = endTime.slice(0,5);
+                let validStartTime = /^\d{2}\:\d{2}$/.test(newStartTime);
+                let validEndTime = /^\d{2}\:\d{2}$/.test(newEndTime);
+
+                if (!validStartTime || !validEndTime) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your start and end times should be in the format HH:MM');
+                }
+
+                // also make sure endTime comes AFTER startTime.
+                let startMoment = moment(startTime, 'hh:mm a');
+                let endMoment = moment(endTime, 'hh:mm a');
+
+                //TODO: this will need a more complicated moment() calculation after we introduce startDate and endDate, for events lasting more than one calendar day
+                let timeDiff = startMoment.diff(endMoment);
+                if (isNaN(timeDiff)) {
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your start and end times should be in the format HH:MM');
+                }
+                else if (timeDiff >= 0){
+                    throw new Meteor.Error('calendarEvents.insert.accessDenied', 'Invalid time - Your end time should come after the start time.');
+                }
             }
         }
 
         //TODO: validate startTime and endTime here.
+
+
+        //TODO: prevent (or at least have a prevision for) editing an event after it has already passed.
 
 
         const calendarEvent = CalendarEvents.findOne(eventId);

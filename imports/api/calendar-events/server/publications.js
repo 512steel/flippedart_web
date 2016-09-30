@@ -53,17 +53,28 @@ Meteor.publish('calendarEvents.byMonth', function(month, year) {
 Meteor.publish('calendarEvents.date', function(eventDate) {
     check(eventDate, String);
 
-    //FIXME: query with a regex on eventDate to include results with and without hypens
-    return CalendarEvents.find(
-        {
-            eventDate: eventDate
-        },
-        {
-            //FIXME: sort by startTime
+    let newDate = eventDate.toString().replace(/\-+/g, '');
+    let validDate = /^\d{6}$/.test(newDate);
+    if (validDate) {
+        let mm = newDate.slice(0,2);
+        let dd = newDate.slice(2,4);
+        let yy = newDate.slice(4,6);
 
-            fields: CalendarEvents.publicFields
-        }
-    )
+        let regex = new RegExp('^(' + mm + ').*(' + dd + ').*(' + yy + ')$');
+
+        return CalendarEvents.find(
+            {
+                eventDate: {
+                    $regex: regex
+                }
+            },
+            {
+                //FIXME: sort by startTime
+
+                fields: CalendarEvents.publicFields
+            }
+        );
+    }
 
 });
 
@@ -84,7 +95,7 @@ Meteor.publish('calendarEvents.single', function(eventDate, eventName, nameSlug)
     check(nameSlug, String);
 
 
-    //FIXME: query with a regex on eventDate to include results with and without hypens
+    //TODO: query with a regex on eventDate to include results with and without hypens?
     return CalendarEvents.find(
         {
             eventDate: eventDate,

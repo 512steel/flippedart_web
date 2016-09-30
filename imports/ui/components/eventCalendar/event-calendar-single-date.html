@@ -13,18 +13,19 @@
                 <p>
                     From {{this.startTime}} &ndash; {{this.endTime}}
                 </p>
-                <p class="button primary hollow row column small-12 medium-4">
-                    <a href="{{
-                                pathFor 'eventCalendar.singleEvent'
-                                MMDDYY=this.eventDate
-                                eventName=this.eventName
-                                nameSlug=this.nameSlug}}">
 
+                <a href="{{
+                            pathFor 'eventCalendar.singleEvent'
+                            MMDDYY=this.eventDate
+                            eventName=this.eventName
+                            nameSlug=this.nameSlug}}">
+
+                    <p class="button primary hollow row column small-12 medium-4">
                         <strong>More details</strong>
                         &nbsp;&nbsp;
                         <i class="fi-arrow-right text-small"></i>
-                    </a>
-                </p>
+                    </p>
+                </a>
 
                 <hr>
             {{else}}

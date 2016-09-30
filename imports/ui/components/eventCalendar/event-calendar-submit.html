@@ -3,16 +3,29 @@
     <form enctype="multipart/form-data" class="main form calendar-event-submit">
 
         <div class="row column">
+            <label><strong>Name of your event</strong></label>
             <input type="text" class="column small-12" placeholder="Event name" name="calendarEventName" required />
 
-            <input type="text" class="column small-12" placeholder="Location" name="calendarEventLocation" required />
+            <label><strong>Event location</strong></label>
+            <input type="text" class="column small-12" placeholder="Event location" name="calendarEventLocation" required />
 
             <!-- FIXME: date pickers and time pickers -->
-            <input type="text" class="column small-12" name="calendarEventDate" required />
-            <input type="text" class="column small-12" name="calendarEventStartTime" required />
-            <input type="text" class="column small-12" name="calendarEventEndTime" required />
+            <label><strong>Date of the event</strong></label>
+            <input type="text" class="column small-12" id="datepicker" name="calendarEventDate" required />
 
-            <textarea class="column small-12" placeholder="Event description" name="calendarEventDescription" cols="4" required></textarea>
+            <div class="row">
+                <div class="column small-12 medium-6">
+                    <label><strong>Start time</strong></label>
+                    <input type="text" id="startTime" value="{{event.startTime}}" name="calendarEventStartTime" required />
+                </div>
+                <div class="column small-12 medium-6">
+                    <label><strong>End time</strong></label>
+                    <input type="text" id="endTime" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                </div>
+            </div>
+
+            <label><strong>Event description</strong></label>
+            <textarea class="column small-12" placeholder="Let people know what's going to happen at your event!" name="calendarEventDescription" cols="4" required></textarea>
 
             <input id="eventFileUpload" class="show-for-sr column small-12" type="file" accept="image/*" />
             <label for="eventFileUpload" class="column small-12 button secondary hollow expanded">

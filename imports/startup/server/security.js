@@ -47,3 +47,4 @@ BrowserPolicy.content.allowOriginForAll( 'www.google-analytics.com' );
 BrowserPolicy.content.allowOriginForAll( '*.cloudinary.com' );
 BrowserPolicy.content.allowOriginForAll( 'connect.facebook.net' );
 BrowserPolicy.content.allowOriginForAll( '*.facebook.com' );
+BrowserPolicy.content.allowOriginForAll( 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css' );
