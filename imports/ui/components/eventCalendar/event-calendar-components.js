@@ -15,7 +15,8 @@ import {
 import { CalendarEvents } from '../../../api/calendar-events/calendar-events.js';
 import {
     insert,
-    edit
+    edit,
+    deleteCalendarEvent
 } from '../../../api/calendar-events/methods.js';
 
 import './event-calendar-page.html';
@@ -92,7 +93,7 @@ Template.event_calendar_single_event_page.onCreated(function() {
         return CalendarEvents.findOne({});
     };
 
-    
+
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('calendarEvents.single', this.getCalendarDate(), this.getEventName(), this.getNameSlug())
@@ -305,6 +306,10 @@ Template.event_calendar_page.helpers({
 
         return events.count();
     },
+    dayToFormatted: (dd) => {
+        let month = Session.get('currentCalendarMonth');
+        return moment(month + '-' + dd).format('MMM Do');
+    },
     dayToMMDDYY: (day) => {
         //NOTE: this is for linking to individual days given the day of the month (design needed to see if this is even necessary)
         day = day < 10 ? '0' + day : day.toString();
@@ -500,6 +505,23 @@ Template.event_calendar_single_event_page.events({
         }, function (response) {
         });
     },
+    'click .calendar-event-delete-button': function(e) {
+        e.preventDefault();
+
+        if (confirm("Are you sure you want to delete this event?")) {
+            deleteCalendarEvent.call({
+                eventId: Template.instance().getCurrentEvent()._id
+            }, (err, res) => {
+                if (err) {
+                    throwError(err.reason);
+                }
+                else {
+                    FlowRouter.go('eventCalendar.page');
+                }
+
+            });
+        }
+    }
 });
 
 Template.event_calendar_single_event_edit.events({

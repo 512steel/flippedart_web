@@ -2,12 +2,6 @@
     <div class="row pull-down push-down">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down-xlarge push-down-xxxlarge">
 
-            <p class="float-right">
-                <a class="button primary hollow no-border share-event-facebook">
-                    <i class="fi-share"></i>
-                </a>
-            </p>
-
             <h1 class="push-down">
                 {{eventName}}
             </h1>
@@ -35,17 +29,30 @@
             {{else}}
             {{/if}}
 
-            {{#if ownEvent}}
-                <p class="shift-down-small">
-                    <a href="{{
-                                pathFor 'eventCalendar.singleEvent.edit'
-                                MMDDYY=event.eventDate
-                                eventName=event.eventName
-                                nameSlug=event.nameSlug}}">
-                        <i class="button primary fi-pencil"></i>
+            <div class="calendar-event-action-buttons clearfix shift-down-small">
+                <div class="float-left">
+                    {{#if ownEvent}}
+                        <p class="button-group">
+                            <a href="{{
+                            pathFor 'eventCalendar.singleEvent.edit'
+                            MMDDYY=event.eventDate
+                            eventName=event.eventName
+                            nameSlug=event.nameSlug}}">
+                                <i class="button primary fi-pencil"></i>
+                            </a>
+                            <a class="calendar-event-delete-button">
+                                <i class="button alert fi-trash"></i>
+                            </a>
+                        </p>
+                    {{/if}}
+                </div>
+
+                <p class="float-right">
+                    <a class="button primary hollow no-border share-event-facebook">
+                        <i class="fi-share"></i>
                     </a>
                 </p>
-            {{/if}}
+            </div>
         </div>
     </div>
 </template>
