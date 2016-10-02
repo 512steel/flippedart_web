@@ -65,6 +65,11 @@ Template.event_calendar_single_date_page.onCreated(function() {
     this.getCalendarDate = () => FlowRouter.getParam('MMDDYY');
     this.getCalendarDateString = () => moment(this.getCalendarDate(), "MM-DD-YY").format("MMM Do, YYYY");
 
+    this.getYesterdayMMDDYY = () => moment(this.getCalendarDate(), 'MM-DD-YY').subtract(1, 'days').format('MM-DD-YY');
+    this.getYesterdayDateString = () => moment(this.getYesterdayMMDDYY(), "MM-DD-YY").format("MMM Do");
+    this.getTomorrowMMDDYY = () => moment(this.getCalendarDate(), 'MM-DD-YY').add(1, 'days').format('MM-DD-YY');
+    this.getTomorrowDateString = () => moment(this.getTomorrowMMDDYY(), "MM-DD-YY").format("MMM Do");
+
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('calendarEvents.date', this.getCalendarDate());
@@ -331,6 +336,18 @@ Template.event_calendar_single_date_page.helpers({
     events: () => {
         return Template.instance().getDailyCalendarEvents();
     },
+    yesterdayMMDDYY: () => {
+        return Template.instance().getYesterdayMMDDYY();
+    },
+    yesterdayDateString: () => {
+        return Template.instance().getYesterdayDateString();
+    },
+    tomorrowMMDDYY: () => {
+        return Template.instance().getTomorrowMMDDYY();
+    },
+    tomorrowDateString: () => {
+        return Template.instance().getTomorrowDateString();
+    }
 });
 
 Template.event_calendar_single_event_page.helpers({

@@ -1,6 +1,12 @@
 <template name="event_calendar_single_event_page">
     <div class="row pull-down push-down">
-        <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down-xlarge push-down-xxxlarge">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down push-down-xxxlarge">
+
+            <a href="{{pathFor 'eventCalendar.singleDate'
+            MMDDYY=event.eventDate}}"
+               class="push-down-large button secondary hollow">
+                More events on {{eventDateString}}
+            </a>
 
             <h1 class="push-down">
                 {{eventName}}
@@ -13,6 +19,10 @@
                 From {{event.startTime}} &ndash; {{event.endTime}}, on {{eventDateString}}
             </p>
             <p>
+                Added by
+                <a href="{{pathFor 'profile.page' username=event.authorName}}">
+                    {{event.authorName}}
+                </a>.
                 {{relativeTimeCopy event}}
             </p>
 

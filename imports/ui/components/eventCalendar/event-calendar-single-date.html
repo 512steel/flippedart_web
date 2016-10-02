@@ -29,10 +29,21 @@
 
                 <hr>
             {{else}}
-                <p class="text-large text-centered pull-down push-down-xxxxxlarge">
+                <p class="text-large text-centered pull-down push-down-xxxxlarge">
                     There are no events scheduled for today.
                 </p>
             {{/each}}
+
+            <p class="button-group expanded pull-down">
+                <a href="{{pathFor 'eventCalendar.singleDate' MMDDYY=yesterdayMMDDYY}}"
+                   class="button hollow secondary padded-large">
+                    <strong>{{yesterdayDateString}}</strong>
+                </a>
+                <a href="{{pathFor 'eventCalendar.singleDate' MMDDYY=tomorrowMMDDYY}}"
+                   class="button hollow secondary padded-large">
+                    <strong>{{tomorrowDateString}}</strong>
+                </a>
+            </p>
         </div>
     </div>
 </template>
