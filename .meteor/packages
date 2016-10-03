@@ -23,7 +23,7 @@ aldeed:template-extension
 percolate:momentum
 
 # data
-mongo@1.1.11
+mongo@1.1.12
 aldeed:simple-schema
 aldeed:collection2
 dburles:collection-helpers
@@ -91,5 +91,5 @@ kadira:dochead
 useraccounts:core
 alanning:roles
 underscore@1.0.9
-shell-server
+shell-server@0.2.1
 zurb:foundation-sites@=6.2.0_1
