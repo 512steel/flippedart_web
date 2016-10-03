@@ -315,16 +315,16 @@
         </div>
     </div>
 
-    <div class="row pull-down push-down">
+    <div class="row pull-down-large push-down-large">
         <div class="column small-10 medium-6 large-4 small-centered text-centered">
-            <hr>
+
             <p class="text-centered">You have something to add.</p>
             <p>
                 {{#if currentUser}}
                     <a href="{{pathFor 'profile.page' username=currentUsername}}"
                        class="button primary hollow expanded">Go to your profile</a>
                 {{else}}
-                    <a href="{{pathFor 'join'}}" class="button primary expanded">Start here</a>
+                    <a href="{{pathFor 'join'}}" class="button primary expanded"><strong>Start here</strong></a>
                 {{/if}}
             </p>
         </div>

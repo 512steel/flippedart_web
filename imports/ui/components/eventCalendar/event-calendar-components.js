@@ -110,7 +110,7 @@ Template.event_calendar_single_event_page.onCreated(function() {
 
             DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events");
             DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events"});
-            DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
+            DocHead.addMeta({name: "og:description", content: currentEvent.description + " | " + HEAD_DEFAULTS.description});  //TODO: custom description here.
             DocHead.addMeta({name: "og:type", content: "article"});
             DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/calendar/" + this.getCalendarDate() + "/" + this.getEventName() + "/" + this.getNameSlug()});
             DocHead.addMeta({name: "og:image", content: currentEvent.imageLink ? Cloudinary._helpers.url(currentEvent.imageLink, {'secure':true}) : HEAD_DEFAULTS.image});  //NOTE: this is the only major change in DocHead
@@ -181,7 +181,10 @@ Template.event_calendar_page.onRendered(function() {
 
     //NOTE: dumb bug if this method is instantly called on render.
     Meteor.setTimeout(
-        this.resizeCalendarBoxes,
+        () => {
+            this.resizeCalendarBoxes();
+            $(window).resize();
+        },
         20
     );
 });

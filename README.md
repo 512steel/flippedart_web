@@ -8,4 +8,4 @@ The code here handles all of the functionality you see on the live website.  Sta
 
 ### How to contribute
 
-If you see something that should be added or changed, open an issue on GitHub.  Feel free to add a pull request as well.  The big piece that needs to be put in place is proper tests using Meteor's testing framework.  We hope to encourage collaboration here as much as we do with the rest of the Flipped Art community, so getting things like tests in place will be an important step toward that goal.
+If you see something that should be added or changed, open an issue on GitHub.  Feel free to make a branch and add a pull request as well.
