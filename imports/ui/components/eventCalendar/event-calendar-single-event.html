@@ -16,13 +16,11 @@
                 Where: {{event.location}}
             </p>
             <p>
-                From {{event.startTime}} &ndash; {{event.endTime}}, on {{eventDateString}}
+                From {{event.startTime}} &ndash; {{event.endTime}} on {{eventDateString}}
             </p>
             <p>
                 Added by
-                <a href="{{pathFor 'profile.page' username=event.authorName}}">
-                    {{event.authorName}}
-                </a>.
+                <a href="{{pathFor 'profile.page' username=event.authorName}}">{{event.authorName}}</a>.
                 {{relativeTimeCopy event}}
             </p>
 

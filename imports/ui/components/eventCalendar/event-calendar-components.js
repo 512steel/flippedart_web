@@ -108,8 +108,8 @@ Template.event_calendar_single_event_page.onCreated(function() {
         if (currentEvent) {
             DocHead.removeDocHeadAddedTags();
 
-            DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events");
-            DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events"});
+            DocHead.setTitle(HEAD_DEFAULTS.title_short + " Events | " + this.getEventName());
+            DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " Events | " + this.getEventName()});
             DocHead.addMeta({name: "og:description", content: currentEvent.description + " | " + HEAD_DEFAULTS.description});  //TODO: custom description here.
             DocHead.addMeta({name: "og:type", content: "article"});
             DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/calendar/" + this.getCalendarDate() + "/" + this.getEventName() + "/" + this.getNameSlug()});
@@ -119,8 +119,8 @@ Template.event_calendar_single_event_page.onCreated(function() {
         }
     });
 
-    DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events");
-    DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + this.getEventName() + " | Events"});
+    DocHead.setTitle(HEAD_DEFAULTS.title_short + " Events | " + this.getEventName());
+    DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " Events | " + this.getEventName()});
     DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
     DocHead.addMeta({name: "og:type", content: "article"});
     DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/calendar/" + this.getCalendarDate() + "/" + this.getEventName() + "/" + this.getNameSlug()});
