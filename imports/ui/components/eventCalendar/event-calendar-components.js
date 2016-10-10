@@ -187,6 +187,14 @@ Template.event_calendar_page.onRendered(function() {
         },
         20
     );
+
+    //NOTE: safeguards against an uncommon scenario where the browser is delayed rendering all the calendar box's DOM elements (put this in a setInterval a la the homepage?)
+    Meteor.setTimeout(
+        () => {
+            this.resizeCalendarBoxes();
+        },
+        1000
+    );
 });
 
 Template.event_calendar_single_date_page.onRendered(function() {
