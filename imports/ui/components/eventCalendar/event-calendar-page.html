@@ -1,6 +1,13 @@
 <template name="event_calendar_page">
     <div class="row pull-down push-down">
         <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+
+            <a href="{{pathFor 'eventCalendar.add'}}">
+                <span class="button primary shift-down-small push-right-small float-right add-event-button-large">
+                    <i class="fi-plus"></i>
+                </span>
+            </a>
+
             <h1 class="row column push-down">EVENT CALENDAR</h1>
 
             <div class="row column pull-down">
@@ -19,6 +26,12 @@
                             <i class="fi-arrow-right"></i>
                         </span>
                     </span>
+
+                    <a href="{{pathFor 'eventCalendar.add'}}">
+                        <span class="button primary shift-down-small float-right add-event-button-small">
+                            <i class="fi-plus"></i>
+                        </span>
+                    </a>
                 </p>
 
                 <hr>

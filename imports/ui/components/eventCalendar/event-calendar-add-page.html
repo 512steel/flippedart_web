@@ -1,0 +1,27 @@
+<template name="event_calendar_add_page">
+    <div class="row pull-down push-down">
+        <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down push-down-xxxlarge">
+
+            <a href="{{pathFor 'eventCalendar.page'
+            MMDDYY=event.eventDate}}"
+               class="push-down-large button secondary hollow">
+                Back to calendar
+            </a>
+
+            <h1 class="push-down">
+                Add an event
+            </h1>
+
+            <div>
+                {{#if currentUser}}
+                    {{> event_calendar_submit}}
+                {{else}}
+                    <a href="{{pathFor 'join'}}">
+                        <strong>Sign up</strong>
+                    </a>
+                    to add an event to the calendar!
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>

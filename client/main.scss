@@ -721,6 +721,16 @@ figcaption {
   display: none;
 }
 
+.add-event-button-large {
+  display: block;
+  a {
+    color: white;
+  }
+}
+.add-event-button-small {
+  display: none;
+}
+
 
 .overflow-hidden {
   overflow: hidden;
@@ -837,6 +847,15 @@ figcaption {
       .calendar-small-single-listing:hover {
         border-bottom: 1px solid rgba(150, 150, 150, 1);
       }
+    }
+  }
+  .add-event-button-large {
+    display: none;
+  }
+  .add-event-button-small {
+    display: block;
+    a {
+      color: white;
     }
   }
 }

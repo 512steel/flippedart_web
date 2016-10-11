@@ -244,6 +244,12 @@ FlowRouter.route('/calendar', {
         BlazeLayout.render('App_body', { main: 'event_calendar_page' });
     }
 });
+FlowRouter.route('/calendar/add', {
+    name: 'eventCalendar.add',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_add_page' });
+    }
+});
 FlowRouter.route('/calendar/:MMDDYY', {
     name: 'eventCalendar.singleDate',
     action() {

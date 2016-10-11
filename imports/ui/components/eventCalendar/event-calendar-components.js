@@ -20,6 +20,7 @@ import {
 } from '../../../api/calendar-events/methods.js';
 
 import './event-calendar-page.html';
+import './event-calendar-add-page.html';
 import './event-calendar-edit.html';
 import './event-calendar-submit.html';
 import './event-calendar-single-event.html';
@@ -240,7 +241,7 @@ Template.event_calendar_single_event_edit.onRendered(function() {
 });
 
 Template.event_calendar_submit.onRendered(function() {
-    this.accordion = new Foundation.Accordion($('.accordion'));
+    this.accordion = new Foundation.Accordion($('.accordion'));  //FIXME: this works here, but would make mroe semantic sense in each of calendar_event_submit's containing templates.
 
     var Pikaday = require('pikaday');
     var picker = new Pikaday({
