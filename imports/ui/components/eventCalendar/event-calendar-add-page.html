@@ -16,10 +16,13 @@
                 {{#if currentUser}}
                     {{> event_calendar_submit}}
                 {{else}}
-                    <a href="{{pathFor 'join'}}">
-                        <strong>Sign up</strong>
-                    </a>
-                    to add an event to the calendar!
+                    <hr>
+                    <p class="text-centered">
+                        <a href="{{pathFor 'join'}}">
+                            <strong>Sign up</strong>
+                        </a>
+                        to add an event to the calendar!
+                    </p>
                 {{/if}}
             </div>
         </div>

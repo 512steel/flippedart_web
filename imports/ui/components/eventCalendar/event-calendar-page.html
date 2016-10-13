@@ -3,7 +3,7 @@
         <div class="column small-12 medium-12 large-12 medium-centered large-centered">
 
             <a href="{{pathFor 'eventCalendar.add'}}">
-                <span class="button primary shift-down-small push-right-small float-right add-event-button-large">
+                <span class="button primary shift-down-xsmall push-right-small float-right add-event-button-large">
                     <i class="fi-plus"></i>
                 </span>
             </a>
@@ -12,6 +12,12 @@
                 <h1 class="column small-10">
                     EVENT CALENDAR
                 </h1>
+
+                <a href="{{pathFor 'eventCalendar.add'}}">
+                    <span class="button primary float-left padded add-event-button-small">
+                        <i class="fi-plus"></i>
+                    </span>
+                </a>
             </div>
 
             <div class="row column pull-down">
@@ -30,14 +36,6 @@
 
                     </h4>
                 </div>
-
-                <p class="button-group column small-12 medium-6">
-                    <a href="{{pathFor 'eventCalendar.add'}}">
-                        <span class="button primary shift-down-small float-right add-event-button-small">
-                            <i class="fi-plus"></i>
-                        </span>
-                    </a>
-                </p>
 
                 <hr>
 
@@ -152,10 +150,12 @@
                         </li>
                     </ul>
                 {{else}}
-                    <a href="{{pathFor 'join'}}">
-                        Sign up
-                    </a>
-                    to add an event to the calendar!
+                    <p class="text-centered">
+                        <a href="{{pathFor 'join'}}">
+                            <strong>Sign up</strong>
+                        </a>
+                        to add an event to the calendar!
+                    </p>
                 {{/if}}
             </div>
 
