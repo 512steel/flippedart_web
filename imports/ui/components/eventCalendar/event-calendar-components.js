@@ -175,7 +175,7 @@ Template.event_calendar_page.onRendered(function() {
 
         let boxWidth =  ~~(containerWidth/7);  //NOTE: truncate down with "~~" and prevent off-by-one pixel width bugs
 
-        $('.calendar-box').css({'width': boxWidth - 1, 'height': boxWidth * 2});
+        $('.calendar-box').css({'width': boxWidth - 1, 'height': boxWidth * 1.75});
         $('.truncate-event-name').css('width', boxWidth - 15);  //NOTE: the "-15" accounts for padding in the box, but could be more precise
     }, 20);
     $(window).resize(this.resizeCalendarBoxes);

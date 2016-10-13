@@ -661,7 +661,7 @@ figcaption {
       z-index: 99;
 
       .truncate-event-name {
-        white-space: nowrap;
+        /*white-space: nowrap;*/
         overflow: hidden;
         text-overflow: ellipsis;
 

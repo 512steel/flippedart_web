@@ -1,6 +1,6 @@
 <template name="event_calendar_page">
     <div class="row pull-down push-down">
-        <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+        <div class="column small-12 medium-12 large-12 medium-centered large-centered">
 
             <a href="{{pathFor 'eventCalendar.add'}}">
                 <span class="button primary shift-down-small push-right-small float-right add-event-button-large">
@@ -8,25 +8,30 @@
                 </span>
             </a>
 
-            <h1 class="row column push-down">EVENT CALENDAR</h1>
+            <div class="row column push-down">
+                <h1 class="column small-10">
+                    EVENT CALENDAR
+                </h1>
+            </div>
 
             <div class="row column pull-down">
-                <h4 class="column small-12 medium-6">
-                    Events for {{selectedMonthName}}, {{selectedYear}}
-                </h4>
+                <div class="column small-12 medium-12">
+                    <h4 class="column small-12 text-centered">
 
-                <p class="button-group column small-12 medium-6">
-                    <span class="month-selector-wrap">
-                        <span class="js-event-calendar-prev-month button hollow secondary">
+                        <span class="js-event-calendar-prev-month button hollow secondary push-right shift-down-small">
                             <i class="fi-arrow-left"></i>
-                            Previous month
                         </span>
-                        <span class="js-event-calendar-next-month button hollow secondary">
-                            Next month
+
+                        {{selectedMonthName}} {{selectedYear}}
+
+                        <span class="js-event-calendar-next-month button hollow secondary push-left shift-down-small">
                             <i class="fi-arrow-right"></i>
                         </span>
-                    </span>
 
+                    </h4>
+                </div>
+
+                <p class="button-group column small-12 medium-6">
                     <a href="{{pathFor 'eventCalendar.add'}}">
                         <span class="button primary shift-down-small float-right add-event-button-small">
                             <i class="fi-plus"></i>
