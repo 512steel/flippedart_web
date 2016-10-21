@@ -1,0 +1,32 @@
+<template name="make_projects_page">
+
+    <div class="static-page-wrap push-down-xxxxxlarge">
+        <div class="left-sidebar">
+            [Scrolly sidebar with list of approved project names]
+            How to handle default/first project?
+            <br><br>
+            {{> make_projects_list}}
+        </div>
+        <div class="main-content">
+            <h1>Make stuff</h1>
+            <div>
+                PLUS BUTTON
+                <a href="{{pathFor 'makeProjects.add'}}">
+                    <span class="button primary shift-down-xsmall push-right-small float-right add-event-button-large">
+                        <i class="fi-plus"></i>
+                    </span>
+                </a>
+            </div>
+            <p>
+                {{> make_project_card}}
+            </p>
+
+            <p>
+                This page will feature a running list of creative projects and their recipes.  If there's a
+                method to your madness, <a href="{{pathFor 'static.feedback'}}">share it with us</a> and we'll
+                put it here for the rest of the community to see.
+            </p>
+        </div>
+    </div>
+
+</template>

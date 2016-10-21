@@ -13,7 +13,6 @@ import '../../ui/components/signup-call-to-action.js';
 // Static page imports
 import '../../ui/pages/home-page.js';
 import '../../ui/pages/about-page.js';
-import '../../ui/pages/make-page.js';
 import '../../ui/pages/donate-page.js';
 import '../../ui/pages/policies-page.js';
 import '../../ui/pages/feedback-page.js';
@@ -99,12 +98,6 @@ FlowRouter.route('/about', {
     name: 'static.about',
     action() {
         BlazeLayout.render('App_body', { main: 'about_page' });
-    },
-});
-FlowRouter.route('/make', {
-    name: 'static.make',
-    action() {
-        BlazeLayout.render('App_body', { main: 'make_page' });
     },
 });
 FlowRouter.route('/feedback', {
@@ -267,6 +260,31 @@ FlowRouter.route('/calendar/:MMDDYY/:eventName/:nameSlug/edit', {
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_single_event_edit' });
     }
+});
+
+FlowRouter.route('/make', {
+    name: 'makeProjects.page',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_page' });
+    },
+});
+FlowRouter.route('/make/add', {
+    name: 'makeProjects.add',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_add_page' });
+    },
+});
+FlowRouter.route('/make/:makeProjectName', {
+    name: 'makeProjects.singleProject',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_page' });
+    },
+});
+FlowRouter.route('/make/:makeProjectName/edit', {
+    name: 'makeProjects.edit',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_edit' });
+    },
 });
 
 
