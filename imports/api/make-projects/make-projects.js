@@ -33,6 +33,7 @@ MakeProjects.deny({
 });
 
 
+//TODO: add a "rank" parameter, and sort MakeProjects according to their popularity in the publication.
 /*
     MakeProject: {
         userId: String,

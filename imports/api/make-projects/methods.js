@@ -51,57 +51,43 @@ export const insert = new ValidatedMethod({
     run({ makeProjectName, ingredients, steps, coverImageLink }) {
         let user = Meteor.users.findOne(this.userId);
 
-        console.log('in insert()!!!');
-        console.log(makeProjectName);
-        console.log(ingredients);
-        console.log(steps);
-        console.log(coverImageLink);
-        console.log(steps[0]);
-        return;
-
         if (user) {
 
             //TODO: validate makeProjectName against forbidden names (for now, just "add")
 
-            text = sanitizeHtml(text);
-            tag = sanitizeHtmlNoReturns(tag);
+            //sanitize inserted values
+            makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
+            ingredients.forEach(function(el, idx) {
+                ingredients[idx] = sanitizeHtmlNoReturns(ingredients[idx]);
+            });
+            steps.forEach(function(step, idx) {
+                steps[idx].text = sanitizeHtml(steps[idx].text);
+                steps[idx].imageLinks.forEach(function(link, idx2) {
+                    steps[idx].imageLinks[idx2] = sanitizeHtmlNoReturns(steps[idx].imageLinks[idx2]);
+                });
+            });
+            coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
 
-            //truncate the imageLinks array
-            imageLinks = imageLinks.slice(0, UPLOAD_LIMITS.images);
-
-            const userAttributes = UserAttributes.findOne({userId: this.userId});
-
-            const userPost = {
+            const makeProject = {
                 userId: this.userId,
                 author: user.username,
-                location: userAttributes ? userAttributes.location : ' ', //TODO - only add/show this if user's preference is to share location
-                commentsCount: 0,
-                voters: [],
-                upvotes: 0,
-                flaggers: [],
-                flags: 0,
-                rank: 0,
-                text,
-                imageLinks,
-                tag,
+                makeProjectName: makeProjectName,
+                approved: false,
+                ingredients: ingredients,
+                steps: steps,
+                coverImageLink: coverImageLink,
                 createdAt: new Date(),
             };
 
-            const result = UserPosts.insert(userPost);
+            const result = MakeProjects.insert(makeProject);
 
-            const link = "https://www.flippedart.org/" + user.username + "/posts/" + result;
-            createRecentActivity(user.username, null, RECENT_ACTIVITY_TYPES.newPost, link);
-
-            //points system:
-            if (userAttributes) {
-                //Call the server-only method updateRank on UserAttributes
-                updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.makeProjectAdd);
-            }
+            const link = "https://www.flippedart.org/make/" + makeProjectName;
+            //TODO: don't immediately create a RecentActivity object, but use this link to pass into an email sender to hello@flippedart.org for admin-approval.
 
             return result;
         }
         else {
-            console.log("You need to be signed in to do this.");
+            throwError("You need to be signed in to do this.");
         }
     },
 });
@@ -171,6 +157,9 @@ export const approveMakeProject = new ValidatedMethod({
     run({ makeProjectId }) {
 
         // stuff
+
+
+        //TODO: upon approval, make a RecentActivity object and update the rank of the submitter's UserAttributes.
 
     },
 });

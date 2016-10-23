@@ -47,7 +47,7 @@ Template.make_projects_page.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+        this.subscribe('makeProjects.all', {sort: {createdAt: -1}});
     });
 });
 
