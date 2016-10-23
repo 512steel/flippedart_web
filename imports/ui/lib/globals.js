@@ -38,7 +38,8 @@ export const POINTS_SYSTEM = {  //TODO: refactor to "userPost", "userProject", e
 export const UPLOAD_LIMITS = {
     'projects': 5,
     'images': 6,
-    'makeProjectStepImages': 4,
+    'makeProjectSteps': 50,
+    'makeProjectStepImages': 2,
 };
 
 

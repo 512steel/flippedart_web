@@ -34,13 +34,13 @@ export const insert = new ValidatedMethod({
             minCount: 1,
             maxCount: 50,
         },
-        "steps.$.text": {
-            type: String,
-            max: 5000,
-        },
         "steps.$.imageLinks": {
             type: [String],
             maxCount: UPLOAD_LIMITS.makeProjectStepImages,
+        },
+        "steps.$.text": {
+            type: String,
+            max: 5000,
         },
         coverImageLink: {
             type: String,
@@ -48,8 +48,16 @@ export const insert = new ValidatedMethod({
         },
         //TODO: cap lengths etc. here
     }).validator(),
-    run({ ingredients, steps, coverImageLink }) {
+    run({ makeProjectName, ingredients, steps, coverImageLink }) {
         let user = Meteor.users.findOne(this.userId);
+
+        console.log('in insert()!!!');
+        console.log(makeProjectName);
+        console.log(ingredients);
+        console.log(steps);
+        console.log(coverImageLink);
+        console.log(steps[0]);
+        return;
 
         if (user) {
 

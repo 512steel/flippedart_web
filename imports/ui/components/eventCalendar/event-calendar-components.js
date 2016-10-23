@@ -712,7 +712,7 @@ Template.event_calendar_submit.events({
         e.preventDefault();
 
         if (!Meteor.user()) {
-            throwError("You must be signed in to add an event.");
+            throwError("You need to be signed in to add an event.");
         }
 
         var imageLinks = [];

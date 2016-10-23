@@ -73,7 +73,7 @@ MakeProjects.schema = new SimpleSchema({
     steps: {
         type: [Object],
         minCount: 1,
-        maxCount: 50,
+        maxCount: UPLOAD_LIMITS.makeProjectSteps,
     },
     "steps.$.text": {
         type: String,

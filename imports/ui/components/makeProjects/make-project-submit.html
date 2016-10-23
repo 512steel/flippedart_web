@@ -1,3 +1,90 @@
-<template name="make_project_submit_page">
-    PAGE FOR ADDING A MAKEPROJECT
+<template name="make_project_submit_page" xmlns="http://www.w3.org/1999/html">
+    <div class="row push-down-xxxxlarge">
+        <div class="column small-12 medium-12 large-10 large-centered">
+            <div class="row">
+                <div class="column small-12 medium-10 large-10 small-centered medium-centered large-centered">
+                    <h1 class="text-centered push-down-xlarge pull-down">Tell us how to make your project</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column small-12 medium-10 large-8 small-centered medium-centered large-uncentered">
+                    <form enctype="multipart/form-data" class="js-submit-makeProject-form">
+                        <label><strong>Project name</strong></label>
+                        <input name="makeProjectName"
+                               type="text"
+                               required
+                               placeholder="Project name" />
+
+                        <label><strong>Ingredients (comma-separated)</strong></label>
+                        <textarea name="ingredients"
+                                  type="text"
+                                  placeholder="List this project's required materials (comma-separated)"
+                                  required
+                                  rows="3"></textarea>
+
+                        {{#each steps}}
+                            {{> make_project_submit_step_input index=@index numSteps=numSteps}}
+                            <br>
+                        {{else}}
+                            <p>You should add at least one step to explain how to make your project.</p>
+                        {{/each}}
+                        <p class="js-add-step">ADD ANOTHER STEP BUTTON</p>
+
+                        <hr>
+
+                        <p>Upload cover photo button here...</p>
+                        <span id="coverPhotoUploadWrap">
+                            <input id="coverPhotoUpload" class="show-for-sr coverPhotoUpload" type="file" accept="image/*" data-multiple-caption="{count} files selected" />
+                            <label for="coverPhotoUpload" class="button secondary hollow expanded">
+                            <span>
+                                Upload a cover photo for your project
+                            </span>
+                            </label>
+                        </span>
+
+                        <p>Submit form button here...</p>
+                        <strong><input type="submit"
+                                       value="Submit your project"
+                                        class="button primary"/></strong>
+                    </form>
+
+                    <p>
+                        {{#unless isMakeProjectUploading}}
+                            NOT uploading
+                        {{else}}
+                            UPLOADING  (todo: spinny icon here)
+                        {{/unless}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</template>
+
+
+<template name="make_project_submit_step_input">
+
+    <span class="single-step">
+        <label><strong>Step {{increment this.index}}</strong></label>
+
+        <textarea class="step-text"
+                  type="text"
+                  required
+                  rows="4"></textarea>
+
+        <p>Upload up to {{makeProjectStepImagesLimit}} photos for this step BUTTON</p>
+        <input id="stepFileUpload{{this.index}}" class="show-for-sr stepFileUpload" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />
+        <label for="stepFileUpload{{this.index}}" class="button secondary hollow expanded">
+            <span>
+                Upload photos for this step (up to {{makeProjectStepImagesLimit}})
+            </span>
+        </label>
+
+        {{#if greaterThan this.numSteps 1}}
+            <p class="js-remove-step">REMOVE STEP BUTTON</p>
+        {{/if}}
+    </span>
 </template>

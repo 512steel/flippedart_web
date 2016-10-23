@@ -32,6 +32,7 @@ import '../../ui/components/user-profile/profile-page-components.js';
 import '../../ui/components/chat/chat-window-components.js';
 import '../../ui/components/admin/admin-components.js';
 import '../../ui/components/eventCalendar/event-calendar-components.js';
+import '../../ui/components/makeProjects/make-projects-components.js';
 
 
 // Import to override accounts templates
@@ -271,7 +272,13 @@ FlowRouter.route('/make', {
 FlowRouter.route('/make/add', {
     name: 'makeProjects.add',
     action() {
-        BlazeLayout.render('App_body', { main: 'make_projects_add_page' });
+        BlazeLayout.render('App_body', { main: 'make_project_submit_page' });
+    },
+});
+FlowRouter.route('/make/add/thanks', {
+    name: 'makeProjects.add.thanks',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_project_submit_thanks_page' });
     },
 });
 FlowRouter.route('/make/:makeProjectName', {
@@ -283,7 +290,7 @@ FlowRouter.route('/make/:makeProjectName', {
 FlowRouter.route('/make/:makeProjectName/edit', {
     name: 'makeProjects.edit',
     action() {
-        BlazeLayout.render('App_body', { main: 'make_projects_edit' });
+        BlazeLayout.render('App_body', { main: 'make_project_edit_page' });
     },
 });
 
