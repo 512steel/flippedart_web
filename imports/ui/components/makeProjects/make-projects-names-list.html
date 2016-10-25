@@ -1,10 +1,10 @@
 <template name="make_project_names_list">
-    <ul>
+    <ul class="unstyled-list">
         {{#each name in allMakeProjectNames}}
-            <li>
+            <li class="padded-top padded-bottom">
                 <a href="{{pathFor 'makeProjects.singleProject' makeProjectName=name}}"
-                   class="padded">
-                    {{name}}
+                   class="">
+                    <strong>{{name}}</strong>
                 </a>
             </li>
         {{else}}

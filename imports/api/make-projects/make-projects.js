@@ -62,6 +62,7 @@ MakeProjects.schema = new SimpleSchema({
     },
     makeProjectName: {
         type: String,
+        max: 80,
     },
     approved: {
         type: Boolean,

@@ -25,6 +25,7 @@ export const insert = new ValidatedMethod({
     validate: new SimpleSchema({
         makeProjectName: {
             type: String,
+            max: 80,
         },
         ingredients: {
             type: [String]

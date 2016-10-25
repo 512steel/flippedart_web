@@ -97,9 +97,21 @@ Template.make_project_card.onCreated(function() {
 
 Template.make_project_names_list.onCreated(function() {
 
+    this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
+
     // Subscriptions go in here
     this.autorun(() => {
         this.subscribe('makeProjects.all.names', {sort: {createdAt: -1}});
+
+        this.getProjectsArr = () => MakeProjects.find({},
+            {
+                sort: {
+                    createdAt: -1
+                },
+                fields: {
+                    makeProjectName: 1,
+                }
+            }).fetch();
     });
 });
 
@@ -128,7 +140,38 @@ Template.make_project_submit_thanks_page.onCreated(function() {
 
 
 Template.make_projects_page.onRendered(function() {
+    //set the sidebar to the correct height, but wait and re-check because Blaze's onRendered method is dumb.
+    Meteor.setTimeout(function(){
+        resetSidebar();
+    }, 50);
+    Meteor.setTimeout(function(){
+        resetSidebar();
+    }, 200);
+    Meteor.setTimeout(function(){
+        resetSidebar();
+    }, 1000);
+    Meteor.setInterval(function(){
+        resetSidebar();
+    }, 1500);
+    $(window).resize(_.debounce(() => {
+        resetSidebar();
+    }, 100));
 
+    let resetSidebar = () => {
+        let contentHeight = $('.documentation-page .content').outerHeight();
+        let topBarHeight = $('.top-bar').outerHeight();
+        $('.documentation-page .left-sidebar').css({
+            'height': contentHeight,
+            'top': topBarHeight + 48  //TODO: de-magic that "48"
+        });
+    };
+
+    this.autorun(() => {
+        //TODO: this is a hack to force the autorun to reevaluate, but it doesn't seem to be working...
+        Template.currentData();
+        
+        resetSidebar();
+    });
 });
 
 Template.make_project_card.onRendered(function() {
@@ -175,18 +218,19 @@ Template.make_project_card.helpers({
 
 Template.make_project_names_list.helpers({
     allMakeProjectNames: () => {
-        let projectsArr = MakeProjects.find({},
-            {
-                sort: {
-                    createdAt: -1
-                },
-                fields: {
-                    makeProjectName: 1,
-                }
-            }).fetch();
-
-        return projectsArr.map((el) => {return el.makeProjectName});
+        return Template.instance().getProjectsArr().map((el) => {return el.makeProjectName});
     },
+    currentMakeProjectName: () => {
+        let urlName = Template.instance().getMakeProjectName();
+        if (urlName) {
+            return urlName;
+        }
+        else {
+            if (Template.instance().getProjectsArr().length > 0) {
+                return projectsArr[0].makeProjectName;
+            }
+        }
+    }
 });
 
 Template.make_project_edit_page.helpers({
