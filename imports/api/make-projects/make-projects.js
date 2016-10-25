@@ -33,7 +33,6 @@ MakeProjects.deny({
 });
 
 
-//TODO: add a "rank" parameter, and sort MakeProjects according to their popularity in the publication.
 /*
     MakeProject: {
         userId: String,
@@ -48,6 +47,7 @@ MakeProjects.deny({
             }
         ],
         coverImageLink: String,
+        rank: Number,
         createdAt: Date,
         lastUpdated: Date
     }
@@ -91,6 +91,10 @@ MakeProjects.schema = new SimpleSchema({
     },
     //TODO: validate length of all imageLinks
 
+    rank: {
+        type: Number,
+        defaultValue: 0,
+    },
     createdAt: {
         type: Date,
         denyUpdate: true,
@@ -114,6 +118,7 @@ MakeProjects.publicFields = {
     ingredients: 1,
     steps: 1,
     coverImageLink: 1,
+    rank: 1,
     createdAt: 1,
     lastUpdated: 1,
 };

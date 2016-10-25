@@ -90,6 +90,7 @@ export const insert = new ValidatedMethod({
                 approved: false,
                 ingredients: ingredients,
                 steps: steps,
+                rank: 0,
                 coverImageLink: coverImageLink,
                 createdAt: new Date(),
             };
