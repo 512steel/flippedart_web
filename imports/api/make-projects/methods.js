@@ -87,7 +87,8 @@ export const insert = new ValidatedMethod({
             return result;
         }
         else {
-            throwError("You need to be signed in to do this.");
+            throw new Meteor.Error('makeProjects.insert.accessDenied',
+                'You need to be signed in to do this.');
         }
     },
 });

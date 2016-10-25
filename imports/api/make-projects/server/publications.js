@@ -36,11 +36,37 @@ Meteor.publish('makeProjects.all.names', function (options) {
     );
 });
 
-Meteor.publish('makeProjects.single', function (projectId) {
+Meteor.publish('makeProjects.latest', function () {
+
+    return MakeProjects.find(
+        {},
+        {
+            fields: MakeProjects.publicFields,
+            limit: 1,
+            sort: {
+                createdAt: -1,
+            }
+        });
+});
+
+Meteor.publish('makeProjects.single.id', function (projectId) {
     check(projectId, String);
 
     return MakeProjects.find(projectId,
         {
             fields: MakeProjects.publicFields,
+        });
+});
+
+Meteor.publish('makeProjects.single.name', function (projectName) {
+    check(projectName, String);
+
+    return MakeProjects.find(
+        {
+            makeProjectName: projectName,
+        },
+        {
+            fields: MakeProjects.publicFields,
+            limit: 1,
         });
 });

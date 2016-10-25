@@ -10,16 +10,22 @@
         <div class="main-content">
             <h1>Make stuff</h1>
             <div>
-                PLUS BUTTON
                 <a href="{{pathFor 'makeProjects.add'}}">
                     <span class="button primary shift-down-xsmall push-right-small float-right add-event-button-large">
                         <i class="fi-plus"></i>
                     </span>
                 </a>
             </div>
-            <p>
-                {{> make_project_card}}
-            </p>
+            <div>
+                {{#if currentMakeProject}}
+                    {{> make_project_card project=currentMakeProject}}
+                {{else}}
+                    Looks like there are no projects by the name {{currentProjectName}}.  Should there be?
+                    <a href="{{pathFor 'makeProjects.add'}}">Add your own</a> or
+                    <a href="{{pathFor 'static.feedback'}}">let us know</a> if something
+                    looks wrong.
+                {{/if}}
+            </div>
 
             <p>
                 This page will feature a running list of creative projects and their recipes.  If there's a
