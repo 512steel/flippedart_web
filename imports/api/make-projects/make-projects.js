@@ -135,6 +135,7 @@ MakeProjects.helpers({
             return true;
         }
         else if (Meteor.isServer && this.userId) {
+            //if admin return true
             return this.userId === userId;
         }
         else {

@@ -58,11 +58,22 @@
                 </p>
             {{/each}}
 
+            {{#if isUserAdmin}}
+                <div class="button primary js-admin-approve-button">
+                    {{#if projectApproved}}
+                        Disapprove
+                    {{else}}
+                        Approve
+                    {{/if}}
+                    this project
+                </div>
+            {{/if}}
+
             <!--<hr>-->
 
             <!-- TODO: comment feed here -->
         {{else}}
-            Looks like there are no projects by the name {{currentProjectName}}.  Should there be?
+            Looks like there are no projects by the name <strong>{{currentProjectName}}</strong>.  Should there be?
             <a href="{{pathFor 'makeProjects.add'}}">Add your own</a> or
             <a href="{{pathFor 'static.feedback'}}">let us know</a> if something
             looks wrong.

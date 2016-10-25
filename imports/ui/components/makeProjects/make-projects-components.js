@@ -169,7 +169,7 @@ Template.make_projects_page.onRendered(function() {
     this.autorun(() => {
         //TODO: this is a hack to force the autorun to reevaluate, but it doesn't seem to be working...
         Template.currentData();
-        
+
         resetSidebar();
     });
 });
@@ -213,7 +213,21 @@ Template.make_project_card.helpers({
     },
     project: () => {
         return Template.instance().getCurrentMakeProject();
-    }
+    },
+    isUserAdmin: () => {
+        if (!Meteor.user() || !_.contains(Meteor.user().roles, 'admin')) {
+            return false
+        }
+        else {
+            return true;
+        }
+    },
+    projectApproved: () => {
+        //this is mainly for the admin "approve" button's copy
+        let project = Template.instance().getCurrentMakeProject();
+
+        return (project && project.approved) ? true : false;
+    },
 });
 
 Template.make_project_names_list.helpers({
@@ -261,7 +275,20 @@ Template.make_projects_page.events({
 });
 
 Template.make_project_card.events({
+    'click .js-admin-approve-button': (e) => {
+        e.preventDefault();
 
+        approveMakeProject.call({
+            makeProjectId: Template.instance().getCurrentMakeProject()._id
+        }, (err, res) => {
+            if (err) {
+                throwError('There was an error while approving this project');
+            }
+            else {
+                console.log(res);
+            }
+        });
+    },
 });
 
 Template.make_project_names_list.events({

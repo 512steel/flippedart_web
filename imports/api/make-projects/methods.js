@@ -54,8 +54,6 @@ export const insert = new ValidatedMethod({
 
         if (user) {
 
-            //TODO: validate makeProjectName against forbidden names ("add", as well as all existing makeProject names).
-
             //sanitize inserted values
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
             ingredients.forEach(function(el, idx) {
@@ -70,6 +68,20 @@ export const insert = new ValidatedMethod({
             coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
 
 
+            // validate against all forbidden names (including all existing makeProject names, as well as "add")
+            let allMakeProjectNames = MakeProjects.find({}, {
+                fields: {
+                    makeProjectName: 1,
+                }
+            }).fetch().map((el) => {
+                return el.makeProjectName;
+            });
+            allMakeProjectNames.push('add');  //push all other potentially forbidden names here.)
+
+            if (_.contains(allMakeProjectNames, makeProjectName)) {
+                throw new Meteor.Error('makeProject.insert.denied',
+                    'Sorry, another project already exists with that name.');
+            }
 
             const makeProject = {
                 userId: this.userId,
@@ -85,7 +97,7 @@ export const insert = new ValidatedMethod({
             const result = MakeProjects.insert(makeProject);
 
             const link = "https://www.flippedart.org/make/" + makeProjectName;
-            //TODO: don't immediately create a RecentActivity object, but use this link to pass into an email sender to hello@flippedart.org for admin-approval.
+            //TODO: use this link to pass into an email sender to hello@flippedart.org for admin-approval.
 
             return result;
         }
@@ -160,11 +172,29 @@ export const approveMakeProject = new ValidatedMethod({
     }).validator(),
     run({ makeProjectId }) {
 
-        // stuff
+        if (Meteor.isServer && this.userId) {
+            makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
 
+            const adminUser = Meteor.users.findOne(this.userId);
+            if (_.contains(adminUser.roles, 'admin')) {
+                const makeProject = MakeProjects.findOne(makeProjectId);
 
-        //TODO: upon approval, make a RecentActivity object and update the rank of the submitter's UserAttributes.
+                if (!makeProject) {
+                    throw new Meteor.Error('approval.denied',
+                        'This makeProject doesn\'t exist');
+                }
+                else {
+                    MakeProjects.update(makeProjectId,
+                        {
+                            $set: {
+                                approved: !makeProject.approved  //Toggle the previous "approved" value
+                            }
+                        });
 
+                    //TODO: upon approval, make a RecentActivity object and update the rank of the submitter's UserAttributes.
+                }
+            }
+        }
     },
 });
 
