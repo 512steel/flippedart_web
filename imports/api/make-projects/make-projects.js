@@ -112,6 +112,7 @@ MakeProjects.publicFields = {
     approved: 1,
     ingredients: 1,
     steps: 1,
+    coverImageLink: 1,
     createdAt: 1,
     lastUpdated: 1,
 };

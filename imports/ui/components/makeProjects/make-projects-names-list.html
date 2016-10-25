@@ -1,0 +1,16 @@
+<template name="make_project_names_list">
+    <ul>
+        {{#each name in allMakeProjectNames}}
+            <li>
+                <a href="{{pathFor 'makeProjects.singleProject' makeProjectName=name}}"
+                   class="padded">
+                    {{name}}
+                </a>
+            </li>
+        {{else}}
+            <li class="padded">
+                There are no projects currently available.
+            </li>
+        {{/each}}
+    </ul>
+</template>

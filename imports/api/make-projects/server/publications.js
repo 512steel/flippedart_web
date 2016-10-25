@@ -30,6 +30,7 @@ Meteor.publish('makeProjects.all.names', function (options) {
             sort: options.sort,
             fields: {
                 makeProjectName: 1,
+                createdAt: 1,  //NOTE: this is necessary for sorting on the client
             },
             //TODO: optional limit parameter
         }

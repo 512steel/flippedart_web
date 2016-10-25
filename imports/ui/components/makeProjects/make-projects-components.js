@@ -27,7 +27,7 @@ import './../../components/app-not-authorized.js';
 
 import './make-projects-page.html';
 import './make-project-card.html';
-import './make-projects-list.html';
+import './make-projects-names-list.html';
 import './make-project-edit.html';
 import './make-project-submit.html';
 import './make-projects-thanks-page.html';
@@ -45,12 +45,21 @@ import './../user-profile/user-autocomplete-components.html';
 
 Template.make_projects_page.onCreated(function() {
 
+    //this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
+
+    // Subscriptions go in here
+    this.autorun(() => {
+        //...
+    });
+});
+
+Template.make_project_card.onCreated(function() {
+
     this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('makeProjects.all.names', {sort: {createdAt: -1}});
-
+        //TODO: would this make more sense inside the "make_project_card" template?
         if (this.getMakeProjectName()) {
             this.subscribe('makeProjects.single.name', this.getMakeProjectName());
         }
@@ -86,19 +95,11 @@ Template.make_projects_page.onCreated(function() {
     });
 });
 
-Template.make_project_card.onCreated(function() {
+Template.make_project_names_list.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
-    });
-});
-
-Template.make_projects_list.onCreated(function() {
-
-    // Subscriptions go in here
-    this.autorun(() => {
-        //...
+        this.subscribe('makeProjects.all.names', {sort: {createdAt: -1}});
     });
 });
 
@@ -134,7 +135,7 @@ Template.make_project_card.onRendered(function() {
 
 });
 
-Template.make_projects_list.onRendered(function() {
+Template.make_project_names_list.onRendered(function() {
 
 });
 
@@ -148,6 +149,10 @@ Template.make_project_submit_page.onRendered(function() {
 
 
 Template.make_projects_page.helpers({
+
+});
+
+Template.make_project_card.helpers({
     currentProjectName: () => {
         let urlName = Template.instance().getMakeProjectName();
 
@@ -163,17 +168,25 @@ Template.make_projects_page.helpers({
             else return null;
         }
     },
-    currentMakeProject: () => {
+    project: () => {
         return Template.instance().getCurrentMakeProject();
     }
 });
 
-Template.make_project_card.helpers({
+Template.make_project_names_list.helpers({
+    allMakeProjectNames: () => {
+        let projectsArr = MakeProjects.find({},
+            {
+                sort: {
+                    createdAt: -1
+                },
+                fields: {
+                    makeProjectName: 1,
+                }
+            }).fetch();
 
-});
-
-Template.make_projects_list.helpers({
-
+        return projectsArr.map((el) => {return el.makeProjectName});
+    },
 });
 
 Template.make_project_edit_page.helpers({
@@ -207,7 +220,7 @@ Template.make_project_card.events({
 
 });
 
-Template.make_projects_list.events({
+Template.make_project_names_list.events({
 
 });
 

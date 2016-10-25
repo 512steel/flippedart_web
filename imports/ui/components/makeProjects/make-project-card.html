@@ -1,5 +1,71 @@
 <template name="make_project_card">
-    SINGLE PROJECT HERE (load a default first one if no "makeProject" parameter is in the URL)
-    <br><br>
-    Project name: <strong>{{project.makeProjectName}}</strong>
+    <div>
+        {{#if project}}
+            <p>
+                <strong>
+                    {{project.makeProjectName}}
+                </strong>
+                <br>
+                Added by
+                <a href="{{pathFor 'profile.page' username=project.author}}">
+                    {{project.author}}
+                </a>
+            </p>
+
+            {{#if trim project.coverImageLink}}
+                <p>
+                    <img src="{{c.url project.coverImageLink secure=true}}">
+                </p>
+            {{else}}
+            {{/if}}
+
+            <p>
+                <strong>
+                    Ingredients:
+                    <br>
+                </strong>
+            <span class="ingredients-list">
+                {{#each project.ingredients}}
+                    <span class="ingredient-item">
+                        {{this}}
+                    </span>
+                {{else}}
+                    There are no materials listed for this project.
+                {{/each}}
+            </span>
+            </p>
+
+            {{#each step in project.steps}}
+                <p>
+                    <strong>
+                        Step {{increment @index}}
+                    </strong>
+                    <br>
+                    {{step.text}}
+                    <br>
+                    {{#each link in step.imageLinks}}
+                        <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->
+                        <a class="thumbnail" data-lightbox="photosStep" href="{{c.url link secure=true}}">
+                            <img src="{{c.url link secure=true}}">
+                        </a>
+                    {{else}}
+                        <!-- No photos for this step -->
+                    {{/each}}
+                </p>
+            {{else}}
+                <p>
+                    There are no steps listed for this project.
+                </p>
+            {{/each}}
+
+            <hr>
+
+            <!-- TODO: comment feed here -->
+        {{else}}
+            Looks like there are no projects by the name {{currentProjectName}}.  Should there be?
+            <a href="{{pathFor 'makeProjects.add'}}">Add your own</a> or
+            <a href="{{pathFor 'static.feedback'}}">let us know</a> if something
+            looks wrong.
+        {{/if}}
+    </div>
 </template>

@@ -121,6 +121,14 @@ Template.registerHelper('matchesEmailRegex', function(str) {
     return str.match(EMAIL_REGEX);
 });
 
+Template.registerHelper('trim', function(str) {
+    if (str) {
+        check(str, String);
+        return str.trim();
+    }
+    else return false;
+});
+
 
 /***  copy helpers  ***/
 firstMessageCopy = "test copy";

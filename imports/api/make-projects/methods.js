@@ -53,7 +53,7 @@ export const insert = new ValidatedMethod({
 
         if (user) {
 
-            //TODO: validate makeProjectName against forbidden names (for now, just "add")
+            //TODO: validate makeProjectName against forbidden names ("add", as well as all existing makeProject names).
 
             //sanitize inserted values
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
@@ -67,6 +67,8 @@ export const insert = new ValidatedMethod({
                 });
             });
             coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
+
+
 
             const makeProject = {
                 userId: this.userId,
