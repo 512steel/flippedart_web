@@ -149,6 +149,9 @@ export const edit = new ValidatedMethod({
 
         let user = Meteor.users.findOne(this.userId);
         if (user) {
+
+            console.log(steps);
+
             //sanitize inserted values
             makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
@@ -160,6 +163,9 @@ export const edit = new ValidatedMethod({
                 });
             });
             coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
+
+            console.log(steps);
+            console.log(coverImageLink);
 
 
             // validate against all forbidden names (including all existing makeProject names, as well as "add")
@@ -258,6 +264,7 @@ export const deleteMakeProject = new ValidatedMethod({
                 'You don\'t have permission to delete this project.');
         }
 
+        //FIXME: maybe don't actually delete these, just "unpublish" them.
         MakeProjects.remove(makeProjectId);
 
         //TODO: points system

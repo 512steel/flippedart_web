@@ -59,7 +59,6 @@ Template.make_project_card.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //TODO: would this make more sense inside the "make_project_card" template?
         if (this.getMakeProjectName()) {
             this.subscribe('makeProjects.single.name', this.getMakeProjectName());
         }
@@ -127,7 +126,9 @@ Template.make_project_edit_page.onCreated(function() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('makeProjects.single.name', this.getMakeProjectName());
+        if (this.getMakeProjectName()) {
+            this.subscribe('makeProjects.single.name', this.getMakeProjectName());
+        }
 
         this.getCurrentMakeProject = () => {
             let makeProjectName = this.getMakeProjectName();
@@ -307,7 +308,6 @@ Template.make_project_names_list.helpers({
 
 Template.make_project_edit_page.helpers({
     canEditProject: () => {
-        //TODO admin and author
         let user = Meteor.user();
         if (user) {
             let project = Template.instance().getCurrentMakeProject();
@@ -409,12 +409,18 @@ Template.make_project_edit_page.events({
                 let ingredients = $target.find('[name=ingredients]').val();
 
                 let steps = [];
+                let stepUploadedIdx = 0;  //NOTE: relying on the top each() funciton's "idx" parameter caused a lot of unclear bugs due to Cloudinary's async upload
                 let numSteps = $target.find('.single-step').length;
 
                 $target.find('.single-step').each(function(idx) {
                     let stepText = $(this).find('.step-text').first().val();
                     let imageLinks = [];
-                    $(this).find("input[type='file']").each(function() {
+
+                    console.log('single-step: ', idx);
+                    console.log(stepText);
+                    console.log(imageLinks);
+
+                    $(this).find("input[type='file']").each(function(idx2) {
                         let files = this.files;
 
                         for (let i = 0; i < files.length; i++) {
@@ -433,7 +439,7 @@ Template.make_project_edit_page.events({
                         else if (files.length > 0) {
                             //user is uploading an image
                             Session.set('isMakeProjectUploading', true);
-
+                            console.log('about to Cloudinary.upload()');
                             let fileIndex = 0;
                             Cloudinary.upload(files, {
                                 folder: "flippedart",
@@ -446,16 +452,21 @@ Template.make_project_edit_page.events({
                                 imageLinks.push(result.public_id);
 
                                 fileIndex++;  //hack to only insert the post after all photos are uploaded
+                                console.log('in push step\'s imageLinks: ', imageLinks, fileIndex, files.length);
 
                                 if (fileIndex >= files.length) {
                                     //Session.set('isMakeProjectUploading', false);
 
+                                    console.log('pushing step: ', stepText);
+                                    console.log('fileIndex: ', fileIndex);
+                                    console.log('files.length: ', files.length);
                                     steps.push({
                                         text: stepText,
                                         imageLinks: imageLinks
                                     });
 
-                                    uploadCoverPhotoAndInsert(idx);
+                                    stepUploadedIdx++;
+                                    uploadCoverPhotoAndInsert(stepUploadedIdx);
                                 }
                             });
                         }
@@ -463,14 +474,22 @@ Template.make_project_edit_page.events({
                             //no images
                             //Session.set('isMakeProjectUploading', false);
 
+                            console.log('pushing step: ', stepText);
+                            console.log('files.length: ', files.length);
                             steps.push({
                                 text: stepText,
                                 imageLinks: imageLinks
                             });
 
-                            uploadCoverPhotoAndInsert(idx);
+                            stepUploadedIdx++;
+                            uploadCoverPhotoAndInsert(stepUploadedIdx);
                         }
+
+                        console.log('end of imageLinks each() loop');
                     });
+
+                    console.log('end of step each() loop');
+                    //uploadCoverPhotoAndInsert(stepUploadedIdx);
                 });
 
                 if (stopUpload) {
@@ -490,9 +509,13 @@ Template.make_project_edit_page.events({
                      steps' photos to finish uploading before inserting() the makeProject
                      into the DB (since the Cloudinary API is async).  This forces a
                      synchronous insertion.
-                     */
+                    */
 
-                    if (stepIdx >= numSteps-1) {
+                    console.log('stepIdx: ', stepIdx);
+                    console.log('numSteps: ', numSteps);
+
+                    if (stepIdx >= numSteps) {
+                        console.log('stepIdx SUCCESS: ', stepIdx);
 
                         //upload cover photo here.
                         let coverImageLinks = [];
@@ -675,12 +698,13 @@ Template.make_project_submit_page.events({
                 let ingredients = $target.find('[name=ingredients]').val();
 
                 let steps = [];
+                let stepUploadedIdx = 0;  //NOTE: relying on the top each() funciton's "idx" parameter caused a lot of unclear bugs due to Cloudinary's async upload
                 let numSteps = $target.find('.single-step').length;
 
                 $target.find('.single-step').each(function(idx) {
                     let stepText = $(this).find('.step-text').first().val();
                     let imageLinks = [];
-                    $(this).find("input[type='file']").each(function() {
+                    $(this).find("input[type='file']").each(function(idx2) {
                         let files = this.files;
 
                         for (let i = 0; i < files.length; i++) {
@@ -721,7 +745,8 @@ Template.make_project_submit_page.events({
                                         imageLinks: imageLinks
                                     });
 
-                                    uploadCoverPhotoAndInsert(idx);
+                                    stepUploadedIdx++;
+                                    uploadCoverPhotoAndInsert(stepUploadedIdx);
                                 }
                             });
                         }
@@ -734,7 +759,8 @@ Template.make_project_submit_page.events({
                                 imageLinks: imageLinks
                             });
 
-                            uploadCoverPhotoAndInsert(idx);
+                            stepUploadedIdx++;
+                            uploadCoverPhotoAndInsert(stepUploadedIdx);
                         }
                     });
                 });
@@ -758,7 +784,7 @@ Template.make_project_submit_page.events({
                      synchronous insertion.
                      */
 
-                    if (stepIdx >= numSteps-1) {
+                    if (stepIdx >= numSteps) {
 
                         //upload cover photo here.
                         let coverImageLinks = [];
