@@ -28,7 +28,8 @@ export const insert = new ValidatedMethod({
             max: 80,
         },
         ingredients: {
-            type: [String]
+            type: String,
+            max: 1000,
         },
         steps: {
             type: [Object],
@@ -56,9 +57,7 @@ export const insert = new ValidatedMethod({
 
             //sanitize inserted values
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
-            ingredients.forEach(function(el, idx) {
-                ingredients[idx] = sanitizeHtmlNoReturns(ingredients[idx]);
-            });
+            ingredients = sanitizeHtml(ingredients);
             steps.forEach(function(step, idx) {
                 steps[idx].text = sanitizeHtml(steps[idx].text);
                 steps[idx].imageLinks.forEach(function(link, idx2) {
@@ -124,7 +123,8 @@ export const edit = new ValidatedMethod({
             max: 80,
         },
         ingredients: {
-            type: [String]
+            type: String,
+            max: 1000,
         },
         steps: {
             type: [Object],
@@ -152,9 +152,7 @@ export const edit = new ValidatedMethod({
             //sanitize inserted values
             makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
-            ingredients.forEach(function(el, idx) {
-                ingredients[idx] = sanitizeHtmlNoReturns(ingredients[idx]);
-            });
+            ingredients = sanitizeHtml(ingredients);
             steps.forEach(function(step, idx) {
                 steps[idx].text = sanitizeHtml(steps[idx].text);
                 steps[idx].imageLinks.forEach(function(link, idx2) {

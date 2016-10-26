@@ -24,15 +24,15 @@
                     Ingredients:
                     <br>
                 </strong>
-            <span class="ingredients-list">
-                {{#each project.ingredients}}
-                    <span class="ingredient-item">
-                        {{this}}
-                    </span>
-                {{else}}
-                    There are no materials listed for this project.
-                {{/each}}
-            </span>
+                <span class="ingredients-list">
+                    {{#each ingredientsArray}}
+                        <span class="ingredient-item">
+                            {{this}}
+                        </span>
+                    {{else}}
+                        There are no materials listed for this project.
+                    {{/each}}
+                </span>
             </p>
 
             {{#each step in project.steps}}

@@ -39,7 +39,7 @@ MakeProjects.deny({
         author (name): String,
         makeProjectName: String,
         approved: Boolean,
-        ingredients: [String],
+        ingredients: String,
         steps: [
             {
                 text: String,
@@ -71,9 +71,8 @@ MakeProjects.schema = new SimpleSchema({
         type: Boolean,
     },
     ingredients: {
-        type: [String],
-        minCount: 1,
-        maxCount: 100,
+        type: String,
+        max: 1000,
     },
     steps: {
         type: [Object],

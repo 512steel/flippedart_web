@@ -263,6 +263,13 @@ Template.make_project_card.helpers({
 
         return (project && project.approved) ? true : false;
     },
+    ingredientsArray: () => {
+        //prettier visual representation of the ingredients list
+        let project = Template.instance().getCurrentMakeProject();
+        if (project) {
+            return project.ingredients.split(',');
+        }
+    },
 });
 
 Template.make_project_names_list.helpers({
@@ -383,8 +390,6 @@ Template.make_project_edit_page.events({
                 let $target = $(e.target);
                 let makeProjectName = $target.find('[name=makeProjectName]').val();
                 let ingredients = $target.find('[name=ingredients]').val();
-
-                //TODO: parse ingredients into comma-separated array
 
                 let steps = [];
                 let numSteps = $target.find('.single-step').length;
@@ -510,7 +515,7 @@ Template.make_project_edit_page.events({
                                         edit.call({
                                             makeProjectId: currentMakeProjectId,
                                             makeProjectName: makeProjectName,
-                                            ingredients: [ingredients],
+                                            ingredients: ingredients,
                                             steps: steps,
                                             coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
                                         }, (err, res) => {
@@ -532,7 +537,7 @@ Template.make_project_edit_page.events({
                                 edit.call({
                                     makeProjectId: currentMakeProjectId,
                                     makeProjectName: makeProjectName,
-                                    ingredients: [ingredients],
+                                    ingredients: ingredients,
                                     steps: steps,
                                     coverImageLink: " "
                                 }, (err, res) => {
@@ -630,8 +635,6 @@ Template.make_project_submit_page.events({
                 let $target = $(e.target);
                 let makeProjectName = $target.find('[name=makeProjectName]').val();
                 let ingredients = $target.find('[name=ingredients]').val();
-
-                //TODO: parse ingredients into comma-separated array
 
                 let steps = [];
                 let numSteps = $target.find('.single-step').length;
@@ -756,7 +759,7 @@ Template.make_project_submit_page.events({
 
                                         insert.call({
                                             makeProjectName: makeProjectName,
-                                            ingredients: [ingredients],
+                                            ingredients: ingredients,
                                             steps: steps,
                                             coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
                                         }, (err, res) => {
@@ -777,7 +780,7 @@ Template.make_project_submit_page.events({
                                 //no images
                                 insert.call({
                                     makeProjectName: makeProjectName,
-                                    ingredients: [ingredients],
+                                    ingredients: ingredients,
                                     steps: steps,
                                     coverImageLink: " "
                                 }, (err, res) => {
