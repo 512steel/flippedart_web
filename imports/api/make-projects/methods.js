@@ -174,7 +174,8 @@ export const edit = new ValidatedMethod({
 
             //TODO: also disallow special characters like slashes.
 
-            if (_.contains(allMakeProjectNames, makeProjectName)) {
+            let originalName = MakeProjects.findOne(makeProjectId).makeProjectName;
+            if (makeProjectName != originalName && _.contains(allMakeProjectNames, makeProjectName)) {
                 throw new Meteor.Error('makeProject.insert.denied',
                     'Sorry, another project already exists with that name.');
             }

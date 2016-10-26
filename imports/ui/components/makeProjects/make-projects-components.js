@@ -119,6 +119,9 @@ Template.make_project_edit_page.onCreated(function() {
 
     this.steps = new ReactiveVar([1]);
     Session.set('isMakeProjectUploading', false);
+    let hasPrePopulated = false;  //NOTE: this flag is a hack to force the "steps"
+                                  // ReactiveVar to only pre-populate once, but
+                                  // *after* we're ready with the makeProject subscription.
 
     this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
 
@@ -136,12 +139,25 @@ Template.make_project_edit_page.onCreated(function() {
         };
 
         //set the "steps" ReactiveVar to the number of steps in the existing makeProject.
-        if (this.getCurrentMakeProject()) {
+        /*
+            NOTE: for existing steps, we populate the ReactiveVar itself with
+             the {text, imageLinks} object.  This doesn't directly get submitted
+             to the edit() method (the actual form data does), but this is useful
+             for pre-populating the existing steps' inputs.
+        */
+        let currentProject = this.getCurrentMakeProject();
+        if (currentProject && !hasPrePopulated) {
             let existingSteps = [];
-            for (let i=0; i < this.getCurrentMakeProject().steps.length; i++) {
-                existingSteps.push(i+1);  //1-indexded
+            for (let i=0; i < currentProject.steps.length; i++) {
+                existingSteps.push({
+                    text: currentProject.steps[i].text,
+                    imageLinks: currentProject.steps[i].imageLinks,
+                });
             }
+            console.log('re-calling onCreate prepop stuff');
             this.steps.set(existingSteps);
+            console.log(this.steps.get());
+            hasPrePopulated = true;
         }
     });
 });
@@ -289,7 +305,6 @@ Template.make_project_names_list.helpers({
     }
 });
 
-//FIXME: there is currently no logic to add/remove steps while editing, due to pre-populating the fields with the existing makeProject's steps.  Note the differences between "steps" in this template and the make_project_submit template.
 Template.make_project_edit_page.helpers({
     canEditProject: () => {
         //TODO admin and author
@@ -307,9 +322,11 @@ Template.make_project_edit_page.helpers({
         return Template.instance().getCurrentMakeProject();
     },
     steps: () => {
+        console.log(Template.instance().steps.get());
         return Template.instance().steps.get();
     },
     numSteps: () => {
+        console.log(Template.instance().steps.get().length);
         return Template.instance().steps.get().length;
     },
     isMakeProjectUploading: () => {
@@ -608,6 +625,27 @@ Template.make_project_edit_page.events({
             });
         }
     },
+    'click .js-add-step': (e) => {
+        e.preventDefault();
+
+        let steps = Template.instance().steps.get();
+        console.log(steps);
+        if (steps.length < UPLOAD_LIMITS.makeProjectSteps) {
+            /*
+                NOTE: on the edit page, the "steps" ReactiveVar is pre-populated
+                 in onCreate() with {text, imageLinks} objects instead of numbers.
+                 The code below, pushing a new step with a +1 value works as it
+                 simply adds the string "1" to the end of the "[Object object]" string.
+                 This looks wonky/ugly, but is consistent with the _submit_ template's
+                 code for adding new steps, and still functions properly.
+            */
+            steps.push(steps[steps.length-1] + 1);  //increment the next step number.
+        }
+        Template.instance().steps.set(steps);
+        console.log(Template.instance().steps.get());
+
+        //TODO: auto-focus the next step's textarea
+    },
 });
 
 Template.make_project_submit_page.events({
@@ -833,6 +871,25 @@ Template.make_project_submit_page.events({
         else {
             $label.html(labelVal);
         }
+    }
+});
+
+Template.make_project_edit_step_input.events({
+    'click .js-remove-step': (e) => {
+        e.preventDefault();
+
+        let stepIndex = Template.instance().data.index;
+        let parentSteps = Template.instance().parent().steps;
+
+        console.log(stepIndex);
+        console.log(parentSteps);
+
+        parentSteps.get().splice(stepIndex, 1);
+
+        console.log(parentSteps);
+        console.log(parentSteps.get());
+
+        parentSteps.set(parentSteps.get());
     }
 });
 

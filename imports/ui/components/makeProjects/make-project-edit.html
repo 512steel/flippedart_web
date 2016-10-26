@@ -25,13 +25,13 @@
                                   placeholder="List this project's required materials (comma-separated)"
                                   rows="3">{{project.ingredients}}</textarea>
 
-                            {{#each step in project.steps}}
+                            {{#each step in steps}}
                                 {{> make_project_edit_step_input index=@index numSteps=numSteps step=step}}
                                 <br>
                             {{else}}
                                 <p>You should add at least one step to explain how to make your project.</p>
                             {{/each}}
-                            <!--<p class="js-add-step">ADD ANOTHER STEP BUTTON</p>-->
+                            <p class="js-add-step">ADD ANOTHER STEP BUTTON</p>
 
                             <hr>
 
@@ -116,8 +116,8 @@
             </span>
         </label>
 
-        <!--{{#if greaterThan this.numSteps 1}}
+        {{#if greaterThan this.numSteps 1}}
             <p class="js-remove-step">REMOVE STEP BUTTON</p>
-        {{/if}}-->
+        {{/if}}
     </span>
 </template>
