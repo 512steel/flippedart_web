@@ -88,7 +88,7 @@ Template.make_project_card.onCreated(function() {
                                 createdAt: -1
                             },
                             limit: 1
-                        }).fetch()[0];
+                        }).fetch()[0];  //FIXME: change to findOne();
                 }
             }
         }
@@ -117,9 +117,32 @@ Template.make_project_names_list.onCreated(function() {
 
 Template.make_project_edit_page.onCreated(function() {
 
+    this.steps = new ReactiveVar([1]);
+    Session.set('isMakeProjectUploading', false);
+
+    this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
+
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+        this.subscribe('makeProjects.single.name', this.getMakeProjectName());
+
+        this.getCurrentMakeProject = () => {
+            let makeProjectName = this.getMakeProjectName();
+            if (makeProjectName) {
+                return MakeProjects.findOne({
+                    makeProjectName: makeProjectName,
+                });
+            }
+        };
+
+        //set the "steps" ReactiveVar to the number of steps in the existing makeProject.
+        if (this.getCurrentMakeProject()) {
+            let existingSteps = [];
+            for (let i=0; i < this.getCurrentMakeProject().steps.length; i++) {
+                existingSteps.push(i+1);  //1-indexded
+            }
+            this.steps.set(existingSteps);
+        }
     });
 });
 
@@ -136,6 +159,8 @@ Template.make_project_submit_page.onCreated(function() {
 
 Template.make_project_submit_thanks_page.onCreated(function() {
     //TODO: DocHead stuff
+
+    this.getWasEdited = () => FlowRouter.getParam('wasEdited');
 });
 
 
@@ -214,6 +239,16 @@ Template.make_project_card.helpers({
     project: () => {
         return Template.instance().getCurrentMakeProject();
     },
+    isProjectOwner: () => {
+        let user = Meteor.user();
+        if (user) {
+            let project = Template.instance().getCurrentMakeProject();
+            if (project && user.username == project.author) {
+                return true;
+            }
+        }
+        return false;
+    },
     isUserAdmin: () => {
         if (!Meteor.user() || !_.contains(Meteor.user().roles, 'admin')) {
             return false
@@ -247,8 +282,38 @@ Template.make_project_names_list.helpers({
     }
 });
 
+//FIXME: there is currently no logic to add/remove steps while editing, due to pre-populating the fields with the existing makeProject's steps.  Note the differences between "steps" in this template and the make_project_submit template.
 Template.make_project_edit_page.helpers({
+    canEditProject: () => {
+        //TODO admin and author
+        let user = Meteor.user();
+        if (user) {
+            let project = Template.instance().getCurrentMakeProject();
+            if (project && (user.username == project.author || _.contains(user.roles, 'admin'))) {
+                // the makeProject's author and admins may edit.
+                return true;
+            }
+        }
+        return false;
+    },
+    project: () => {
+        return Template.instance().getCurrentMakeProject();
+    },
+    steps: () => {
+        return Template.instance().steps.get();
+    },
+    numSteps: () => {
+        return Template.instance().steps.get().length;
+    },
+    isMakeProjectUploading: () => {
+        return Session.get('isMakeProjectUploading');
+    }
+});
 
+Template.make_project_edit_step_input.helpers({
+    makeProjectStepImagesLimit: () => {
+        return UPLOAD_LIMITS.makeProjectStepImages;
+    }
 });
 
 Template.make_project_submit_page.helpers({
@@ -266,6 +331,12 @@ Template.make_project_submit_page.helpers({
 Template.make_project_submit_step_input.helpers({
     makeProjectStepImagesLimit: () => {
         return UPLOAD_LIMITS.makeProjectStepImages;
+    }
+});
+
+Template.make_project_submit_thanks_page.helpers({
+    edited: () => {
+        return Template.instance().getWasEdited();
     }
 });
 
@@ -296,7 +367,242 @@ Template.make_project_names_list.events({
 });
 
 Template.make_project_edit_page.events({
+    'submit form.js-edit-makeProject-form': (e) => {
+        e.preventDefault();
 
+        let currentMakeProjectId = Template.instance().getCurrentMakeProject()._id;
+
+        //NOTE: this is, for now, directly copied from the _submit_ template's event function.
+        if (!Meteor.user()) {
+            throwError("You need to be signed in to edit a project.");
+        }
+        else {
+            stepUpload: {
+                let stopUpload = false;  //NOTE: this flag is used to break out of the entire upload process in case there are issues with the images.
+
+                let $target = $(e.target);
+                let makeProjectName = $target.find('[name=makeProjectName]').val();
+                let ingredients = $target.find('[name=ingredients]').val();
+
+                //TODO: parse ingredients into comma-separated array
+
+                let steps = [];
+                let numSteps = $target.find('.single-step').length;
+
+                $target.find('.single-step').each(function(idx) {
+                    let stepText = $(this).find('.step-text').first().val();
+                    let imageLinks = [];
+                    $(this).find("input[type='file']").each(function() {
+                        let files = this.files;
+
+                        for (let i = 0; i < files.length; i++) {
+                            if (files[i].size > 6000000) {
+                                throwError("Sorry, one of your images is bigger than the 6MB upload limit");
+                                stopUpload = true;
+                                return;
+                            }
+                        }
+
+                        if (files.length > UPLOAD_LIMITS.makeProjectStepImages) {  //NOTE: this doesn't nicely account for if the user uploads multiple "cover photos", but it'll throw a data error before inserting regardless.
+                            throwError("Sorry, you are trying to upload " + files.length.toString() + " images in step " + (idx+1) + ".  The maximum you can upload is " + UPLOAD_LIMITS.makeProjectStepImages + ".");
+                            stopUpload = true;
+                            return;
+                        }
+                        else if (files.length > 0) {
+                            //user is uploading an image
+                            Session.set('isMakeProjectUploading', true);
+
+                            let fileIndex = 0;
+                            Cloudinary.upload(files, {
+                                folder: "flippedart",
+                                upload_preset: "limitsize"
+                            }, (error, result) => {
+                                if (error) {
+                                    throwError(error.reason);
+                                }
+
+                                imageLinks.push(result.public_id);
+
+                                fileIndex++;  //hack to only insert the post after all photos are uploaded
+
+                                if (fileIndex >= files.length) {
+                                    //Session.set('isMakeProjectUploading', false);
+
+                                    steps.push({
+                                        text: stepText,
+                                        imageLinks: imageLinks
+                                    });
+
+                                    uploadCoverPhotoAndInsert(idx);
+                                }
+                            });
+                        }
+                        else {
+                            //no images
+                            //Session.set('isMakeProjectUploading', false);
+
+                            steps.push({
+                                text: stepText,
+                                imageLinks: imageLinks
+                            });
+
+                            uploadCoverPhotoAndInsert(idx);
+                        }
+                    });
+                });
+
+                if (stopUpload) {
+                    //NOTE: this is hacky, and may upload more photos unnecessarily -- I'd much prefer to be able to call "break stepUpload" at the point where I throwError().
+                    console.log('Stopping upload.');
+                    break stepUpload;
+                }
+
+                function uploadCoverPhotoAndInsert(stepIdx=-1) {
+                    /*
+                     NOTE: rather than using some obscure JS to bind this function to a
+                     variable iterator's value change, keep track of the steps as we go
+                     along.  Per this first if-block, only execute the coverPhoto upload
+                     function and the subsequent insert() server method after the last
+                     step's photos have finished uploading.  If we didn't do this, and
+                     instead called the following code inline, it may not allow some of
+                     steps' photos to finish uploading before inserting() the makeProject
+                     into the DB (since the Cloudinary API is async).  This forces a
+                     synchronous insertion.
+                     */
+
+                    if (stepIdx >= numSteps-1) {
+
+                        //upload cover photo here.
+                        let coverImageLinks = [];
+
+                        $("#coverPhotoUploadWrap input[type='file']").each(function () {
+                            let files = this.files;
+
+                            for (var i = 0; i < files.length; i++) {
+                                if (files[i].size > 6000000) {
+                                    throwError("Sorry, your image is bigger than the 6MB upload limit");
+                                    return;
+                                }
+                            }
+
+                            if (files.length > 1) {  //NOTE: just allow one cover photo per makeProject (as in calendarEvents).
+                                throwError("Sorry, you are trying to upload " + files.length.toString() + " cover images.  The maximum you can upload is " + 1 + ".");
+                            }
+                            else if (files.length > 0) {
+                                //user is uploading a cover image
+                                Session.set('isMakeProjectUploading', true);
+
+                                var fileIndex = 0;
+                                Cloudinary.upload(files, {
+                                    folder: "flippedart",
+                                    upload_preset: "limitsize"
+                                }, function (error, result) {
+                                    if (error) {
+                                        throwError(error.reason);
+                                    }
+
+                                    coverImageLinks.push(result.public_id);
+
+                                    fileIndex++;  //hack to only insert the post after all photos are uploaded
+
+                                    if (fileIndex >= files.length) {
+
+                                        edit.call({
+                                            makeProjectId: currentMakeProjectId,
+                                            makeProjectName: makeProjectName,
+                                            ingredients: [ingredients],
+                                            steps: steps,
+                                            coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
+                                        }, (err, res) => {
+                                            if (err) {
+                                                throwError(err.reason);
+                                                Session.set('isMakeProjectUploading', false);
+                                            }
+                                            else {
+                                                Session.set('isMakeProjectUploading', false);
+
+                                                FlowRouter.go('makeProjects.add.thanks', {wasEdited: 'edited'});
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                //no images
+                                edit.call({
+                                    makeProjectId: currentMakeProjectId,
+                                    makeProjectName: makeProjectName,
+                                    ingredients: [ingredients],
+                                    steps: steps,
+                                    coverImageLink: " "
+                                }, (err, res) => {
+                                    if (err) {
+                                        throwError(err.reason);
+                                    }
+                                    else {
+                                        Session.set('isMakeProjectUploading', false);
+
+                                        FlowRouter.go('makeProjects.add.thanks', {wasEdited: 'edited'});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
+    'change input.stepFileUpload'(e) {
+        e.preventDefault();
+
+        /*
+         Source: http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+         */
+
+        var $input = $(e.target);  //NOTE: this is changed from explicitly selecting $(input#stepFileUpload), since there are multiple upload options.
+        var $label = $input.next('label');
+        var labelVal = $label.html();
+        var fileName = '';
+
+        if (e.target.files && e.target.files.length > 1) {
+            fileName = ( e.target.getAttribute('data-multiple-caption') || '' ).replace('{count}', e.target.files.length);
+
+            if (e.target.files.length > UPLOAD_LIMITS.makeProjectStepImages) {
+                fileName += " (max " + UPLOAD_LIMITS.makeProjectStepImages + ")";
+            }
+        }
+        else if (e.target.value) {
+            fileName = e.target.value.split('\\').pop();
+        }
+
+        if (fileName) {
+            $label.find('span').html(fileName);
+        }
+        else {
+            $label.html(labelVal);
+        }
+    },
+    'click .js-makeProject-delete': (e) => {
+        e.preventDefault();
+
+        let currentProject = Template.instance().getCurrentMakeProject();
+
+        if (currentProject && confirm("Are you sure you want to delete this project?")) {
+            deleteMakeProject.call({
+                makeProjectId: currentProject._id,
+            }, (err, res) => {
+                if (err) {
+                    throwError(err.reason);
+                }
+                else {
+                    FlowRouter.go('makeProjects.page');
+                }
+            });
+        }
+    },
 });
 
 Template.make_project_submit_page.events({
@@ -452,7 +758,7 @@ Template.make_project_submit_page.events({
                                             makeProjectName: makeProjectName,
                                             ingredients: [ingredients],
                                             steps: steps,
-                                            coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per calendar event, for now
+                                            coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
                                         }, (err, res) => {
                                             if (err) {
                                                 throwError(err.reason);

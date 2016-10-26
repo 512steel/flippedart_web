@@ -3,7 +3,11 @@
     <div class="static-page-wrap push-down-xxxxlarge pull-down-xxlarge text-centered">
         <h1>Success!</h1>
         <p>
-            We will notify you via email when your project is approved.  In the meantime, [...other links...]
+            {{#if edited}}
+                You've successfully edited your project.  We'll notify you via email when your changes have been approved.  [...other links...]
+            {{else}}
+                We will notify you via email when your project is approved.  In the meantime, [...other links...]
+            {{/if}}
         </p>
     </div>
 </template>

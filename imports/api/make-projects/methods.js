@@ -78,6 +78,8 @@ export const insert = new ValidatedMethod({
             });
             allMakeProjectNames.push('add');  //push all other potentially forbidden names here.)
 
+            //TODO: also disallow special characters like slashes.
+
             if (_.contains(allMakeProjectNames, makeProjectName)) {
                 throw new Meteor.Error('makeProject.insert.denied',
                     'Sorry, another project already exists with that name.');
@@ -88,6 +90,7 @@ export const insert = new ValidatedMethod({
                 author: user.username,
                 makeProjectName: makeProjectName,
                 approved: false,
+                approvedEdits: false,
                 ingredients: ingredients,
                 steps: steps,
                 rank: 0,
@@ -112,53 +115,89 @@ export const insert = new ValidatedMethod({
 export const edit = new ValidatedMethod({
     name: 'makeProjects.edit',
     validate: new SimpleSchema({
-        userPostId: {
+        makeProjectId: {
             type: String,
             regEx: SimpleSchema.RegEx.Id,
         },
-        text: { type: String },
-        tag: { type: String },
-        imageLinks: {
-            type: [String],
-            //regEx: SimpleSchema.RegEx.Url  //TODO
+        makeProjectName: {
+            type: String,
+            max: 80,
         },
+        ingredients: {
+            type: [String]
+        },
+        steps: {
+            type: [Object],
+            minCount: 1,
+            maxCount: 50,
+        },
+        "steps.$.imageLinks": {
+            type: [String],
+            maxCount: UPLOAD_LIMITS.makeProjectStepImages,
+        },
+        "steps.$.text": {
+            type: String,
+            max: 5000,
+        },
+        coverImageLink: {
+            type: String,
+            optional: true,
+        },
+        //TODO: cap lengths etc. here
     }).validator(),
-    run({ userPostId, text, tag, imageLinks }) {
-        text = sanitizeHtml(text);
-        tag = sanitizeHtmlNoReturns(tag);
+    run({ makeProjectId, makeProjectName, ingredients, steps, coverImageLink }) {
 
-        const userPost = UserPosts.findOne(userPostId);
-
-        //TODO: validate makeProjectName against forbidden names (for now, just "add")
-
-        if (!userPost || !userPost.editableBy(this.userId)) {
-            /*
-             NOTE: throwing a Meteor.Error will fail the client-side
-             simulation, preventing the server-side Method from ever being run.
-             So my hacky solution is to have a client-only editableBy(), which always
-             returns true, and a server-only editableBy, which checks what it's
-             supposed to.
-             */
-
-            throw new Meteor.Error('userPosts.edit.accessDenied',
-                'You don\'t have permission to edit this post.');
-        }
-
-        if (imageLinks.length > 0 && imageLinks[0] == "none") {
-            //If the client passed in "none" for image links, then keep the posts' previous images
-            imageLinks = userPost.imageLinks;
-        }
-
-        UserPosts.update(userPostId,
-            {
-                //TODO: refer to exchangeItems.edit for allowing these fields to be optional.
-                $set: {
-                    text: text,
-                    tag: tag,
-                    imageLinks: imageLinks,
-                    lastUpdated: new Date(),
-                }
+        let user = Meteor.users.findOne(this.userId);
+        if (user) {
+            //sanitize inserted values
+            makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
+            makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
+            ingredients.forEach(function(el, idx) {
+                ingredients[idx] = sanitizeHtmlNoReturns(ingredients[idx]);
             });
+            steps.forEach(function(step, idx) {
+                steps[idx].text = sanitizeHtml(steps[idx].text);
+                steps[idx].imageLinks.forEach(function(link, idx2) {
+                    steps[idx].imageLinks[idx2] = sanitizeHtmlNoReturns(steps[idx].imageLinks[idx2]);
+                });
+            });
+            coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
+
+
+            // validate against all forbidden names (including all existing makeProject names, as well as "add")
+            let allMakeProjectNames = MakeProjects.find({}, {
+                fields: {
+                    makeProjectName: 1,
+                }
+            }).fetch().map((el) => {
+                return el.makeProjectName;
+            });
+            allMakeProjectNames.push('add');  //push all other potentially forbidden names here.)
+
+            //TODO: also disallow special characters like slashes.
+
+            if (_.contains(allMakeProjectNames, makeProjectName)) {
+                throw new Meteor.Error('makeProject.insert.denied',
+                    'Sorry, another project already exists with that name.');
+            }
+
+            MakeProjects.update(makeProjectId,
+                {
+                    //TODO: refer to exchangeItems.edit for allowing these fields to be optional.
+                    $set: {
+                        makeProjectName: makeProjectName,
+                        ingredients: ingredients,
+                        steps: steps,
+                        coverImageLink: coverImageLink,
+                        //approved: false,  //FIXME: use the "approvedEdits" flag to keep the old version active but before the new version is admin-approved.
+                        lastUpdated: new Date(),
+                    }
+                });
+        }
+        else {
+            throw new Meteor.Error('makeProjects.edit.accessDenied',
+                'You need to be signed in to do this.');
+        }
     },
 });
 
@@ -193,6 +232,8 @@ export const approveMakeProject = new ValidatedMethod({
                         });
 
                     //TODO: upon approval, make a RecentActivity object and update the rank of the submitter's UserAttributes.
+                    //TODO: points system
+                    //TODO: send original author an email notifying them that their project has been approved.
                 }
             }
         }
@@ -209,34 +250,23 @@ export const deleteMakeProject = new ValidatedMethod({
         },
     }).validator(),
     run({ makeProjectId }) {
-        const userPost = UserPosts.findOne(makeProjectId);
+        const makeProject = MakeProjects.findOne(makeProjectId);
 
-        if (!userPost || !userPost.editableBy(this.userId)) {
-            /*
-             NOTE: throwing a Meteor.Error will fail the client-side
-             simulation, preventing the server-side Method from ever being run.
-             So my hacky solution is to have a client-only editableBy(), which always
-             returns true, and a server-only editableBy, which checks what it's
-             supposed to.
-             */
+        if (!makeProject || !makeProject.editableBy(this.userId)) {
+            // NOTE that makeProjects are editableBy admin users as well as the documents' original authors
 
-            throw new Meteor.Error('userPosts.delete.accessDenied',
-                'You don\'t have permission to delete this post.');
+            throw new Meteor.Error('makeProjects.delete.accessDenied',
+                'You don\'t have permission to delete this project.');
         }
 
-        UserPosts.remove(userPostId);
+        MakeProjects.remove(makeProjectId);
 
-        //points system:
-        const userAttributes = UserAttributes.findOne({userId: this.userId});
-        if (userAttributes) {
-            //Call the server-only method updateRank on UserAttributes, and remove points
-            updateRank(userAttributes._id, POINTS_SYSTEM.UserAttributes.makeProjectAdd * -1);
-        }
+        //TODO: points system
     },
 });
 
 
-// Get list of all method names on UserPosts
+// Get list of all method names on MakeProjects
 const MAKEPROJECTS_METHODS = _.pluck([
     insert,
     edit,
@@ -245,7 +275,7 @@ const MAKEPROJECTS_METHODS = _.pluck([
 ], 'name');
 
 if (Meteor.isServer) {
-    // Only allow 2 userPost operations per connection per second
+    // Only allow 2 MakeProject operations per connection per second
     DDPRateLimiter.addRule({
         name(name) {
             return _.contains(MAKEPROJECTS_METHODS, name);

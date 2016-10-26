@@ -58,6 +58,23 @@
                 </p>
             {{/each}}
 
+            <div class="pull-down">
+                <span class="float-right push-right-small">
+                    {{#if or isProjectOwner isUserAdmin}}
+                        <a class="button primary hollow no-border" href="{{pathFor 'makeProjects.edit' makeProjectName=currentProjectName}}">
+                            <i class="fi-pencil"></i>
+                        </a>
+                    {{/if}}
+                    <a class="button primary hollow no-border" href="{{pathFor 'makeProjects.singleProject' makeProjectName=currentProjectName}}">
+                        <i class="fi-link"></i>
+                    </a>
+
+                    <a class="button primary hollow no-border share-makeProject-facebook" data-no-instant>
+                        <i class="fi-share"></i>
+                    </a>
+                </span>
+            </div>
+
             {{#if isUserAdmin}}
                 <div class="button primary js-admin-approve-button">
                     {{#if projectApproved}}
@@ -73,10 +90,13 @@
 
             <!-- TODO: comment feed here -->
         {{else}}
-            Looks like there are no projects by the name <strong>{{currentProjectName}}</strong>.  Should there be?
-            <a href="{{pathFor 'makeProjects.add'}}">Add your own</a> or
-            <a href="{{pathFor 'static.feedback'}}">let us know</a> if something
-            looks wrong.
+            <p class="column small-12 medium-10 medium-centered text-centered pull-down-large">
+                Looks like there are no projects by the name <strong>{{currentProjectName}}</strong>.
+                Should there be?
+                <a href="{{pathFor 'makeProjects.add'}}"><strong>Add your own</strong></a> or
+                <a href="{{pathFor 'static.feedback'}}"><strong>let us know</strong></a> if something
+                looks wrong.
+            </p>
         {{/if}}
     </div>
 </template>

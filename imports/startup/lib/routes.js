@@ -275,7 +275,7 @@ FlowRouter.route('/make/add', {
         BlazeLayout.render('App_body', { main: 'make_project_submit_page' });
     },
 });
-FlowRouter.route('/make/add/thanks', {
+FlowRouter.route('/make/add/thanks/:wasEdited?', {
     name: 'makeProjects.add.thanks',
     action() {
         BlazeLayout.render('App_body', { main: 'make_project_submit_thanks_page' });

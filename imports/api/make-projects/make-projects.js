@@ -67,6 +67,9 @@ MakeProjects.schema = new SimpleSchema({
     approved: {
         type: Boolean,
     },
+    approvedEdits: {
+        type: Boolean,
+    },
     ingredients: {
         type: [String],
         minCount: 1,
@@ -115,6 +118,7 @@ MakeProjects.publicFields = {
     author: 1,
     makeProjectName: 1,
     approved: 1,
+    approvedEdits: 1,
     ingredients: 1,
     steps: 1,
     coverImageLink: 1,
@@ -140,8 +144,12 @@ MakeProjects.helpers({
             return true;
         }
         else if (Meteor.isServer && this.userId) {
-            //if admin return true
-            return this.userId === userId;
+
+            const adminUser = Meteor.users.findOne(this.userId);
+            if (_.contains(adminUser.roles, 'admin')) {
+                return true;  //This makes a makeProject *always* editable by admin users - TODO: ought to add a "lastEditedBy" attribute too
+            }
+            else return this.userId === userId;
         }
         else {
             return false;
