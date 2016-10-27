@@ -45,12 +45,37 @@ import './../user-profile/user-autocomplete-components.html';
 
 Template.make_projects_page.onCreated(function() {
 
-    //this.getMakeProjectName = () => FlowRouter.getParam('makeProjectName');
+    this.getCurrentMakeProject = () => {
+        return MakeProjects.findOne({author: {$exists: true}});
+    };
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...
+
+        //Re-run DocHead call after a whole makeProject is loaded
+        let currentMakeProject = this.getCurrentMakeProject();
+        if (currentMakeProject && currentMakeProject.author) {  //NOTE: we're looking for an entire document to be loaded, not just the makeProject's name.
+            DocHead.removeDocHeadAddedTags();
+
+            DocHead.setTitle(HEAD_DEFAULTS.title_short + " | " + currentMakeProject.makeProjectName + " | Make stuff");
+            DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | " + currentMakeProject.makeProjectName + " | Make stuff"});
+            DocHead.addMeta({name: "og:description", content: currentMakeProject.makeProjectName + ": " + currentMakeProject.steps[0].text + " | " + HEAD_DEFAULTS.description});  //TODO: custom description here.
+            DocHead.addMeta({name: "og:type", content: "article"});
+            DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/make/" + currentMakeProject.makeProjectName});
+            DocHead.addMeta({name: "og:image", content: currentMakeProject.coverImageLink ? Cloudinary._helpers.url(currentMakeProject.coverImageLink, {'secure':true}) : HEAD_DEFAULTS.image});
+            DocHead.addMeta({name: "og:image:width", content: "1200"});
+            DocHead.addMeta({name: "og:image:height", content: "630"});
+        }
     });
+
+    DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Make stuff ");
+    DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Make stuff"});
+    DocHead.addMeta({name: "og:description", content: "Learn from other members how to make awesome projects! | " + HEAD_DEFAULTS.description});  //TODO: custom description here.
+    DocHead.addMeta({name: "og:type", content: "article"});
+    DocHead.addMeta({name: "og:url", content: "https://www.flippedart.org/make/"});
+    DocHead.addMeta({name: "og:image", content: HEAD_DEFAULTS.image});
+    DocHead.addMeta({name: "og:image:width", content: "1200"});
+    DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
 Template.make_project_card.onCreated(function() {
@@ -386,6 +411,18 @@ Template.make_projects_page.events({
 });
 
 Template.make_project_card.events({
+    'click .share-makeProject-facebook': function (e) {
+        e.preventDefault();
+        const currentMakeProject = Template.instance().getCurrentMakeProject();
+        const shareUrl = 'https://www.flippedart.org/make/' + currentMakeProject.makeProjectName;
+
+        FB.ui({
+            method: 'share',
+            href: shareUrl,
+            mobile_iframe: true
+        }, function (response) {
+        });
+    },
     'click .js-admin-approve-button': (e) => {
         e.preventDefault();
 
@@ -462,7 +499,6 @@ Template.make_project_edit_page.events({
                                 upload_preset: "limitsize"
                             }, (error, result) => {
                                 if (error) {
-                                    console.log('asdf');
                                     throwError(error.reason);
                                 }
 
@@ -570,7 +606,6 @@ Template.make_project_edit_page.events({
                                     upload_preset: "limitsize"
                                 }, function (error, result) {
                                     if (error) {
-                                        console.log('asdf');
                                         throwError(error.reason);
                                     }
 
@@ -580,14 +615,11 @@ Template.make_project_edit_page.events({
 
                                     if (fileIndex >= files.length) {
 
-                                        console.log(reactiveSteps);
-                                        console.log(steps);
                                         for (let i = 0; i < steps.length; i++) {
                                             if (!reactiveSteps[i].imageLinks) {
                                                 steps[i].imageLinks = ["keep"];  // hack to tell the server method to keep previous imageLinks
                                             }
                                         }
-                                        console.log(steps);
 
                                         edit.call({
                                             makeProjectId: currentMakeProjectId,
@@ -597,7 +629,6 @@ Template.make_project_edit_page.events({
                                             coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
                                         }, (err, res) => {
                                             if (err) {
-                                                console.log('asdf');
                                                 throwError(err.reason);
                                                 Session.set('isMakeProjectUploading', false);
                                             }
@@ -612,14 +643,11 @@ Template.make_project_edit_page.events({
                             }
                             else {
 
-                                console.log(reactiveSteps);
-                                console.log(steps);
                                 for (let i = 0; i < steps.length; i++) {
                                     if (!reactiveSteps[i].imageLinks) {
                                         steps[i].imageLinks = ["keep"];  // hack to tell the server method to keep previous imageLinks
                                     }
                                 }
-                                console.log(steps);
 
                                 //no images
                                 edit.call({
@@ -630,8 +658,6 @@ Template.make_project_edit_page.events({
                                     coverImageLink: "keep"
                                 }, (err, res) => {
                                     if (err) {
-                                        console.log('asdf');
-                                        console.log(err);
                                         throwError(err.reason);
                                     }
                                     else {
