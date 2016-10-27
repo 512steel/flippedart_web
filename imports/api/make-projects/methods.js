@@ -160,6 +160,7 @@ export const edit = new ValidatedMethod({
             steps.forEach(function(step, idx) {
                 steps[idx].text = sanitizeHtml(steps[idx].text);
 
+                //FIXME: there are a few cases where this logic doesn't work, when adding/removing steps.
                 let stepImages = steps[idx].imageLinks;
                 if (stepImages.length > 0 && stepImages[0] == "keep") {
                     //if the client passed in "keep", then do nothing to the step's imageLinks.
@@ -173,7 +174,13 @@ export const edit = new ValidatedMethod({
                 }
             });
 
-            coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
+            //if the client passed in "keep", then do nothing to the step's coverImageLink.
+            if (coverImageLink == "keep") {
+                coverImageLink = makeProject.coverImageLink;
+            } else {
+                coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
+            }
+
 
             // validate against all forbidden names (including all existing makeProject names, as well as "add")
             let allMakeProjectNames = MakeProjects.find({}, {
@@ -205,6 +212,9 @@ export const edit = new ValidatedMethod({
                         lastUpdated: new Date(),
                     }
                 });
+
+            const link = "https://www.flippedart.org/make/" + makeProjectName;
+            //TODO: use this link to pass into an email sender to hello@flippedart.org, notifying of the edit.
         }
         else {
             throw new Meteor.Error('makeProjects.edit.accessDenied',

@@ -281,7 +281,7 @@ Template.make_project_card.helpers({
     ingredientsArray: () => {
         //prettier visual representation of the ingredients list
         let project = Template.instance().getCurrentMakeProject();
-        if (project) {
+        if (project.ingredients) {
             return project.ingredients.split(',');
         }
     },
@@ -297,7 +297,8 @@ Template.make_project_names_list.helpers({
             return urlName;
         }
         else {
-            if (Template.instance().getProjectsArr().length > 0) {
+            let projectsArr = Template.instance().getProjectsArr();
+            if (projectsArr.length > 0) {
                 return projectsArr[0].makeProjectName;
             }
         }
@@ -326,8 +327,27 @@ Template.make_project_edit_page.helpers({
         return Template.instance().steps.get().length;
     },
     isMakeProjectUploading: () => {
-        return Session.get('isMakeProjectUploading');
-    }
+        let isMakeProjectUploading = Session.get('isMakeProjectUploading');
+
+        if (isMakeProjectUploading) {
+            $('form.js-edit-makeProject-form input').each(function(idx) {
+                $(this).prop('disabled', true);
+            });
+            $('form.js-edit-makeProject-form textarea').each(function(idx) {
+                $(this).prop('disabled', true);
+            });
+        }
+        else {
+            $('form.js-edit-makeProject-form input').each(function (idx) {
+                $(this).prop('disabled', false);
+            });
+            $('form.js-edit-makeProject-form textarea').each(function (idx) {
+                $(this).prop('disabled', false);
+            });
+        }
+
+        return isMakeProjectUploading;
+    },
 });
 
 Template.make_project_edit_step_input.helpers({
@@ -391,6 +411,7 @@ Template.make_project_edit_page.events({
         e.preventDefault();
 
         let currentMakeProjectId = Template.instance().getCurrentMakeProject()._id;
+        let reactiveSteps = Template.instance().steps.get();  //note: this variable is useful when ensuring the "keep"-order of step images later on.
 
         //NOTE: this is, for now, directly copied from the _submit_ template's event function.
         if (!Meteor.user()) {
@@ -441,6 +462,7 @@ Template.make_project_edit_page.events({
                                 upload_preset: "limitsize"
                             }, (error, result) => {
                                 if (error) {
+                                    console.log('asdf');
                                     throwError(error.reason);
                                 }
 
@@ -467,7 +489,7 @@ Template.make_project_edit_page.events({
 
                             steps.push({
                                 text: stepText,
-                                imageLinks: ["keep"] // hack to tell the server method to keep previous imageLinks
+                                imageLinks: [" "]
                             });
 
                             stepUploadedIdx++;
@@ -548,6 +570,7 @@ Template.make_project_edit_page.events({
                                     upload_preset: "limitsize"
                                 }, function (error, result) {
                                     if (error) {
+                                        console.log('asdf');
                                         throwError(error.reason);
                                     }
 
@@ -557,6 +580,15 @@ Template.make_project_edit_page.events({
 
                                     if (fileIndex >= files.length) {
 
+                                        console.log(reactiveSteps);
+                                        console.log(steps);
+                                        for (let i = 0; i < steps.length; i++) {
+                                            if (!reactiveSteps[i].imageLinks) {
+                                                steps[i].imageLinks = ["keep"];  // hack to tell the server method to keep previous imageLinks
+                                            }
+                                        }
+                                        console.log(steps);
+
                                         edit.call({
                                             makeProjectId: currentMakeProjectId,
                                             makeProjectName: makeProjectName,
@@ -565,6 +597,7 @@ Template.make_project_edit_page.events({
                                             coverImageLink: coverImageLinks[0],  //NOTE: only using one photo per makeProject, for now
                                         }, (err, res) => {
                                             if (err) {
+                                                console.log('asdf');
                                                 throwError(err.reason);
                                                 Session.set('isMakeProjectUploading', false);
                                             }
@@ -578,15 +611,27 @@ Template.make_project_edit_page.events({
                                 });
                             }
                             else {
+
+                                console.log(reactiveSteps);
+                                console.log(steps);
+                                for (let i = 0; i < steps.length; i++) {
+                                    if (!reactiveSteps[i].imageLinks) {
+                                        steps[i].imageLinks = ["keep"];  // hack to tell the server method to keep previous imageLinks
+                                    }
+                                }
+                                console.log(steps);
+
                                 //no images
                                 edit.call({
                                     makeProjectId: currentMakeProjectId,
                                     makeProjectName: makeProjectName,
                                     ingredients: ingredients,
                                     steps: steps,
-                                    coverImageLink: " "
+                                    coverImageLink: "keep"
                                 }, (err, res) => {
                                     if (err) {
+                                        console.log('asdf');
+                                        console.log(err);
                                         throwError(err.reason);
                                     }
                                     else {

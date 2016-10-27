@@ -11,14 +11,23 @@
                 <div class="row">
                     <div class="column small-12 medium-10 large-8 small-centered medium-centered large-uncentered">
                         <form enctype="multipart/form-data" class="js-edit-makeProject-form">
-                            <label><strong>Project name</strong></label> <span>*note that changing the project's name may cause problems with old links</span>
+                            <label>
+                                <strong>
+                                    Project name
+                                </strong>
+                                <span>(note that changing the project's name may cause problems with old links)</span>
+                            </label>
                             <input name="makeProjectName"
                                    type="text"
                                    required
                                    value="{{project.makeProjectName}}"
                                    placeholder="Project name"/>
 
-                            <label><strong>Ingredients (comma-separated)</strong></label>
+                            <label>
+                                <strong>
+                                    Ingredients (comma-separated)
+                                </strong>
+                            </label>
                             <textarea name="ingredients"
                                   type="text"
                                   required
@@ -31,7 +40,10 @@
                             {{else}}
                                 <p>You should add at least one step to explain how to make your project.</p>
                             {{/each}}
-                            <p class="js-add-step">ADD ANOTHER STEP BUTTON</p>
+
+                            <p class="js-add-step button primary hollow">
+                                <i class="fi-plus"></i>
+                            </p>
 
                             <hr>
 
@@ -71,24 +83,33 @@
                                 </span>
                             {{/if}}
 
-                            <strong>
-                                <input type="submit"
-                                       value="Edit your project"
-                                       class="button primary"/>
-
-                                <span class="float-right padded-small button alert js-makeProject-delete">
-                                    <i class="fi-x"></i>
-                                </span>
-                            </strong>
-                        </form>
-
-                        <p>
                             {{#unless isMakeProjectUploading}}
-                                NOT uploading
+                                <strong>
+                                    <input type="submit"
+                                           value="Edit your project"
+                                           class="button primary"/>
+
+                                    <span class="float-right padded-small button alert js-makeProject-delete">
+                                        <i class="fi-x"></i>
+                                    </span>
+                                </strong>
                             {{else}}
-                                UPLOADING  (TODO: spinny icon here)
+                                <strong>
+                                    <input type="submit"
+                                           value="Uploading..."
+                                           class="button primary"
+                                           disabled />
+
+                                    <span class="float-right padded-small button alert">
+                                        <i class="fi-x"></i>
+                                    </span>
+                                </strong>
+
+                                <p class="text-centered">
+                                    {{{loadingIcon}}}
+                                </p>
                             {{/unless}}
-                        </p>
+                        </form>
                     </div>
                 </div>
             {{else}}
@@ -110,7 +131,7 @@
 
 <template name="make_project_edit_step_input">
 
-    <span class="single-step push-down">
+    <span class="single-step clearfix push-down">
         <label>
             <strong>
                 Step {{increment this.index}}
@@ -124,9 +145,11 @@
 
         <div>
             {{#each link in this.step.imageLinks}}
-                <a class="thumbnail" data-lightbox="photosEditStep" href="{{c.url link secure=true}}">
-                    <img src="{{c.url link secure=true}}">
-                </a>
+                {{#if trim link}}
+                    <a class="thumbnail" data-lightbox="photosEditStep" href="{{c.url link secure=true}}">
+                        <img src="{{c.url link secure=true}}">
+                    </a>
+                {{/if}}
             {{else}}
                 <!-- No photos for this step -->
             {{/each}}
@@ -140,7 +163,9 @@
         </label>
 
         {{#if greaterThan this.numSteps 1}}
-            <p class="js-remove-step">REMOVE STEP BUTTON</p>
+            <p class="js-remove-step button alert hollow float-right">
+                <i class="fi-x"></i>
+            </p>
         {{/if}}
     </span>
 </template>

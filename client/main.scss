@@ -162,6 +162,21 @@
 .bordered-light {
   border: 2px solid $light-gray;
 }
+.border-top {
+  border-top: 2px solid;
+}
+.border-right {
+  border-right: 2px solid;
+}
+.border-bottom {
+  border-bottom: 2px solid;
+}
+.border-left {
+  border-left: 2px solid;
+}
+.border-gray {
+  border-color: $dark-gray;
+}
 .no-margin {
   margin: 0;
 }
@@ -769,6 +784,10 @@ figcaption {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     z-index: 2;
+
+    li.highlighted a {
+      color: $dark-gray;
+    }
   }
   .content {
     top: 0;
