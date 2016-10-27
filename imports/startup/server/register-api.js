@@ -8,6 +8,8 @@ import '../../api/comments/methods.js';
 import '../../api/comments/server/publications.js';
 import '../../api/exchange-items/methods.js';
 import '../../api/exchange-items/server/publications.js';
+import '../../api/make-projects/methods.js';
+import '../../api/make-projects/server/publications.js';
 import '../../api/notifications/methods.js';
 import '../../api/notifications/server/publications.js';
 import '../../api/recent-activity/server/publications.js';

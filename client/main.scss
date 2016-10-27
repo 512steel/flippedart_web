@@ -138,6 +138,18 @@
 .padded-xxlarge {
   padding: 4rem
 }
+.padded-top {
+  padding-top: .5rem;
+}
+.padded-top-large {
+  padding-top: 1rem;
+}
+.padded-bottom {
+  padding-bottom: .5rem;
+}
+.padded-bottom-large {
+  padding-bottom: 1rem;
+}
 .left-padded {
   padding-left: 1rem;
 }
@@ -149,6 +161,21 @@
 }
 .bordered-light {
   border: 2px solid $light-gray;
+}
+.border-top {
+  border-top: 2px solid;
+}
+.border-right {
+  border-right: 2px solid;
+}
+.border-bottom {
+  border-bottom: 2px solid;
+}
+.border-left {
+  border-left: 2px solid;
+}
+.border-gray {
+  border-color: $dark-gray;
 }
 .no-margin {
   margin: 0;
@@ -440,7 +467,10 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 }
 
 .left-border-light {
-  border-left: solid .25rem $light-gray;
+  border-left: solid .2rem $light-gray;
+}
+.right-border-light {
+  border-right: solid .2rem $light-gray;
 }
 
 .pop-out-text {
@@ -735,6 +765,66 @@ figcaption {
 }
 
 
+.documentation-page {
+  position: relative;
+
+  .left-sidebar {
+    /*position: fixed;*/
+    top: 0;  /* NOTE: this will be corrected via JS */
+    right: auto;
+    bottom: 0;
+    left: 0;
+    float: left;
+    padding: 1rem;
+    width: 240px;  /* todo: de-magic this number */
+    height: auto;  /* NOTE: this will be set to the height of .content via JS */
+    min-height: 350px;
+    background: #f8f8f8;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: 2;
+
+    li.highlighted a {
+      color: $dark-gray;
+    }
+  }
+  .content {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    margin-left: 260px;
+    z-index: 2;
+  }
+}
+
+ul.unstyled-list {
+  list-style-type: none;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.ingredients-list {
+  .ingredient-item {
+    margin: .5rem .15rem;
+    padding: .25rem .35rem;
+    background: $dark-gray;
+    color: $white;
+    display: inline-block;
+    font-weight: bold;
+
+    transition: background-color ease 200ms;
+  }
+  .ingredient-item:hover {
+    background-color: $darker-gray-2;
+
+    transition: background-color ease 200ms;
+  }
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -859,6 +949,27 @@ figcaption {
     display: block;
     a {
       color: white;
+    }
+  }
+
+  .small-no-border {
+    border: none;
+  }
+
+  .documentation-page {
+    .left-sidebar {
+      width: 100%;
+      height: 15rem !important;
+      min-height: 0;
+      top: 0 !important;
+      margin-bottom: 2rem;
+      border-left: 1px solid $medium-gray;
+      border-right: 1px solid $medium-gray;
+      border-top: 1px solid $medium-gray;
+      border-bottom: 3px solid $dark-gray;
+    }
+    .content {
+      margin-left: 0;
     }
   }
 }

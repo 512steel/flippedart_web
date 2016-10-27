@@ -1,0 +1,171 @@
+<template name="make_project_edit_page">
+    <div class="row push-down-xxxxlarge">
+        <div class="column small-12 medium-12 large-10 large-centered">
+            {{#if canEditProject}}
+                <div class="row">
+                    <div class="column small-12 medium-10 large-10 small-centered medium-centered large-centered">
+                        <h1 class="text-centered push-down-xlarge pull-down">Edit your instructions</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column small-12 medium-10 large-8 small-centered medium-centered large-uncentered">
+                        <form enctype="multipart/form-data" class="js-edit-makeProject-form">
+                            <label>
+                                <strong>
+                                    Project name
+                                </strong>
+                                <span>(note that changing the project's name may cause problems with old links)</span>
+                            </label>
+                            <input name="makeProjectName"
+                                   type="text"
+                                   required
+                                   value="{{project.makeProjectName}}"
+                                   placeholder="Project name"/>
+
+                            <label>
+                                <strong>
+                                    Ingredients (comma-separated)
+                                </strong>
+                            </label>
+                            <textarea name="ingredients"
+                                  type="text"
+                                  required
+                                  placeholder="List this project's required materials (comma-separated)"
+                                  rows="3">{{project.ingredients}}</textarea>
+
+                            {{#each step in steps}}
+                                {{> make_project_edit_step_input index=@index numSteps=numSteps step=step}}
+                                <br>
+                            {{else}}
+                                <p>You should add at least one step to explain how to make your project.</p>
+                            {{/each}}
+
+                            <p class="js-add-step button primary hollow">
+                                <i class="fi-plus"></i>
+                            </p>
+
+                            <hr>
+
+                            {{#if project.coverImageLink}}
+                                <div>
+                                    <a class="thumbnail"
+                                       data-lightbox="photosEditCoverImage"
+                                       href="{{c.url project.coverImageLink secure=true}}">
+                                        <img src="{{c.url project.coverImageLink secure=true}}">
+                                    </a>
+                                </div>
+
+                                <span id="coverPhotoUploadWrap">
+                                    <input id="coverPhotoUpload"
+                                           class="show-for-sr coverPhotoUpload"
+                                           type="file" accept="image/*"
+                                           data-multiple-caption="{count} files selected" />
+                                    <label for="coverPhotoUpload"
+                                           class="button secondary hollow expanded">
+                                        <span>
+                                            Change your project's cover photo
+                                        </span>
+                                    </label>
+                                </span>
+                            {{else}}
+                                <span id="coverPhotoUploadWrap">
+                                    <input id="coverPhotoUpload"
+                                           class="show-for-sr coverPhotoUpload"
+                                           type="file" accept="image/*"
+                                           data-multiple-caption="{count} files selected" />
+                                    <label for="coverPhotoUpload"
+                                           class="button secondary hollow expanded">
+                                        <span>
+                                            Add a cover photo for your project
+                                        </span>
+                                    </label>
+                                </span>
+                            {{/if}}
+
+                            {{#unless isMakeProjectUploading}}
+                                <strong>
+                                    <input type="submit"
+                                           value="Edit your project"
+                                           class="button primary"/>
+
+                                    <span class="float-right padded-small button alert js-makeProject-delete">
+                                        <i class="fi-x"></i>
+                                    </span>
+                                </strong>
+                            {{else}}
+                                <strong>
+                                    <input type="submit"
+                                           value="Uploading..."
+                                           class="button primary"
+                                           disabled />
+
+                                    <span class="float-right padded-small button alert">
+                                        <i class="fi-x"></i>
+                                    </span>
+                                </strong>
+
+                                <p class="text-centered">
+                                    {{{loadingIcon}}}
+                                </p>
+                            {{/unless}}
+                        </form>
+                    </div>
+                </div>
+            {{else}}
+                <p>
+                    <strong>
+                        Whoops! You can't edit this project.
+                    </strong>
+                </p>
+                <p class="padded text-centered button hollow">
+                    <a href="{{pathFor 'makeProjects.page'}}">Go back</a>
+                </p>
+            {{/if}}
+        </div>
+    </div>
+
+
+</template>
+
+
+<template name="make_project_edit_step_input">
+
+    <span class="single-step clearfix push-down">
+        <label>
+            <strong>
+                Step {{increment this.index}}
+            </strong>
+        </label>
+
+        <textarea class="step-text"
+                  type="text"
+                  required
+                  rows="4">{{this.step.text}}</textarea>
+
+        <div>
+            {{#each link in this.step.imageLinks}}
+                {{#if trim link}}
+                    <a class="thumbnail" data-lightbox="photosEditStep" href="{{c.url link secure=true}}">
+                        <img src="{{c.url link secure=true}}">
+                    </a>
+                {{/if}}
+            {{else}}
+                <!-- No photos for this step -->
+            {{/each}}
+        </div>
+
+        <input id="stepFileUpload{{this.index}}" class="show-for-sr stepFileUpload" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />
+        <label for="stepFileUpload{{this.index}}" class="button secondary hollow expanded">
+            <span>
+                Change the photos for this step (up to {{makeProjectStepImagesLimit}})
+            </span>
+        </label>
+
+        {{#if greaterThan this.numSteps 1}}
+            <p class="js-remove-step button alert hollow float-right">
+                <i class="fi-x"></i>
+            </p>
+        {{/if}}
+    </span>
+</template>

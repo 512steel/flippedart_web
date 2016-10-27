@@ -1,0 +1,45 @@
+<template name="make_projects_page">
+    <div class="row pull-down-large push-down">
+        <div class="column small-12 medium-12 large-10 medium-centered large-centered">
+
+            <div class="documentation-page row column">
+                <div class="left-sidebar padded-large">
+                    <h4>Projects</h4>
+                    {{> make_project_names_list}}
+                </div>
+
+                <div class="content">
+                    {{#if currentUser}}
+                        <a href="{{pathFor 'makeProjects.add'}}">
+                            <span class="button primary shift-down-xsmall push-right-small float-right add-event-button-large">
+                                <i class="fi-plus"></i>
+                            </span>
+                        </a>
+                    {{/if}}
+
+                    <h1>Make stuff</h1>
+
+                    <div>
+                        {{>make_project_card }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-down-xlarge row">
+                <div class="column small-12 medium-8 medium-centered">
+                    <p>
+                        This page will feature a running list of creative projects and their recipes.
+                        If there's a method to your madness,
+                        {{#if currentUser}}
+                            <a href="{{pathFor 'makeProjects.add'}}"><strong>add it here</strong></a>
+                        {{else}}
+                            <a href="{{pathFor 'join'}}"><strong>sign up</strong></a>
+                            and add it here
+                        {{/if}}
+                        for the rest of the community to see.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

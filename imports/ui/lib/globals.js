@@ -14,7 +14,7 @@
         3 points for every exchangeItem added
         4 points for every exchangeItem given away
 */
-export const POINTS_SYSTEM = {
+export const POINTS_SYSTEM = {  //TODO: refactor to "userPost", "userProject", etc.
     'UserPosts': {
         'upvote': 2,
         'comment': 1,
@@ -25,17 +25,21 @@ export const POINTS_SYSTEM = {
         'exchangeItemAdd': 3,
         'exchangeItemGive': 4,
         'calendarEventAdd': 2,
+        'makeProjectAdd': 2,
     },
     'ExchangeItems': {
         'requested': 1,
         'completed': 2,
     },
+
 };
 
 
 export const UPLOAD_LIMITS = {
     'projects': 5,
     'images': 6,
+    'makeProjectSteps': 50,
+    'makeProjectStepImages': 2,
 };
 
 

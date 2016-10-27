@@ -1,0 +1,104 @@
+<template name="make_project_card">
+    <div class="make-project-card-wrap">
+        {{#if project}}
+            <p>
+                <strong>
+                    {{project.makeProjectName}}
+                </strong>
+                <br>
+                Added by
+                <a href="{{pathFor 'profile.page' username=project.author}}">
+                    <strong>{{project.author}}</strong>
+                </a>
+            </p>
+
+            {{#if trim project.coverImageLink}}
+                <p>
+                    <img src="{{c.url project.coverImageLink secure=true}}">
+                </p>
+            {{else}}
+            {{/if}}
+
+            <p>
+                <strong>
+                    Ingredients:
+                    <br>
+                </strong>
+                <span class="ingredients-list">
+                    {{#each ingredientsArray}}
+                        <span class="ingredient-item">
+                            {{this}}
+                        </span>
+                    {{else}}
+                        There are no materials listed for this project.
+                    {{/each}}
+                </span>
+            </p>
+
+            {{#each step in project.steps}}
+                <p>
+                    <strong>
+                        Step {{increment @index}}
+                    </strong>
+                    <br>
+                    {{step.text}}
+                    <br>
+                    {{#each link in step.imageLinks}}
+                        {{#if trim link}}
+                            <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->
+                            <a class="thumbnail" data-lightbox="photosStep" href="{{c.url link secure=true}}">
+                                <img src="{{c.url link secure=true}}">
+                            </a>
+                        {{/if}}
+                    {{else}}
+                        <!-- No photos for this step -->
+                    {{/each}}
+                </p>
+            {{else}}
+                <p>
+                    There are no steps listed for this project.
+                </p>
+            {{/each}}
+
+            <div class="pull-down">
+                <span class="float-right push-right-small">
+                    {{#if or isProjectOwner isUserAdmin}}
+                        <a class="button primary hollow no-border" href="{{pathFor 'makeProjects.edit' makeProjectName=currentProjectName}}">
+                            <i class="fi-pencil"></i>
+                        </a>
+                    {{/if}}
+                    <a class="button primary hollow no-border" href="{{pathFor 'makeProjects.singleProject' makeProjectName=currentProjectName}}">
+                        <i class="fi-link"></i>
+                    </a>
+
+                    <a class="button primary hollow no-border share-makeProject-facebook" data-no-instant>
+                        <i class="fi-share"></i>
+                    </a>
+                </span>
+            </div>
+
+            {{#if isUserAdmin}}
+                <div class="button primary js-admin-approve-button">
+                    {{#if projectApproved}}
+                        Disapprove
+                    {{else}}
+                        Approve
+                    {{/if}}
+                    this project
+                </div>
+            {{/if}}
+
+            <!--<hr>-->
+
+            <!-- TODO: comment feed here -->
+        {{else}}
+            <p class="column small-12 medium-10 medium-centered text-centered pull-down-large">
+                Looks like there are no projects by the name <strong>{{currentProjectName}}</strong>.
+                Should there be?
+                <a href="{{pathFor 'makeProjects.add'}}"><strong>Add your own</strong></a> or
+                <a href="{{pathFor 'static.feedback'}}"><strong>let us know</strong></a> if something
+                looks wrong.
+            </p>
+        {{/if}}
+    </div>
+</template>

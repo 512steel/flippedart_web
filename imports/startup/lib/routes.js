@@ -13,7 +13,6 @@ import '../../ui/components/signup-call-to-action.js';
 // Static page imports
 import '../../ui/pages/home-page.js';
 import '../../ui/pages/about-page.js';
-import '../../ui/pages/make-page.js';
 import '../../ui/pages/donate-page.js';
 import '../../ui/pages/policies-page.js';
 import '../../ui/pages/feedback-page.js';
@@ -33,6 +32,7 @@ import '../../ui/components/user-profile/profile-page-components.js';
 import '../../ui/components/chat/chat-window-components.js';
 import '../../ui/components/admin/admin-components.js';
 import '../../ui/components/eventCalendar/event-calendar-components.js';
+import '../../ui/components/makeProjects/make-projects-components.js';
 
 
 // Import to override accounts templates
@@ -99,12 +99,6 @@ FlowRouter.route('/about', {
     name: 'static.about',
     action() {
         BlazeLayout.render('App_body', { main: 'about_page' });
-    },
-});
-FlowRouter.route('/make', {
-    name: 'static.make',
-    action() {
-        BlazeLayout.render('App_body', { main: 'make_page' });
     },
 });
 FlowRouter.route('/feedback', {
@@ -267,6 +261,37 @@ FlowRouter.route('/calendar/:MMDDYY/:eventName/:nameSlug/edit', {
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_single_event_edit' });
     }
+});
+
+FlowRouter.route('/make', {
+    name: 'makeProjects.page',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_page' });
+    },
+});
+FlowRouter.route('/make/add', {
+    name: 'makeProjects.add',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_project_submit_page' });
+    },
+});
+FlowRouter.route('/make/add/thanks/:wasEdited?', {
+    name: 'makeProjects.add.thanks',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_project_submit_thanks_page' });
+    },
+});
+FlowRouter.route('/make/:makeProjectName', {
+    name: 'makeProjects.singleProject',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_projects_page' });
+    },
+});
+FlowRouter.route('/make/:makeProjectName/edit', {
+    name: 'makeProjects.edit',
+    action() {
+        BlazeLayout.render('App_body', { main: 'make_project_edit_page' });
+    },
 });
 
 

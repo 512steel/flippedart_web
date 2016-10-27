@@ -1,0 +1,18 @@
+<template name="make_project_submit_thanks_page">
+
+    <div class="static-page-wrap push-down-xxxxlarge pull-down-xxlarge text-centered">
+        <h1>Success!</h1>
+        <p>
+            {{#if edited}}
+                You've successfully edited your project.  We'll notify you via email when
+                your changes have been approved.
+            {{else}}
+                We will notify you via email when your project is approved.
+            {{/if}}
+
+            In the meantime,
+            <a href="{{pathFor 'makeProjects.page'}}"><strong>check out</strong></a> the
+            other projects people have submitted.
+        </p>
+    </div>
+</template>

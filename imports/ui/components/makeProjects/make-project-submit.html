@@ -1,0 +1,130 @@
+<template name="make_project_submit_page">
+    <div class="row push-down-xxxxlarge">
+        <div class="column small-12 medium-12 large-10 large-centered">
+            {{#if currentUser}}
+                <div class="row">
+                    <div class="column small-12 medium-10 large-10 small-centered medium-centered large-centered">
+                        <h1 class="text-centered push-down-xlarge pull-down">Tell us how to make your project</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column small-12 medium-10 large-8 small-centered medium-centered large-uncentered">
+                        <form enctype="multipart/form-data" class="js-submit-makeProject-form">
+                            <label>
+                                <strong>
+                                    Project name
+                                </strong>
+                            </label>
+                            <input name="makeProjectName"
+                                   type="text"
+                                   required
+                                   placeholder="Project name" />
+
+                            <label>
+                                <strong>
+                                    Ingredients (comma-separated)
+                                </strong>
+                            </label>
+                            <textarea name="ingredients"
+                                      type="text"
+                                      placeholder="List this project's required materials (comma-separated)"
+                                      required
+                                      rows="3"></textarea>
+
+                            {{#each steps}}
+                                {{> make_project_submit_step_input index=@index numSteps=numSteps}}
+                                <br>
+                            {{else}}
+                                <p>You should add at least one step to explain how to make your project.</p>
+                            {{/each}}
+
+                            <p class="js-add-step button primary hollow">
+                                <i class="fi-plus"></i>
+                            </p>
+
+                            <hr>
+
+                            <p>Upload cover photo button here...</p>
+                            <span id="coverPhotoUploadWrap">
+                                <input id="coverPhotoUpload"
+                                       class="show-for-sr coverPhotoUpload"
+                                       type="file"
+                                       accept="image/*"
+                                       data-multiple-caption="{count} files selected" />
+                                <label for="coverPhotoUpload"
+                                       class="button secondary hollow expanded">
+                                    <span>
+                                        Upload a cover photo for your project
+                                    </span>
+                                </label>
+                            </span>
+
+                            {{#unless isMakeProjectUploading}}
+                                <strong>
+                                    <input type="submit"
+                                               value="Submit your project"
+                                               class="button primary"/>
+                                </strong>
+                            {{else}}
+                                <strong>
+                                    <input type="submit"
+                                           value="Uploading..."
+                                           class="button primary"
+                                           disabled />
+                                </strong>
+
+                                <p class="text-centered">
+                                    {{{loadingIcon}}}
+                                </p>
+                            {{/unless}}
+                        </form>
+                    </div>
+                </div>
+            {{else}}
+                {{> signup_call_to_action}}
+            {{/if}}
+        </div>
+    </div>
+
+
+</template>
+
+
+<template name="make_project_submit_step_input">
+
+    <span class="single-step clearfix push-down">
+        <label>
+            <strong>
+                Step {{increment this.index}}
+            </strong>
+        </label>
+
+        <textarea class="step-text"
+                  type="text"
+                  required
+                  rows="4"></textarea>
+
+        <p>
+            Upload up to {{makeProjectStepImagesLimit}} photos for this step BUTTON
+        </p>
+
+        <input id="stepFileUpload{{this.index}}"
+               class="show-for-sr stepFileUpload"
+               type="file" accept="image/*"
+               multiple data-multiple-caption="{count} files selected" />
+
+        <label for="stepFileUpload{{this.index}}"
+               class="button secondary hollow expanded">
+            <span>
+                Upload photos for this step (up to {{makeProjectStepImagesLimit}})
+            </span>
+        </label>
+
+        {{#if greaterThan this.numSteps 1}}
+            <p class="js-remove-step button alert hollow float-right">
+                <i class="fi-x"></i>
+            </p>
+        {{/if}}
+    </span>
+</template>
