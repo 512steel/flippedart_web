@@ -155,9 +155,7 @@ Template.make_project_edit_page.onCreated(function() {
                     imageLinks: currentProject.steps[i].imageLinks,
                 });
             }
-            console.log('re-calling onCreate prepop stuff');
             this.steps.set(existingSteps);
-            console.log(this.steps.get());
             hasPrePopulated = true;
         }
     });
@@ -322,11 +320,9 @@ Template.make_project_edit_page.helpers({
         return Template.instance().getCurrentMakeProject();
     },
     steps: () => {
-        console.log(Template.instance().steps.get());
         return Template.instance().steps.get();
     },
     numSteps: () => {
-        console.log(Template.instance().steps.get().length);
         return Template.instance().steps.get().length;
     },
     isMakeProjectUploading: () => {
@@ -412,13 +408,12 @@ Template.make_project_edit_page.events({
                 let stepUploadedIdx = 0;  //NOTE: relying on the top each() funciton's "idx" parameter caused a lot of unclear bugs due to Cloudinary's async upload
                 let numSteps = $target.find('.single-step').length;
 
+                let stepOrder = [];  //NOTE: this will be pushed to in the uploadCoverPhotoAndInsert() method so we know which order the steps finished uploading, and can then re-order them.
+                let indexedSteps = [];
+
                 $target.find('.single-step').each(function(idx) {
                     let stepText = $(this).find('.step-text').first().val();
                     let imageLinks = [];
-
-                    console.log('single-step: ', idx);
-                    console.log(stepText);
-                    console.log(imageLinks);
 
                     $(this).find("input[type='file']").each(function(idx2) {
                         let files = this.files;
@@ -439,7 +434,7 @@ Template.make_project_edit_page.events({
                         else if (files.length > 0) {
                             //user is uploading an image
                             Session.set('isMakeProjectUploading', true);
-                            console.log('about to Cloudinary.upload()');
+
                             let fileIndex = 0;
                             Cloudinary.upload(files, {
                                 folder: "flippedart",
@@ -452,21 +447,17 @@ Template.make_project_edit_page.events({
                                 imageLinks.push(result.public_id);
 
                                 fileIndex++;  //hack to only insert the post after all photos are uploaded
-                                console.log('in push step\'s imageLinks: ', imageLinks, fileIndex, files.length);
 
                                 if (fileIndex >= files.length) {
                                     //Session.set('isMakeProjectUploading', false);
 
-                                    console.log('pushing step: ', stepText);
-                                    console.log('fileIndex: ', fileIndex);
-                                    console.log('files.length: ', files.length);
                                     steps.push({
                                         text: stepText,
                                         imageLinks: imageLinks
                                     });
 
                                     stepUploadedIdx++;
-                                    uploadCoverPhotoAndInsert(stepUploadedIdx);
+                                    uploadCoverPhotoAndInsert(stepUploadedIdx, idx);
                                 }
                             });
                         }
@@ -474,21 +465,16 @@ Template.make_project_edit_page.events({
                             //no images
                             //Session.set('isMakeProjectUploading', false);
 
-                            console.log('pushing step: ', stepText);
-                            console.log('files.length: ', files.length);
                             steps.push({
                                 text: stepText,
                                 imageLinks: imageLinks
                             });
 
                             stepUploadedIdx++;
-                            uploadCoverPhotoAndInsert(stepUploadedIdx);
+                            uploadCoverPhotoAndInsert(stepUploadedIdx, idx);
                         }
-
-                        console.log('end of imageLinks each() loop');
                     });
 
-                    console.log('end of step each() loop');
                     //uploadCoverPhotoAndInsert(stepUploadedIdx);
                 });
 
@@ -498,7 +484,7 @@ Template.make_project_edit_page.events({
                     break stepUpload;
                 }
 
-                function uploadCoverPhotoAndInsert(stepIdx=-1) {
+                function uploadCoverPhotoAndInsert(stepUploadedIdx=-1, stepIdx) {
                     /*
                      NOTE: rather than using some obscure JS to bind this function to a
                      variable iterator's value change, keep track of the steps as we go
@@ -509,13 +495,34 @@ Template.make_project_edit_page.events({
                      steps' photos to finish uploading before inserting() the makeProject
                      into the DB (since the Cloudinary API is async).  This forces a
                      synchronous insertion.
+
+                     stepUploadedIdx refers to the order in which the steps' photos finished
+                     uploading, while stepIdx refers to the order of the steps on the page.
                     */
 
-                    console.log('stepIdx: ', stepIdx);
-                    console.log('numSteps: ', numSteps);
+                    stepOrder.push(stepIdx);
 
-                    if (stepIdx >= numSteps) {
-                        console.log('stepIdx SUCCESS: ', stepIdx);
+                    let tempObj = {};
+                    tempObj[stepIdx] = steps[steps.length-1];
+                    indexedSteps.push(tempObj);
+
+                    if (stepUploadedIdx >= numSteps) {
+
+                        // re-order steps (which could have been mixed up due to uploads
+                        // completing at different times) back to their original order,
+                        // using the stepOrder array that kept track of which order the
+                        // uploads completed.
+                        indexedSteps.sort((a,b) => {
+                            if (Object.keys(a)[0] < Object.keys(b)[0])
+                                return -1;
+                            if (Object.keys(a)[0] > Object.keys(b)[0])
+                                return 1;
+                            return 0;
+                        });
+                        for (let i in steps) {
+                            //pull the values one level out (or, good gracious that took a long time to debug...)
+                            steps[i] = Object.values(Object.values(indexedSteps[i]))[0];
+                        }
 
                         //upload cover photo here.
                         let coverImageLinks = [];
@@ -652,7 +659,6 @@ Template.make_project_edit_page.events({
         e.preventDefault();
 
         let steps = Template.instance().steps.get();
-        console.log(steps);
         if (steps.length < UPLOAD_LIMITS.makeProjectSteps) {
             /*
                 NOTE: on the edit page, the "steps" ReactiveVar is pre-populated
@@ -665,7 +671,6 @@ Template.make_project_edit_page.events({
             steps.push(steps[steps.length-1] + 1);  //increment the next step number.
         }
         Template.instance().steps.set(steps);
-        console.log(Template.instance().steps.get());
 
         //TODO: auto-focus the next step's textarea
     },
@@ -907,13 +912,7 @@ Template.make_project_edit_step_input.events({
         let stepIndex = Template.instance().data.index;
         let parentSteps = Template.instance().parent().steps;
 
-        console.log(stepIndex);
-        console.log(parentSteps);
-
         parentSteps.get().splice(stepIndex, 1);
-
-        console.log(parentSteps);
-        console.log(parentSteps.get());
 
         parentSteps.set(parentSteps.get());
     }

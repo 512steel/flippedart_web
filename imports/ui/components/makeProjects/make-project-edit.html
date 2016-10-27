@@ -35,18 +35,41 @@
 
                             <hr>
 
-                            <span id="coverPhotoUploadWrap">
-                                <input id="coverPhotoUpload"
-                                       class="show-for-sr coverPhotoUpload"
-                                       type="file" accept="image/*"
-                                       data-multiple-caption="{count} files selected" />
-                                <label for="coverPhotoUpload"
-                                       class="button secondary hollow expanded">
-                                <span>
-                                    Change your project's cover photo
+                            {{#if project.coverImageLink}}
+                                <div>
+                                    <a class="thumbnail"
+                                       data-lightbox="photosEditCoverImage"
+                                       href="{{c.url project.coverImageLink secure=true}}">
+                                        <img src="{{c.url project.coverImageLink secure=true}}">
+                                    </a>
+                                </div>
+
+                                <span id="coverPhotoUploadWrap">
+                                    <input id="coverPhotoUpload"
+                                           class="show-for-sr coverPhotoUpload"
+                                           type="file" accept="image/*"
+                                           data-multiple-caption="{count} files selected" />
+                                    <label for="coverPhotoUpload"
+                                           class="button secondary hollow expanded">
+                                        <span>
+                                            Change your project's cover photo
+                                        </span>
+                                    </label>
                                 </span>
-                                </label>
-                            </span>
+                            {{else}}
+                                <span id="coverPhotoUploadWrap">
+                                    <input id="coverPhotoUpload"
+                                           class="show-for-sr coverPhotoUpload"
+                                           type="file" accept="image/*"
+                                           data-multiple-caption="{count} files selected" />
+                                    <label for="coverPhotoUpload"
+                                           class="button secondary hollow expanded">
+                                        <span>
+                                            Add a cover photo for your project
+                                        </span>
+                                    </label>
+                                </span>
+                            {{/if}}
 
                             <strong>
                                 <input type="submit"

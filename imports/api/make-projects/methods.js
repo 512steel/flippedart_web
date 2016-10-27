@@ -150,8 +150,6 @@ export const edit = new ValidatedMethod({
         let user = Meteor.users.findOne(this.userId);
         if (user) {
 
-            console.log(steps);
-
             //sanitize inserted values
             makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
@@ -163,10 +161,6 @@ export const edit = new ValidatedMethod({
                 });
             });
             coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
-
-            console.log(steps);
-            console.log(coverImageLink);
-
 
             // validate against all forbidden names (including all existing makeProject names, as well as "add")
             let allMakeProjectNames = MakeProjects.find({}, {
