@@ -474,8 +474,6 @@ Template.make_project_edit_page.events({
                             uploadCoverPhotoAndInsert(stepUploadedIdx, idx);
                         }
                     });
-
-                    //uploadCoverPhotoAndInsert(stepUploadedIdx);
                 });
 
                 if (stopUpload) {
@@ -706,9 +704,13 @@ Template.make_project_submit_page.events({
                 let stepUploadedIdx = 0;  //NOTE: relying on the top each() funciton's "idx" parameter caused a lot of unclear bugs due to Cloudinary's async upload
                 let numSteps = $target.find('.single-step').length;
 
+                let stepOrder = [];  //NOTE: this will be pushed to in the uploadCoverPhotoAndInsert() method so we know which order the steps finished uploading, and can then re-order them.
+                let indexedSteps = [];
+
                 $target.find('.single-step').each(function(idx) {
                     let stepText = $(this).find('.step-text').first().val();
                     let imageLinks = [];
+
                     $(this).find("input[type='file']").each(function(idx2) {
                         let files = this.files;
 
@@ -751,7 +753,7 @@ Template.make_project_submit_page.events({
                                     });
 
                                     stepUploadedIdx++;
-                                    uploadCoverPhotoAndInsert(stepUploadedIdx);
+                                    uploadCoverPhotoAndInsert(stepUploadedIdx, idx);
                                 }
                             });
                         }
@@ -765,7 +767,7 @@ Template.make_project_submit_page.events({
                             });
 
                             stepUploadedIdx++;
-                            uploadCoverPhotoAndInsert(stepUploadedIdx);
+                            uploadCoverPhotoAndInsert(stepUploadedIdx, idx);
                         }
                     });
                 });
@@ -776,7 +778,7 @@ Template.make_project_submit_page.events({
                     break stepUpload;
                 }
 
-                function uploadCoverPhotoAndInsert(stepIdx=-1) {
+                function uploadCoverPhotoAndInsert(stepUploadedIdx=-1, stepIdx) {
                     /*
                      NOTE: rather than using some obscure JS to bind this function to a
                      variable iterator's value change, keep track of the steps as we go
@@ -787,9 +789,34 @@ Template.make_project_submit_page.events({
                      steps' photos to finish uploading before inserting() the makeProject
                      into the DB (since the Cloudinary API is async).  This forces a
                      synchronous insertion.
-                     */
 
-                    if (stepIdx >= numSteps) {
+                     stepUploadedIdx refers to the order in which the steps' photos finished
+                     uploading, while stepIdx refers to the order of the steps on the page.
+                    */
+
+                    stepOrder.push(stepIdx);
+
+                    let tempObj = {};
+                    tempObj[stepIdx] = steps[steps.length-1];
+                    indexedSteps.push(tempObj);
+
+                    if (stepUploadedIdx >= numSteps) {
+
+                        // re-order steps (which could have been mixed up due to uploads
+                        // completing at different times) back to their original order,
+                        // using the stepOrder array that kept track of which order the
+                        // uploads completed.
+                        indexedSteps.sort((a,b) => {
+                            if (Object.keys(a)[0] < Object.keys(b)[0])
+                                return -1;
+                            if (Object.keys(a)[0] > Object.keys(b)[0])
+                                return 1;
+                            return 0;
+                        });
+                        for (let i in steps) {
+                            //pull the values one level out (or, good gracious that took a long time to debug...)
+                            steps[i] = Object.values(Object.values(indexedSteps[i]))[0];
+                        }
 
                         //upload cover photo here.
                         let coverImageLinks = [];
