@@ -467,7 +467,7 @@ Template.make_project_edit_page.events({
 
                             steps.push({
                                 text: stepText,
-                                imageLinks: imageLinks
+                                imageLinks: ["keep"] // hack to tell the server method to keep previous imageLinks
                             });
 
                             stepUploadedIdx++;

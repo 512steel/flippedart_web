@@ -154,12 +154,25 @@ export const edit = new ValidatedMethod({
             makeProjectId = sanitizeHtmlNoReturns(makeProjectId);
             makeProjectName = sanitizeHtmlNoReturns(makeProjectName);
             ingredients = sanitizeHtml(ingredients);
+
+            let makeProject = MakeProjects.findOne(makeProjectId);
+
             steps.forEach(function(step, idx) {
                 steps[idx].text = sanitizeHtml(steps[idx].text);
-                steps[idx].imageLinks.forEach(function(link, idx2) {
-                    steps[idx].imageLinks[idx2] = sanitizeHtmlNoReturns(steps[idx].imageLinks[idx2]);
-                });
+
+                let stepImages = steps[idx].imageLinks;
+                if (stepImages.length > 0 && stepImages[0] == "keep") {
+                    //if the client passed in "keep", then do nothing to the step's imageLinks.
+                    steps[idx].imageLinks = makeProject.steps[idx].imageLinks;
+                }
+                else {
+                    stepImages.forEach(function(link, idx2) {
+                        steps[idx].imageLinks[idx2] =
+                            sanitizeHtmlNoReturns(steps[idx].imageLinks[idx2]);
+                    });
+                }
             });
+
             coverImageLink = sanitizeHtmlNoReturns(coverImageLink);
 
             // validate against all forbidden names (including all existing makeProject names, as well as "add")
@@ -174,7 +187,7 @@ export const edit = new ValidatedMethod({
 
             //TODO: also disallow special characters like slashes.
 
-            let originalName = MakeProjects.findOne(makeProjectId).makeProjectName;
+            let originalName = makeProject.makeProjectName;
             if (makeProjectName != originalName && _.contains(allMakeProjectNames, makeProjectName)) {
                 throw new Meteor.Error('makeProject.insert.denied',
                     'Sorry, another project already exists with that name.');
