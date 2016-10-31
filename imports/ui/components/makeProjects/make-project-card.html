@@ -40,9 +40,15 @@
                     <strong>
                         Step {{increment @index}}
                     </strong>
+
                     <br>
-                    {{step.text}}
+
+                    <span class="text-large">
+                        {{{step.text}}}
+                    </span>
+
                     <br>
+
                     {{#each link in step.imageLinks}}
                         {{#if trim link}}
                             <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->

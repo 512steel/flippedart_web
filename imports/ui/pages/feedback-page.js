@@ -28,6 +28,10 @@ Template.feedback_page.onCreated(function() {
     DocHead.addMeta({name: "og:image:height", content: "630"});
 });
 
+Template.feedback_page.onRendered(function() {
+    autosize($('textarea'));
+});
+
 Template.feedback_page.events({
     'submit form.feedback-form': function(e) {
         e.preventDefault();
@@ -80,5 +84,8 @@ Template.feedback_page.events({
     'click .email-suggestion': function(e) {
         $('#feedback-reply-email-field').val($(e.target).parent().find('.suggestion')[0].innerHTML);
         $('.email-suggestion').remove();
-    }
+    },
+    'keyup textarea[type=text], keydown textarea[type=text], change textarea[type=text]'(event) {
+        autosize($('textarea'));
+    },
 });
