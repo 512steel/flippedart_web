@@ -49,7 +49,6 @@ CalendarEvents.schema = new SimpleSchema({
     eventDateFormatted: {
         type: Date,
         optional: true,
-        optional: true,
     },
     startTime: {
         type: String,
