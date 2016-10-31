@@ -129,13 +129,15 @@ export const insert = new ValidatedMethod({
                 var nameSlug = isNaN(currentSlug) ? 1 : Number(conflictingEvent[0].nameSlug) + 1;
             }
 
+            let eventDateFormatted = new Date(moment(eventDate, "MMDDYY"));
+
             const calendarEvent = {
                 authorId: this.userId,
                 authorName: authorName,
                 isAuthorAdmin: isAdmin,
                 eventName: eventName,
                 eventDate: eventDate,
-                //eventDateFormatted: eventDateFormatted,
+                eventDateFormatted: eventDateFormatted,
                 startTime: startTime,
                 endTime: endTime,
                 description: description,
@@ -299,11 +301,14 @@ export const edit = new ValidatedMethod({
         let newDate = eventDate.trim() ? eventDate : calendarEvent.eventDate;
         let newSlug = nameSlug ? nameSlug : calendarEvent.nameSlug;
 
+        let eventDateFormatted = new Date(moment(eventDate, "MMDDYY"));
+
         CalendarEvents.update(eventId,
             {
                 $set: {
                     eventName: newName,
                     eventDate: newDate,
+                    eventDateFormatted: eventDateFormatted,
                     startTime: startTime.trim() ? startTime : calendarEvent.startTime,
                     endTime: endTime.trim() ? endTime : calendarEvent.endTime,
                     description: description.trim() ? description : calendarEvent.description,

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { DocHead } from 'meteor/kadira:dochead';
 
+import { CalendarEvents } from '../../api/calendar-events/calendar-events.js';
 import { UserPosts } from '../../api/user-posts/user-posts.js';
 import { ExchangeItems } from '../../api/exchange-items/exchange-items.js';
 import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
@@ -14,10 +15,10 @@ import './home-page.html';
 
 Template.home_page.onCreated(function() { // Subscriptions go in here
     this.autorun(() => {
-        this.subscribe('userPosts.popular', 5);
+        this.subscribe('calendarEvents.upcoming', 5);
+        //this.subscribe('userPosts.popular', 5);
         this.subscribe('exchangeItems.popular', 6);
         this.subscribe('userAttributes.popular', 12);
-
         this.subscribe('recentActivity.feed');
     });
 
@@ -120,6 +121,9 @@ Template.home_page.helpers({
         if (Meteor.user()) {
             return Meteor.user().username;
         }
+    },
+    upcomingEvents: function() {
+        return CalendarEvents.find({});
     },
     topUserPosts: function() {
         return UserPosts.find({});

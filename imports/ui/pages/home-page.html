@@ -40,17 +40,13 @@
             <div class="padded-xxlarge bordered-light callout no-margin" data-equalizer-watch>
                 <div class="push-left">
                     <h4 class="push-down-small">
+                        <a href="{{pathFor 'static.tinyStudio'}}">The Tiny Studio</a>
+                    </h4>
+                    <h4 class="push-down-small">
+                        <a href="{{pathFor 'static.booking'}}">Book the Tiny Studio</a>
+                    </h4>
+                    <h4 class="push-down-small">
                         <a href="{{pathFor 'static.howto'}}">How to get started</a>
-                    </h4>
-                    <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.about'}}">About Flipped Art</a>
-                    </h4>
-                    <!-- TODO:
-                    <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.newsletter'}}">Get the newsletter</a>
-                    </h4>-->
-                    <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.support'}}">How you can help</a>
                     </h4>
                     <h4 class="push-down-small">
                         <a href="{{pathFor 'static.feedback'}}">Give us feedback</a>
@@ -67,14 +63,31 @@
         </div>
     </div>
 
-    <div class="row pull-down push-down" id="home-page-explore">
-        <div class="column small-12 medium-8 large-6 medium-centered large-centered">
-            <h2 class="text-centered">See what's happening</h2>
-        </div>
-    </div>
-
     <div class="row"></div>
 
+    <div class="row push-down-large">
+        <div class="row pull-down-large push-down" id="home-page-explore">
+            <div class="column small-12 medium-8 large-6 medium-centered large-centered">
+                <h2 class="text-centered">Upcoming events</h2>
+            </div>
+        </div>
+
+        <div class="columns shift-down-large border-right border-left border-gray small-no-border small-12 medium-8 large-6 medium-centered large-centered">
+            {{#each event in upcomingEvents}}
+                <p class="push-down">{{> event_calendar_single_event_small event}}</p>
+                {{else}}
+                <p>
+                    There are no upcoming events scheduled.  Add an event
+                    <a href="{{pathFor 'eventCalendar.add'}}"><strong>here</strong></a>!
+                </p>
+                {{/each}}
+        </div>
+        <div class="row"></div>
+    </div>
+
+    <hr>
+
+    <!-- NOTE: taking the posts feed out for now, for user testing.
     <div class="row push-down-large">
         <h4 class="columns small-12 push-down">Popular posts</h4>
 
@@ -121,10 +134,15 @@
                 {{/each}}
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="row push-down-large">
-        <h4 class="columns small-12 push-down">Top projects</h4>
+        <div class="row pull-down-large push-down" id="home-page-explore">
+            <div class="column small-12 medium-8 large-6 medium-centered large-centered">
+                <h2 class="text-centered">Top projects</h2>
+            </div>
+        </div>
+
         <div class="columns small-12">
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-6">
                 {{#each topProjects}}
@@ -221,8 +239,14 @@
         </div>
     </div>
 
+    <hr>
+
     <div class="row push-down-large">
-        <h4 class="columns small-12 push-down">Top makers</h4>
+        <div class="row pull-down-large push-down" id="home-page-explore">
+            <div class="column small-12 medium-8 large-6 medium-centered large-centered">
+                <h2 class="text-centered">Top makers</h2>
+            </div>
+        </div>
 
         <div class="columns small-12">
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-9">
@@ -294,9 +318,17 @@
         </div>
     </div>
 
+    <hr>
+
     <div class="row">
-        <div class="column small-10 medium-8 small-centered text-centered">
-            <h2 class="push-down">Recent activity</h2>  <!-- TODO: refactor into _card template + inline CSS -->
+        <div class="row pull-down-large push-down" id="home-page-explore">
+            <div class="column small-12 medium-8 large-6 medium-centered large-centered">
+                <h2 class="text-centered">Recent activity</h2>
+            </div>
+        </div>
+
+        <div class="columns small-10 medium-8 small-centered text-centered">
+            <!-- TODO: refactor into _card template + inline CSS -->
             <div style="background: #fafafa;">
                 <hr style="margin:0;">
                 {{#each recentActivityItems}}
@@ -313,6 +345,7 @@
                 {{/each}}
             </div>
         </div>
+        <div class="row"></div>
     </div>
 
     <div class="row pull-down-large push-down-large">

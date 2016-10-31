@@ -25,6 +25,7 @@ import './event-calendar-edit.html';
 import './event-calendar-submit.html';
 import './event-calendar-single-event.html';
 import './event-calendar-single-date.html';
+import './event-calendar-single-event-small.html';
 
 
 Template.event_calendar_page.onCreated(function() {

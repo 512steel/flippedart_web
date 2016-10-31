@@ -95,7 +95,7 @@ Meteor.publish('calendarEvents.single', function(eventDate, eventName, nameSlug)
     check(nameSlug, String);
 
 
-    //TODO: query with a regex on eventDate to include results with and without hypens?
+    //TODO: query with a regex on eventDate to include results with and without hyphens?
     return CalendarEvents.find(
         {
             eventDate: eventDate,
@@ -106,4 +106,25 @@ Meteor.publish('calendarEvents.single', function(eventDate, eventName, nameSlug)
             fields: CalendarEvents.publicFields,
         }
     );
+});
+
+Meteor.publish('calendarEvents.upcoming', function(limit) {
+    check(limit, Number);
+
+    let currentDate = new Date();
+
+    return CalendarEvents.find(
+        {
+            eventDateFormatted: {
+                $gt: currentDate
+            }
+        },
+        {
+            sort: {
+                eventDateFormatted: 1
+                //FIXME: sort by start times secondarily
+            },
+            limit: limit,
+            fields: CalendarEvents.publicFields,
+        });
 });
