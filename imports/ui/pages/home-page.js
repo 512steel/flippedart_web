@@ -10,6 +10,8 @@ import { RecentActivity } from '../../api/recent-activity/recent-activity.js';
 
 import { HEAD_DEFAULTS } from '../lib/globals.js';
 
+import './../components/recentActivity/recent-activity-card.html';
+
 import './home-page.html';
 
 

@@ -74,7 +74,7 @@
 
         <div class="columns shift-down-large border-right border-left border-gray small-no-border small-12 medium-8 large-6 medium-centered large-centered">
             {{#each event in upcomingEvents}}
-                <p class="push-down">{{> event_calendar_single_event_small event}}</p>
+                <p class="push-down-large">{{> event_calendar_single_event_small event}}</p>
                 {{else}}
                 <p>
                     There are no upcoming events scheduled.  Add an event
@@ -143,7 +143,7 @@
             </div>
         </div>
 
-        <div class="columns small-12">
+        <div class="columns small-12 medium-10 medium-centered">
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-6">
                 {{#each topProjects}}
                     {{#if equals @index 0}}
@@ -237,6 +237,7 @@
                 {{/each}}
             </div>
         </div>
+        <div class="row"></div>
     </div>
 
     <hr>
@@ -248,7 +249,7 @@
             </div>
         </div>
 
-        <div class="columns small-12">
+        <div class="columns small-12 medium-10 medium-centered">
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-9">
                 {{#each topUserAttributes}}
                     {{#if equals @index 0}}
@@ -316,6 +317,7 @@
                 {{/each}}
             </div>
         </div>
+        <div class="row"></div>
     </div>
 
     <hr>
@@ -327,21 +329,12 @@
             </div>
         </div>
 
-        <div class="columns small-10 medium-8 small-centered text-centered">
+        <div class="columns small-10 medium-8 large-6 small-centered text-centered">
             <!-- TODO: refactor into _card template + inline CSS -->
             <div style="background: #fafafa;">
                 <hr style="margin:0;">
-                {{#each recentActivityItems}}
-                    <a class="username-tag text-large" href="{{this.link}}">
-                        <div style="padding-top:1rem;">
-                            <p>
-                                <strong>
-                                    {{this.actionText}}
-                                </strong>
-                           </p>
-                            <hr style="margin:0;">
-                        </div>
-                    </a>
+                {{#each activity in recentActivityItems}}
+                    {{> recent_activity_card activity}}
                 {{/each}}
             </div>
         </div>
