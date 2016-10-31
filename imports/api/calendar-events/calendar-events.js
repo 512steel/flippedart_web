@@ -48,7 +48,8 @@ CalendarEvents.schema = new SimpleSchema({
     },
     eventDateFormatted: {
         type: Date,
-        optional: true  //TODO: get rid of this once formatting code is written for the insert() method
+        optional: true,
+        optional: true,
     },
     startTime: {
         type: String,
