@@ -36,7 +36,7 @@
             </p>
 
             {{#each step in project.steps}}
-                <p>
+                <p class="push-down">
                     <strong>
                         Step {{increment @index}}
                     </strong>
@@ -49,16 +49,18 @@
 
                     <br>
 
-                    {{#each link in step.imageLinks}}
-                        {{#if trim link}}
-                            <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->
+                    <span class="shift-down" style="display:inline-block;">
+                        {{#each link in step.imageLinks}}
+                            {{#if trim link}}
+                                <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->
                             <a class="thumbnail" data-lightbox="photosStep" href="{{c.url link secure=true}}">
                                 <img src="{{c.url link secure=true height=400 crop='limit'}}">
                             </a>
-                        {{/if}}
-                    {{else}}
-                        <!-- No photos for this step -->
-                    {{/each}}
+                            {{/if}}
+                        {{else}}
+                            <!-- No photos for this step -->
+                        {{/each}}
+                    </span>
                 </p>
             {{else}}
                 <p>
