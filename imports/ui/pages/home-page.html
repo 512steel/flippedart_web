@@ -20,7 +20,7 @@
                     resources. Wannabes are welcome here.
                 </h5>
                 <h5 class="push-down">
-                    ...the coolest mobile art studio in town. <a href="{{pathFor 'static.tinyStudio'}}">Read all about it!</a>
+                    ...the coolest mobile art studio in town. <a href="{{pathFor 'static.tinyStudio'}}">Read all about it.</a>
                 </h5>
                 <h5 class="push-down">
                     ...for you.
@@ -75,13 +75,18 @@
         <div class="columns shift-down-large border-right border-left border-gray small-no-border small-12 medium-8 large-6 medium-centered large-centered">
             {{#each event in upcomingEvents}}
                 <p class="push-down-large">{{> event_calendar_single_event_small event}}</p>
-                {{else}}
-                <p>
-                    There are no upcoming events scheduled.  Add an event
-                    <a href="{{pathFor 'eventCalendar.add'}}"><strong>here</strong></a>!
+            {{else}}
+                <p class="push-down-large">
+                    There are no upcoming events scheduled.
                 </p>
-                {{/each}}
+            {{/each}}
+
+            <a href="{{pathFor 'eventCalendar.add'}}"
+               class="button primary hollow float-left">
+                <i class="fi-plus"></i>
+            </a>
         </div>
+
         <div class="row"></div>
     </div>
 

@@ -163,7 +163,16 @@
   padding-left: 2rem;
 }
 .left-padded-xlarge {
-  padding-left: 4rem;
+  padding-left: 3rem;
+}
+.right-padded {
+  padding-right: 1rem;
+}
+.right-padded-large {
+  padding-right: 2rem;
+}
+.right-padded-xlarge {
+  padding-right: 3rem;
 }
 .bordered-light {
   border: 2px solid $light-gray;
