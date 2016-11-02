@@ -94,10 +94,10 @@
                                 <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <!--<li class="{{isActiveRoute 'static.make'}}" data-close><a
-                                        href="{{pathFor 'static.make'}}">Make</a></li>-->
                                 <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
                                         href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
+                                <li class="{{isActiveRoute 'makeProjects.page'}}" data-close><a
+                                        href="{{pathFor 'makeProjects.page'}}">Make</a></li>
                                 <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
                                         href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
                                 <li class="{{isActiveRoute 'static.about'}}" data-close><a
@@ -109,10 +109,10 @@
                             <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                            <!--<li class="{{isActiveRoute 'static.make'}}" data-close><a
-                                    href="{{pathFor 'static.make'}}">Make</a></li>-->
                             <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
                                     href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
+                            <li class="{{isActiveRoute 'makeProjects.page'}}" data-close><a
+                                    href="{{pathFor 'makeProjects.page'}}">Make</a></li>
                             <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
                                     href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
                             <li class="{{isActiveRoute 'static.about'}}" data-close><a
@@ -147,33 +147,35 @@
                                     <!--
                                     <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                    <!--<li class="{{isActiveRoute 'static.make'}}">
-                                        <a href="{{pathFor 'static.make'}}">Make</a>
-                                    </li>-->
                                     <li class="{{isActiveRoute 'static.tinyStudio'}}">
                                         <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
                                     </li>
-                                    <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
-                                            href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
-                                    <li class="{{isActiveRoute 'static.about'}}">
-                                        <a href="{{pathFor 'static.about'}}">About</a>
+                                    <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close>
+                                        <a href="{{pathFor 'eventCalendar.page'}}">Calendar</a>
                                     </li>
+                                    <li class="{{isActiveRoute 'makeProjects.page'}}">
+                                        <a href="{{pathFor 'makeProjects.page'}}">Make</a>
+                                    </li>
+                                    <!--<li class="{{isActiveRoute 'static.about'}}">
+                                        <a href="{{pathFor 'static.about'}}">About</a>
+                                    </li>-->
                                 {{/unless}}
                             {{else}}
                                 <!--
                                 <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <!--<li class="{{isActiveRoute 'static.make'}}">
-                                    <a href="{{pathFor 'static.make'}}">Make</a>
-                                </li>-->
                                 <li class="{{isActiveRoute 'static.tinyStudio'}}">
                                     <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
                                 </li>
-                                <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
-                                        href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}">
-                                    <a href="{{pathFor 'static.about'}}">About</a>
+                                <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close>
+                                    <a href="{{pathFor 'eventCalendar.page'}}">Calendar</a>
                                 </li>
+                                <li class="{{isActiveRoute 'makeProjects.page'}}">
+                                    <a href="{{pathFor 'makeProjects.page'}}">Make</a>
+                                </li>
+                                <!--<li class="{{isActiveRoute 'static.about'}}">
+                                    <a href="{{pathFor 'static.about'}}">About</a>
+                                </li>-->
                             {{/if}}
 
                         </ul>

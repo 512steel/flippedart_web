@@ -14,7 +14,7 @@
 
             {{#if trim project.coverImageLink}}
                 <p>
-                    <img src="{{c.url project.coverImageLink secure=true}}">
+                    <img src="{{c.url project.coverImageLink secure=true height=500 crop='limit'}}">
                 </p>
             {{else}}
             {{/if}}
@@ -53,7 +53,7 @@
                         {{#if trim link}}
                             <!-- FIXME: there's a blaze error that won't let me access the outer "each"-loop's index via {{@../index}}, so the lightbox will now cycle through every steps' photos rather than cycle per-step. -->
                             <a class="thumbnail" data-lightbox="photosStep" href="{{c.url link secure=true}}">
-                                <img src="{{c.url link secure=true}}">
+                                <img src="{{c.url link secure=true height=400 crop='limit'}}">
                             </a>
                         {{/if}}
                     {{else}}
