@@ -6,6 +6,8 @@ $.cloudinary.config({
     cloud_name: "dwgim6or9"
 });
 
+moment = require('moment');
+
 RouterAutoscroll.animationDuration = 0;
 
 /*//Facebook SDK:  (moved to app-body.js)
