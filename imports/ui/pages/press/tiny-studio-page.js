@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { DocHead } from 'meteor/kadira:dochead';
 
-import { HEAD_DEFAULTS } from './../lib/globals.js';
+import { HEAD_DEFAULTS } from './../../lib/globals.js';
 
 import './tiny-studio-page.html';
 

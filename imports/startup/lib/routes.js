@@ -20,9 +20,9 @@ import '../../ui/pages/feedback-thanks-page.js';
 import '../../ui/pages/howto-page.js';
 import '../../ui/pages/newsletter-page.js';
 import '../../ui/pages/booking-page.js';
-import '../../ui/pages/state-of-the-arts-page.js';
-import '../../ui/pages/tiny-studio-page.js';
-import '../../ui/pages/press-page.js';
+//import '../../ui/pages/press/state-of-the-arts-page.js';
+import '../../ui/pages/press/tiny-studio-page.js';
+import '../../ui/pages/press/press-page.js';
 
 // Dynamic page imports
 import '../../ui/components/transactions-pages/transactions-components.js';
@@ -155,18 +155,21 @@ FlowRouter.route('/booking/thanks', {
         BlazeLayout.render('App_body', { main: 'booking_page_thanks' });
     }
 });
+
+/* Press page routes */
+FlowRouter.route('/press', {
+    name: 'press.page',
+    action() {
+        BlazeLayout.render('App_body', { main: 'press_page' });
+    }
+});
 FlowRouter.route('/tiny-studio', {
     name: 'static.tinyStudio',
     action() {
         BlazeLayout.render('App_body', { main: 'tiny_studio_page' });
     }
 });
-FlowRouter.route('/press', {
-    name: 'static.press',
-    action() {
-        BlazeLayout.render('App_body', { main: 'press_page' });
-    }
-});
+
 FlowRouter.route('/', {
     name: 'static.home',
     action() {
@@ -189,12 +192,13 @@ FlowRouter.route('/messages/:username/:messagesLimit?', {
 
 
 /* Commentable pages */
-FlowRouter.route('/state-of-the-arts', {
+
+/*FlowRouter.route('/state-of-the-arts', {
     name: 'page.state-of-the-arts',
     action() {
         BlazeLayout.render('App_body', { main: 'state_of_the_arts_page' });
     }
-});
+});*/
 
 
 /* Dynamic pages */

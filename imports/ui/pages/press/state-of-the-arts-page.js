@@ -2,13 +2,13 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { DocHead } from 'meteor/kadira:dochead';
 
-import { Comments } from './../../api/comments/comments.js';
+import { Comments } from './../../../api/comments/comments.js';
 
-import { HEAD_DEFAULTS } from '../lib/globals.js';
+import { HEAD_DEFAULTS } from '../../lib/globals.js';
 
 import './state-of-the-arts-page.html';
 
-import './../components/comments/comment-card.html';
+import './../../components/comments/comment-card.html';
 import './../components/comments/comment_edit.html';
 import './../components/comments/comment_submit.html';
 import './../components/comments/comments-components.js';
