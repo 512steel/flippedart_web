@@ -6,14 +6,14 @@
 
 # meteor libraries
 meteor-base@1.0.4
-ecmascript@0.5.8
-es5-shim@4.6.14
+ecmascript@0.5.8_1
+es5-shim@4.6.14_1
 check@1.2.3
 tracker@1.1.0
 
 # standard libraries
 jquery@1.11.9
-less@2.7.5
+less@2.7.5_1
 
 # ui
 blaze-html-templates@1.0.4
@@ -23,7 +23,7 @@ aldeed:template-extension
 percolate:momentum
 
 # data
-mongo@1.1.12
+mongo@1.1.13
 aldeed:simple-schema
 aldeed:collection2
 dburles:collection-helpers
@@ -53,7 +53,7 @@ chriswessels:hammer
 
 # production
 juliancwirko:postcss@1.0.0-beta.11
-standard-minifier-js@1.2.0
+standard-minifier-js@1.2.0_1
 ddp-rate-limiter@1.0.5
 app-prod-security
 
@@ -82,7 +82,7 @@ percolate:paginated-subscription
 tmeasday:publish-counts
 maibaum:foundation-icons
 verron:autosize
-email@1.1.17
+email@1.1.17_1
 browser-policy@1.0.9
 czbaker:lightbox2
 okgrow:router-autoscroll
