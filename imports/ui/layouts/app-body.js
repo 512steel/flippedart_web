@@ -96,7 +96,7 @@ Template.App_body.onRendered(function() {
     //TODO: sticky footer?
   });
 
-  //Facebook SDK:  (NOTE - I moved this from startup/client/package-configurations.js so it wouldn't impact initial load time)
+  //Facebook SDK:  (moved this from startup/client/package-configurations.js so it doesn't impact initial load time)
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '705291662943586',
@@ -111,6 +111,22 @@ Template.App_body.onRendered(function() {
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
+
+  // Google analytics (moved from head.html so it doesn't impact initial load time)
+  (function(i,s,o,g,r,a,m) {
+        i['GoogleAnalyticsObject']=r;
+        i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)
+            },
+        i[r].l=1*new Date();
+    a=s.createElement(o), m=s.getElementsByTagName(o)[0];
+    a.async=1;
+    a.src=g;
+    m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-78073161-1', 'auto');
+
+  ga('send', 'pageview');  //TODO: send a different analytics call on each page
 });
 
 Template.App_body.helpers({
