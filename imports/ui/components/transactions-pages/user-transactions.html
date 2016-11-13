@@ -5,11 +5,14 @@
 
                 <div class="row column push-down">
                     <div class="column">
-                        <a class="button-go-back" href="{{pathFor 'profile.page' username=pageUsername}}">
+                        <a class="button-go-back"
+                           href="{{pathFor 'profile.page' username=pageUsername}}">
                             back to your profile
                         </a>
 
-                        <h1 class="">Your project exchanges</h1>
+                        <h1 class="">
+                            Your project exchanges
+                        </h1>
                     </div>
                 </div>
 
@@ -19,7 +22,9 @@
 
                 <div class="row column">
                     <div class="column small-12 medium-6 large-6">
-                        <h2 class="push-down">Requested:</h2>
+                        <h2 class="push-down">
+                            Requested:
+                        </h2>
                         <div class="push-down">
                             {{#each requestedExchanges}}
                                 <div class="clearfix">
@@ -27,12 +32,16 @@
                                     <hr>
                                 </div>
                             {{else}}
-                                <p>You haven't requested any projects.</p>
+                                <p>
+                                    You haven't requested any projects.
+                                </p>
                             {{/each}}
                         </div>
                     </div>
                     <div class="column small-12 medium-6 large-6">
-                        <h2 class="push-down">Pending:</h2>
+                        <h2 class="push-down">
+                            Pending:
+                        </h2>
                         <div class="push-down">
                             {{#each pendingExchanges}}
                                 <div class="clearfix">
@@ -40,14 +49,18 @@
                                     <hr>
                                 </div>
                             {{else}}
-                                <p>You don't have any pending project exchanges.</p>
+                                <p>
+                                    You don't have any pending project exchanges.
+                                </p>
                             {{/each}}
                         </div>
                     </div>
                 </div>
                 <div class="row column">
                     <div class="column small-12 medium-6 large-6">
-                        <h2 class="push-down">Completed:</h2>
+                        <h2 class="push-down">
+                            Completed:
+                        </h2>
                         <div class="push-down">
                             {{#each completedExchanges}}
                                 <div class="clearfix">
@@ -55,12 +68,16 @@
                                     <hr>
                                 </div>
                             {{else}}
-                                <p>You haven't completed any project exchanges.</p>
+                                <p>
+                                    You haven't completed any project exchanges.
+                                </p>
                             {{/each}}
                         </div>
                     </div>
                     <div class="column small-12 medium-6 large-6">
-                        <h2 class="push-down">Stopped:</h2>
+                        <h2 class="push-down">
+                            Stopped:
+                        </h2>
                         <div class="push-down">
                             {{#each terminatedExchanges}}
                                 <div class="clearfix">
@@ -68,7 +85,9 @@
                                     <hr>
                                 </div>
                             {{else}}
-                                <p>You haven't declined or cancelled any project exchanges.</p>
+                                <p>
+                                    You haven't declined or cancelled any project exchanges.
+                                </p>
                             {{/each}}
                         </div>
                     </div>

@@ -4,7 +4,8 @@
         <div class="small-12 medium-5 large-4 column">
             <!-- FIXME: make this a general link that defaults to the blank photo -->
             {{#if userAttributes.profilePhotoLink}}
-                <a data-lightbox="user-attributes-card-photo" href="{{c.url userAttributes.profilePhotoLink secure=true}}">
+                <a data-lightbox="user-attributes-card-photo"
+                   href="{{c.url userAttributes.profilePhotoLink secure=true}}">
                     <img class="thumbnail" src="{{c.url userAttributes.profilePhotoLink secure=true}}" width="100%"/>
                 </a>
             {{/if}}
@@ -14,27 +15,37 @@
             {{#if isProfileOwner}}
 
                 {{#if showUserAttributesEdit}}
-                    <button class="button primary hollow float-right push-left userAttributes-edit">Cancel editing</button>
+                    <button class="button primary hollow float-right push-left userAttributes-edit">
+                        Cancel editing
+                    </button>
 
                     {{> user_attributes_edit }}
                 {{else}}
-                    <button class="button primary hollow float-right push-left userAttributes-edit">Edit profile</button>
+                    <button class="button primary hollow float-right push-left userAttributes-edit">
+                        Edit profile
+                    </button>
 
                     {{#unless userAttributes}}
                         <!-- FIXME: force with the UI to fill this out first, otherwise projects can't be added. -->
                         <div class="row column clearfix-small">
-                            <p>Please fill out your profile information.</p>
+                            <p>
+                                Please fill out your profile information.
+                            </p>
                         </div>
                     {{else}}
 
                         <div class="row column clearfix-small">
-                            <p>{{{userAttributes.bio}}}</p>
+                            <p>
+                                {{{userAttributes.bio}}}
+                            </p>
                         </div>
 
                         <hr class="half-width float-left">
 
                         <div class="row column clearfix">
-                            <p>Location: {{userAttributes.location}}</p>
+                            <p>
+                                Location: {{userAttributes.location}}
+                            </p>
                         </div>
 
                     {{/unless}}
@@ -44,17 +55,23 @@
             {{else}}
                 {{#unless userAttributes}}
                     <div class="row column">
-                        <p>{{profileUsername}} hasn't completed their profile yet.</p>
+                        <p>
+                            {{profileUsername}} hasn't completed their profile yet.
+                        </p>
                     </div>
                 {{else}}
                     <div class="row column">
-                        <p>{{{userAttributes.bio}}}</p>
+                        <p>
+                            {{{userAttributes.bio}}}
+                        </p>
                     </div>
 
                     <hr class="half-width float-left">
 
                     <div class="row column clearfix">
-                        <p>Location: {{userAttributes.location}}</p>
+                        <p>
+                            Location: {{userAttributes.location}}
+                        </p>
                     </div>
                 {{/unless}}
             {{/if}}

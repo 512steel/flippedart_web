@@ -2,8 +2,7 @@
     <div class="row pull-down push-down">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down push-down-xxxlarge">
 
-            <a href="{{pathFor 'eventCalendar.singleDate'
-            MMDDYY=event.eventDate}}"
+            <a href="{{pathFor 'eventCalendar.singleDate' MMDDYY=event.eventDate}}"
                class="push-down-large button secondary hollow">
                 More events on {{eventDateString}}
             </a>
@@ -15,12 +14,16 @@
             <p>
                 Where: {{event.location}}
             </p>
+
             <p>
                 From {{event.startTime}} &ndash; {{event.endTime}} on {{eventDateString}}
             </p>
+
             <p>
                 Added by
-                <a href="{{pathFor 'profile.page' username=event.authorName}}">{{event.authorName}}</a>.
+                <a href="{{pathFor 'profile.page' username=event.authorName}}">
+                    {{event.authorName}}
+                </a>.
                 {{relativeTimeCopy event}}
             </p>
 
@@ -30,7 +33,9 @@
 
             {{#if truthy event.imageLink}}
                 <p>
-                    <a class="thumbnail" data-lightbox="event-lightbox" href="{{c.url event.imageLink secure=true}}">
+                    <a class="thumbnail"
+                       data-lightbox="event-lightbox"
+                       href="{{c.url event.imageLink secure=true}}">
                         <img src="{{c.url event.imageLink secure=true}}">
                     </a>
                 </p>
@@ -42,10 +47,10 @@
                     {{#if ownEvent}}
                         <p class="button-group">
                             <a href="{{
-                            pathFor 'eventCalendar.singleEvent.edit'
-                            MMDDYY=event.eventDate
-                            eventName=event.eventName
-                            nameSlug=event.nameSlug}}">
+                                pathFor 'eventCalendar.singleEvent.edit'
+                                MMDDYY=event.eventDate
+                                eventName=event.eventName
+                                nameSlug=event.nameSlug}}">
                                 <i class="button primary fi-pencil"></i>
                             </a>
                             <a class="calendar-event-delete-button">
@@ -70,9 +75,13 @@
             {{#if currentUser}}
                 <ul class="accordion" data-accordion data-allow-all-closed="true">
                     <li class="accordion-item" data-accordion-item>
-                        <a href="#" class="accordion-title" data-no-instant>Add your own event</a>
+                        <a href="#" class="accordion-title">
+                            Add your own event
+                        </a>
                         <div class="accordion-content" data-tab-content>
-                            <h2 class="pull-down-small">Add an event</h2>
+                            <h2 class="pull-down-small">
+                                Add an event
+                            </h2>
                             {{> event_calendar_submit}}
                         </div>
                     </li>
@@ -80,7 +89,9 @@
             {{else}}
                 <p class="text-centered">
                     <a href="{{pathFor 'join'}}">
-                        <strong>Sign up</strong>
+                        <strong>
+                            Sign up
+                        </strong>
                     </a>
                     to add an event to the calendar!
                 </p>

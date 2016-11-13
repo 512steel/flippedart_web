@@ -1,7 +1,12 @@
 <template name="user_posts_all">
     <div class="row column">
         <h3>
-            {{#if isProfileOwner}}Your{{else}}{{pageUsername}}'s{{/if}} posts
+            {{#if isProfileOwner}}
+                Your
+            {{else}}
+                {{pageUsername}}'s
+            {{/if}}
+            posts
         </h3>
 
         {{#if isProfileOwner}}
@@ -12,19 +17,27 @@
         {{/if}}
 
         <div>
-            <!--<a class="toggle-posts-sort" data-no-instant>{{toggleSortText}}</a>-->
+            <!--<a class="toggle-posts-sort">{{toggleSortText}}</a>-->
 
             {{#each userPosts}}
                 {{> user_post_card userPost=this}}
                 <hr>
             {{else}}
-                <p>{{#if isProfileOwner}}You haven't{{else}}{{pageUsername}} hasn't{{/if}} posted anything yet.</p>
+                <p>{{#if isProfileOwner}}
+                    You haven't
+                {{else}}
+                    {{pageUsername}} hasn't
+                {{/if}}
+                    posted anything yet.
+                </p>
             {{/each}}
 
             {{#if hasMorePosts}}
                 <p class="text-center pull-down">
-                    <a class="js-load-more-posts button secondary" data-no-instant>
-                        <strong>Load more posts</strong>
+                    <a class="js-load-more-posts button secondary">
+                        <strong>
+                            Load more posts
+                        </strong>
                     </a>
                 </p>
             {{/if}}

@@ -2,21 +2,25 @@
     <h5>
         {{this.eventName}}
     </h5>
+
     <p>
         Where: {{this.location}}
     </p>
+
     <p>
         From {{this.startTime}} &ndash; {{this.endTime}}
     </p>
 
     <a href="{{
-    pathFor 'eventCalendar.singleEvent'
-    MMDDYY=this.eventDate
-    eventName=this.eventName
-    nameSlug=this.nameSlug}}">
+        pathFor 'eventCalendar.singleEvent'
+        MMDDYY=this.eventDate
+        eventName=this.eventName
+        nameSlug=this.nameSlug}}">
 
         <p class="button primary hollow row column small-12 medium-6 large-4">
-            <strong>More details</strong>
+            <strong>
+                More details
+            </strong>
         </p>
     </a>
 </template>

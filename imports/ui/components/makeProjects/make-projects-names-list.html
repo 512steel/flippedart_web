@@ -2,9 +2,10 @@
     <ul class="unstyled-list shift-down border-left border-gray left-padded">
         {{#each name in allMakeProjectNames}}
             <li class="padded-bottom-large {{#if equals name currentMakeProjectName}}highlighted{{/if}}">
-                <a href="{{pathFor 'makeProjects.singleProject' makeProjectName=name}}"
-                   class="">
-                    <strong>{{name}}</strong>
+                <a href="{{pathFor 'makeProjects.singleProject' makeProjectName=name}}" class="">
+                    <strong>
+                        {{name}}
+                    </strong>
                 </a>
             </li>
         {{else}}

@@ -3,11 +3,11 @@
     <div class="row pull-down push-down">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered">
 
-            <a href="{{pathFor 'eventCalendar.singleEvent'
-                MMDDYY=event.eventDate
-                eventName=event.eventName
-                nameSlug=event.nameSlug}}"
-                class="push-down button secondary hollow">
+            <a class="push-down button secondary hollow"
+               href="{{pathFor 'eventCalendar.singleEvent'
+                        MMDDYY=event.eventDate
+                        eventName=event.eventName
+                        nameSlug=event.nameSlug}}">
                 Go back
             </a>
 
@@ -15,47 +15,110 @@
 
                 <h2>Edit your event</h2>
 
-                <form enctype="multipart/form-data" class="main form calendar-event-edit">
+                <form enctype="multipart/form-data"
+                      class="main form calendar-event-edit">
 
-                    <label><strong>Name of your event</strong></label>
-                    <input type="text" value="{{event.eventName}}" placeholder="Name of the event" name="calendarEventName" required />
+                    <label>
+                        <strong>
+                            Name of your event
+                        </strong>
+                    </label>
+                    <input type="text"
+                           value="{{event.eventName}}"
+                           placeholder="Name of the event"
+                           name="calendarEventName"
+                           required/>
 
-                    <label><strong>Event location</strong></label>
-                    <input type="text" value="{{event.location}}" placeholder="Event location" name="calendarEventLocation" required />
+                    <label>
+                        <strong>
+                            Event location
+                        </strong>
+                    </label>
+                    <input type="text"
+                           value="{{event.location}}"
+                           placeholder="Event location"
+                           name="calendarEventLocation"
+                           required/>
 
-                    <!-- FIXME: date pickers and time pickers -->
-                    <label><strong>Date of the event</strong></label>
-                    <input type="text" class="column small-12" id="datepicker-edit-event" value="{{event.eventDate}}" name="calendarEventDate" required />
+                    <!-- FIXME: prettier date pickers and time pickers -->
+                    <label>
+                        <strong>
+                            Date of the event
+                        </strong>
+                    </label>
+                    <input type="text"
+                           class="column small-12"
+                           id="datepicker-edit-event"
+                           value="{{event.eventDate}}"
+                           name="calendarEventDate"
+                           required/>
 
                     <div class="row">
                         <div class="column small-12 medium-6">
-                            <label><strong>Start time</strong></label>
-                            <input type="text" id="startTime" value="{{event.startTime}}" name="calendarEventStartTime" required />
+                            <label>
+                                <strong>
+                                    Start time
+                                </strong>
+                            </label>
+                            <input type="text"
+                                   id="startTime"
+                                   value="{{event.startTime}}"
+                                   name="calendarEventStartTime"
+                                   required/>
                         </div>
                         <div class="column small-12 medium-6">
-                            <label><strong>End time</strong></label>
-                            <input type="text" id="endTime" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                            <label>
+                                <strong>
+                                    End time
+                                </strong>
+                            </label>
+                            <input type="text"
+                                   id="endTime"
+                                   value="{{event.endTime}}"
+                                   name="calendarEventEndTime"
+                                   required/>
                         </div>
                     </div>
 
-                    <label><strong>Event description</strong></label>
-                    <textarea type="text" placeholder="Let people know what's going to happen at your event!" name="calendarEventDescription" cols="4" required>{{event.description}}</textarea>
+                    <label>
+                        <strong>
+                            Event description
+                        </strong>
+                    </label>
+                    <textarea type="text"
+                              placeholder="Let people know what's going to happen at your event!"
+                              name="calendarEventDescription"
+                              cols="4"
+                              required>
+                        {{event.description}}
+                    </textarea>
 
-                    <input id="eventFileUpload" class="show-for-sr" type="file" accept="image/*" />
-                    <label for="eventFileUpload" class="button secondary hollow expanded">
+                    <input id="eventFileUpload"
+                           class="show-for-sr"
+                           type="file"
+                           accept="image/*"/>
+                    <label for="eventFileUpload"
+                           class="button secondary hollow expanded">
                         <span>
                             Change the event photo
                         </span>
                     </label>
 
                     {{#if isUploading}}
-                        <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
+                        <input type="submit"
+                               value="{{uploadingCopy}}"
+                               class="button primary float-right"
+                               disabled/>
                     {{else}}
-                        <input type="submit" value="Edit event" class="button primary float-right"/>
+                        <input type="submit"
+                               value="Edit event"
+                               class="button primary float-right"/>
                     {{/if}}
                 </form>
 
-                <p class="pull-down clearfix text-small">*Note: changing your event's name or date may cause problems with old links</p>
+                <p class="pull-down clearfix text-small">
+                    *Note: changing your event's name or date may cause problems with old links
+                </p>
             {{else}}
                 <p>
                     Sorry, you don't have permission to edit this event.

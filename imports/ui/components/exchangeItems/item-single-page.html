@@ -3,7 +3,8 @@
 
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
             <div class="row column">
-                <a class="button-go-back" href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
+                <a class="button-go-back"
+                   href="{{pathFor 'profile.projects' username=exchangeItem.ownerName}}">
                     {{#if isItemOwner}}
                         See the rest of your projects
                     {{else}}
@@ -29,8 +30,12 @@
                         {{#if isExchangeItemAvailable}}
                             <form>
                                 <div class="row column">
-                                    <input class="single-item-request-form-button button primary" type="submit" value="Request this project"/>
-                                    <span class="invisible inventory-single-item-id">{{exchangeItem._id}}</span>
+                                    <input class="single-item-request-form-button button primary"
+                                           type="submit"
+                                           value="Request this project"/>
+                                    <span class="invisible inventory-single-item-id">
+                                        {{exchangeItem._id}}
+                                    </span>
                                 </div>
                             </form>
                         {{else}}

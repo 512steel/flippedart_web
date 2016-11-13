@@ -413,7 +413,7 @@ Template.project_single_page.events({
         if (exchangeItem && Meteor.user()) {
             var itemIds = [];
 
-            itemIds.push($(e.target).parent().find('.inventory-single-item-id').text());
+            itemIds.push($(e.target).parent().find('.inventory-single-item-id').text().trim());
 
             requestTransaction.call({
                 requesteeName: Template.instance().getPageUsername(),

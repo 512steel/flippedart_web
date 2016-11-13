@@ -5,8 +5,14 @@
             {{#textareaAutocomplete required="true" settings=settings name="user-post-submit-text" placeholder="Post an update" maxlength="5000" type="text"}}{{/textareaAutocomplete}}
         </div>
 
-        <input id="postFileUpload" class="show-for-sr" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />
-        <label for="postFileUpload" class="button secondary hollow expanded">
+        <input id="postFileUpload"
+               class="show-for-sr"
+               type="file"
+               accept="image/*"
+               multiple
+               data-multiple-caption="{count} files selected" />
+        <label for="postFileUpload"
+               class="button secondary hollow expanded">
             <span>
                 Upload photos (up to {{maxPhotoUploadCount}})
             </span>
@@ -15,9 +21,14 @@
         <!--<p id="upload-widget-button">UPLOAD_WIDGET</p>-->
 
         {{#if isUploading}}
-            <input type="submit" value="{{uploadingCopy}}" class="button primary float-right" disabled/>
+            <input type="submit"
+                   value="{{uploadingCopy}}"
+                   class="button primary float-right"
+                   disabled/>
         {{else}}
-            <input type="submit" value="Post" class="button primary float-right"/>
+            <input type="submit"
+                   value="Post"
+                   class="button primary float-right"/>
         {{/if}}
     </form>
 </template>

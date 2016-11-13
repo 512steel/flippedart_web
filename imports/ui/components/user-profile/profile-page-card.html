@@ -3,7 +3,9 @@
 
         <div class="row">
             <div class="small-10 medium-10 large-10 small-centered medium-centered large-centered columns">
-                <h1 class="column">{{profileUsername}}</h1>
+                <h1 class="column">
+                    {{profileUsername}}
+                </h1>
                 <!--{{#if isProfileOwner}}
                 <h1>Your profile</h1>
             {{else}}
@@ -21,13 +23,15 @@
                 <div class="column">
                     {{#if isProfileOwner}}
                         <hr>
-                        <a class="button secondary expanded" href="{{pathFor 'exchanges.user' username=profileUsername}}">
+                        <a class="button secondary expanded"
+                           href="{{pathFor 'exchanges.user' username=profileUsername}}">
                             My exchanges
                         </a>
                     {{/if}}
                     {{#if chatExists}}
                         <hr>
-                        <a class="button secondary expanded" href="{{pathFor 'chatWindow.user' username=profileUsername}}">
+                        <a class="button secondary expanded"
+                           href="{{pathFor 'chatWindow.user' username=profileUsername}}">
                             Message {{profileUsername}}
                         </a>
                     {{/if}}

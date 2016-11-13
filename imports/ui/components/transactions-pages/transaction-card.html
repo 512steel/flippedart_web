@@ -4,42 +4,72 @@
     {{#if isTransactionRequested}}
         {{#if isCurrentUserRequestee}}
             <div class="button-group expanded">
-                <button class="button primary btn-transaction-approve">Approve</button>
-                <button class="button alert btn-transaction-decline">Decline</button>
+                <button class="button primary btn-transaction-approve">
+                    Approve
+                </button>
+                <button class="button alert btn-transaction-decline">
+                    Decline
+                </button>
             </div>
         {{else}}
-            <button class="button secondary expanded btn-transaction-cancel">Cancel request</button>
+            <button class="button secondary expanded btn-transaction-cancel">
+                Cancel request
+            </button>
         {{/if}}
     {{else}}
         {{#if isTransactionApproved}}
             {{#if isCurrentUserRequestee}}
                 <div class="button-group expanded">
-                    <button class="button primary btn-transaction-complete">Complete</button>
-                    <button class="button alert btn-transaction-decline">Decline</button>
+                    <button class="button primary btn-transaction-complete">
+                        Complete
+                    </button>
+                    <button class="button alert btn-transaction-decline">
+                        Decline
+                    </button>
                 </div>
             {{else}}
-                <button class="button secondary expanded btn-transaction-cancel">Cancel request</button>
+                <button class="button secondary expanded btn-transaction-cancel">
+                    Cancel request
+                </button>
             {{/if}}
         {{else}}
             {{#if isTransactionCompleted}}
                 {{#if isCurrentUserRequestee}}
-                    <button class="button primary expanded" disabled>You have completed this exchange</button>
+                    <button class="button primary expanded"
+                            disabled>
+                        You have completed this exchange
+                    </button>
                 {{else}}
-                    <button class="button primary expanded" disabled>{{requesterName}} has completed this exchange</button>
+                    <button class="button primary expanded"
+                            disabled>
+                        {{requesterName}} has completed this exchange
+                    </button>
                 {{/if}}
             {{else}}
                 {{#if isTransactionDeclined}}
                     {{#if isCurrentUserRequestee}}
-                        <button class="button alert expanded" disabled>You have declined this exchange</button>
+                        <button class="button alert expanded"
+                                disabled>
+                            You have declined this exchange
+                        </button>
                     {{else}}
-                        <button class="button alert expanded" disabled>{{requesteeName}} has declined this exchange</button>
+                        <button class="button alert expanded"
+                                disabled>
+                            {{requesteeName}} has declined this exchange
+                        </button>
                     {{/if}}
                 {{else}}
                     {{#if isTransactionCancelled}}
                         {{#if isCurrentUserRequestee}}
-                            <button class="button secondary expanded" disabled>{{requesterName}} has canceled this exchange</button>
+                            <button class="button secondary expanded"
+                                    disabled>
+                                {{requesterName}} has canceled this exchange
+                            </button>
                         {{else}}
-                            <button class="button secondary expanded" disabled>You have canceled this exchange</button>
+                            <button class="button secondary expanded"
+                                    disabled>
+                                You have canceled this exchange
+                            </button>
                         {{/if}}
                     {{/if}}
                 {{/if}}

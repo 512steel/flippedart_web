@@ -25,10 +25,6 @@ import { UserAttributes } from '../../../api/user-attributes/user-attributes.js'
 // component used for the "user_post_edit" template
 import './../../components/app-not-authorized.js';
 
-/*import './comment-card.html';
-import './comment-edit.html';
-import './comment-submit.html';*/
-
 import './../user-profile/user-autocomplete-components.html';
 
 
@@ -39,7 +35,7 @@ Template.comment_card.onCreated(function commentCardOnCreated() {
 
     // Subscriptions go in here
     this.autorun(() => {
-        //...  NOTE: no need to subscribe to 'usernames.all' since comment cards exist alongside the post cards.
+        //...
     });
 });
 

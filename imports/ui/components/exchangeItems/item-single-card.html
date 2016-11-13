@@ -6,7 +6,7 @@
                 <div class="inventory-single-item">
 
                     <span class="float-right">
-                        <a class="button primary hollow no-border share-project-facebook text-large padded" data-no-instant>
+                        <a class="button primary hollow no-border share-project-facebook text-large padded">
                             <i class="fi-share"></i>
                         </a>
 
@@ -36,7 +36,9 @@
                     {{#if small_card}}
                         <div class="row column push-down horizontal-scroll-row">
                             {{#each imageLinks}}
-                                <a class="thumbnail" data-lightbox="{{this._id}}" href="{{c.url this secure=true}}">
+                                <a class="thumbnail"
+                                   data-lightbox="{{this._id}}"
+                                   href="{{c.url this secure=true}}">
                                     <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                                 </a>
                             {{/each}}
@@ -44,7 +46,12 @@
                     {{else}}
                         <div class="row column push-down">
                             {{> photo_tiles imageLinks=imageLinks currentPostId=this._id}}
-                            {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+
+                            {{#each imageLinks}}{{else}}
+                                <p>
+                                    No images provided for this project.
+                                </p>
+                            {{/each}}
                         </div>
                     {{/if}}
 
@@ -71,22 +78,32 @@
 
                     {{#if location}}
                         <p class="row column push-down-small">
-                            <strong>Located near:</strong> {{location}}
+                            <strong>
+                                Located near:
+                            </strong>
+                            {{location}}
                         </p>
                     {{/if}}
 
                     {{#if tag}}
                         <p class="row column push-down-small">
-                            <strong>Project type:</strong> {{tag}}
+                            <strong>
+                                Project type:
+                            </strong>
+                            {{tag}}
                         </p>
                     {{/if}}
 
                     {{#if addendums}}
                         <p class="row column push-down-small">
-                            <strong>Additional details:</strong>
+                            <strong>
+                                Additional details:
+                            </strong>
                         </p>
                         {{#each addendumsWithAuthors}}
-                            <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                            <p class="row column push-down-small">
+                                {{this.addendum}} - {{this.author}}
+                            </p>
                         {{/each}}
                     {{/if}}
 
@@ -95,7 +112,8 @@
                 {{#if isItemOwner}}
                     <div class="inventory-single-item">
                         {{#if showItemEdit}}
-                            <button class="button primary hollow float-right item-edit push-left">cancel editing
+                            <button class="button primary hollow float-right item-edit push-left">
+                                cancel editing
                             </button>
 
                             {{> item_edit}}
@@ -105,7 +123,7 @@
                                     <i class="fi-pencil"></i>
                                 </button>
 
-                                <a class="button primary hollow no-border share-project-facebook text-large padded" data-no-instant>
+                                <a class="button primary hollow no-border share-project-facebook text-large padded">
                                     <i class="fi-share"></i>
                                 </a>
 
@@ -139,42 +157,76 @@
                             {{else}}
                                 <div class="row column push-down">
                                     {{> photo_tiles imageLinks=imageLinks currentPostId=this._id}}
-                                    {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+
+                                    {{#each imageLinks}}{{else}}
+                                        <p>
+                                            No images provided for this project.
+                                        </p>
+                                    {{/each}}
                                 </div>
                             {{/if}}
 
                             <div class="row column button-group expanded push-down-small">
                                 <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
-                                   disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                                   title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">{{#if locked}}
-                                    Locked{{else}}Unlocked{{/if}}</p>
+                                   disabled data-tooltip=""
+                                   aria-haspopup="true"
+                                   data-disable-hover="false"
+                                   tabindex="1"
+                                   title="{{#if locked}}{{tooltipLockedYours}}{{else}}{{tooltipUnlockedYours}}{{/if}}">
+                                    {{#if locked}}
+                                        Locked
+                                    {{else}}
+                                        Unlocked
+                                    {{/if}}
+                                </p>
                                 <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
-                                   disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                                   title="{{#if available}}{{tooltipAvailableYours}}{{else}}{{tooltipUnavailableYours}}{{/if}}">{{#if available}}
-                                    Available{{else}}Not available{{/if}}</p>
+                                   disabled data-tooltip=""
+                                   aria-haspopup="true"
+                                   data-disable-hover="false"
+                                   tabindex="1"
+                                   title="{{#if available}}{{tooltipAvailableYours}}{{else}}{{tooltipUnavailableYours}}{{/if}}">
+                                    {{#if available}}
+                                        Available
+                                    {{else}}
+                                        Not available
+                                    {{/if}}
+                                </p>
                             </div>
 
                             {{#if locked}}
-                                <p class="row column push-down-small">You cannot edit or delete this project because it
-                                    is locked.</p>
+                                <p class="row column push-down-small">
+                                    You cannot edit or delete this project because it is locked.
+                                </p>
                             {{/if}}
 
                             {{#if location}}
                                 <p class="row column push-down-small">
-                                    <strong>Located near:</strong> {{location}}
+                                    <strong>
+                                        Located near:
+                                    </strong>
+                                    {{location}}
                                 </p>
                             {{/if}}
 
                             {{#if tag}}
                                 <p class="row column push-down-small">
-                                    <strong>Project type:</strong> {{tag}}
+                                    <strong>
+                                        Project type:
+                                    </strong>
+                                    {{tag}}
                                 </p>
                             {{/if}}
 
                             {{#if addendums}}
-                                <p class="row column push-down-small"><strong>additional details:</strong></p>
+                                <p class="row column push-down-small">
+                                    <strong>
+                                        additional details:
+                                    </strong>
+                                </p>
                                 {{#each addendumsWithAuthors}}
-                                    <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                                    <p class="row column push-down-small">
+                                        {{this.addendum}} - {{this.author}}
+                                    </p>
                                 {{/each}}
                             {{/if}}
                         {{/if}}
@@ -183,7 +235,7 @@
                     <div class="inventory-single-item">
 
                         <span class="float-right">
-                            <a class="button primary hollow no-border share-project-facebook text-large padded" data-no-instant>
+                            <a class="button primary hollow no-border share-project-facebook text-large padded">
                                 <i class="fi-share"></i>
                             </a>
 
@@ -213,7 +265,9 @@
                         {{#if small_card}}
                             <div class="row column push-down horizontal-scroll-row">
                                 {{#each imageLinks}}
-                                    <a class="thumbnail" data-lightbox="{{this._id}}" href="{{c.url this secure=true}}">
+                                    <a class="thumbnail"
+                                       data-lightbox="{{this._id}}"
+                                       href="{{c.url this secure=true}}">
                                         <img src="{{c.url this secure=true width=250 height=200 crop='fit'}}">
                                     </a>
                                 {{/each}}
@@ -221,39 +275,70 @@
                         {{else}}
                             <div class="row column push-down">
                                 {{> photo_tiles imageLinks=imageLinks currentPostId=this._id}}
-                                {{#each imageLinks}}{{else}}<p>No images provided for this project.</p>{{/each}}
+
+                                {{#each imageLinks}}{{else}}
+                                    <p>
+                                        No images provided for this project.
+                                    </p>
+                                {{/each}}
                             </div>
                         {{/if}}
 
                         <div class="row column button-group expanded push-down-small">
                             <p class="button secondary has-tip has-tip-item-card-{{#if locked}}locked{{else}}unlocked{{/if}}"
-                               disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                               title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">{{#if locked}}
-                                Locked{{else}}Unlocked{{/if}}</p>
+                               disabled data-tooltip=""
+                               aria-haspopup="true"
+                               data-disable-hover="false"
+                               tabindex="1"
+                               title="{{#if locked}}{{tooltipLocked}}{{else}}{{tooltipUnlocked}}{{/if}}">
+                                {{#if locked}}
+                                    Locked
+                                {{else}}
+                                    Unlocked
+                                {{/if}}
+                            </p>
                             <p class="button secondary has-tip has-tip-item-card-{{#if available}}available{{else}}unavailable{{/if}}"
-                               disabled data-tooltip="" aria-haspopup="true" data-disable-hover="false" tabindex="1"
-                               title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">{{#if available}}
-                                Available{{else}}Not available{{/if}}</p>
+                               disabled data-tooltip=""
+                               aria-haspopup="true"
+                               data-disable-hover="false"
+                               tabindex="1"
+                               title="{{#if available}}{{tooltipAvailable}}{{else}}{{tooltipUnavailable}}{{/if}}">
+                                {{#if available}}
+                                    Available
+                                {{else}}
+                                    Not available
+                                {{/if}}
+                            </p>
                         </div>
 
                         {{#if location}}
                             <p class="row column push-down-small">
-                                <strong>Located near:</strong> {{location}}
+                                <strong>
+                                    Located near:
+                                </strong>
+                                {{location}}
                             </p>
                         {{/if}}
 
                         {{#if tag}}
                             <p class="row column push-down-small">
-                                <strong>Project type:</strong> {{tag}}
+                                <strong>
+                                    Project type:
+                                </strong>
+                                {{tag}}
                             </p>
                         {{/if}}
 
                         {{#if addendums}}
                             <p class="row column push-down-small">
-                                <strong>additional details:</strong>
+                                <strong>
+                                    additional details:
+                                </strong>
                             </p>
                             {{#each addendumsWithAuthors}}
-                                <p class="row column push-down-small">{{this.addendum}} - {{this.author}}</p>
+                                <p class="row column push-down-small">
+                                    {{this.addendum}} - {{this.author}}
+                                </p>
                             {{/each}}
                         {{/if}}
                     </div>

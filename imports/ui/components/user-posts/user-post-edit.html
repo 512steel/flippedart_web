@@ -3,7 +3,9 @@
         <div class="column small-12 medium-8 large-8 medium-centered large-centered">
             <div>
                 <a class="button-go-back"
-                   href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">cancel editing</a>
+                   href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">
+                    cancel editing
+                </a>
             </div>
             {{#if ownPost}}
                 <div class="row column pull-down-xlarge push-down-xxxxlarge">
@@ -13,22 +15,32 @@
                             {{#textareaAutocomplete required="true" settings=settings value=userPost.text name="user-post-edit-text" placeholder="Edit your post" maxlength="5000" type="text"}}{{/textareaAutocomplete}}
                         </div>
 
-                        <input id="postEditFileUpload" class="show-for-sr" type="file" accept="image/*" multiple
+                        <input id="postEditFileUpload"
+                               class="show-for-sr"
+                               type="file"
+                               accept="image/*"
+                               multiple
                                data-multiple-caption="{count} files selected"/>
-                        <label for="postEditFileUpload" class="button secondary hollow expanded">
+                        <label for="postEditFileUpload"
+                               class="button secondary hollow expanded">
                             <span>
                                 Replace photos (up to {{maxPhotoUploadCount}})
                             </span>
                         </label>
 
                         {{#if isUploading}}
-                            <input type="submit" value="{{uploadingCopy}}" class="button primary float-left" disabled/>
+                            <input type="submit"
+                                   value="{{uploadingCopy}}"
+                                   class="button primary float-left"
+                                   disabled/>
                         {{else}}
-                            <input type="submit" value="Save" class="button primary float-left"/>
+                            <input type="submit"
+                                   value="Save"
+                                   class="button primary float-left"/>
                         {{/if}}
                     </form>
 
-                    <a class="button alert delete-user-post float-right" href="#" data-no-instant>
+                    <a class="button alert delete-user-post float-right" href="#">
                         <i class="fi-trash"></i>
                     </a>
                 </div>

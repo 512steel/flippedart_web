@@ -11,14 +11,19 @@
                     {{else}}
                         <p class="pull-down-xxxlarge push-down-xxxlarge">
                             You don't have a chat started with {{otherUsername}}.<br>
-                            <a href="{{pathFor 'profile.page' username=otherUsername}}">Request some items from them!</a>
+                            <a href="{{pathFor 'profile.page' username=otherUsername}}">
+                                Request some items from them!
+                            </a>
                         </p>
                     {{/if}}
 
                 {{else}}
 
                     <div class="row column pull-down-small" id="chat-window-title">
-                        <h3>Messages with {{otherUsername}}<hr></h3>
+                        <h3>
+                            Messages with {{otherUsername}}
+                            <hr>
+                        </h3>
                     </div>
 
 
@@ -30,7 +35,10 @@
                             </div>
 
                             {{#if hasMoreChatMessages}}
-                                <p class="padded text-centered"><a class="js-load-more-chat-messages button secondary" data-no-instant>Load more messages</a></p>
+                                <p class="padded text-centered">
+                                    <a class="js-load-more-chat-messages button secondary">
+                                        Load more messages
+                                    </a></p>
                             {{/if}}
 
                             {{#each reversed chatMessages}}
@@ -40,7 +48,9 @@
 
                             {{else}}
                                 <div class="text-centered pull-down-xlarge push-down-xlarge">
-                                    <p>Send a message to {{otherUsername}} to start your conversation.</p>
+                                    <p>
+                                        Send a message to {{otherUsername}} to start your conversation.
+                                    </p>
                                 </div>
                             {{/each}}
                         </div>
@@ -52,8 +62,16 @@
                             <hr>
                             {{> chat_message_submit}}
                             <div class="pull-left push-left push-down push-right">
-                                <p><a href="{{pathFor 'profile.page' username=otherUsername}}">{{otherUsername}}'s profile</a></p>
-                                <p><a href="{{pathFor 'exchanges.user' username=yourUsername}}">Your exchanges</a></p>
+                                <p>
+                                    <a href="{{pathFor 'profile.page' username=otherUsername}}">
+                                        {{otherUsername}}'s profile
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="{{pathFor 'exchanges.user' username=yourUsername}}">
+                                        Your exchanges
+                                    </a>
+                                </p>
                             </div>
                         </div>
                     </div>

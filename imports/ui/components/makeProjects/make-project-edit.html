@@ -15,7 +15,9 @@
                                 <strong>
                                     Project name
                                 </strong>
-                                <span>(note that changing the project's name may cause problems with old links)</span>
+                                <span>
+                                    (note that changing the project's name may cause problems with old links)
+                                </span>
                             </label>
                             <input name="makeProjectName"
                                    type="text"
@@ -119,7 +121,9 @@
                     </strong>
                 </p>
                 <p class="padded text-centered button hollow">
-                    <a href="{{pathFor 'makeProjects.page'}}">Go back</a>
+                    <a href="{{pathFor 'makeProjects.page'}}">
+                        Go back
+                    </a>
                 </p>
             {{/if}}
         </div>
@@ -146,7 +150,8 @@
         <div>
             {{#each link in this.step.imageLinks}}
                 {{#if trim link}}
-                    <a class="thumbnail" data-lightbox="photosEditStep" href="{{c.url link secure=true}}">
+                    <a class="thumbnail" data-lightbox="photosEditStep"
+                       href="{{c.url link secure=true}}">
                         <img src="{{c.url link secure=true}}">
                     </a>
                 {{/if}}
@@ -155,8 +160,13 @@
             {{/each}}
         </div>
 
-        <input id="stepFileUpload{{this.index}}" class="show-for-sr stepFileUpload" type="file" accept="image/*" multiple data-multiple-caption="{count} files selected" />
-        <label for="stepFileUpload{{this.index}}" class="button secondary hollow expanded">
+        <input id="stepFileUpload{{this.index}}"
+               class="show-for-sr stepFileUpload"
+               type="file"
+               accept="image/*"
+               multiple data-multiple-caption="{count} files selected" />
+        <label for="stepFileUpload{{this.index}}"
+               class="button secondary hollow expanded">
             <span>
                 Change the photos for this step (up to {{makeProjectStepImagesLimit}})
             </span>

@@ -2,9 +2,7 @@
     <div class="row pull-down push-down">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered pull-down push-down-xxxlarge">
 
-            <a href="{{pathFor 'eventCalendar.page'
-            MMDDYY=event.eventDate}}"
-               class="push-down-large button secondary hollow">
+            <a href="{{pathFor 'eventCalendar.page' MMDDYY=event.eventDate}}" class="push-down-large button secondary hollow">
                 Back to calendar
             </a>
 
@@ -19,7 +17,9 @@
                     <hr>
                     <p class="text-centered">
                         <a href="{{pathFor 'join'}}">
-                            <strong>Sign up</strong>
+                            <strong>
+                                Sign up
+                            </strong>
                         </a>
                         to add an event to the calendar!
                     </p>

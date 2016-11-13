@@ -15,7 +15,10 @@
 <template name="project_submit_explanation">
     <p class="push-down">
         Have you made something that someone could use?  Add it here to share it with
-        other community members. <a href="{{pathFor 'static.howto'}}">Learn more</a>.
+        other community members.
+        <a href="{{pathFor 'static.howto'}}">
+            Learn more
+        </a>.
     </p>
 </template>
 
@@ -62,12 +65,20 @@
 
 <template name="add_items_button">
     {{#unless hasSingleItems}}
-        <input type="submit" value="Add projects" class="button primary expanded" disabled/>
+        <input type="submit"
+               value="Add projects"
+               class="button primary expanded"
+               disabled/>
     {{else}}
         {{#if isUploading}}
-            <input type="submit" value="{{uploadingCopy}}" class="button secondary expanded" disabled/>
+            <input type="submit"
+                   value="{{uploadingCopy}}"
+                   class="button secondary expanded"
+                   disabled/>
         {{else}}
-            <input type="submit" value="{{addProjectCopy}}" class="button primary expanded"/>
+            <input type="submit"
+                   value="{{addProjectCopy}}"
+                   class="button primary expanded"/>
         {{/if}}
     {{/unless}}
 </template>
@@ -80,15 +91,29 @@
         </div>-->
 
         <div class="row column">
-            <input class="single-item-title column push-down-small padded" placeholder="Name your project" maxlength="500" required/>
+            <input class="single-item-title column push-down-small padded"
+                   placeholder="Name your project"
+                   maxlength="500"
+                   required/>
         </div>
 
         <div class="row column">
-            <textarea class="single-item-description padded" type="text" placeholder="Add a description" maxlength="5000" required></textarea>
+            <textarea class="single-item-description padded"
+                      type="text"
+                      placeholder="Add a description"
+                      maxlength="5000"
+                      required></textarea>
         </div>
 
-        <input id="projectPhotoUpload" class="show-for-sr" type="file" accept="image/*" multiple required data-multiple-caption="{count} files selected" />
-        <label for="projectPhotoUpload" class="button secondary hollow expanded">
+        <input id="projectPhotoUpload"
+               class="show-for-sr"
+               type="file"
+               accept="image/*"
+               multiple
+               required
+               data-multiple-caption="{count} files selected" />
+        <label for="projectPhotoUpload"
+               class="button secondary hollow expanded">
             <span>
                 Upload photos (up to {{maxPhotoUploadCount}})
             </span>
@@ -96,14 +121,27 @@
 
         <div class="input-group row column">
             <select class="single-item-tag small-12 medium-12 large-7">
-                <option value=" " disabled selected style="color: gray">Tag your project</option>
+                <option value=" "
+                        disabled
+                        selected
+                        style="color: gray">
+                    Tag your project</option>
                 {{#each projectTags}}
-                    <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">
+                        {{this}}
+                    </option>
                 {{/each}}
             </select>
 
             <div class="small-12 medium-12 large-5 column">
-                <span data-tooltip="" aria-haspopup="true" class="has-tip has-tip-item-submit" data-disable-hover="false" tabindex="1" title="Make sure this box is checked so you can share your project with other people!">Available?</span>
+                <span data-tooltip=""
+                      aria-haspopup="true"
+                      class="has-tip has-tip-item-submit"
+                      data-disable-hover="false"
+                      tabindex="1"
+                      title="Make sure this box is checked so you can share your project with other people!">
+                    Available?
+                </span>
                 <input class="single-item-available"
                        checked
                        type="checkbox"/>

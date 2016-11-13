@@ -5,7 +5,7 @@
         {{/if}}
         {{#unless ownComment}}
             {{#if currentUser}}
-                <a href="#" class="flag button primary float-right {{flaggedClass}}" data-no-instant>
+                <a href="#" class="flag button primary float-right {{flaggedClass}}">
                     <!--{{#if userHasFlagged}}flagged{{else}}flag{{/if}}-->
                     <i class="fi-flag"></i>
                 </a>
@@ -18,7 +18,9 @@
             <p class="author shift-down text-small">
                 <strong>
                     {{#unless ownComment}}
-                        <a href="{{pathFor 'profile.page' username=author}}">{{author}}</a>
+                        <a href="{{pathFor 'profile.page' username=author}}">
+                            {{author}}
+                        </a>
                     {{else}}
                         You
                     {{/unless}}
@@ -27,16 +29,24 @@
             </p>
 
             {{#unless inappropriate}}
-                <p class="push-down-sm comment-card-text">{{{text}}}</p>
+                <p class="push-down-sm comment-card-text">
+                    {{{text}}}
+                </p>
                 <p>
                     {{#if lastUpdated}}
-                        <span class="date text-small">edited {{dateTimeAgo lastUpdated}}</span>
+                        <span class="date text-small">
+                            edited {{dateTimeAgo lastUpdated}}
+                        </span>
                     {{else}}
-                        <span class="date text-small">{{dateTimeAgo createdAt}}</span>
+                        <span class="date text-small">
+                            {{dateTimeAgo createdAt}}
+                        </span>
                     {{/if}}
                 </p>
             {{else}}
-                <h3>[This comment has been flagged as inappropriate]</h3>
+                <h3>
+                    [This comment has been flagged as inappropriate]
+                </h3>
             {{/unless}}
 
             <br>

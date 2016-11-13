@@ -3,41 +3,98 @@
     <form enctype="multipart/form-data" class="main form calendar-event-submit">
 
         <div class="row column">
-            <label><strong>Name of your event</strong></label>
-            <input type="text" class="column small-12" placeholder="Event name" name="calendarEventName" required />
+            <label>
+                <strong>
+                    Name of your event
+                </strong>
+            </label>
+            <input type="text"
+                   class="column small-12"
+                   placeholder="Event name"
+                   name="calendarEventName"
+                   required />
 
-            <label><strong>Event location</strong></label>
-            <input type="text" class="column small-12" placeholder="Event location" name="calendarEventLocation" required />
+            <label>
+                <strong>
+                    Event location
+                </strong>
+            </label>
+            <input type="text"
+                   class="column small-12"
+                   placeholder="Event location"
+                   name="calendarEventLocation"
+                   required />
 
-            <!-- FIXME: date pickers and time pickers -->
-            <label><strong>Date of the event</strong></label>
-            <input type="text" class="column small-12" id="datepicker" name="calendarEventDate" required />
+            <!-- FIXME: prettier date pickers and time pickers -->
+            <label>
+                <strong>
+                    Date of the event
+                </strong>
+            </label>
+            <input type="text"
+                   class="column small-12"
+                   id="datepicker"
+                   name="calendarEventDate"
+                   required />
 
             <div class="row">
                 <div class="column small-12 medium-6">
-                    <label><strong>Start time</strong></label>
-                    <input type="text" id="startTime" value="{{event.startTime}}" name="calendarEventStartTime" required />
+                    <label>
+                        <strong>
+                            Start time
+                        </strong>
+                    </label>
+                    <input type="text"
+                           id="startTime"
+                           value="{{event.startTime}}"
+                           name="calendarEventStartTime"
+                           required />
                 </div>
                 <div class="column small-12 medium-6">
-                    <label><strong>End time</strong></label>
-                    <input type="text" id="endTime" value="{{event.endTime}}" name="calendarEventEndTime" required />
+                    <label>
+                        <strong>
+                            End time
+                        </strong>
+                    </label>
+                    <input type="text"
+                           id="endTime"
+                           value="{{event.endTime}}"
+                           name="calendarEventEndTime"
+                           required />
                 </div>
             </div>
 
-            <label><strong>Event description</strong></label>
-            <textarea class="column small-12" placeholder="Let people know what's going to happen at your event!" name="calendarEventDescription" cols="4" required></textarea>
+            <label>
+                <strong>
+                    Event description
+                </strong>
+            </label>
+            <textarea class="column small-12"
+                      placeholder="Let people know what's going to happen at your event!"
+                      name="calendarEventDescription"
+                      cols="4"
+                      required></textarea>
 
-            <input id="eventFileUpload" class="show-for-sr column small-12" type="file" accept="image/*" />
-            <label for="eventFileUpload" class="column small-12 button secondary hollow expanded">
+            <input id="eventFileUpload"
+                   class="show-for-sr column small-12"
+                   type="file"
+                   accept="image/*" />
+            <label for="eventFileUpload"
+                   class="column small-12 button secondary hollow expanded">
             <span>
                 Upload an event photo
             </span>
             </label>
 
             {{#if isUploading}}
-                <input type="submit" value="{{uploadingCopy}}" class="column small-12 medium-4 button primary float-right" disabled/>
+                <input type="submit"
+                       value="{{uploadingCopy}}"
+                       class="column small-12 medium-4 button primary float-right"
+                       disabled/>
             {{else}}
-                <input type="submit" value="Create your event" class="column small-12 medium-4 button primary float-right"/>
+                <input type="submit"
+                       value="Create your event"
+                       class="column small-12 medium-4 button primary float-right"/>
             {{/if}}
 
             <div class="clearfix"></div>

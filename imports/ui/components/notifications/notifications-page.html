@@ -1,7 +1,9 @@
 <template name="notifications_page">
     <div class="row pull-down push-down-xxlarge">
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
-            <h1 class="push-down">Your notifications ({{userNotificationsCount}})</h1>
+            <h1 class="push-down">
+                Your notifications ({{userNotificationsCount}})
+            </h1>
             <div>
                 {{#each userNotifications}}
                     <div class="row column">
@@ -10,8 +12,13 @@
                     <hr>
                 {{else}}
                     <div class="row column push-down-xxxxlarge">
-                        <p>You don't have any notifications.</p>
-                        <a href="{{pathFor 'profile.page' username=currentUsername}}" class="button-go-back">Back to your profile</a>
+                        <p>
+                            You don't have any notifications.
+                        </p>
+                        <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                           class="button-go-back">
+                            Back to your profile
+                        </a>
                     </div>
                 {{/each}}
 

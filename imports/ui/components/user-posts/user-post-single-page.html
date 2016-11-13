@@ -3,7 +3,10 @@
         <div class="column small-12 medium-8 large-6 medium-centered large-centered">
             <a class="button-go-back" href="{{pathFor 'profile.page' username=userPost.author}}">
                 back to
-                {{#if ownPost}}your{{else}}{{userPost.author}}'s{{/if}}
+                {{#if ownPost}}
+                    your{{else}}
+                    {{userPost.author}}'s
+                {{/if}}
                 profile
             </a>
 
@@ -27,13 +30,17 @@
                     </div>
 
                 {{else}}
-                    <p>There are no comments on this post.</p>
+                    <p>
+                        There are no comments on this post.
+                    </p>
                 {{/each}}
 
                 {{#if hasMoreComments}}
                     <div class="row">
                         <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
-                            <a class="js-load-more-comments button secondary" data-no-instant>Load more comments</a>
+                            <a class="js-load-more-comments button secondary">
+                                Load more comments
+                            </a>
                         </div>
                     </div>
                 {{/if}}
@@ -46,7 +53,12 @@
                     {{> comment_submit}}
                 {{/with}}
             {{else}}
-                <p class="push-down"><a href="{{pathFor 'signin'}}">Sign in</a> to leave a comment</p>
+                <p class="push-down">
+                    <a href="{{pathFor 'signin'}}">
+                        Sign in
+                    </a>
+                    to leave a comment
+                </p>
             {{/if}}
         </div>
     </div>

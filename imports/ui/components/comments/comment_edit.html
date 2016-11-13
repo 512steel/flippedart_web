@@ -3,11 +3,13 @@
         <form class="main form comment-edit-form">
             <div class="form-group">
                 <div class="controls">
-                    {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Edit your comment" maxlength="2500" type="text"}}{{{text}}}{{/textareaAutocomplete}}
+                    {{#textareaAutocomplete settings=settings required="true" name="text" placeholder="Edit your comment" maxlength="2500" type="text"}}
+                        {{{text}}}
+                    {{/textareaAutocomplete}}
                 </div>
             </div>
             <input type="submit" value="Save" class="button primary submit float-left"/>
-            <a class="button alert delete float-right" href="#" data-no-instant>
+            <a class="button alert delete float-right" href="#">
                 <i class="fi-trash"></i>
             </a>
         </form>

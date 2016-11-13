@@ -3,7 +3,10 @@
     <div class="row push-down-xxlarge">
         <div class="column small-12 medium-10 large-8 medium-centered large-centered">
             <div class="row column">
-                <a class="button-go-back" href="{{pathFor 'exchanges.user' username=pageUsername}}">back to your exchanges</a>
+                <a class="button-go-back"
+                   href="{{pathFor 'exchanges.user' username=pageUsername}}">
+                    back to your exchanges
+                </a>
             </div>
 
             {{#unless isExchangeMember}}
@@ -35,7 +38,11 @@
                         <a href="{{pathFor 'projects.single' username=ownerName exchangeItemId=this._id}}">
                             <h4>{{this.title}}</h4>
                             <p>
-                                {{#if itemHasTag}}{{this.tag}}<br>{{/if}}
+                                {{#if itemHasTag}}
+                                    {{this.tag}}
+                                    <br>
+                                {{/if}}
+
                                 {{this.description}}
                             </p>
                         </a>
@@ -46,13 +53,15 @@
                     {{#with transaction}}
                         {{#if isRequestee}}
                             <p>
-                                <a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesterName}}">
+                                <a class="btn btn-default"
+                                   href="{{pathFor 'chatWindow.user' username=requesterName}}">
                                     chat with {{requesterName}}
                                 </a>
                             </p>
                         {{else}}
                             <p>
-                                <a class="btn btn-default" href="{{pathFor 'chatWindow.user' username=requesteeName}}">
+                                <a class="btn btn-default"
+                                   href="{{pathFor 'chatWindow.user' username=requesteeName}}">
                                     chat with {{requesteeName}}
                                 </a>
                             </p>

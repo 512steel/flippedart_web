@@ -18,17 +18,23 @@
         {{#unless inappropriate}}
 
             {{#if small_card}}
-                <p class="user-post-body text-large">{{{limitLength userPost.text 200}}}</p>
+                <p class="user-post-body text-large">
+                    {{{limitLength userPost.text 200}}}
+                </p>
 
                 <div class="row column push-down horizontal-scroll-row">
                     {{#each userPost.imageLinks}}
-                        <a class="thumbnail" data-lightbox="{{currentPost._id}}" href="{{c.url this secure=true}}">
+                        <a class="thumbnail"
+                           data-lightbox="{{currentPost._id}}"
+                           href="{{c.url this secure=true}}">
                             <img src="{{c.url this secure=true height=250 crop='limit'}}">
                         </a>
                     {{/each}}
                 </div>
             {{else}}
-                <p class="user-post-body text-large">{{{userPost.text}}}</p>
+                <p class="user-post-body text-large">
+                    {{{userPost.text}}}
+                </p>
 
                 <div class="row column push-down">
                     {{> photo_tiles imageLinks=userPost.imageLinks currentPostId=currentPost._id}}
@@ -36,37 +42,53 @@
             {{/if}}
 
         {{else}}
-            <p class="text-large">[This post has been flagged as inappropriate]</p>
+            <p class="text-large">
+                [This post has been flagged as inappropriate]
+            </p>
         {{/unless}}
 
         <!--<p class="push-down-sm">location: {{userPost.location}}</p>-->
 
         <div class="button-group">
-            <a href="#" class="upvote button primary {{upvotedClass}}" data-no-instant>
-                <i class="fi-heart"></i>&nbsp;&nbsp;{{#if userPost.upvotes}}{{userPost.upvotes}}{{else}}0{{/if}}
+            <a href="#" class="upvote button primary {{upvotedClass}}">
+                <i class="fi-heart"></i>&nbsp;&nbsp;
+                {{#if userPost.upvotes}}
+                    {{userPost.upvotes}}
+                {{else}}
+                    0
+                {{/if}}
             </a>
 
-            <a href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}" class="discuss button">
-                {{#if greaterThan userPost.commentsCount 1}}<i class="fi-comments"></i>{{else}}<i class="fi-comment"></i>{{/if}}&nbsp;&nbsp;{{userPost.commentsCount}}
+            <a href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}"
+               class="discuss button">
+                {{#if greaterThan userPost.commentsCount 1}}
+                    <i class="fi-comments"></i>
+                {{else}}
+                    <i class="fi-comment"></i>
+                {{/if}}&nbsp;&nbsp;{{userPost.commentsCount}}
             </a>
 
             {{#if currentUser}}
                 {{#unless ownPost}}
-                    <a href="#" class="flag button primary {{flaggedClass}}" data-no-instant>
+                    <a href="#" class="flag button primary {{flaggedClass}}">
                         <!--{{#if userHasFlagged}}flagged{{else}}flag{{/if}}-->
                         <i class="fi-flag"></i>
                     </a>
                 {{else}}
-                    <a href="{{pathFor 'profile.post.edit' username=userPost.author userPostId=userPost._id}}" class="button primary"><i class="fi-pencil"></i></a>
+                    <a href="{{pathFor 'profile.post.edit' username=userPost.author userPostId=userPost._id}}"
+                       class="button primary">
+                        <i class="fi-pencil"></i>
+                    </a>
                 {{/unless}}
             {{/if}}
 
             <span class="float-right">
-                <a class="button primary hollow no-border share-post-facebook" data-no-instant>
+                <a class="button primary hollow no-border share-post-facebook">
                     <i class="fi-share"></i>
                 </a>
 
-                <a class="button primary hollow no-border" href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">
+                <a class="button primary hollow no-border"
+                   href="{{pathFor 'profile.post' username=userPost.author userPostId=userPost._id}}">
                     <i class="fi-link"></i>
                 </a>
             </span>

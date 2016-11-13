@@ -2,9 +2,14 @@
     <div class="row">
         <div class="column small-12 medium-8 large-6 medium-centered large-centered">
             <div class="row column">
-                <a class="button-go-back" href="{{pathFor 'profile.page' username=userPageUsername}}">
+                <a class="button-go-back"
+                   href="{{pathFor 'profile.page' username=userPageUsername}}">
                     back to
-                    {{#if ownPage}}your{{else}}{{userPageUsername}}'s{{/if}}
+                    {{#if ownPage}}
+                        your
+                    {{else}}
+                        {{userPageUsername}}'s
+                    {{/if}}
                     profile
                 </a>
             </div>
@@ -55,13 +60,17 @@
 
                 {{#if hasMoreExchangeItems}}
                     <p class="text-center pull-down">
-                        <a class="js-load-more-projects button secondary" data-no-instant>
-                            <strong>Load more projects</strong>
+                        <a class="js-load-more-projects button secondary">
+                            <strong>
+                                Load more projects
+                            </strong>
                         </a>
                     </p>
                 {{/if}}
             {{else}}
-                <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
+                <p>
+                    {{currentPageUsername}} doesn't have any projects at the moment.
+                </p>
             {{/if}}
         {{else}}
             {{#if isProfileOwner}}
@@ -70,16 +79,24 @@
                     {{#if hasExchangeItems}}
                         <ul class="accordion" data-accordion data-allow-all-closed="true">
                             <li class="accordion-item" data-accordion-item>
-                                <a href="#" class="accordion-title" data-no-instant>New project</a>
+                                <a href="#" class="accordion-title">
+                                    New project
+                                </a>
                                 <div class="accordion-content" data-tab-content>
-                                    <h4 class="pull-down-small">Add a project</h4>
+                                    <h4 class="pull-down-small">
+                                        Add a project
+                                    </h4>
+
                                     {{> project_submit_explanation}}
                                     {{> item_submit}}
                                 </div>
                             </li>
                         </ul>
                     {{else}}
-                        <h4 class="pull-down-small">Add a project</h4>
+                        <h4 class="pull-down-small">
+                            Add a project
+                        </h4>
+
                         {{> project_submit_explanation}}
                         {{> item_submit}}
                     {{/if}}
@@ -87,7 +104,9 @@
 
                 {{#if hasExchangeItems}}
                     <div class="row column pull-down-small">
-                        <h3 class="">Your projects</h3>
+                        <h3 class="">
+                            Your projects
+                        </h3>
                     </div>
                     {{#each item in exchangeItems}}
                         <div class="inventory-single-item row column">
@@ -117,14 +136,23 @@
 
                     {{#if hasMoreExchangeItems}}
                         <p class="text-center pull-down">
-                            <a class="js-load-more-projects button secondary" data-no-instant>
-                                <strong>Load more projects</strong>
+                            <a class="js-load-more-projects button secondary">
+                                <strong>
+                                    Load more projects
+                                </strong>
                             </a>
                         </p>
                     {{/if}}
                 {{else}}
-                    <p><strong>You don't have any projects at the moment.</strong> <a href="{{pathFor 'projects.add'}}">Add
-                        some.</a></p>
+                    <p>
+                        <strong>
+                            You don't have any projects at the moment.
+                        </strong>
+
+                        <a href="{{pathFor 'projects.add'}}">
+                            Add some.
+                        </a>
+                    </p>
                 {{/if}}
             {{else}}
                 {{#if hasExchangeItems}}
@@ -139,7 +167,9 @@
                             {{#each item in exchangeItems}}
                                 <div class="inventory-single-item">
                                     {{#with item}}
-                                        <span class="invisible inventory-single-item-id">{{_id}}</span>
+                                        <span class="invisible inventory-single-item-id">
+                                            {{_id}}
+                                        </span>
                                         <!--{{> project_single_card }}-->
 
                                         <!--{{#if isExchangeItemAvailable (item)}}
@@ -170,26 +200,33 @@
 
                     {{#if hasMoreExchangeItems}}
                         <p class="text-center pull-down">
-                            <a class="js-load-more-projects button secondary" data-no-instant>
-                                <strong>Load more projects</strong>
+                            <a class="js-load-more-projects button secondary">
+                                <strong>
+                                    Load more projects
+                                </strong>
                             </a>
                         </p>
                     {{/if}}
 
                     <div class="scrolly-sidebar col-xxsish-4 hidden-below-xxsish">
-                        <button class="multiple-item-request-form-button button primary" disabled>Request these
-                            projects
+                        <button class="multiple-item-request-form-button button primary"
+                                disabled>
+                            Request these projects
                         </button>
                         {{#if requestedProjectNames}}
                             <div class="requested-items-list">
                                 {{#each requestedProjectNames}}
-                                    <p>{{this}}</p>
+                                    <p>
+                                        {{this}}
+                                    </p>
                                 {{/each}}
                             </div>
                         {{/if}}
                     </div>
                 {{else}}
-                    <p>{{currentPageUsername}} doesn't have any projects at the moment.</p>
+                    <p>
+                        {{currentPageUsername}} doesn't have any projects at the moment.
+                    </p>
                 {{/if}}
             {{/if}}
         {{/unless}}

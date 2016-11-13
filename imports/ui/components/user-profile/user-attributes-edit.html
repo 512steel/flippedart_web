@@ -5,42 +5,86 @@
 
             {{#if fieldsRequired}}
 
-                <textarea required name="bio" type="text" placeholder="Add a brief bio" class=""
-                          maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
+                <textarea required name="bio"
+                          type="text"
+                          placeholder="Add a brief bio"
+                          class=""
+                          maxlength="1000">
+                    {{#if userAttributes}}
+                        {{userAttributes.bio}}
+                    {{/if}}
+                </textarea>
 
-                <input required name="location" type="text" placeholder="Add your general location"
+                <input required
+                       name="location"
+                       type="text"
+                       placeholder="Add your general location"
                        value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
 
-                <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
-                       accept="image/*" data-multiple-caption="{count} files selected" />
-                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">
+                <input name="profile-photo-link"
+                       id="profilePhotoFileUpload"
+                       class="show-for-sr"
+                       type="file"
+                       accept="image/*"
+                       data-multiple-caption="{count} files selected" />
+                <label for="profilePhotoFileUpload"
+                       class="button secondary hollow expanded">
                     <span>
-                        {{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo
+                        {{#if userAttributes}}
+                            Update your
+                        {{else}}
+                            Add a
+                        {{/if}}
+                        profile photo
                     </span>
                 </label>
 
             {{else}}
 
-                <textarea name="bio" type="text" placeholder="Add a brief bio" class=""
-                          maxlength="1000">{{#if userAttributes}}{{userAttributes.bio}}{{/if}}</textarea>
+                <textarea name="bio"
+                          type="text"
+                          placeholder="Add a brief bio"
+                          class=""
+                          maxlength="1000">
+                    {{#if userAttributes}}
+                        {{userAttributes.bio}}
+                    {{/if}}
+                </textarea>
 
-                <input name="location" type="text" placeholder="Add your general location"
+                <input name="location"
+                       type="text"
+                       placeholder="Add your general location"
                        value="{{#if userAttributes}}{{userAttributes.location}}{{/if}}"/>
 
-                <input name="profile-photo-link" id="profilePhotoFileUpload" class="show-for-sr" type="file"
-                       accept="image/*" data-multiple-caption="{count} files selected" />
-                <label for="profilePhotoFileUpload" class="button secondary hollow expanded">
+                <input name="profile-photo-link"
+                       id="profilePhotoFileUpload"
+                       class="show-for-sr"
+                       type="file"
+                       accept="image/*"
+                       data-multiple-caption="{count} files selected" />
+                <label for="profilePhotoFileUpload"
+                       class="button secondary hollow expanded">
                     <span>
-                        {{#if userAttributes}}Update your{{else}}Add a{{/if}} profile photo
+                        {{#if userAttributes}}
+                            Update your
+                        {{else}}
+                            Add a
+                        {{/if}}
+                        profile photo
                     </span>
                 </label>
 
             {{/if}}
 
             {{#if isUploadingProfilePicture}}
-                <input class="button primary float-right submit" type="submit" value="{{uploadingProfilePictureCopy}}" disabled/>
+                <input class="button primary float-right submit"
+                       type="submit"
+                       value="{{uploadingProfilePictureCopy}}"
+                       disabled/>
             {{else}}
-                <input class="button primary float-right submit" type="submit" value="Save"/>
+                <input class="button primary float-right submit"
+                       type="submit"
+                       value="Save"/>
             {{/if}}
         </form>
     </div>

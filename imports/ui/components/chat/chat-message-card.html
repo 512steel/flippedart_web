@@ -3,18 +3,33 @@
     <div class="chat-message chat-message-{{senderClass}} padded">
 
         {{#if equals senderClass "mine"}}
-            <p class="small float-right chat-message-delete"><i class="fi-x"></i></p>
+            <p class="small float-right chat-message-delete">
+                <i class="fi-x"></i>
+            </p>
         {{/if}}
 
-        <p class="text-small">{{#if equals senderClass "mine"}}You{{else}}{{senderUserName}}{{/if}} said:</p>
+        <p class="text-small">
+            {{#if equals senderClass "mine"}}
+                You
+            {{else}}
+                {{senderUserName}}
+            {{/if}}
+            said:
+        </p>
 
         {{#if imageLink}}
-            <p>Image Link: {{imageLink}}</p>  <!-- TODO: c.url imageLinks -->
+            <p>
+                Image Link: {{imageLink}}
+            </p>  <!-- TODO: c.url imageLinks -->
         {{/if}}
 
-        <p class="push-down-small">{{{text}}}</p>
+        <p class="push-down-small">
+            {{{text}}}
+        </p>
 
-        <p class="push-down-small text-small">sent on {{timeToMinutes createdAt}}</p>
+        <p class="push-down-small text-small">
+            sent on {{timeToMinutes createdAt}}
+        </p>
 
     </div>
 
