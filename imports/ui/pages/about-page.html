@@ -5,8 +5,15 @@
         <h4>Who we are</h4>
         <p>
             Flipped Art is a maker community reaching across Des Moines.  It was started by
-            <a href="{{pathFor 'profile.page' username='alex'}}" class="username-tag">Alex</a> and
-            <a href="{{pathFor 'profile.page' username='Whitney'}}" class="username-tag">Whitney</a>,
+            <a href="{{pathFor 'profile.page' username='alex'}}"
+               class="username-tag">
+                Alex
+            </a>
+            and
+            <a href="{{pathFor 'profile.page' username='Whitney'}}"
+               class="username-tag">
+                Whitney
+            </a>,
             who both want to make the world a little weirder.
         </p>
 
@@ -15,14 +22,25 @@
             Makers work better together.  Learn something new, give feedback to others,
             share your own work
             {{#if currentUser}}
-                <a href="{{pathFor 'profile.page' username=currentUsername}}">right here</a>
+                <a href="{{pathFor 'profile.page' username=currentUsername}}">
+                    right here
+                </a>
             {{else}}
-                <a href="{{pathFor 'signin'}}">right here</a>
+                <a href="{{pathFor 'signin'}}">
+                    right here
+                </a>
             {{/if}}.
             It’s free to start an account, and
-            <a href="{{pathFor 'static.howto'}}">sharing is easy</a>.  We also drive a
-            <a href="{{pathFor 'static.tinyStudio'}}">mobile makerspace</a> around the Des Moines area.
-            <a href="https://www.facebook.com/flippedartexchange" target="_blank">
+            <a href="{{pathFor 'static.howto'}}">
+                sharing is easy
+            </a>.
+            We also drive a
+            <a href="{{pathFor 'static.tinyStudio'}}">
+                mobile makerspace
+            </a>
+            around the Des Moines area.
+            <a href="https://www.facebook.com/flippedartexchange"
+               target="_blank">
                 Like our facebook page
             </a>
             to be the first to know about where we'll be next.
@@ -55,7 +73,8 @@
         <div class="row">
             <div class="column small-10 medium-8 large-8 small-centered medium-centered large-centered">
                 <p class="pull-down-large">
-                    <a href="{{pathFor 'static.tinyStudio'}}" class="button hollow expanded">
+                    <a href="{{pathFor 'static.tinyStudio'}}"
+                       class="button hollow expanded">
                         Read more about the Tiny Studio
                     </a>
                 </p>

@@ -1,11 +1,20 @@
 <template name="home_page">
 
-    <div class="row medium-collapse expanded" data-equalizer data-equalize-on="medium" id="home-equalized-1">
+    <div class="row medium-collapse expanded"
+         data-equalizer
+         data-equalize-on="medium"
+         id="home-equalized-1">
         <div class="medium-4 columns">
-            <div class="padded-xlarge bordered-light callout background-red no-margin" style="min-height:10rem;" data-equalizer-watch>
-                <div class="column-centered-vertical" style="width: 100%;margin-left: -2rem;text-align: center;">
-                    <h2 class="no-margin text-white" style="padding:0 1em;">
-                        <span class="">Flipped Art is...</span>
+            <div class="padded-xlarge bordered-light callout background-red no-margin"
+                 style="min-height:10rem;"
+                 data-equalizer-watch>
+                <div class="column-centered-vertical"
+                     style="width: 100%;margin-left: -2rem;text-align: center;">
+                    <h2 class="no-margin text-white"
+                        style="padding:0 1em;">
+                        <span class="">
+                            Flipped Art is...
+                        </span>
                         <!--<span class="pop-out-text">Flipped Art</span><br>
                         <span class="pop-out-text">is...</span>-->
                     </h2>
@@ -14,51 +23,77 @@
         </div>
 
         <div class="medium-8 columns">
-            <div class="padded-xlarge bordered-light pull-down" data-equalizer-watch>
+            <div class="padded-xlarge bordered-light pull-down"
+                 data-equalizer-watch>
                 <h5 class="push-down">
                     ...a maker community in Des Moines. We connect people at any level of ability with creative
                     resources. Wannabes are welcome here.
                 </h5>
                 <h5 class="push-down">
-                    ...the coolest mobile art studio in town. <a href="{{pathFor 'static.tinyStudio'}}">Read all about it.</a>
+                    ...the coolest mobile art studio in town.
+                    <a href="{{pathFor 'static.tinyStudio'}}">
+                        Read all about it.
+                    </a>
                 </h5>
                 <h5 class="push-down">
                     ...for you.
+
                     {{#if currentUser}}
-                        We're glad you joined, {{currentUsername}}! Be sure to poke around and find out what other users
-                        are up to.
+                        We're glad you joined, {{currentUsername}}! Be sure to poke around
+                        and find out what other users are up to.
                     {{else}}
-                        <a href="{{pathFor 'join'}}">Sign up</a> (for free!) to be part of something awesome.
+                        <a href="{{pathFor 'join'}}">
+                            Sign up
+                        </a>
+                        (for free!) to be part of something awesome.
                     {{/if}}
                 </h5>
             </div>
         </div>
     </div>
 
-    <div class="row medium-collapse expanded" data-equalizer data-equalize-on="medium" id="home-equalized-2">
+    <div class="row medium-collapse expanded"
+         data-equalizer
+         data-equalize-on="medium"
+         id="home-equalized-2">
         <div class="medium-6 columns">
-            <div class="padded-xxlarge bordered-light callout no-margin" data-equalizer-watch>
+            <div class="padded-xxlarge bordered-light callout no-margin"
+                 data-equalizer-watch>
                 <div class="push-left">
                     <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.tinyStudio'}}">The Tiny Studio</a>
+                        <a href="{{pathFor 'static.tinyStudio'}}">
+                            The Tiny Studio
+                        </a>
                     </h4>
                     <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.booking'}}">Book the Tiny Studio</a>
+                        <a href="{{pathFor 'static.booking'}}">
+                            Book the Tiny Studio
+                        </a>
                     </h4>
                     <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.howto'}}">How to get started</a>
+                        <a href="{{pathFor 'static.howto'}}">
+                            How to get started
+                        </a>
                     </h4>
                     <h4 class="push-down-small">
-                        <a href="{{pathFor 'static.feedback'}}">Give us feedback</a>
+                        <a href="{{pathFor 'static.feedback'}}">
+                            Give us feedback
+                        </a>
                     </h4>
                 </div>
             </div>
         </div>
 
         <div class="medium-6 columns">
-            <div class="padded-xlarge bordered-light pull-down background-dark" style="min-height: 15rem; position:relative" data-equalizer-watch>
-                <img class="skyline-image" src="https://res.cloudinary.com/dwgim6or9/image/upload/v1/flippedart/rq8q6ume0avaqba2efmo"/>
-                <span class="pop-out-text font-truenorth text-red" style="position: absolute;z-index:999;bottom:1rem;right:2rem;">#makedsmweird</span>
+            <div class="padded-xlarge bordered-light pull-down background-dark"
+                 style="min-height: 15rem; position:relative"
+                 data-equalizer-watch>
+                <img class="skyline-image"
+                     src="https://res.cloudinary.com/dwgim6or9/image/upload/v1/flippedart/rq8q6ume0avaqba2efmo"/>
+                <span class="pop-out-text font-truenorth text-red"
+                      style="position: absolute;z-index:999;bottom:1rem;right:2rem;">
+                    #makedsmweird
+                </span>
             </div>
         </div>
     </div>
@@ -68,13 +103,17 @@
     <div class="row push-down-large">
         <div class="row pull-down-large push-down" id="home-page-explore">
             <div class="column small-12 medium-8 large-6 medium-centered large-centered">
-                <h2 class="text-centered">Upcoming events</h2>
+                <h2 class="text-centered">
+                    Upcoming events
+                </h2>
             </div>
         </div>
 
         <div class="columns shift-down-large border-right border-left border-gray small-no-border small-12 medium-8 large-6 medium-centered large-centered">
             {{#each event in upcomingEvents}}
-                <p class="push-down-large">{{> event_calendar_single_event_small event}}</p>
+                <p class="push-down-large">
+                    {{> event_calendar_single_event_small event}}
+                </p>
             {{else}}
                 <p class="push-down-large">
                     There are no upcoming events scheduled.
@@ -142,17 +181,24 @@
     </div>-->
 
     <div class="row push-down-large">
-        <div class="row pull-down-large push-down" id="home-page-explore">
+        <div class="row pull-down-large push-down"
+             id="home-page-explore">
             <div class="column small-12 medium-8 large-6 medium-centered large-centered">
-                <h2 class="text-centered">Top projects</h2>
+                <h2 class="text-centered">
+                    Top projects
+                </h2>
             </div>
         </div>
 
         <div class="columns small-12 medium-10 medium-centered">
-            <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-6">
+            <div class="row"
+                 data-equalizer
+                 data-equalize-on="medium"
+                 id="home-equalized-6">
                 {{#each topProjects}}
                     {{#if equals @index 0}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -165,7 +211,8 @@
                         </div>
                     {{/if}}
                     {{#if equals @index 1}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -178,13 +225,19 @@
                         </div>
                     {{/if}}
                 {{else}}
-                    <p>There are no projects at this time.</p>
+                    <p>
+                        There are no projects at this time.
+                    </p>
                 {{/each}}
             </div>
-            <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-7">
+            <div class="row"
+                 data-equalizer
+                 data-equalize-on="medium"
+                 id="home-equalized-7">
                 {{#each topProjects}}
                     {{#if equals @index 2}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -197,7 +250,8 @@
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -214,7 +268,8 @@
             <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-8">
                 {{#each topProjects}}
                     {{#if equals @index 4}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -227,7 +282,8 @@
                         </div>
                     {{/if}}
                     {{#if equals @index 5}}
-                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down" data-equalizer-watch>
+                        <div class="column homepage-projects-column small-12 medium-6 bordered-light padded-xlarge small-push-down"
+                             data-equalizer-watch>
                             <div class="homepage-project-box">
                                 <a href="{{pathFor 'projects.single' username=this.ownerName exchangeItemId=this._id}}">
                                     <img src="{{c.url this.imageLinks.[0] secure=true width=600 height=600 crop='lfill'}}">
@@ -248,77 +304,97 @@
     <hr>
 
     <div class="row push-down-large">
-        <div class="row pull-down-large push-down" id="home-page-explore">
+        <div class="row pull-down-large push-down"
+             id="home-page-explore">
             <div class="column small-12 medium-8 large-6 medium-centered large-centered">
-                <h2 class="text-centered">Top makers</h2>
+                <h2 class="text-centered">
+                    Top makers
+                </h2>
             </div>
         </div>
 
         <div class="columns small-12 medium-10 medium-centered">
-            <div class="row" data-equalizer data-equalize-on="medium" id="home-equalized-9">
+            <div class="row"
+                 data-equalizer
+                 data-equalize-on="medium"
+                 id="home-equalized-9">
                 {{#each topUserAttributes}}
                     {{#if equals @index 0}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 1}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 2}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 3}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 4}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 5}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 6}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 7}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 8}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 9}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 10}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                     {{#if equals @index 11}}
-                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down" data-equalizer-watch>
+                        <div class="column small-6 medium-4 large-3 bordered-light padded push-down"
+                             data-equalizer-watch>
                             {{> user_attributes_card_small}}
                         </div>
                     {{/if}}
                 {{else}}
-                    <p>No users yet.</p>
+                    <p>
+                        No users yet.
+                    </p>
                 {{/each}}
             </div>
         </div>
@@ -330,7 +406,9 @@
     <div class="row">
         <div class="row pull-down-large push-down" id="home-page-explore">
             <div class="column small-12 medium-8 large-6 medium-centered large-centered">
-                <h2 class="text-centered">Recent activity</h2>
+                <h2 class="text-centered">
+                    Recent activity
+                </h2>
             </div>
         </div>
 
@@ -349,13 +427,21 @@
     <div class="row pull-down-large push-down-large">
         <div class="column small-10 medium-6 large-4 small-centered text-centered">
 
-            <p class="text-centered">You have something to add.</p>
+            <p class="text-centered">
+                You have something to add.
+            </p>
             <p>
                 {{#if currentUser}}
                     <a href="{{pathFor 'profile.page' username=currentUsername}}"
-                       class="button primary hollow expanded">Go to your profile</a>
+                       class="button primary hollow expanded">
+                        Go to your profile
+                    </a>
                 {{else}}
-                    <a href="{{pathFor 'join'}}" class="button primary expanded"><strong>Start here</strong></a>
+                    <a href="{{pathFor 'join'}}" class="button primary expanded">
+                        <strong>
+                            Start here
+                        </strong>
+                    </a>
                 {{/if}}
             </p>
         </div>

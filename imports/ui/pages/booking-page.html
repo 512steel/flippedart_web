@@ -4,7 +4,9 @@
         <div class="column small-12 medium-12 large-10 large-centered">
             <div class="row">
                 <div class="column small-12 medium-10 large-10 small-centered medium-centered large-centered">
-                    <h1 class="text-centered push-down-xlarge pull-down">Summon the Tiny Studio</h1>
+                    <h1 class="text-centered push-down-xlarge pull-down">
+                        Summon the Tiny Studio
+                    </h1>
                 </div>
             </div>
 
@@ -16,19 +18,29 @@
                             <h4>Are you...</h4>
 
                             <ul class="select-box">
-                                <li data-name="{{eventTypes.school}}">A school?</li>
-                                <li data-name="{{eventTypes.business}}">A business or organization?</li>
-                                <li data-name="{{eventTypes.event}}">An event organizer?</li>
+                                <li data-name="{{eventTypes.school}}">
+                                    A school?
+                                </li>
+                                <li data-name="{{eventTypes.business}}">
+                                    A business or organization?
+                                </li>
+                                <li data-name="{{eventTypes.event}}">
+                                    An event organizer?
+                                </li>
                             </ul>
 
                             <div class="clearfix">
-                                <p class="next-button button primary hollow expanded disabled next-to-step-2 float-right">Next</p>
+                                <p class="next-button button primary hollow expanded disabled next-to-step-2 float-right">
+                                    Next
+                                </p>
                             </div>
                         </div>
 
                         <div class="step-2 hidden">
                             <div class="clearfix">
-                                <p class="button secondary hollow back-to-step-1 float-left">Back</p>
+                                <p class="button secondary hollow back-to-step-1 float-left">
+                                    Back
+                                </p>
                             </div>
 
                             <div class="row pull-down push-down-large">
@@ -36,7 +48,12 @@
 
                                     <h5>
                                         {{#if equals currentEventType eventTypes.school}}
-                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                            <span id="income-tooltip" data-tooltip aria-haspopup="true"
+                                                  class="has-tip right"
+                                                  style="font-weight: normal;"
+                                                  data-disable-hover="false"
+                                                  data-hover-delay="100"
+                                                  tabindex="2"
                                                   title="We operate on a sliding scale model
                                               for our pop-up events. Please provide a good-faith
                                               estimate of your school's yearly endowment.">
@@ -44,7 +61,13 @@
                                             </span>
                                         {{/if}}
                                         {{#if equals currentEventType eventTypes.business}}
-                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                            <span id="income-tooltip"
+                                                  data-tooltip aria-haspopup="true"
+                                                  class="has-tip right"
+                                                  style="font-weight: normal;"
+                                                  data-disable-hover="false"
+                                                  data-hover-delay="100"
+                                                  tabindex="2"
                                                   title="We operate on a sliding scale model
                                               for our pop-up events. Please provide a good-faith
                                               estimate of your organization's yearly income.">
@@ -52,7 +75,13 @@
                                             </span>
                                         {{/if}}
                                         {{#if equals currentEventType eventTypes.event}}
-                                            <span id="income-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                            <span id="income-tooltip"
+                                                  data-tooltip aria-haspopup="true"
+                                                  class="has-tip right"
+                                                  style="font-weight: normal;"
+                                                  data-disable-hover="false"
+                                                  data-hover-delay="100"
+                                                  tabindex="2"
                                                   title="We operate on a sliding scale model
                                                   for our pop-up events. Please provide a good-faith
                                                   estimate of your organization's yearly income.">
@@ -61,18 +90,33 @@
                                         {{/if}}
                                     </h5>
 
-                                    <div class="income-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column" style="width:100%;">
+                                    <div class="income-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column"
+                                         style="width:100%;">
                                         <canvas id="incomeChartLeft"></canvas>
                                         <canvas id="incomeChartLine"></canvas>
                                         <canvas id="incomeChartRight"></canvas>
                                     </div>
 
                                     <!-- FIXME: the slider goes to the minimum value, but not the maximum value (all the sudden) -->
-                                    <div class="slider clearfix" id="income-slider" data-slider data-start="10" data-end="100" data-initial-start="30" data-step="10" data-changed-delay="0"> <!-- data-end used to be "90" -->
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="incomeSliderOutput"></span>
-                                        <span class="slider-fill" data-slider-fill></span>
+                                    <div class="slider clearfix"
+                                         id="income-slider"
+                                         data-slider
+                                         data-start="10"
+                                         data-end="100"
+                                         data-initial-start="30"
+                                         data-step="10"
+                                         data-changed-delay="0"> <!-- data-end used to be "90" -->
+                                        <span class="slider-handle"
+                                              data-slider-handle
+                                              role="slider"
+                                              tabindex="1"
+                                              aria-controls="incomeSliderOutput"></span>
+                                        <span class="slider-fill"
+                                              data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="hidden" id="incomeSliderOutput" />
+                                    <input type="number"
+                                           class="hidden"
+                                           id="incomeSliderOutput" />
 
                                     <p class="text-centered font-truenorth">
                                         <span id="incomeSlider-output-computed"></span>
@@ -83,7 +127,13 @@
                                 <div class="small-12 medium-6 columns">
 
                                     <h5>
-                                        <span id="attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                        <span id="attendance-tooltip"
+                                              data-tooltip aria-haspopup="true"
+                                              class="has-tip right"
+                                              style="font-weight: normal;"
+                                              data-disable-hover="false"
+                                              data-hover-delay="100"
+                                              tabindex="2"
                                               title="An estimated number of people you think will engage
                                               with our makerspace.  This helps us plan out how we stock
                                               the Tiny Studio prior to your event.">
@@ -91,20 +141,34 @@
                                         </span>
                                     </h5>
 
-                                    <div class="attendance-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column" style="width:100%;">
+                                    <div class="attendance-chart-container clearfix push-down text-centered small-12 medium-6 large-6 column"
+                                         style="width:100%;">
                                         <canvas id="attendanceChartLeft"></canvas>
                                         <canvas id="attendanceChartLine"></canvas>
                                         <canvas id="attendanceChartRight"></canvas>
                                     </div>
 
-                                    <div class="slider clearfix" id="attendance-slider" data-slider data-start="6" data-end="102" data-initial-start="46" data-step="2" data-changed-delay="0">  <!-- data-end used to be "96" -->
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="attendanceSliderOutput"></span>
-                                        <span class="slider-fill" data-slider-fill></span>
+                                    <div class="slider clearfix"
+                                         id="attendance-slider"
+                                         data-slider data-start="6"
+                                         data-end="102"
+                                         data-initial-start="46"
+                                         data-step="2"
+                                         data-changed-delay="0">  <!-- data-end used to be "96" -->
+                                        <span class="slider-handle"
+                                              data-slider-handle role="slider"
+                                              tabindex="1"
+                                              aria-controls="attendanceSliderOutput"></span>
+                                        <span class="slider-fill"
+                                              data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="hidden" id="attendanceSliderOutput" />
+                                    <input type="number"
+                                           class="hidden"
+                                           id="attendanceSliderOutput" />
 
                                     <p class="text-centered font-truenorth">
-                                        <span id="attendanceSlider-output-computed" class="text-centered"></span>
+                                        <span id="attendanceSlider-output-computed"
+                                              class="text-centered"></span>
                                         <br>
                                         makers
                                     </p>
@@ -114,7 +178,13 @@
                                 <div class="small-12 columns">
 
                                     <h5>
-                                        <span id="time-tooltip" data-tooltip aria-haspopup="true" class="has-tip right" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="100" tabindex="2"
+                                        <span id="time-tooltip"
+                                              data-tooltip aria-haspopup="true"
+                                              class="has-tip right"
+                                              style="font-weight: normal;"
+                                              data-disable-hover="false"
+                                              data-hover-delay="100"
+                                              tabindex="2"
                                               title="The amount of time you would like us to provide
                                               engaging activities for your event.  This does not
                                               include our own set-up/tear-down time.">
@@ -122,17 +192,31 @@
                                         </span>
                                     </h5>
 
-                                    <div class="time-chart-container clearfix push-down text-centered small-12 medium-12 large-12 column" style="width:100%;">
+                                    <div class="time-chart-container clearfix push-down text-centered small-12 medium-12 large-12 column"
+                                         style="width:100%;">
                                         <canvas id="timeChartLeft"></canvas>
                                         <canvas id="timeChartLine"></canvas>
                                         <canvas id="timeChartRight"></canvas>
                                     </div>
 
-                                    <div class="slider clearfix" id="time-slider" data-slider data-start="15" data-end="110" data-initial-start="35" data-step="5" data-changed-delay="0">  <!-- data-end used to be "95" -->
-                                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="timeSliderOutput"></span>
-                                        <span class="slider-fill" data-slider-fill></span>
+                                    <div class="slider clearfix"
+                                         id="time-slider"
+                                         data-slider
+                                         data-start="15"
+                                         data-end="110"
+                                         data-initial-start="35"
+                                         data-step="5"
+                                         data-changed-delay="0">  <!-- data-end used to be "95" -->
+                                        <span class="slider-handle"
+                                              data-slider-handle role="slider"
+                                              tabindex="1"
+                                              aria-controls="timeSliderOutput"></span>
+                                        <span class="slider-fill"
+                                              data-slider-fill></span>
                                     </div>
-                                    <input type="number" class="hidden" id="timeSliderOutput" />
+                                    <input type="number"
+                                           class="hidden"
+                                           id="timeSliderOutput" />
 
                                     <p class="text-centered font-truenorth">
                                         <span id="timeSlider-output-computed"></span>
@@ -143,10 +227,17 @@
                             </div>
 
                             <div class="clearfix pull-down">
-                                <ul class="accordion" data-accordion data-allow-all-closed="true">
-                                    <li class="accordion-item" data-accordion-item>
-                                        <a href="#" class="accordion-title">Tell me more about the sliding scale</a>
-                                        <div class="accordion-content" data-tab-content>
+                                <ul class="accordion"
+                                    data-accordion
+                                    data-allow-all-closed="true">
+                                    <li class="accordion-item"
+                                        data-accordion-item>
+                                        <a href="#"
+                                           class="accordion-title">
+                                            Tell me more about the sliding scale
+                                        </a>
+                                        <div class="accordion-content"
+                                             data-tab-content>
                                             <h6>The Sliding Scale model</h6>
                                             <p>
                                                 We operate on a sliding scale pricing model for one important reason.  If we want
@@ -163,33 +254,61 @@
                                                 attendance, and the length of the event.
                                             </p>
 
-                                            <ul class="accordion-2" data-accordion data-allow-all-closed="true">
-                                                <li class="accordion-item" data-accordion-item style="list-style-type: none;">
-                                                    <a href="#" class="accordion-title">Show me the formula!</a>
+                                            <ul class="accordion-2"
+                                                data-accordion
+                                                data-allow-all-closed="true">
+                                                <li class="accordion-item"
+                                                    data-accordion-item
+                                                    style="list-style-type: none;">
+                                                    <a href="#" class="accordion-title">
+                                                        Show me the formula!
+                                                    </a>
                                                     <div class="accordion-content" data-tab-content>
                                                         <p class="text-large font-truenorth pull-down-small">
                                                             <!--<em>-->
                                                                 price =
-                                                                (<span id="equation-income-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
-                                                                      title="We operate on a sliding scale model, so your organization's
-                                                                      income factors into how much we charge.  This allows us to be just
-                                                                      as accessible to large and small groups.">
+                                                                (<span id="equation-income-tooltip"
+                                                                       data-tooltip aria-haspopup="true"
+                                                                       class="has-tip top" style="font-weight: normal;"
+                                                                       data-disable-hover="false"
+                                                                       data-hover-delay="50"
+                                                                       tabindex="2"
+                                                                       title="We operate on a sliding scale model, so your organization's
+                                                                       income factors into how much we charge.  This allows us to be
+                                                                       just as accessible to large and small groups.">
                                                                     income
                                                                 </span>
                                                                 +
-                                                                <span id="equation-attendance-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                <span id="equation-attendance-tooltip"
+                                                                      data-tooltip aria-haspopup="true"
+                                                                      class="has-tip top" style="font-weight: normal;"
+                                                                      data-disable-hover="false"
+                                                                      data-hover-delay="50"
+                                                                      tabindex="2"
                                                                       title="The materials that we provide in the Tiny Studio cost
                                                                       us roughly $10 per person, so we factor this into the fee.">
                                                                     attendance
                                                                 </span>)
                                                                 <i class="fi-x"></i>
-                                                                <span id="equation-time-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                <span id="equation-time-tooltip"
+                                                                      data-tooltip aria-haspopup="true"
+                                                                      class="has-tip top"
+                                                                      style="font-weight: normal;"
+                                                                      data-disable-hover="false"
+                                                                      data-hover-delay="50"
+                                                                      tabindex="2"
                                                                       title="We multiply the sliding price by the length of the
                                                                       event, in hours.">
                                                                     time
                                                                 </span>
                                                                 <sup>
-                                                                    <span id="equation-time-exponent-tooltip" data-tooltip aria-haspopup="true" class="has-tip top" style="font-weight: normal; padding-bottom: .5rem;" data-disable-hover="false" data-hover-delay="50" tabindex="2"
+                                                                    <span id="equation-time-exponent-tooltip"
+                                                                          data-tooltip aria-haspopup="true"
+                                                                          class="has-tip top"
+                                                                          style="font-weight: normal; padding-bottom: .5rem;"
+                                                                          data-disable-hover="false"
+                                                                          data-hover-delay="50"
+                                                                          tabindex="2"
                                                                           title="This exponent gives the 'Time' multiplier a
                                                                           slight downward curve, so you get a better deal the
                                                                           longer the Tiny Studio is booked.">
@@ -205,12 +324,16 @@
                                         </div>
                                     </li>
                                     <li class="accordion-item" data-accordion-item>
-                                        <a href="#" class="accordion-title">What's a ballpark price?</a>
+                                        <a href="#" class="accordion-title">
+                                            What's a ballpark price?
+                                        </a>
                                         <div class="accordion-content" data-tab-content>
                                             <p>
                                                 While the Tiny Studio is Iowa's first mobile makerspace, other parts of the country
                                                 have maker trucks which can charge up to
-                                                <a href="http://www.steamtruck.org/interested/">$1,000 - 1,500 per day</a>
+                                                <a href="http://www.steamtruck.org/interested/">
+                                                    $1,000 - 1,500 per day
+                                                </a>
                                                 of activties.  Depending on the scale of the event, a mid-sized company may
                                                 book the Tiny Studio for $100 - 500 for a full day of activities.
                                             </p>
@@ -218,7 +341,9 @@
                                         </div>
                                     </li>
                                     <li class="accordion-item" data-accordion-item>
-                                        <a href="#" class="accordion-title">How do you use this information?</a>
+                                        <a href="#" class="accordion-title">
+                                            How do you use this information?
+                                        </a>
                                         <div class="accordion-content" data-tab-content>
                                             <h6>Privacy</h6>
                                             <p>
@@ -233,126 +358,247 @@
                             </div>
 
                             <div class="clearfix pull-down">
-                                <p class="next-button button primary hollow expanded next-to-step-3 float-right">Next</p>
+                                <p class="next-button button primary hollow expanded next-to-step-3 float-right">
+                                    Next
+                                </p>
                             </div>
                         </div>
 
                         <div class="step-3 hidden">
                             <div class="clearfix">
-                                <p class="button secondary hollow back-to-step-2 float-left">Back</p>
+                                <p class="button secondary hollow back-to-step-2 float-left">
+                                    Back
+                                </p>
                             </div>
 
                             {{#if equals currentEventType eventTypes.school}}
-                                <label><strong>Name of your school:</strong></label>
-                                <input type="text" class="event-name" placeholder="School name..." />
+                                <label>
+                                    <strong>
+                                        Name of your school:
+                                    </strong>
+                                </label>
+                                <input type="text"
+                                       class="event-name"
+                                       placeholder="School name..." />
                             {{/if}}
                             {{#if equals currentEventType eventTypes.business}}
-                                <label><strong>Name of your business or organization:</strong></label>
-                                <input type="text" class="event-name" placeholder="Organization name..." />
+                                <label>
+                                    <strong>
+                                        Name of your business or organization:
+                                    </strong>
+                                </label>
+                                <input type="text"
+                                       class="event-name"
+                                       placeholder="Organization name..." />
                             {{/if}}
                             {{#if equals currentEventType eventTypes.event}}
-                                <label><strong>Name of the event:</strong></label>
-                                <input type="text" class="event-name" placeholder="Event name..." />
+                                <label>
+                                    <strong>
+                                        Name of the event:
+                                    </strong>
+                                </label>
+                                <input type="text"
+                                       class="event-name"
+                                       placeholder="Event name..." />
                             {{/if}}
 
-                            <label><strong>Date of the event:</strong></label>
-                            <input type="text" id="datepicker" />
+                            <label>
+                                <strong>
+                                    Date of the event:
+                                </strong>
+                            </label>
+                            <input type="text"
+                                   id="datepicker" />
 
-                            <label><strong>Age range:</strong></label>
-                            <select class="select-age-range" required>
+                            <label>
+                                <strong>
+                                    Age range:
+                                </strong>
+                            </label>
+                            <select class="select-age-range"
+                                    required>
                                 {{#if equals currentEventType eventTypes.school}}
-                                    <option disabled selected>Select an age range</option>
-                                    <option value="Early elementary (grades 1 - 3)">Early elementary (1<sup>st</sup>&ndash;3<sup>rd</sup> grade)</option>
-                                    <option value="Late elementary (grades 3 - 5)">Late elementary (3<sup>rd</sup>&ndash;5<sup>th</sup> grade)</option>
-                                    <option value="Middle school (grades 6 - 8)">Middle school (6<sup>th</sup>&ndash;8<sup>th</sup> grade)</option>
-                                    <option value="High school (grades 9 - 12)">High school (9<sup>th</sup>&ndash;12<sup>th</sup> grade)</option>
-                                    <option value="Teachers and administrators">Teachers and administrators</option>
+                                    <option disabled selected>
+                                        Select an age range
+                                    </option>
+                                    <option value="Early elementary (grades 1 - 3)">
+                                        Early elementary (1<sup>st</sup>&ndash;3<sup>rd</sup> grade)
+                                    </option>
+                                    <option value="Late elementary (grades 3 - 5)">
+                                        Late elementary (3<sup>rd</sup>&ndash;5<sup>th</sup> grade)
+                                    </option>
+                                    <option value="Middle school (grades 6 - 8)">
+                                        Middle school (6<sup>th</sup>&ndash;8<sup>th</sup> grade)
+                                    </option>
+                                    <option value="High school (grades 9 - 12)">
+                                        High school (9<sup>th</sup>&ndash;12<sup>th</sup> grade)
+                                    </option>
+                                    <option value="Teachers and administrators">
+                                        Teachers and administrators
+                                    </option>
                                 {{/if}}
                                 {{#if equals currentEventType eventTypes.business}}
-                                    <option disabled selected>Select an age range</option>
-                                    <option value="5 - 8">5 - 8</option>
-                                    <option value="8 - 10">8 - 10</option>
-                                    <option value="10 - 13">10 - 13</option>
-                                    <option value="13 - 15">13 - 15</option>
-                                    <option value="15 - 18">15 - 18</option>
-                                    <option value="18 and up">18+</option>
+                                    <option disabled selected>
+                                        Select an age range
+                                    </option>
+                                    <option value="5 - 8">
+                                        5 - 8
+                                    </option>
+                                    <option value="8 - 10">
+                                        8 - 10
+                                    </option>
+                                    <option value="10 - 13">
+                                        10 - 13
+                                    </option>
+                                    <option value="13 - 15">
+                                        13 - 15
+                                    </option>
+                                    <option value="15 - 18">
+                                        15 - 18
+                                    </option>
+                                    <option value="18 and up">
+                                        18+
+                                    </option>
                                 {{/if}}
                                 {{#if equals currentEventType eventTypes.event}}
-                                    <option disabled selected>Select an age range</option>
-                                    <option value="5 - 8">5 - 8</option>
-                                    <option value="8 - 10">8 - 10</option>
-                                    <option value="10 - 13">10 - 13</option>
-                                    <option value="13 - 15">13 - 15</option>
-                                    <option value="15 - 18">15 - 18</option>
-                                    <option value="18 and up">18+</option>
+                                    <option disabled selected>
+                                        Select an age range
+                                    </option>
+                                    <option value="5 - 8">
+                                        5 - 8
+                                    </option>
+                                    <option value="8 - 10">
+                                        8 - 10
+                                    </option>
+                                    <option value="10 - 13">
+                                        10 - 13
+                                    </option>
+                                    <option value="13 - 15">
+                                        13 - 15
+                                    </option>
+                                    <option value="15 - 18">
+                                        15 - 18
+                                    </option>
+                                    <option value="18 and up">
+                                        18+
+                                    </option>
                                 {{/if}}
                             </select>
 
-                            <label><strong>Your contact email (we will coordinate with you and send the bill to this address)</strong></label>
-                            <input name="contact-email" class="contact-email" type="email" required placeholder="Email address..." maxlength="100" />
+                            <label>
+                                <strong>
+                                    Your contact email (we will coordinate with you and send the bill to this address)
+                                </strong>
+                            </label>
+                            <input name="contact-email"
+                                   class="contact-email"
+                                   type="email"
+                                   required
+                                   placeholder="Email address..."
+                                   maxlength="100" />
 
-                            <label><strong>Please describe anything else about your event that we should
-                                know about, in as much detail as possible.</strong></label>
-                            <textarea required class="additional-details" name="additional-details" type="text" placeholder="Additional details..." rows="4" maxlength="20000"></textarea>
+                            <label>
+                                <strong>
+                                    Please describe anything else about your event that we should
+                                    know about, in as much detail as possible.
+                                </strong>
+                            </label>
+                            <textarea required
+                                      class="additional-details"
+                                      name="additional-details"
+                                      type="text"
+                                      placeholder="Additional details..."
+                                      rows="4"
+                                      maxlength="20000"></textarea>
 
-                            <input type="submit" value="Submit your request" class="next-button button primary expanded next-to-submit">
+                            <input type="submit"
+                                   value="Submit your request"
+                                   class="next-button button primary expanded next-to-submit">
                         </div>
                     </div>
                 </div>
 
-                <div class="column small-8 medium-6 large-4 small-centered medium-centered large-uncentered float-none shift-down" style="border-left: 1px solid #dadada; border-right: 1px solid #dadada;">
+                <div class="column small-8 medium-6 large-4 small-centered medium-centered large-uncentered float-none shift-down"
+                     style="border-left: 1px solid #dadada; border-right: 1px solid #dadada;">
                     {{#if equals currentEventType eventTypes.school}}
                         <p>
                             I want the
-                            <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
-                            for my <strong>{{bookingRequest.eventType}}</strong>
+                            <a href="{{pathFor 'static.tinyStudio'}}">
+                                Tiny Studio
+                            </a>
+                            for my
+                            <strong>
+                                {{bookingRequest.eventType}}
+                            </strong>
                         </p>
                     {{/if}}
 
                     {{#if equals currentEventType eventTypes.business}}
                         <p>
                             I want the
-                            <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
-                            for my <strong>{{bookingRequest.eventType}}</strong>
+                            <a href="{{pathFor 'static.tinyStudio'}}">
+                                Tiny Studio
+                            </a>
+                            for my
+                            <strong>
+                                {{bookingRequest.eventType}}
+                            </strong>
                         </p>
                     {{/if}}
 
                     {{#if equals currentEventType eventTypes.event}}
                         <p>
                             I want the
-                            <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
-                            for my <strong>{{bookingRequest.eventType}}</strong>
+                            <a href="{{pathFor 'static.tinyStudio'}}">
+                                Tiny Studio
+                            </a>
+                            for my
+                            <strong>
+                                {{bookingRequest.eventType}}
+                            </strong>
                         </p>
                     {{/if}}
 
                     {{#if hasBeenToStep2}}
                         <p>
                             We make
-                            <strong>{{bookingRequest.incomeSliderComputed}}</strong>
+                            <strong>
+                                {{bookingRequest.incomeSliderComputed}}
+                            </strong>
                             per year
                         </p>
                         <p>
                             This event is for an estimated
-                            <strong>{{bookingRequest.attendanceSliderComputed}}</strong>
+                            <strong>
+                                {{bookingRequest.attendanceSliderComputed}}
+                            </strong>
                             makers
                         </p>
                         <p>
                             The event lasts
-                            <strong>{{bookingRequest.timeSliderComputed}}</strong>
+                            <strong>
+                                {{bookingRequest.timeSliderComputed}}
+                            </strong>
                             hours
                         </p>
                     {{/if}}
 
                     {{#if bookingRequest.eventName}}
                         <p>
-                            Event name: <strong>{{bookingRequest.eventName}}</strong>
+                            Event name:
+                            <strong>
+                                {{bookingRequest.eventName}}
+                            </strong>
                         </p>
                     {{else}}
                     {{/if}}
 
                     {{#if bookingRequest.eventDate}}
                         <p>
-                            Date of the event: <strong>{{bookingRequest.eventDate}}</strong>
+                            Date of the event:
+                            <strong>
+                                {{bookingRequest.eventDate}}
+                            </strong>
                         </p>
                     {{else}}
                     {{/if}}
@@ -360,7 +606,9 @@
                     {{#if bookingRequest.ageRange}}
                         <p>
                             The target age is
-                            <strong>{{toLowerCase bookingRequest.ageRange}}</strong>
+                            <strong>
+                                {{toLowerCase bookingRequest.ageRange}}
+                            </strong>
                         </p>
                     {{else}}
                     {{/if}}
@@ -369,9 +617,13 @@
                         <p>
                             Contact email:
                             {{#unless matchesEmailRegex bookingRequest.contactEmail}}
-                                <strong style="color: darkred;">{{bookingRequest.contactEmail}}</strong>
+                                <strong style="color: darkred;">
+                                    {{bookingRequest.contactEmail}}
+                                </strong>
                             {{else}}
-                                <strong>{{bookingRequest.contactEmail}}</strong>
+                                <strong>
+                                    {{bookingRequest.contactEmail}}
+                                </strong>
                             {{/unless}}
                         </p>
                     {{else}}
@@ -390,9 +642,15 @@
         <div class="column small-12 medium-12 large-10 large-centered">
             <div class="row">
                 <div class="column small-12 medium-10 large-10 small-centered medium-centered large-centered">
-                    <h1 class="text-centered push-down-xlarge pull-down">Thank you!</h1>
-                    <p>Check your email - we will be in touch very shortly.  In the meantime, please reach out to us at
-                        <a href="mailto:hello@flippedart.org">hello@flippedart.org</a>
+                    <h1 class="text-centered push-down-xlarge pull-down">
+                        Thank you!
+                    </h1>
+                    <p>
+                        Check your email - we will be in touch very shortly.
+                        In the meantime, please reach out to us at
+                        <a href="mailto:hello@flippedart.org">
+                            hello@flippedart.org
+                        </a>
                         if you have any questions.
                     </p>
                 </div>

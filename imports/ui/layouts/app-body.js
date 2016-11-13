@@ -1,5 +1,3 @@
-//import './app-body.html';
-//import './app-body-foundation-top-bar.html';
 import './app-body-foundation-off-canvas.html';
 
 import { Meteor } from 'meteor/meteor';

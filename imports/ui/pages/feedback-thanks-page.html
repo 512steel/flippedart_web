@@ -4,7 +4,12 @@
         <p>
             We really, really appreciate you taking the time to send us feedback.
 
-            Be sure to <a href="{{pathFor 'static.home'}}">look</a> at what other people are working on, and
+            Be sure to
+            <a href="{{pathFor 'static.home'}}">
+                look
+            </a>
+            at what other people are working on, and
+
             {{#if currentUser}}
                 keep adding to
                 <a href="{{pathFor 'profile.page' username=currentUsername}}">
@@ -12,7 +17,10 @@
                 </a>
                 whenever you have something new to share!
             {{else}}
-                <a href="{{pathFor 'join'}}">sign up</a> to join in on the conversation!
+                <a href="{{pathFor 'join'}}">
+                    sign up
+                </a>
+                to join in on the conversation!
             {{/if}}
         </p>
     </div>

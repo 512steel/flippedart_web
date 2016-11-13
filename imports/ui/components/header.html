@@ -1,38 +1,61 @@
 <template name="header">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#navigation">
+                <span class="sr-only">
+                    Toggle navigation
+                </span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{pathFor 'home'}}"><img src="/chalk-clipart-logo.png"/> <span>Flipped Art</span></a>
+            <a class="navbar-brand"
+               href="{{pathFor 'home'}}">
+                <img src="/chalk-clipart-logo.png"/>
+                <span>
+                    Flipped Art
+                </span>
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="nav navbar-nav">
                 {{#if currentUser}}
                     <li class="{{activeRouteClass 'my-account'}}">
-                        <a href="{{pathFor 'my-account'}}">Me</a>
+                        <a href="{{pathFor 'my-account'}}">
+                            Me
+                        </a>
                     </li>
                     <li class="{{activeRouteClass 'addSingleItem'}}">
-                        <a href="{{pathFor 'addSingleItem'}}">Add materials</a>
+                        <a href="{{pathFor 'addSingleItem'}}">
+                            Add materials
+                        </a>
                     </li>
                     <li class="{{activeRouteClass 'explore'}}">
-                        <a href="{{pathFor 'explore'}}">Explore</a>
+                        <a href="{{pathFor 'explore'}}">
+                            Explore
+                        </a>
                     </li>
                     <li class="dropdown">
                         {{> notifications}}
                     </li>
                 {{else}}
                     <li class="{{activeRouteClass 'about_page'}}">
-                        <a href="{{pathFor 'about_page'}}">About</a>
+                        <a href="{{pathFor 'about_page'}}">
+                            About
+                        </a>
                     </li>
                     <li class="{{activeRouteClass 'makeyourownpage'}}">
-                        <a href="{{pathFor 'makeyourownpage'}}">Make your own</a>
+                        <a href="{{pathFor 'makeyourownpage'}}">
+                            Make your own
+                        </a>
                     </li>
                     <li class="{{activeRouteClass 'explore'}}">
-                        <a href="{{pathFor 'explore'}}">Explore</a>
+                        <a href="{{pathFor 'explore'}}">
+                            Explore
+                        </a>
                     </li>
                 {{/if}}
             </ul>

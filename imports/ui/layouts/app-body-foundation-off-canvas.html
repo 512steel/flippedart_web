@@ -21,10 +21,17 @@
                 </div>
 
                 <!-- off-canvas right menu -->
-                <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right">
+                <div class="off-canvas position-right"
+                     id="offCanvasRight"
+                     data-off-canvas data-position="right">
 
-                    <button class="float-right push-down-small padded" aria-label="Close menu" type="button" data-close>
-                        <span class="" aria-hidden="true">X</span>
+                    <button class="float-right push-down-small padded"
+                            aria-label="Close menu"
+                            type="button"
+                            data-close>
+                        <span class="" aria-hidden="true">
+                            X
+                        </span>
                     </button>
 
                     <ul class="vertical menu text-center font-truenorth">
@@ -32,30 +39,46 @@
                         {{#if currentUser}}
                             {{# if hasUserAttributes}}
                                 <li class="{{isActiveRoute 'profile.page'}}">
-                                    <a href="{{pathFor 'profile.page' username=currentUsername}}" class=""
-                                       data-close>{{currentUsername}}</a>
+                                    <a href="{{pathFor 'profile.page' username=currentUsername}}"
+                                       class=""
+                                       data-close>
+                                        {{currentUsername}}
+                                    </a>
                                 </li>
                                 <li class="{{isActiveRoute 'profile.projects'}}">
-                                    <a href="{{pathFor 'profile.projects' username=currentUsername}}" data-close>My
-                                        projects</a>
+                                    <a href="{{pathFor 'profile.projects' username=currentUsername}}"
+                                       data-close>
+                                        My projects
+                                    </a>
                                 </li>
                                 <li class="{{isActiveRoute 'exchanges.user'}}">
-                                    <a href="{{pathFor 'exchanges.user' username=currentUsername}}" data-close>My
-                                        exchanges</a>
+                                    <a href="{{pathFor 'exchanges.user' username=currentUsername}}"
+                                       data-close>
+                                        My exchanges
+                                    </a>
                                 </li>
                                 <li class="{{isActiveRoute 'chatSessions.list'}}">
-                                    <a href="{{pathFor 'chatSessions.list'}}" data-close>My messages</a>
+                                    <a href="{{pathFor 'chatSessions.list'}}"
+                                       data-close>
+                                        My messages
+                                    </a>
                                 </li>
                             {{/if}}
                         {{else}}
                             <div class="menu button-group expanded">
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="button primary hollow expanded"
-                                       data-close>{{_ 'Sign In'}}</a>
+                                    <a href="{{pathFor 'signin'}}"
+                                       class="button primary hollow expanded"
+                                       data-close>
+                                        {{_ 'Sign In'}}
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="button primary hollow expanded"
-                                       data-close>{{_ 'Join'}}</a>
+                                    <a href="{{pathFor 'join'}}"
+                                       class="button primary hollow expanded"
+                                       data-close>
+                                        {{_ 'Join'}}
+                                    </a>
                                 </li>
                             </div>
                         {{/if}}
@@ -64,7 +87,8 @@
                         {{#if currentUser}}
                             {{# if hasUserAttributes}}
 
-                                <li class="{{isActiveRoute 'notifications.page'}}" data-close>
+                                <li class="{{isActiveRoute 'notifications.page'}}"
+                                    data-close>
                                     <a href="{{pathFor 'notifications.page'}}">
                                         Notifications ({{userNotificationsCount}})
                                     </a>
@@ -94,36 +118,80 @@
                                 <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                                <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
-                                        href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
-                                <li class="{{isActiveRoute 'makeProjects.page'}}" data-close><a
-                                        href="{{pathFor 'makeProjects.page'}}">Make</a></li>
-                                <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
-                                        href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
-                                <li class="{{isActiveRoute 'static.about'}}" data-close><a
-                                        href="{{pathFor 'static.about'}}">About</a></li>
-                                <li class="{{isActiveRoute 'static.support'}}" data-close><a
-                                        href="{{pathFor 'static.support'}}">Donate</a></li>
+                                <li class="{{isActiveRoute 'static.tinyStudio'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'static.tinyStudio'}}">
+                                        Tiny Studio
+                                    </a>
+                                </li>
+                                <li class="{{isActiveRoute 'makeProjects.page'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'makeProjects.page'}}">
+                                        Make
+                                    </a>
+                                </li>
+                                <li class="{{isActiveRoute 'eventCalendar.page'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'eventCalendar.page'}}">
+                                        Calendar
+                                    </a>
+                                </li>
+                                <li class="{{isActiveRoute 'static.about'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'static.about'}}">
+                                        About
+                                    </a>
+                                </li>
+                                <li class="{{isActiveRoute 'static.support'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'static.support'}}">
+                                        Donate
+                                    </a>
+                                </li>
                             {{/if}}
                         {{else}}
                             <!--
                                 <li class="{{isActiveRoute 'explore.page'}}" data-close><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
-                            <li class="{{isActiveRoute 'static.tinyStudio'}}" data-close><a
-                                    href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a></li>
-                            <li class="{{isActiveRoute 'makeProjects.page'}}" data-close><a
-                                    href="{{pathFor 'makeProjects.page'}}">Make</a></li>
-                            <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close><a
-                                    href="{{pathFor 'eventCalendar.page'}}">Calendar</a></li>
-                            <li class="{{isActiveRoute 'static.about'}}" data-close><a
-                                    href="{{pathFor 'static.about'}}">About</a></li>
-                            <li class="{{isActiveRoute 'static.support'}}" data-close><a
-                                    href="{{pathFor 'static.support'}}">Donate</a></li>
+                            <li class="{{isActiveRoute 'static.tinyStudio'}}"
+                                data-close>
+                                <a href="{{pathFor 'static.tinyStudio'}}">
+                                    Tiny Studio
+                                </a>
+                            </li>
+                            <li class="{{isActiveRoute 'makeProjects.page'}}"
+                                data-close>
+                                <a href="{{pathFor 'makeProjects.page'}}">
+                                    Make
+                                </a>
+                            </li>
+                            <li class="{{isActiveRoute 'eventCalendar.page'}}"
+                                data-close>
+                                <a href="{{pathFor 'eventCalendar.page'}}">
+                                    Calendar
+                                </a>
+                            </li>
+                            <li class="{{isActiveRoute 'static.about'}}"
+                                data-close>
+                                <a href="{{pathFor 'static.about'}}">
+                                    About
+                                </a>
+                            </li>
+                            <li class="{{isActiveRoute 'static.support'}}"
+                                data-close>
+                                <a href="{{pathFor 'static.support'}}">
+                                    Donate
+                                </a>
+                            </li>
                         {{/if}}
 
 
                         {{#if currentUser}}
-                            <li><a class="js-logout" data-close>{{_ 'Logout'}}</a></li>
+                            <li>
+                                <a class="js-logout" data-close>
+                                    {{_ 'Logout'}}
+                                </a>
+                            </li>
                         {{/if}}
 
                     </ul>
@@ -148,13 +216,20 @@
                                     <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
                                     <li class="{{isActiveRoute 'static.tinyStudio'}}">
-                                        <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
+                                        <a href="{{pathFor 'static.tinyStudio'}}">
+                                            Tiny Studio
+                                        </a>
                                     </li>
-                                    <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close>
-                                        <a href="{{pathFor 'eventCalendar.page'}}">Calendar</a>
+                                    <li class="{{isActiveRoute 'eventCalendar.page'}}"
+                                        data-close>
+                                        <a href="{{pathFor 'eventCalendar.page'}}">
+                                            Calendar
+                                        </a>
                                     </li>
                                     <li class="{{isActiveRoute 'makeProjects.page'}}">
-                                        <a href="{{pathFor 'makeProjects.page'}}">Make</a>
+                                        <a href="{{pathFor 'makeProjects.page'}}">
+                                            Make
+                                        </a>
                                     </li>
                                     <!--<li class="{{isActiveRoute 'static.about'}}">
                                         <a href="{{pathFor 'static.about'}}">About</a>
@@ -165,13 +240,20 @@
                                 <li class="{{isActiveRoute 'explore.page'}}"><a href="{{pathFor 'explore.page'}}">Explore</a></li>
 -->
                                 <li class="{{isActiveRoute 'static.tinyStudio'}}">
-                                    <a href="{{pathFor 'static.tinyStudio'}}">Tiny Studio</a>
+                                    <a href="{{pathFor 'static.tinyStudio'}}">
+                                        Tiny Studio
+                                    </a>
                                 </li>
-                                <li class="{{isActiveRoute 'eventCalendar.page'}}" data-close>
-                                    <a href="{{pathFor 'eventCalendar.page'}}">Calendar</a>
+                                <li class="{{isActiveRoute 'eventCalendar.page'}}"
+                                    data-close>
+                                    <a href="{{pathFor 'eventCalendar.page'}}">
+                                        Calendar
+                                    </a>
                                 </li>
                                 <li class="{{isActiveRoute 'makeProjects.page'}}">
-                                    <a href="{{pathFor 'makeProjects.page'}}">Make</a>
+                                    <a href="{{pathFor 'makeProjects.page'}}">
+                                        Make
+                                    </a>
                                 </li>
                                 <!--<li class="{{isActiveRoute 'static.about'}}">
                                     <a href="{{pathFor 'static.about'}}">About</a>
@@ -183,7 +265,9 @@
                     <div class="top-bar-right">
                         {{#if currentUser}}
                             {{#unless hasUserAttributes}}
-                                <a class="js-logout btn-secondary">Logout ({{currentUsername}})</a>
+                                <a class="js-logout btn-secondary">
+                                    Logout ({{currentUsername}})
+                                </a>
                             {{else}}
                                 <ul class="menu">
                                     <li class="logo-height invisible">
@@ -193,8 +277,12 @@
                                     <li>
                                         <ul class="dropdown menu" data-dropdown-menu>
                                             <li class="has-submenu">
-                                                <a href="{{pathFor 'notifications.page'}}"><span
-                                                        class="circle-background-text">{{userNotificationsCount}}</span></a>
+                                                <a href="{{pathFor 'notifications.page'}}">
+                                                    <span class="circle-background-text">
+                                                        {{userNotificationsCount}}
+                                                    </span>
+                                                </a>
+
                                                 <ul class="submenu menu vertical"
                                                     style="max-height: 500px; overflow-y: scroll;" data-submenu>
                                                     {{#each userNotifications}}
@@ -205,10 +293,15 @@
                                                     {{/each}}
 
                                                     {{#if userHasNotifications}}
-                                                        <li class="notifications-clear-all padded"><a>Clear all
-                                                            notifications</a></li>
+                                                        <li class="notifications-clear-all padded">
+                                                            <a>
+                                                                Clear allmnotifications
+                                                            </a>
+                                                        </li>
                                                     {{else}}
-                                                        <li class="padded">You don't have any notifications</li>
+                                                        <li class="padded">
+                                                            You don't have any notifications
+                                                        </li>
                                                     {{/if}}
                                                 </ul>
                                             </li>
@@ -229,21 +322,29 @@
                                                    class="btn-secondary">{{_ 'My profile'}}</a>
                                             </li>-->
                                                     <li>
-                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">My
-                                                            projects</a>
+                                                        <a href="{{pathFor 'profile.projects' username=currentUsername}}">
+                                                            My projects
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{pathFor 'exchanges.user' username=currentUsername}}">My
-                                                            exchanges</a>
+                                                        <a href="{{pathFor 'exchanges.user' username=currentUsername}}">
+                                                            My exchanges
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{pathFor 'chatSessions.list'}}">My messages</a>
+                                                        <a href="{{pathFor 'chatSessions.list'}}">
+                                                            My messages
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{pathFor 'static.support'}}">{{_ 'Donate'}}</a>
+                                                        <a href="{{pathFor 'static.support'}}">
+                                                            {{_ 'Donate'}}
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="js-logout btn-secondary">{{_ 'Logout'}}</a>
+                                                        <a class="js-logout btn-secondary">
+                                                            {{_ 'Logout'}}
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -257,7 +358,8 @@
                                     <!-- This needs to be the height of the logo in order to vertically align the other menu items -->
                                 </li>
                                 <li>
-                                    <a href="{{pathFor 'signin'}}" class="button-light">
+                                    <a href="{{pathFor 'signin'}}"
+                                       class="button-light">
                                         <span>
                                             {{_ 'Sign In'}}
                                         </span>
@@ -265,7 +367,8 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{pathFor 'join'}}" class="button-light">
+                                    <a href="{{pathFor 'join'}}"
+                                       class="button-light">
                                         <span>
                                             {{_ 'Join'}}
                                         </span>
@@ -283,8 +386,12 @@
                         {{#unless connected}}
                             <div class="callout secondary pull-down">
                                 {{{loadingIcon}}}
-                                <div>Trying to connect</div>
-                                <div>There seems to be a connection issue</div>
+                                <div>
+                                    Trying to connect
+                                </div>
+                                <div>
+                                    There seems to be a connection issue
+                                </div>
                             </div>
                         {{/unless}}
 
