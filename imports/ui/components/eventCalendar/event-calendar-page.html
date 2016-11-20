@@ -52,33 +52,7 @@
 
             <hr>
 
-            <div class="column small-12 medium-10 large-8 medium-centered large-centered">
-                &nbsp;  <!-- there's an odd display bug with the Foundation accordion if there is no explicit space or text here. -->
-                {{#if currentUser}}
-                    <ul class="accordion" data-accordion data-allow-all-closed="true">
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#" class="accordion-title">
-                                Add your own event
-                            </a>
-                            <div class="accordion-content" data-tab-content>
-                                <h2 class="pull-down-small">
-                                    Add an event
-                                </h2>
-                                {{> event_calendar_submit}}
-                            </div>
-                        </li>
-                    </ul>
-                {{else}}
-                    <p class="text-centered">
-                        <a href="{{pathFor 'join'}}">
-                            <strong>
-                                Sign up
-                            </strong>
-                        </a>
-                        to add an event to the calendar!
-                    </p>
-                {{/if}}
-            </div>
+            {{> event_calendar_add_wrapper}}
 
             <div class="column"><!-- closing column due to Foundation bug--></div>
         </div>

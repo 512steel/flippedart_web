@@ -26,6 +26,7 @@ import './event-calendar-submit.html';
 import './event-calendar-single-event.html';
 import './event-calendar-single-date.html';
 import './event-calendar-single-event-small.html';
+import './event-calendar-add-wrapper.html';
 
 
 Template.event_calendar_page.onCreated(function() {
@@ -191,7 +192,7 @@ Template.event_calendar_submit.onCreated(function userPostSubmitOnCreated() {
 
 
 Template.event_calendar_page.onRendered(function() {
-    autosize($('textarea'));
+
 });
 
 Template.event_calendar_single_date_page.onRendered(function() {
@@ -203,6 +204,8 @@ Template.event_calendar_single_event_page.onRendered(function() {
 });
 
 Template.event_calendar_single_event_edit.onRendered(function() {
+    autosize($('textarea'));
+
     var Pikaday = require('pikaday');
     var picker = new Pikaday({
         field: document.getElementById('datepicker-edit-event'),
@@ -237,6 +240,8 @@ Template.event_calendar_single_event_edit.onRendered(function() {
 });
 
 Template.event_calendar_submit.onRendered(function() {
+    autosize($('textarea'));
+
     this.accordion = new Foundation.Accordion($('.accordion'));  //FIXME: this works here, but would make mroe semantic sense in each of calendar_event_submit's containing templates.
 
     var Pikaday = require('pikaday');
