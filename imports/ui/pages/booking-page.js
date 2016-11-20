@@ -467,26 +467,27 @@ Template.booking_page.events({
         });
     },
 
-    'click ul.select-box li': (e, target) => {
+    'click ul.select-box li a': (e, target) => {
         e.preventDefault();
 
         //TODO: refactor this code to be used elsewhere (i.e. "are you an individual or organization?" on signup)
 
-        let parent = $(e.target).parent();
+        let parent = $(e.target).parent(); //li
+        let grandparent = parent.parent(); //ul
 
         // first, clear selection
-        parent.find('li').removeClass('selected');
+        grandparent.find('li').removeClass('selected');
 
         // then, add the 'selected' class to the correct element
-        $(e.target).addClass('selected');
+        parent.addClass('selected');
 
-        let eventType = $(e.target)[0].dataset['name'];
+        let eventType = parent[0].dataset['name'];
         let bookingRequestObj = this.bookingRequest.get();
         bookingRequestObj['eventType'] = eventType;
         this.bookingRequest.set(bookingRequestObj);
 
         // NOTE: this could be bad if multiple steps/next-buttons were in the DOM at the same time.
-        parent.parent().find('.next-button').removeClass('disabled');
+        grandparent.parent().find('.next-button').removeClass('disabled');
     },
     'change #booking-form .select-age-range': (e) => {
         e.preventDefault();

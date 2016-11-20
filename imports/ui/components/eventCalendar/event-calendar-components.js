@@ -30,27 +30,49 @@ import './event-calendar-single-event-small.html';
 
 Template.event_calendar_page.onCreated(function() {
 
-    let hash = FlowRouter.current().context.hash;
-    if (hash
-        && /^\d{2}\-\d{2}$/.test(hash)
-        && parseInt(hash.slice(0,2)) <= 12) {  //NOTE: the bookmarkable hash URLs come in the format MM-YY
-
-        Session.set('currentCalendarMonth', parseInt(hash.slice(0,2)));  //NOTE: Moment months are zero-indexed
-        Session.set('currentCalendarYear', parseInt(hash.slice(3,5)));  //NOTE: We only want the last two digits of the year
-    }
-    else {
-        Session.set('currentCalendarMonth', moment().month() + 1);  //NOTE: Moment months are zero-indexed
-        Session.set('currentCalendarYear', moment().year() % 1000);  //NOTE: We only want the last two digits of the year
-    }
-
     // Subscriptions go in here
     this.autorun(() => {
         //FIXME: pull currently-selected month and year
-        this.subscribe('calendarEvents.byMonth', Session.get('currentCalendarMonth'), Session.get('currentCalendarYear'));
+        this.subscribe('calendarEvents.upcoming', 10);  //TODO: page events
+
+        if (FlowRouter.getRouteName() == 'eventCalendar.past') {
+            this.subscribe('calendarEvents.past', 10);  //TODO: page events
+
+            Session.set('isPastSelected', true);
+        }
+        else {
+            Session.set('isPastSelected', false);
+        }
     });
 
-    this.getMonthlyCalendarEvents = () => {
-        return CalendarEvents.find({});
+    let currentDate = new Date();
+    this.getUpcomingCalendarEvents = () => {
+        return CalendarEvents.find(
+            {
+                eventDateFormatted: {
+                    $gte: currentDate
+                }
+            },
+            {
+                sort: {
+                    eventDateFormatted: 1
+                    //FIXME: sort by start times secondarily
+                },
+            });
+    };
+    this.getPastCalendarEvents = () => {
+        return CalendarEvents.find(
+            {
+                eventDateFormatted: {
+                    $lt: currentDate
+                }
+            },
+            {
+                sort: {
+                    eventDateFormatted: -1
+                    //FIXME: sort by start times secondarily
+                },
+            });
     };
 
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Calendar");
@@ -170,33 +192,6 @@ Template.event_calendar_submit.onCreated(function userPostSubmitOnCreated() {
 
 Template.event_calendar_page.onRendered(function() {
     autosize($('textarea'));
-
-    this.resizeCalendarBoxes = _.throttle(() => {
-        let containerWidth = $('.event-calendar-container').width();
-
-        let boxWidth =  ~~(containerWidth/7);  //NOTE: truncate down with "~~" and prevent off-by-one pixel width bugs
-
-        $('.calendar-box').css({'width': boxWidth - 1, 'height': boxWidth * 1.75});
-        $('.truncate-event-name').css('width', boxWidth - 15);  //NOTE: the "-15" accounts for padding in the box, but could be more precise
-    }, 20);
-    $(window).resize(this.resizeCalendarBoxes);
-
-    //NOTE: dumb bug if this method is instantly called on render.
-    Meteor.setTimeout(
-        () => {
-            this.resizeCalendarBoxes();
-            $(window).resize();
-        },
-        20
-    );
-
-    //NOTE: safeguards against an uncommon scenario where the browser is delayed rendering all the calendar box's DOM elements (put this in a setInterval a la the homepage?)
-    Meteor.setTimeout(
-        () => {
-            this.resizeCalendarBoxes();
-        },
-        1000
-    );
 });
 
 Template.event_calendar_single_date_page.onRendered(function() {
@@ -277,28 +272,18 @@ Template.event_calendar_submit.onRendered(function() {
 
 
 Template.event_calendar_page.helpers({
-    calendarEvents: () => {
-        return Template.instance().getMonthlyCalendarEvents();
+    upcomingCalendarEvents: () => {
+        return Template.instance().getUpcomingCalendarEvents();
     },
-    selectedMonthName: () => {
-        return moment(Session.get('currentCalendarMonth'), "MM").format("MMMM");
+    pastCalendarEvents: () => {
+        return Template.instance().getPastCalendarEvents();
     },
-    selectedYear: () => {
-        return moment(Session.get('currentCalendarYear'), "YY").format("YYYY");
-    },
-    numberOfDaysInMonth: () => {
-        return moment(Session.get('currentCalendarMonth') + '-' + Session.get('currentCalendarYear'), "MM-YY").daysInMonth();
-    },
-    numberOfPrependedDays: () => {
-        //get the number of "grayed out" days to display before the first of the month on the top row.  This could be 0-6 days.
-        return moment(Session.get('currentCalendarMonth') + '-' + '01' + '-' + Session.get('currentCalendarYear'), 'MM-DD-YY').day();
-    },
-    numberOfAppendedDays: () => {
-        //get the number of "grayed out" days to display after the last of the month on the bottom row.  This could be 0-6 days.
-        let daysInMonth = moment(Session.get('currentCalendarMonth') + '-' + Session.get('currentCalendarYear'), "MM-YY").daysInMonth();
-        return 6 - moment(Session.get('currentCalendarMonth') + '-' + daysInMonth + '-' + Session.get('currentCalendarYear'), 'MM-DD-YY').day();
 
+    isPastSelected: () => {
+        return Session.get('isPastSelected');
     },
+
+    //NOTE: these are relics from the old calendar, but will be useful once I add date-headers to the calendarEvents lists
     equalsDate: (mmddyy, dd) => {
         //remove potential hyphens in the date first
         let newDate = mmddyy.toString().replace(/\-+/g, '');
@@ -306,23 +291,6 @@ Template.event_calendar_page.helpers({
         if (validDate) {
             return dd == newDate.slice(2,4);
         }
-    },
-    hasDateInEventsList: (dd) => {
-        let events = Template.instance().getMonthlyCalendarEvents();
-        let hasEvent = false;
-        events.forEach((event) => {
-            //NOTE: take into account dates formatted as MMDDYY *and* MM-DD-YY
-            let newDate = event.eventDate.toString().replace(/\-+/g, '');
-            if (dd == newDate.slice(2,4)) {
-                hasEvent = true;
-            }
-        });
-        return hasEvent;
-    },
-    hasAnyEventsThisMonth: () => {
-        let events = Template.instance().getMonthlyCalendarEvents();
-
-        return events.count();
     },
     dayToFormatted: (dd) => {
         let month = Session.get('currentCalendarMonth');
@@ -464,58 +432,7 @@ Template.event_calendar_submit.helpers({
 
 
 Template.event_calendar_page.events({
-    'click .js-event-calendar-prev-month': function(e) {
-        let currentMonth = Session.get('currentCalendarMonth');
-        let currentYear = Session.get('currentCalendarYear');
 
-        if (currentMonth <= 1) {
-            Session.set('currentCalendarMonth', 12);
-            Session.set('currentCalendarYear', currentYear - 1);
-
-            //Make each month bookmarkable
-            currentMonth = Session.get('currentCalendarMonth');
-            currentYear = Session.get('currentCalendarYear');
-            window.location.hash = '#' + (currentMonth < 10 ? '0' + currentMonth : currentMonth) + '-' + currentYear;
-        }
-        else {
-            Session.set('currentCalendarMonth', currentMonth - 1);
-
-            //Make each month bookmarkable
-            currentMonth = Session.get('currentCalendarMonth');
-            window.location.hash = '#' + (currentMonth < 10 ? '0' + currentMonth : currentMonth) + '-' + currentYear;
-        }
-
-        Meteor.setTimeout(
-            Template.instance().resizeCalendarBoxes,
-            50
-        );
-    },
-    'click .js-event-calendar-next-month': function(e) {
-        let currentMonth = Session.get('currentCalendarMonth');
-        let currentYear = Session.get('currentCalendarYear');
-
-        if (currentMonth >= 12) {
-            Session.set('currentCalendarMonth', 1);
-            Session.set('currentCalendarYear', currentYear + 1);
-
-            //Make each month bookmarkable
-            currentMonth = Session.get('currentCalendarMonth');
-            currentYear = Session.get('currentCalendarYear');
-            window.location.hash = '#' + (currentMonth < 10 ? '0' + currentMonth : currentMonth) + '-' + currentYear;
-        }
-        else {
-            Session.set('currentCalendarMonth', currentMonth + 1);
-
-            //Make each month bookmarkable
-            currentMonth = Session.get('currentCalendarMonth');
-            window.location.hash = '#' + (currentMonth < 10 ? '0' + currentMonth : currentMonth) + '-' + currentYear;
-        }
-
-        Meteor.setTimeout(
-            Template.instance().resizeCalendarBoxes,
-            50
-        );
-    }
 });
 
 Template.event_calendar_single_date_page.events({
@@ -546,7 +463,7 @@ Template.event_calendar_single_event_page.events({
                     throwError(err.reason);
                 }
                 else {
-                    FlowRouter.go('eventCalendar.page');
+                    FlowRouter.go('eventCalendar.upcoming');
                 }
 
             });

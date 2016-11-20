@@ -2,133 +2,52 @@
     <div class="row pull-down push-down">
         <div class="column small-12 medium-12 large-12 medium-centered large-centered">
 
-            <a href="{{pathFor 'eventCalendar.add'}}">
-                <span class="button primary shift-down-xsmall push-right-small float-right add-event-button-large">
-                    <i class="fi-plus"></i>
-                </span>
-            </a>
-
             <div class="row column push-down">
-                <h1 class="column small-10">
-                    EVENT CALENDAR
+                <h1 class="column">
+                    Community Events
                 </h1>
-
-                <a href="{{pathFor 'eventCalendar.add'}}">
-                    <span class="button primary float-left padded add-event-button-small">
-                        <i class="fi-plus"></i>
-                    </span>
-                </a>
             </div>
 
             <div class="row column pull-down">
-                <div class="column small-12 medium-12">
-                    <h4 class="column small-12 text-centered">
 
-                        <span class="js-event-calendar-prev-month button hollow secondary push-right shift-down-small">
-                            <i class="fi-arrow-left"></i>
-                        </span>
-
-                        {{selectedMonthName}} {{selectedYear}}
-
-                        <span class="js-event-calendar-next-month button hollow secondary push-left shift-down-small">
-                            <i class="fi-arrow-right"></i>
-                        </span>
-
-                    </h4>
-                </div>
-
-                <hr>
-
-                <div class="event-calendar-container column small-12 clearfix">
-                    {{#each times numberOfPrependedDays}}
-                        <div class="calendar-box calendar-gray-box">
-                            <span>
-
-                            </span>
-                        </div>
-                    {{/each}}
-                    {{#each timesOneIndexed numberOfDaysInMonth}}
-                        <a href="{{pathFor 'eventCalendar.singleDate' MMDDYY=(dayToMMDDYY this)}}"
-                           class="calendar-box-link">
-
-                            <div class="calendar-box calendar-date-box">
-                                <span class="upper-number">
-                                    {{this}}
-                                </span>
-                                <span class="content">
-                                    {{#each calendarEvents}}  <!-- FIXME: would it be better to loop through the events once and the dates multiple times, rather than vice versa? -->
-                                        {{#if equalsDate this.eventDate ..}}  <!-- syntax is unclear here, but the ".." refers to the number being looped through in the outer each-loop -->
-                                            <p class="truncate-event-name">
-                                                <a class="calendar-box-single-listing"
-                                                   href="{{
-                                                        pathFor 'eventCalendar.singleEvent'
-                                                        MMDDYY=this.eventDate
-                                                        eventName=this.eventName
-                                                        nameSlug=this.nameSlug
-                                                        }}">
-                                                    {{this.eventName}}
-                                                </a>
-                                            </p>
-                                        {{else}}
-                                        {{/if}}
-                                    {{else}}
-                                    {{/each}}
-                                </span>
-                                <span class="more-events-button">
-                                    All events
-                                </span>
-                            </div>
-                        </a>
-                    {{/each}}
-                    {{#each times numberOfAppendedDays}}
-                        <div class="calendar-box calendar-gray-box">
-                            <span>
-
-                            </span>
-                        </div>
-                    {{/each}}
-                </div>
-
-                <div class="event-calendar-container-small column small-12">
-                    {{#each timesOneIndexed numberOfDaysInMonth}}
-                        {{#if hasDateInEventsList this}}
-                            <a href="{{pathFor 'eventCalendar.singleDate' MMDDYY=(dayToMMDDYY this)}}"
-                               class="calendar-box-link">
-                                <div class="pull-down push-down">
-                                    <span class="date-box">
-                                        {{dayToFormatted this}}
-                                    </span>
-                                </div>
+                <div class="column small-12 medium-4 large-5 push-down-large">
+                    <ul class="select-box">
+                        <li class="{{#unless isPastSelected}}selected{{/unless}}">
+                            <a href="{{pathFor 'eventCalendar.upcoming'}}">
+                                Upcoming events
                             </a>
-
-                            <span class="content">
-                                {{#each calendarEvents}}
-                                    {{#if equalsDate this.eventDate ..}}  <!-- syntax is unclear here, but the ".." refers to the number being looped through in the outer each-loop -->
-                                        <p>
-                                            <a class="calendar-small-single-listing"
-                                               href="{{
-                                                    pathFor 'eventCalendar.singleEvent'
-                                                    MMDDYY=this.eventDate
-                                                    eventName=this.eventName
-                                                    nameSlug=this.nameSlug}}">
-                                                {{this.eventName}}
-                                            </a>
-                                        </p>
-                                    {{else}}
-                                    {{/if}}
-                                {{else}}
-                                {{/each}}
-                            </span>
-                        {{else}}
-                        {{/if}}
-                    {{/each}}
-
-                    {{#unless hasAnyEventsThisMonth}}
-                        <p class="text-large text-centered">
-                            There are no events scheduled in {{selectedMonthName}}.
-                        </p>
-                    {{/unless}}
+                        </li>
+                        <li class="{{#if isPastSelected}}selected{{/if}}">
+                            <a href="{{pathFor 'eventCalendar.past'}}">
+                                Past events
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+
+                <div class="column small-12 medium-8 large-7 left-padded-xlarge push-down">
+                    {{#if isPastSelected}}
+                        {{#each event in pastCalendarEvents}}
+                            <div class="push-down">
+                                {{> event_calendar_single_event_small event}}
+                                <!-- FIXME: add date-headers to separate events into groups by date, as in the previous iteration's mobile calendar view. -->
+                            </div>
+                        {{else}}
+                            <strong>No past events</strong>
+                        {{/each}}
+                    {{else}}
+                        {{#each event in upcomingCalendarEvents}}
+                            <div class="push-down">
+                                {{> event_calendar_single_event_small event}}
+                                <!-- FIXME: add date-headers to separate events into groups by date, as in the previous iteration's mobile calendar view -->
+                            </div>
+                        {{else}}
+                            <strong>There are no upcoming events scheduled.</strong>
+                        {{/each}}
+                    {{/if}}
+                </div>
+
+                <div class="column"><!-- closing column due to Foundation bug--></div>
             </div>
 
             <hr>

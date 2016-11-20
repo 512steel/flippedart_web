@@ -1,13 +1,14 @@
 <template name="event_calendar_single_date_page">
     <div class="row pull-down push-down">
         <div class="column small-12 medium-10 large-10 medium-centered large-centered push-down-xlarge">
-            <h2 class="push-down text-centered">
+            <h2 class="push-down-large text-centered">
                 Happening on {{eventDateString}}
             </h2>
 
             {{#each event in events}}
-                {{> event_calendar_single_event_small event}}
-                <hr>
+                <div class="push-down">
+                    {{> event_calendar_single_event_small event}}
+                </div>
             {{else}}
                 <p class="text-large text-centered pull-down push-down-xxxlarge">
                     There are no events scheduled for today.

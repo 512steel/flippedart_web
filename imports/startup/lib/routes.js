@@ -237,7 +237,13 @@ FlowRouter.route('/account', {
 });
 
 FlowRouter.route('/calendar', {
-    name: 'eventCalendar.page',
+    name: 'eventCalendar.upcoming',
+    action() {
+        BlazeLayout.render('App_body', { main: 'event_calendar_page' });
+    }
+});
+FlowRouter.route('/calendar/past', {
+    name: 'eventCalendar.past',
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_page' });
     }

@@ -108,6 +108,7 @@ Meteor.publish('calendarEvents.single', function(eventDate, eventName, nameSlug)
     );
 });
 
+//TODO: page the below two publications
 Meteor.publish('calendarEvents.upcoming', function(limit) {
     check(limit, Number);
 
@@ -116,7 +117,7 @@ Meteor.publish('calendarEvents.upcoming', function(limit) {
     return CalendarEvents.find(
         {
             eventDateFormatted: {
-                $gt: currentDate
+                $gte: currentDate
             }
         },
         {
@@ -127,4 +128,33 @@ Meteor.publish('calendarEvents.upcoming', function(limit) {
             limit: limit,
             fields: CalendarEvents.publicFields,
         });
+});
+
+Meteor.publish('calendarEvents.past', function(limit) {
+    check(limit, Number);
+
+    let currentDate = new Date();
+
+    return CalendarEvents.find(
+        {
+            eventDateFormatted: {
+                $lt: currentDate
+            }
+        },
+        {
+            sort: {
+                eventDateFormatted: -1
+                //FIXME: sort by start times secondarily
+            },
+            limit: limit,
+            fields: CalendarEvents.publicFields,
+        });
+});
+
+Meteor.publish('calendarEvents.fromDate', function(limit) {
+    check(limit, Number);
+
+    let currentDate = new Date();
+
+    //TODO: get upcoming events, from currentDate, up to limit.  If limit isn't reached, get past events backward from currentDate
 });
