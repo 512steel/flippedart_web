@@ -41,9 +41,105 @@ Template.booking_page.onRendered(() => {
 
     Session.set('hasBeenToStep2', false);
 
-    this.drawCharts = _.throttle((bookinRequestObj) => {
-        //console.log(bookinRequestObj);
+    let linePad = 2;  // NOTE: this is the padding in pixels between the slider line and the left/right sides of the chart.
+    let lineWidth = 4;
+    let chartCanvasHeight = 120;
 
+    let chartLeftFillStyle = "rgba(90,151,156,0.85)";
+    let chartLineStrokeStyle = "#aaaaaa";
+    let chartRightFillStyle = "rgba(90,151,156,0.3)";
+
+    this.drawSingleChart = (leftCanvas, lineCanvas, rightCanvas, bookingRequestObj, requestObjName) => {
+        if (leftCanvas.getContext){
+            var leftCtx = leftCanvas.getContext('2d');
+
+            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
+            leftCtx.beginPath();
+            leftCtx.moveTo(
+                0,
+                leftCanvas.height
+            );  //bottom-left
+            leftCtx.lineTo(
+                leftCanvas.width,
+                leftCanvas.height
+            );  //bottom-right
+            leftCtx.lineTo(
+                leftCanvas.width,
+                leftCanvas.height - (leftCanvas.height * (bookingRequestObj[requestObjName] / 100)) + lineWidth
+            );  // upper-right corner
+
+            leftCtx.closePath();
+            leftCtx.stroke();
+
+            leftCtx.fillStyle = chartLeftFillStyle;
+            leftCtx.fill();
+        }
+        if (lineCanvas.getContext){
+            var lineCtx = lineCanvas.getContext('2d');
+
+            let lineXPos = lineWidth / 2;
+            let dotRadius = lineWidth / 2;
+
+            lineCtx.beginPath();
+            lineCtx.moveTo(
+                lineXPos,
+                lineCanvas.height - dotRadius
+            );  //bottom point of line
+            lineCtx.arc(
+                lineXPos,
+                lineCanvas.height - dotRadius,
+                dotRadius,
+                1.5 * Math.PI,
+                3.5 * Math.PI
+            );  //bottom circle
+            lineCtx.lineTo(
+                lineXPos,
+                lineCanvas.height - (lineCanvas.height * (bookingRequestObj[requestObjName] / 100))
+            );  //upward line
+            lineCtx.arc(
+                lineXPos,
+                lineCanvas.height - (lineCanvas.height * (bookingRequestObj[requestObjName] / 100)),
+                dotRadius,
+                1.5 * Math.PI,
+                3.5 * Math.PI
+            );  //top cirlce
+
+            lineCtx.closePath();
+
+            lineCtx.strokeStyle = chartLineStrokeStyle;
+            lineCtx.stroke();
+        }
+        if (rightCanvas.getContext){
+            var rightCtx = rightCanvas.getContext('2d');
+
+            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
+            rightCtx.beginPath();
+            rightCtx.moveTo(
+                0,
+                rightCanvas.height
+            );  //bottom-left
+            rightCtx.lineTo(
+                rightCanvas.width,
+                rightCanvas.height
+            );  //bottom-right
+            rightCtx.lineTo(
+                rightCanvas.width,
+                0 + lineWidth
+            );  //upper-right corner
+            rightCtx.lineTo(
+                0,
+                rightCanvas.height - (rightCanvas.height * (bookingRequestObj[requestObjName] / 100))
+            );  //upper-left corner
+
+            rightCtx.closePath();
+            rightCtx.stroke();
+
+            rightCtx.fillStyle = chartRightFillStyle;
+            rightCtx.fill();
+        }
+    };
+
+    this.drawCharts = _.throttle((bookingRequestObj) => {
         let incomeLeftCanvas = document.getElementById('incomeChartLeft');
         let incomeLineCanvas = document.getElementById('incomeChartLine');
         let incomeRightCanvas = document.getElementById('incomeChartRight');
@@ -59,307 +155,34 @@ Template.booking_page.onRendered(() => {
         let timeRightCanvas = document.getElementById('timeChartRight');
         let timeContainerWidth = $('.time-chart-container').width();
 
-        let linePad = 2;  // NOTE: this is the padding in pixels between the slider line and the left/right sides of the chart.
-        let lineWidth = 4;
-        let chartCanvasHeight = 120;
-
-        let chartLeftFillStyle = "rgba(90,151,156,0.85)";
-        let chartLineStrokeStyle = "#aaaaaa";
-        let chartRightFillStyle = "rgba(90,151,156,0.3)";
-
         //NOTE: should be " - lineWidth/2" below, but integer division might get wonky + shaving off the extra takes care of rounding errors that occasionally would push one of the charts to a new line.
         //NOTE: we use Math.max() because setting the canvas width to a negative number makes it angry.
         //NOTE: this is still buggy, as a 0-width side (on either extreme of the slider) pulls it out entirely, along with its padding, so the whole chart appears to squeeze inward on any other slider value.  The quick fix is restricting the data-slider attributes to 5-95, rather than 0-100.
-        incomeLeftCanvas.width = Math.max(0, incomeContainerWidth * ((bookinRequestObj['incomeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        incomeLeftCanvas.width = Math.max(0, incomeContainerWidth * ((bookingRequestObj['incomeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         incomeLineCanvas.width = lineWidth;
-        incomeRightCanvas.width = Math.max(0, incomeContainerWidth * (1 - (bookinRequestObj['incomeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        incomeRightCanvas.width = Math.max(0, incomeContainerWidth * (1 - (bookingRequestObj['incomeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         incomeLeftCanvas.height = chartCanvasHeight;
         incomeLineCanvas.height = chartCanvasHeight;
         incomeRightCanvas.height = chartCanvasHeight;
 
-        attendanceLeftCanvas.width = Math.max(0, attendanceContainerWidth * ((bookinRequestObj['attendanceSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        attendanceLeftCanvas.width = Math.max(0, attendanceContainerWidth * ((bookingRequestObj['attendanceSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         attendanceLineCanvas.width = lineWidth;
-        attendanceRightCanvas.width = Math.max(0, attendanceContainerWidth * (1 - (bookinRequestObj['attendanceSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        attendanceRightCanvas.width = Math.max(0, attendanceContainerWidth * (1 - (bookingRequestObj['attendanceSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         attendanceLeftCanvas.height = chartCanvasHeight;
         attendanceLineCanvas.height = chartCanvasHeight;
         attendanceRightCanvas.height = chartCanvasHeight;
 
-        timeLeftCanvas.width = Math.max(0, timeContainerWidth * ((bookinRequestObj['timeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        timeLeftCanvas.width = Math.max(0, timeContainerWidth * ((bookingRequestObj['timeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         timeLineCanvas.width = lineWidth;
-        timeRightCanvas.width = Math.max(0, timeContainerWidth * (1 - (bookinRequestObj['timeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
+        timeRightCanvas.width = Math.max(0, timeContainerWidth * (1 - (bookingRequestObj['timeSlider'] / 100)) - linePad - lineWidth - lineWidth - lineWidth);
         timeLeftCanvas.height = chartCanvasHeight;
         timeLineCanvas.height = chartCanvasHeight;
         timeRightCanvas.height = chartCanvasHeight;
 
-        //FIXME: the upper-left corners on all "right-side" charts feel off, depending on how wide they appear on the screen.
+        this.drawSingleChart(incomeLeftCanvas, incomeLineCanvas, incomeRightCanvas, bookingRequestObj, 'incomeSlider');
+        this.drawSingleChart(attendanceLeftCanvas, attendanceLineCanvas, attendanceRightCanvas, bookingRequestObj, 'attendanceSlider');
+        this.drawSingleChart(timeLeftCanvas, timeLineCanvas, timeRightCanvas, bookingRequestObj, 'timeSlider');
 
-        //INCOME chart
-        if (incomeLeftCanvas.getContext){
-            var incomeLeftCtx = incomeLeftCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            incomeLeftCtx.beginPath();
-            incomeLeftCtx.moveTo(
-                0,
-                incomeLeftCanvas.height
-            );  //bottom-left
-            incomeLeftCtx.lineTo(
-                incomeLeftCanvas.width,
-                incomeLeftCanvas.height
-            );  //bottom-right
-            incomeLeftCtx.lineTo(
-                incomeLeftCanvas.width,
-                incomeLeftCanvas.height - (incomeLeftCanvas.height * (bookinRequestObj['incomeSlider'] / 100)) + lineWidth
-            );  // upper-right corner
-
-            incomeLeftCtx.closePath();
-            incomeLeftCtx.stroke();
-
-            incomeLeftCtx.fillStyle = chartLeftFillStyle;
-            incomeLeftCtx.fill();
-        }
-        if (incomeLineCanvas.getContext){
-            var incomeLineCtx = incomeLineCanvas.getContext('2d');
-
-            let lineXPos = lineWidth / 2;
-            let dotRadius = lineWidth / 2;
-
-            incomeLineCtx.beginPath();
-            incomeLineCtx.moveTo(
-                lineXPos,
-                incomeLineCanvas.height - dotRadius
-            );  //bottom point of line
-            incomeLineCtx.arc(
-                lineXPos,
-                incomeLineCanvas.height - dotRadius,
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //bottom circle
-            incomeLineCtx.lineTo(
-                lineXPos,
-                incomeLineCanvas.height - (incomeLineCanvas.height * (bookinRequestObj['incomeSlider'] / 100))
-            );  //upward line
-            incomeLineCtx.arc(
-                lineXPos,
-                incomeLineCanvas.height - (incomeLineCanvas.height * (bookinRequestObj['incomeSlider'] / 100)),
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //top cirlce
-
-            incomeLineCtx.closePath();
-
-            incomeLineCtx.strokeStyle = chartLineStrokeStyle;
-            incomeLineCtx.stroke();
-        }
-        if (incomeRightCanvas.getContext){
-            var incomeRightCtx = incomeRightCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            incomeRightCtx.beginPath();
-            incomeRightCtx.moveTo(
-                0,
-                incomeRightCanvas.height
-            );  //bottom-left
-            incomeRightCtx.lineTo(
-                incomeRightCanvas.width,
-                incomeRightCanvas.height
-            );  //bottom-right
-            incomeRightCtx.lineTo(
-                incomeRightCanvas.width,
-                0 + lineWidth
-            );  //upper-right corner
-            incomeRightCtx.lineTo(
-                0,
-                incomeRightCanvas.height - (incomeRightCanvas.height * (bookinRequestObj['incomeSlider'] / 100))
-            );  //upper-left corner
-
-            incomeRightCtx.closePath();
-            incomeRightCtx.stroke();
-
-            incomeRightCtx.fillStyle = chartRightFillStyle;
-            incomeRightCtx.fill();
-        }
-
-        //ATTENDANCE chart
-        if (attendanceLeftCanvas.getContext){
-            var attendanceLeftCtx = attendanceLeftCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            attendanceLeftCtx.beginPath();
-            attendanceLeftCtx.moveTo(
-                0,
-                attendanceLeftCanvas.height
-            );  //bottom-left
-            attendanceLeftCtx.lineTo(
-                attendanceLeftCanvas.width,
-                attendanceLeftCanvas.height
-            );  //bottom-right
-            attendanceLeftCtx.lineTo(
-                attendanceLeftCanvas.width,
-                attendanceLeftCanvas.height - (attendanceLeftCanvas.height * (bookinRequestObj['attendanceSlider'] / 100)) + lineWidth
-            );  // upper-right corner
-
-            attendanceLeftCtx.closePath();
-            attendanceLeftCtx.stroke();
-
-            attendanceLeftCtx.fillStyle = chartLeftFillStyle;
-            attendanceLeftCtx.fill();
-        }
-        if (attendanceLineCanvas.getContext){
-            var attendanceLineCtx = attendanceLineCanvas.getContext('2d');
-
-            let lineXPos = lineWidth / 2;
-            let dotRadius = lineWidth / 2;
-
-            attendanceLineCtx.beginPath();
-            attendanceLineCtx.moveTo(
-                lineXPos,
-                attendanceLineCanvas.height - dotRadius
-            );  //bottom point of line
-            attendanceLineCtx.arc(
-                lineXPos,
-                attendanceLineCanvas.height - dotRadius,
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //bottom circle
-            attendanceLineCtx.lineTo(
-                lineXPos,
-                attendanceLineCanvas.height - (attendanceLineCanvas.height * (bookinRequestObj['attendanceSlider'] / 100))
-            );  //upward line
-            attendanceLineCtx.arc(
-                lineXPos,
-                attendanceLineCanvas.height - (attendanceLineCanvas.height * (bookinRequestObj['attendanceSlider'] / 100)),
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //top cirlce
-
-            attendanceLineCtx.closePath();
-
-            attendanceLineCtx.strokeStyle = chartLineStrokeStyle;
-            attendanceLineCtx.stroke();
-        }
-        if (attendanceRightCanvas.getContext){
-            var attendanceRightCtx = attendanceRightCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            attendanceRightCtx.beginPath();
-            attendanceRightCtx.moveTo(
-                0,
-                attendanceRightCanvas.height
-            );  //bottom-left
-            attendanceRightCtx.lineTo(
-                attendanceRightCanvas.width,
-                attendanceRightCanvas.height
-            );  //bottom-right
-            attendanceRightCtx.lineTo(
-                attendanceRightCanvas.width,
-                0 + lineWidth
-            );  //upper-right corner
-            attendanceRightCtx.lineTo(
-                0,
-                attendanceRightCanvas.height - (attendanceRightCanvas.height * (bookinRequestObj['attendanceSlider'] / 100))
-            );  //upper-left corner
-
-            attendanceRightCtx.closePath();
-            attendanceRightCtx.stroke();
-
-            attendanceRightCtx.fillStyle = chartRightFillStyle;
-            attendanceRightCtx.fill();
-        }
-
-        //TIME chart
-        //FIXME: curve the top of this line to follow the equation Math.pow(x, 0.9)
-        if (timeLeftCanvas.getContext){
-            var timeLeftCtx = timeLeftCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            timeLeftCtx.beginPath();
-            timeLeftCtx.moveTo(
-                0,
-                timeLeftCanvas.height
-            );  //bottom-left
-            timeLeftCtx.lineTo(
-                timeLeftCanvas.width,
-                timeLeftCanvas.height
-            );  //bottom-right
-            timeLeftCtx.lineTo(
-                timeLeftCanvas.width,
-                timeLeftCanvas.height - (timeLeftCanvas.height * (bookinRequestObj['timeSlider'] / 100)) + lineWidth
-            );  // upper-right corner
-
-            timeLeftCtx.closePath();
-            timeLeftCtx.stroke();
-
-            timeLeftCtx.fillStyle = chartLeftFillStyle;
-            timeLeftCtx.fill();
-        }
-        if (timeLineCanvas.getContext){
-            var timeLineCtx = timeLineCanvas.getContext('2d');
-
-            let lineXPos = lineWidth / 2;
-            let dotRadius = lineWidth / 2;
-
-            timeLineCtx.beginPath();
-            timeLineCtx.moveTo(
-                lineXPos,
-                timeLineCanvas.height - dotRadius
-            );  //bottom point of line
-            timeLineCtx.arc(
-                lineXPos,
-                timeLineCanvas.height - dotRadius,
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //bottom circle
-            timeLineCtx.lineTo(
-                lineXPos,
-                timeLineCanvas.height - (timeLineCanvas.height * (bookinRequestObj['timeSlider'] / 100))
-            );  //upward line
-            timeLineCtx.arc(
-                lineXPos,
-                timeLineCanvas.height - (timeLineCanvas.height * (bookinRequestObj['timeSlider'] / 100)),
-                dotRadius,
-                1.5 * Math.PI,
-                3.5 * Math.PI
-            );  //top cirlce
-
-            timeLineCtx.closePath();
-
-            timeLineCtx.strokeStyle = chartLineStrokeStyle;
-            timeLineCtx.stroke();
-        }
-        if (timeRightCanvas.getContext){
-            var timeRightCtx = timeRightCanvas.getContext('2d');
-
-            // Draw the chart counter-clockwise, beginning with the bottom-left corner.
-            timeRightCtx.beginPath();
-            timeRightCtx.moveTo(
-                0,
-                timeRightCanvas.height
-            );  //bottom-left
-            timeRightCtx.lineTo(
-                timeRightCanvas.width,
-                timeRightCanvas.height
-            );  //bottom-right
-            timeRightCtx.lineTo(
-                timeRightCanvas.width,
-                0 + lineWidth
-            );  //upper-right corner
-            timeRightCtx.lineTo(
-                0,
-                timeRightCanvas.height - (timeRightCanvas.height * (bookinRequestObj['timeSlider'] / 100)) + (lineWidth/2)
-            );  //upper-left corner
-
-            timeRightCtx.closePath();
-            timeRightCtx.stroke();
-
-            timeRightCtx.fillStyle = chartRightFillStyle;
-            timeRightCtx.fill();
-        }
     }, 5);  //TODO: play around with the performance of shortening this throttle
     this.drawCharts(this.bookingRequest.get());
 
