@@ -5,12 +5,18 @@
             <div class="row column push-down">
                 <h1 class="column">
                     Community Events
+
+                    <a href="{{pathFor 'eventCalendar.add'}}">
+                        <span class="button primary hollow tiny push-right-small float-right">
+                            <i class="fi-plus"></i>
+                        </span>
+                    </a>
                 </h1>
             </div>
 
             <div class="row column pull-down">
 
-                <div class="column small-12 medium-4 large-5 push-down-large">
+                <div class="column small-12 medium-5 large-5 push-down-large">
                     <ul class="select-box">
                         <li class="{{#unless isPastSelected}}selected{{/unless}}">
                             <a href="{{pathFor 'eventCalendar.upcoming'}}">
@@ -25,7 +31,7 @@
                     </ul>
                 </div>
 
-                <div class="column small-12 medium-8 large-7 left-padded-xlarge push-down">
+                <div class="column small-12 medium-7 large-7 left-padded-xlarge push-down">
                     {{#if isPastSelected}}
                         {{#each event in pastCalendarEvents}}
                             <div class="push-down">
