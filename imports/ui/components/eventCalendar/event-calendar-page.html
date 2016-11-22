@@ -35,6 +35,8 @@
                     {{#if isPastSelected}}
                         {{#each event in pastCalendarEvents}}
                             <div class="push-down">
+                                {{{dateHeader event}}}
+
                                 {{> event_calendar_single_event_small event}}
                                 <!-- FIXME: add date-headers to separate events into groups by date, as in the previous iteration's mobile calendar view. -->
                             </div>
@@ -44,6 +46,8 @@
                     {{else}}
                         {{#each event in upcomingCalendarEvents}}
                             <div class="push-down">
+                                {{{dateHeader event}}}
+
                                 {{> event_calendar_single_event_small event}}
                                 <!-- FIXME: add date-headers to separate events into groups by date, as in the previous iteration's mobile calendar view -->
                             </div>

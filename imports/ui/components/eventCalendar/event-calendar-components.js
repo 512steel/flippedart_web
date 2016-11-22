@@ -76,6 +76,10 @@ Template.event_calendar_page.onCreated(function() {
             });
     };
 
+    //NOTE: this is for the event list's "date headers"
+    Session.set('currentListDate', null);
+
+
     DocHead.setTitle(HEAD_DEFAULTS.title_short + " | Calendar");
     DocHead.addMeta({name: "og:title", content: HEAD_DEFAULTS.title_short + " | Calendar"});
     DocHead.addMeta({name: "og:description", content: HEAD_DEFAULTS.description});  //TODO: custom description here.
@@ -282,6 +286,34 @@ Template.event_calendar_page.helpers({
     },
     pastCalendarEvents: () => {
         return Template.instance().getPastCalendarEvents();
+    },
+    dateHeader: (calendarEvent) => {
+        //returns a formatted date in the each-loop IF the next event occurs on a new date
+
+        //NOTE: since we're dealing with Session, we'll get an infinite loop if this isn't embedded in the Tracker.nonreactive() function.
+        return Tracker.nonreactive(() => {
+            let eventDate = calendarEvent.eventDateFormatted;
+            let currentListDate = Session.get('currentListDate');
+
+            //FIXME: when navigating "back" to either list, dateHeader() is called one additional time, and the top header isn't displayed
+
+            if (!_.isEqual(eventDate, currentListDate)) {
+                let isFirstDateHeader = (currentListDate == null);
+
+                let optionalSpacer = isFirstDateHeader ? '' : '<hr class="push-down-large">';
+                let headerLink = '<a href="' + FlowRouter.path("eventCalendar.singleDate", {MMDDYY: calendarEvent.eventDate}) + '">' +
+                    '<div class="shift-down-xsmall push-down">' +
+                    '<span class="date-header">' +
+                    moment(eventDate).format("MMM Do") +
+                    '</span>' +
+                    '</div>' +
+                    '</a>';
+
+                Session.set('currentListDate', eventDate);
+
+                return optionalSpacer + headerLink;
+            }
+        });
     },
 
     isPastSelected: () => {

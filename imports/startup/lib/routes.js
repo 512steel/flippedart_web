@@ -237,13 +237,19 @@ FlowRouter.route('/account', {
 });
 
 FlowRouter.route('/calendar', {
-    name: 'eventCalendar.upcoming',
+    name: 'eventCalendar.upcoming',  //NOTE: these triggersEnter functions are a hack for displaying the event list "date headers" properly, since the "upcoming" and "past" lists are using the same template.
+    triggersEnter: [function() {
+        Session.set('currentListDate', null);
+    }],
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_page' });
     }
 });
 FlowRouter.route('/calendar/past', {
     name: 'eventCalendar.past',
+    triggersEnter: [function() {
+        Session.set('currentListDate', null);
+    }],
     action() {
         BlazeLayout.render('App_body', { main: 'event_calendar_page' });
     }

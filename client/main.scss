@@ -761,6 +761,20 @@ a.link-black {
   text-overflow: ellipsis;
 }
 
+.date-header {
+  padding: .75rem;
+  background-color: #5a97c4;
+  color: $white;
+  font-weight: bold;
+  margin: .5rem 0;
+
+  transition: background-color 200ms ease;
+}
+.date-header:hover {
+  background-color: #395777;  /* NOTE: this is just a darker version of our primar color */
+  transition: background-color 200ms ease;
+}
+
 
 //FIXME: use scss breakpoints instead of hard numbers
 /* "large" only */
