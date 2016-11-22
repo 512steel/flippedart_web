@@ -23,7 +23,7 @@
             {{else}}
             {{/if}}
 
-            <p>
+            <p id="make-ingredients">
                 <strong>
                     Ingredients:
                 </strong>
@@ -42,10 +42,12 @@
             </p>
 
             {{#each step in project.steps}}
-                <p class="push-down">
-                    <strong>
-                        Step {{increment @index}}
-                    </strong>
+                <p class="push-down" id="step-{{increment @index}}">
+                    <a href="#step-{{increment @index}}" class="link-black">
+                        <strong>
+                            Step {{increment @index}}
+                        </strong>
+                    </a>
 
                     <br>
 

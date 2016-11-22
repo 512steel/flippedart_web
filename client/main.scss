@@ -505,7 +505,7 @@ p, li, span, h1, h2, h3, h4, h5, h6 {
 }
 
 .username-tag {
-  color: $black;
+  @extend .link-black;
   font-weight: bold;
 }
 .username-tag:hover { color: $darker-gray-2;  }
@@ -659,7 +659,7 @@ figcaption {
 
 .press-page-row {
   a {
-    color: $black;
+    @extend .link-black;
     transition: color 250ms ease;
   }
   img {
@@ -853,6 +853,10 @@ ul.unstyled-list {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+a.link-black {
+  color: $black;
 }
 
 
