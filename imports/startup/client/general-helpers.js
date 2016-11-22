@@ -1,4 +1,7 @@
-import { EMAIL_REGEX } from './../../ui/lib/globals.js';
+import {
+    EMAIL_REGEX,
+    EXTERNAL_LINKS
+} from './../../ui/lib/globals.js';
 
 /*** Blaze helpers ***/
 
@@ -147,6 +150,14 @@ Template.registerHelper('loadingIcon', function() {
         'c13.284,0,24.878-7.354,30.941-18.201L80.93,65.23C81.478,64.046,81.055,62.623,79.904,61.958z"/>' +
         '</g>' +
         '</svg>';
+});
+
+Template.registerHelper('facebookLink', function() {
+    return EXTERNAL_LINKS.facebook;
+});
+
+Template.registerHelper('instagramLink', function() {
+    return EXTERNAL_LINKS.instagram;
 });
 
 

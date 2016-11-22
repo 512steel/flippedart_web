@@ -203,3 +203,9 @@ export const COMPUTE_TIME_DISPLAY = (sliderAmount) => {
 
     return (sliderAmount - 15) / 10;
 };
+
+
+export const EXTERNAL_LINKS = {
+    'facebook': 'https://www.facebook.com/flippedartorg',
+    'instagram': 'https://www.instagram.com/flipped_art/'
+};
