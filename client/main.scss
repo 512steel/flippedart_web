@@ -554,9 +554,7 @@ ul.select-box {
     height: 100%;
     padding: 1rem;
     color: inherit;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    @extend .cutoff-ellipsis;
   }
 }
 
@@ -678,108 +676,6 @@ figcaption {
 }
 
 
-.month-selector-wrap {
-  float: right;
-}
-
-.event-calendar-container {
-  .calendar-box-link {
-    color: $black;
-  }
-  .calendar-box {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    float: left;
-    min-height: 120px;  /* guesstimate */
-
-    /*
-      NOTE: width and height are set by JS
-    */
-  }
-  .calendar-date-box {
-    border: 1px solid $darker-gray;
-    background-color: $white;
-    transition: background-color 200ms ease;
-    overflow: hidden;
-    position: relative;
-
-    span {
-      padding: 1rem;
-    }
-
-    .upper-number {
-      float: right;
-      padding: .5rem;
-    }
-
-    .content {
-      float: left;
-      clear: both;
-      padding: .5rem;
-      z-index: 99;
-
-      .truncate-event-name {
-        /*white-space: nowrap;*/
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        .calendar-box-single-listing {
-          color: $black;
-          font-weight: bold;
-          padding-bottom: .2rem;
-          border-bottom: 1px solid rgba(150, 150, 150, 0);
-          transition: border 200ms ease;
-        }
-        .calendar-box-single-listing:hover {
-          border-bottom: 1px solid rgba(150, 150, 150, 1);
-        }
-      }
-    }
-
-    .more-events-button {
-      position: absolute;
-      width: 100%;
-      font-weight: bold;
-      border: 1px solid $medium-gray;
-      background-color: $white;
-      color: #5a97c4;
-      text-align: center;
-      padding-top: .25rem;
-      padding-bottom: .25rem;
-      bottom: 0px;
-      z-index: -999;
-
-      opacity: 0.0;
-      transition: opacity 200ms ease;
-    }
-  }
-  .calendar-gray-box {
-    border: 1px solid $darker-gray;
-    background: $light-gray;
-  }
-
-  .calendar-date-box:hover {
-    background-color: $super-light-gray;
-    transition: background-color 200ms ease;
-
-    .more-events-button {
-      z-index: 9999;
-
-      opacity: 1.0;
-      transition: opacity 200ms ease;
-      transition-delay: 750ms;
-    }
-    .more-events-button:hover {
-      color: #395777;  /* NOTE: this is just a darker version of our primar color */
-      transition: color 200ms ease;
-    }
-  }
-}
-.event-calendar-container-small {
-  display: none;
-}
-
 .add-event-button-large {
   display: block;
   a {
@@ -859,6 +755,12 @@ a.link-black {
   color: $black;
 }
 
+.cutoff-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 
 //FIXME: use scss breakpoints instead of hard numbers
 /* "large" only */
@@ -935,43 +837,6 @@ a.link-black {
     }
   }
 
-  .month-selector-wrap {
-    float: none;
-  }
-  .event-calendar-container {
-    display: none;
-  }
-  .event-calendar-container-small {
-    display: block;
-
-    .date-box {
-      padding: .75rem;
-      background-color: #5a97c4;
-      color: $white;
-      font-weight: bold;
-      margin: .5rem 0;
-      font-size: 1.2rem;
-
-      transition: background-color 200ms ease;
-    }
-    .date-box:hover {
-      background-color: #395777;  /* NOTE: this is just a darker version of our primar color */
-      transition: background-color 200ms ease;
-    }
-
-    .content {
-      .calendar-small-single-listing {
-        color: $black;
-        font-weight: bold;
-        padding-bottom: .2rem;
-        border-bottom: 1px solid rgba(150, 150, 150, 0);
-        transition: border 200ms ease;
-      }
-      .calendar-small-single-listing:hover {
-        border-bottom: 1px solid rgba(150, 150, 150, 1);
-      }
-    }
-  }
   .add-event-button-large {
     display: none;
   }

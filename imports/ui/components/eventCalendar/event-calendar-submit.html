@@ -86,16 +86,18 @@
             </span>
             </label>
 
-            {{#if isUploading}}
-                <input type="submit"
-                       value="{{uploadingCopy}}"
-                       class="column small-12 medium-4 button primary float-right"
-                       disabled/>
-            {{else}}
-                <input type="submit"
-                       value="Create your event"
-                       class="column small-12 medium-4 button primary float-right"/>
-            {{/if}}
+            <strong>
+                {{#if isUploading}}
+                    <input type="submit"
+                           value="{{uploadingCopy}}"
+                           class="column small-12 medium-6 large-4 button primary float-right"
+                           disabled/>
+                {{else}}
+                    <input type="submit"
+                           value="Create your event"
+                           class="column small-12 medium-6 large-4 button primary float-right cutoff-ellipsis"/>
+                {{/if}}
+            </strong>
 
             <div class="clearfix"></div>
         </div>
