@@ -304,7 +304,7 @@ Template.event_calendar_page.helpers({
                 let headerLink = '<a href="' + FlowRouter.path("eventCalendar.singleDate", {MMDDYY: calendarEvent.eventDate}) + '">' +
                     '<div class="shift-down-xsmall push-down">' +
                     '<span class="date-header">' +
-                    moment(eventDate).format("MMM Do") +
+                    moment(calendarEvent.eventDate).format("MMM Do") +
                     '</span>' +
                     '</div>' +
                     '</a>';
