@@ -43,6 +43,18 @@
                         {{else}}
                             <strong>No past events</strong>
                         {{/each}}
+
+                        {{#if hasMorePastCalendarEvents}}
+                            <div class="row">
+                                <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                                    <a class="js-load-more-past-events button hollow secondary">
+                                        <strong>
+                                            Load more events
+                                        </strong>
+                                    </a>
+                                </div>
+                            </div>
+                        {{/if}}
                     {{else}}
                         {{#each event in upcomingCalendarEvents}}
                             <div class="push-down">
@@ -54,6 +66,18 @@
                         {{else}}
                             <strong>There are no upcoming events scheduled.</strong>
                         {{/each}}
+
+                        {{#if hasMoreUpcomingCalendarEvents}}
+                            <div class="row">
+                                <div class=" small-10 medium-8 large-8 small-centered medium-centered large-centered columns">
+                                    <a class="js-load-more-upcoming-events button hollow secondary">
+                                        <strong>
+                                            Load more events
+                                        </strong>
+                                    </a>
+                                </div>
+                            </div>
+                        {{/if}}
                     {{/if}}
                 </div>
 

@@ -31,13 +31,16 @@ import './event-calendar-add-wrapper.html';
 
 Template.event_calendar_page.onCreated(function() {
 
+    this.calendarEventsUpcomingSubscription = null;
+    this.calendarEventsPastSubscription = null;
+
     // Subscriptions go in here
     this.autorun(() => {
         //FIXME: pull currently-selected month and year
-        this.subscribe('calendarEvents.upcoming', 10);  //TODO: page events
+        this.calendarEventsUpcomingSubscription = Meteor.subscribeWithPagination('calendarEvents.upcoming', 10);
 
         if (FlowRouter.getRouteName() == 'eventCalendar.past') {
-            this.subscribe('calendarEvents.past', 10);  //TODO: page events
+            this.calendarEventsPastSubscription = Meteor.subscribeWithPagination('calendarEvents.past', 10);
 
             Session.set('isPastSelected', true);
         }
@@ -319,6 +322,19 @@ Template.event_calendar_page.helpers({
     isPastSelected: () => {
         return Session.get('isPastSelected');
     },
+
+    hasMoreUpcomingCalendarEvents: function () {
+        const sub = Template.instance().calendarEventsUpcomingSubscription;
+
+        return sub.loaded() < Counts.get('calendarEvents.upcoming.count') &&
+            sub.loaded() == sub.limit();
+    },
+    hasMorePastCalendarEvents: function () {
+        const sub = Template.instance().calendarEventsPastSubscription;
+
+        return sub.loaded() < Counts.get('calendarEvents.past.count') &&
+            sub.loaded() == sub.limit();
+    },
 });
 
 Template.event_calendar_single_date_page.helpers({
@@ -443,7 +459,16 @@ Template.event_calendar_submit.helpers({
 
 
 Template.event_calendar_page.events({
+    'click .js-load-more-upcoming-events': function (e) {
+        e.preventDefault();
 
+        Template.instance().calendarEventsUpcomingSubscription.loadNextPage();
+    },
+    'click .js-load-more-past-events': function (e) {
+        e.preventDefault();
+
+        Template.instance().calendarEventsPastSubscription.loadNextPage();
+    }
 });
 
 Template.event_calendar_single_date_page.events({

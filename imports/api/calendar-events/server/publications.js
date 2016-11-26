@@ -114,6 +114,8 @@ Meteor.publish('calendarEvents.upcoming', function(limit) {
 
     let currentDate = new Date();
 
+    Counts.publish(this, 'calendarEvents.upcoming.count', CalendarEvents.find({eventDateFormatted: {$gte: currentDate}}), { noReady: true });
+
     return CalendarEvents.find(
         {
             eventDateFormatted: {
@@ -123,7 +125,7 @@ Meteor.publish('calendarEvents.upcoming', function(limit) {
         {
             sort: {
                 eventDateFormatted: 1
-                //FIXME: sort by start times secondarily
+                //TODO: sort by start times secondarily
             },
             limit: limit,
             fields: CalendarEvents.publicFields,
@@ -135,6 +137,8 @@ Meteor.publish('calendarEvents.past', function(limit) {
 
     let currentDate = new Date();
 
+    Counts.publish(this, 'calendarEvents.past.count', CalendarEvents.find({eventDateFormatted: {$lt: currentDate}}), { noReady: true });
+
     return CalendarEvents.find(
         {
             eventDateFormatted: {
@@ -144,7 +148,7 @@ Meteor.publish('calendarEvents.past', function(limit) {
         {
             sort: {
                 eventDateFormatted: -1
-                //FIXME: sort by start times secondarily
+                //TODO: sort by start times secondarily
             },
             limit: limit,
             fields: CalendarEvents.publicFields,
