@@ -319,32 +319,6 @@ Template.event_calendar_page.helpers({
     isPastSelected: () => {
         return Session.get('isPastSelected');
     },
-
-    //NOTE: these are relics from the old calendar, but will be useful once I add date-headers to the calendarEvents lists
-    equalsDate: (mmddyy, dd) => {
-        //remove potential hyphens in the date first
-        let newDate = mmddyy.toString().replace(/\-+/g, '');
-        let validDate = /^\d{6}$/.test(newDate);
-        if (validDate) {
-            return dd == newDate.slice(2,4);
-        }
-    },
-    dayToFormatted: (dd) => {
-        let month = Session.get('currentCalendarMonth');
-        return moment(month + '-' + dd).format('MMM Do');
-    },
-    dayToMMDDYY: (day) => {
-        //NOTE: this is for linking to individual days given the day of the month (design needed to see if this is even necessary)
-        day = day < 10 ? '0' + day : day.toString();
-
-        let currentMonth = Session.get('currentCalendarMonth');
-        currentMonth = currentMonth < 10 ? '0' + currentMonth : currentMonth.toString();
-
-        let currentYear = Session.get('currentCalendarYear');
-        currentYear = currentYear < 10 ? '0' + currentYear : currentYear.toString();
-
-        return currentMonth + day + currentYear;
-    }
 });
 
 Template.event_calendar_single_date_page.helpers({
