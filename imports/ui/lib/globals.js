@@ -209,3 +209,85 @@ export const EXTERNAL_LINKS = {
     'facebook': 'https://www.facebook.com/flippedartorg',
     'instagram': 'https://www.instagram.com/flipped_art/'
 };
+
+export const REPLACE_TAGS = (template, documentText, className) => {
+    //Searches the post text and replaced @-tags with actual links
+
+    import { UserAttributes } from '../../api/user-attributes/user-attributes.js';
+    const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
+
+    //TODO: improve this (while watching for performance by first checking to make sure the username exists within the 'usernames.all' sub).
+    //      ^this will also prevent parentheses and other punctuation from getting in the way.
+    //      modified from here: http://stackoverflow.com/questions/884140/javascript-to-add-html-tags-around-content#answer-884424
+
+    const text = documentText + ' ';  //HACK: the space is needed to include tags at the end of the string.
+    let result = '';
+    let csc; // current search char
+    let wordPos = 0;
+    let textPos = 0;
+    let partialMatch = ''; // container for partial match
+    let isMatching = false;
+
+    let inTag = false;
+
+    // iterate over the characters in the array
+    // if we find an HTML element, ignore the element and its attributes.
+    // otherwise try to match the characters to the characters in the word
+    // if we find a match append the highlight text, then the word, then the close-highlight
+    // otherwise, just append whatever we find.
+
+    for (textPos = 0; textPos < text.length; textPos++) {
+        csc = text.charAt(textPos);
+        if (csc == '<') {
+            inTag = true;
+            result += partialMatch;
+            partialMatch = '';
+            wordPos = 0;
+        }
+        if (inTag) {
+            result += csc ;
+        } else {
+            if (isMatching) {
+                if ((csc == ' ' || csc == '@' || csc == ',' || csc == '.' || csc == '/' || csc == '-' || csc == '&' || csc == '!' || csc == '?' || csc == ';' || csc == ':' || csc == '\'' || csc == '\"' || csc == '(' || csc == ')' || csc == '[' || csc == ']' || csc == '{' || csc == '}' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace and invalid name-characters
+                    //we've matched the whole word, so test to make sure this username exists.
+                    let found = false;
+                    for (let i = 0; i < possibleUsernames.length; i++) {
+                        if (possibleUsernames[i].username == partialMatch) {
+                            result += '<a href="/' + partialMatch + '" class="username-tag">';
+                            result += partialMatch;
+                            result += '</a>';
+                            result += csc;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        result += partialMatch;
+                    }
+
+                    partialMatch = '';
+                    isMatching = false;
+                }
+                else {
+                    partialMatch += csc;
+                }
+            }
+            else {
+                result += csc;
+            }
+
+            if (csc == '@') {
+                isMatching = true;
+            }
+            else if (!isMatching) {
+                //result += csc;
+            }
+        }
+
+        if (inTag && csc == '>') {
+            inTag = false;
+        }
+    }
+    template.find($('.' + className)).innerHTML = result;
+};

@@ -7,7 +7,9 @@ import { DocHead } from 'meteor/kadira:dochead';
 import {
     FLAG_THRESHOLD,
     UPLOAD_LIMITS,
-    HEAD_DEFAULTS } from '../../lib/globals.js';
+    HEAD_DEFAULTS,
+    REPLACE_TAGS,
+} from '../../lib/globals.js';
 
 import {
     throwError,
@@ -200,89 +202,10 @@ Template.user_post_card.onRendered(function userPostCardOnRendered() {
             // release renderHolds here
         }
 
-        //TODO: put this array into a global variable so it doesn't have to be re-run for every card?
-        const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
-        var that = this;
+        let that = this;
 
         Meteor.setTimeout(function () {
-            //Searches the post text and replaced @-tags with actual links.
-            //Modified from here: http://stackoverflow.com/questions/884140/javascript-to-add-html-tags-around-content#answer-884424
-            const text = that.data.userPost.text + ' ';  //HACK: the space is needed to include tags at the end of the string.
-            var result = '';
-            var csc; // current search char
-            var wordPos = 0;
-            var textPos = 0;
-            var partialMatch = ''; // container for partial match
-            var isMatching = false;
-
-            var inTag = false;
-
-            // iterate over the characters in the array
-            // if we find an HTML element, ignore the element and its attributes.
-            // otherwise try to match the characters to the characters in the word
-            // if we find a match append the highlight text, then the word, then the close-highlight
-            // otherwise, just append whatever we find.
-
-            for (textPos = 0; textPos < text.length; textPos++) {
-                csc = text.charAt(textPos);
-                if (csc == '<') {
-                    inTag = true;
-                    result += partialMatch;
-                    partialMatch = '';
-                    wordPos = 0;
-                }
-                if (inTag) {
-                    result += csc;
-                } else {
-                    if (isMatching) {
-                        if ((csc == ' ' || csc == '@' || csc == ',' || csc == '.' || csc == '/' || csc == '-' || csc == '&' || csc == '!' || csc == '?' || csc == ';' || csc == ':' || csc == '\'' || csc == '\"' || csc == '(' || csc == ')' || csc == '[' || csc == ']' || csc == '{' || csc == '}' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace and invalid name-characters
-                            //we've matched the whole word, so test to make sure this username exists.
-                            var found = false;
-                            for (var i = 0; i < possibleUsernames.length; i++) {
-                                if (possibleUsernames[i].username == partialMatch) {
-                                    result += '<a href="/' + partialMatch + '" class="username-tag">';
-                                    result += partialMatch;
-                                    result += '</a>';
-                                    result += csc;
-                                    found = true;
-                                    break;
-                                }
-                            }
-
-                            if (!found) {
-                                result += partialMatch;
-                            }
-
-                            partialMatch = '';
-                            isMatching = false;
-                        }
-                        else {
-                            partialMatch += csc;
-                        }
-                    }
-                    else {
-                        result += csc;
-                    }
-
-                    if (csc == '@') {
-                        isMatching = true;
-                    }
-                    else if (!isMatching) {
-                        //result += csc;
-                    }
-                }
-
-                if (inTag && csc == '>') {
-                    inTag = false;
-                }
-            }
-
-            if (that.data.small_card) {
-                if (result.length > 200) {
-                    result = result.slice(0,200) + "...";
-                }
-            }
-            that.find($('.user-post-body')).innerHTML = result;
+            REPLACE_TAGS(that, that.data.userPost.text, 'user-post-body');
         }, 500);  //HACK: going back one page and then posting another update results in the two posts being temporarily concatenated, unless we set this timeout.
     });
 });

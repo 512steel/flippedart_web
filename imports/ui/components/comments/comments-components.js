@@ -5,6 +5,7 @@ import { _ } from 'meteor/underscore';
 import {
     FLAG_THRESHOLD,
     COMMENT_TYPES,
+    REPLACE_TAGS,
 } from '../../lib/globals.js';
 
 import {
@@ -70,85 +71,10 @@ Template.comment_card.onRendered(function commentCardOnRendered() {
             // release renderHolds here
         }
 
-        //TODO: put this array into a global variable so it doesn't have to be re-run for every card?
-        const possibleUsernames = UserAttributes.find({}, {username: 1}).fetch();
-        var that = this;
+        let that = this;
 
         Meteor.setTimeout(function(){
-            //Searches the post text and replaced @-tags with actual links
-            //TODO: improve this (while watching for performance by first checking to make sure the username exists within the 'usernames.all' sub.
-                    // ^this will also prevent parentheses and other punctuation from getting in the way.
-            //modified from here: http://stackoverflow.com/questions/884140/javascript-to-add-html-tags-around-content#answer-884424
-            const text = that.data.text + ' ';  //HACK: the space is needed to include tags at the end of the string.
-            var result = '';
-            var csc; // current search char
-            var wordPos = 0;
-            var textPos = 0;
-            var partialMatch = ''; // container for partial match
-            var isMatching = false;
-
-            var inTag = false;
-
-            // iterate over the characters in the array
-            // if we find an HTML element, ignore the element and its attributes.
-            // otherwise try to match the characters to the characters in the word
-            // if we find a match append the highlight text, then the word, then the close-highlight
-            // otherwise, just append whatever we find.
-
-            for (textPos = 0; textPos < text.length; textPos++) {
-                csc = text.charAt(textPos);
-                if (csc == '<') {
-                    inTag = true;
-                    result += partialMatch;
-                    partialMatch = '';
-                    wordPos = 0;
-                }
-                if (inTag) {
-                    result += csc ;
-                } else {
-                    if (isMatching) {
-                        if ((csc == ' ' || csc == '@' || csc == ',' || csc == '.' || csc == '/' || csc == '-' || csc == '&' || csc == '!' || csc == '?' || csc == ';' || csc == ':' || csc == '\'' || csc == '\"' || csc == '(' || csc == ')' || csc == '[' || csc == ']' || csc == '{' || csc == '}' || textPos >= text.length)) {  //TODO: account for all kinds of whitespace and invalid name-characters
-                            //we've matched the whole word, so test to make sure this username exists.
-                            var found = false;
-                            for (var i = 0; i < possibleUsernames.length; i++) {
-                                if (possibleUsernames[i].username == partialMatch) {
-                                    result += '<a href="/' + partialMatch + '" class="username-tag">';
-                                    result += partialMatch;
-                                    result += '</a>';
-                                    result += csc;
-                                    found = true;
-                                    break;
-                                }
-                            }
-
-                            if (!found) {
-                                result += partialMatch;
-                            }
-
-                            partialMatch = '';
-                            isMatching = false;
-                        }
-                        else {
-                            partialMatch += csc;
-                        }
-                    }
-                    else {
-                        result += csc;
-                    }
-
-                    if (csc == '@') {
-                        isMatching = true;
-                    }
-                    else if (!isMatching) {
-                        //result += csc;
-                    }
-                }
-
-                if (inTag && csc == '>') {
-                    inTag = false;
-                }
-            }
-            that.find($('.comment-card-text')).innerHTML = result;
+            REPLACE_TAGS(that, that.data.text, 'comment-card-text');
         }, 400);  //HACK: going back one page and then posting another update results in the two posts being temporarily concatenated, unless we set this timeout.
     });
 });
